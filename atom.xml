@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2016-10-17T20:04:11+08:00</updated>
+  <updated>2016-10-17T20:38:34+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -14,21 +14,12 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Hello Github Blog]]></title>
-    <link href="http://sxgfxm.github.io/blog/2016/10/17/hello-github-blog/"/>
-    <updated>2016-10-17T19:48:27+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2016/10/17/hello-github-blog</id>
-    <content type="html"><![CDATA[<p><strong>Hello world!</strong></p>
-
-<p>以此纪念独立搭建的<strong>Github Blog</strong>。</p>
-
-<p>感谢<strong>Github Pages</strong>免费空间，感谢<strong>Octopress</strong>静态化博客系统。</p>
-
-<p>感谢带我入门的Web前端工程师<strong>bounlusin</strong>（ 博客<a href="http://bounlusin.github.io">http://bounlusin.github.io</a> ）</p>
-
-<p>感谢极客学院建立<strong>Github Blog</strong>教程 <a href="http://wiki.jikexueyuan.com/project/github-page/">http://wiki.jikexueyuan.com/project/github-page/</a></p>
-
-<p><strong>If you really want it , just make everyday count !</strong></p>
+    <title type="html"><![CDATA[Markdown Syntax]]></title>
+    <link href="http://sxgfxm.github.io/blog/2016/10/17/markdown-syntax/"/>
+    <updated>2016-10-17T20:34:29+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2016/10/17/markdown-syntax</id>
+    <content type="html"><![CDATA[<p>Test<br/>
+Test</p>
 ]]></content>
   </entry>
   
