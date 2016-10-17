@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2016-10-17T19:57:25+08:00</updated>
+  <updated>2016-10-17T20:04:11+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -18,8 +18,9 @@
     <link href="http://sxgfxm.github.io/blog/2016/10/17/hello-github-blog/"/>
     <updated>2016-10-17T19:48:27+08:00</updated>
     <id>http://sxgfxm.github.io/blog/2016/10/17/hello-github-blog</id>
-    <content type="html"><![CDATA[<p><strong>Hello world!</strong>
-以此纪念独立搭建的<strong>Github Blog</strong>。</p>
+    <content type="html"><![CDATA[<p><strong>Hello world!</strong></p>
+
+<p>以此纪念独立搭建的<strong>Github Blog</strong>。</p>
 
 <p>感谢<strong>Github Pages</strong>免费空间，感谢<strong>Octopress</strong>静态化博客系统。</p>
 
