@@ -9,8 +9,7 @@
   <meta name="author" content="Light">
 
   
-  <meta name="description" content="Octopress目录结构
-">
+  <meta name="description" content="Octopress目录结构 Rakefile rake的配置文件，类似于makefile。 Gemfile bundle要下载需要的gem依赖关系的指定文件。 _config.yml 站点的配置文件。 public/ rake generate静态编译完成后的目录，该目录为网站展示的目录。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -105,6 +104,74 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 <div class="entry-content"><h2>Octopress目录结构</h2>
+
+<h3>Rakefile</h3>
+
+<p>rake的配置文件，类似于makefile。</p>
+
+<h3>Gemfile</h3>
+
+<p>bundle要下载需要的gem依赖关系的指定文件。</p>
+
+<h3>_config.yml</h3>
+
+<p>站点的配置文件。</p>
+
+<h3>public/</h3>
+
+<p><code>rake generate</code>静态编译完成后的目录，该目录为网站展示的目录。</p>
+
+<h3>_deploy/</h3>
+
+<p><code>rake deploy</code>deploy时生成的缓存文件夹，内容和public目录一样。</p>
+
+<p>该目录中内容由Octopress自动提交至Github远程仓库的<strong>master</strong>分支。</p>
+
+<h3>sass/</h3>
+
+<p>css文件的源文件目录。</p>
+
+<h3>plugins/</h3>
+
+<p>放置自带及第三方插件目录，ruby程序。</p>
+
+<h3>source/</h3>
+
+<p>站点的源文件目录，public目录就是根据该目录下数据生成的。</p>
+
+<p>该目录中内容由用户手动提交至Github远程仓库的<strong>source</strong>分支。</p>
+
+<h4>_includes/custom/</h4>
+
+<p>自定义的模板目录。</p>
+
+<h4>_includes/asides/</h4>
+
+<p>边栏模板目录。</p>
+
+<h4>_includes/post/</h4>
+
+<p>文章页面相应模板目录。</p>
+
+<h4>_layouts/</h4>
+
+<p>默认网站html相关文件，最底层。</p>
+
+<h4>_posts/</h4>
+
+<p>文章源文件，由<code>rake new_post["article name"]</code>命令产生。</p>
+
+<h4>_stylesheets/</h4>
+
+<p>css文件目录。</p>
+
+<h4>javascripts/</h4>
+
+<p>js文件目录。</p>
+
+<h4>images/</h4>
+
+<p>图片目录。</p>
 </div>
 
 
