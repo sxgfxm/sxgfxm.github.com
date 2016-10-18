@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Light's Blog]]></title>
-  <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Markdown | Light's Blog]]></title>
+  <link href="http://sxgfxm.github.io/blog/categories/markdown/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
   <updated>2016-10-18T14:59:11+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
@@ -12,62 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[Github Blog - 搭建]]></title>
-    <link href="http://sxgfxm.github.io/blog/2016/10/18/github-blog-da-jian/"/>
-    <updated>2016-10-18T10:44:43+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2016/10/18/github-blog-da-jian</id>
-    <content type="html"><![CDATA[
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Github Blog - 基本操作]]></title>
-    <link href="http://sxgfxm.github.io/blog/2016/10/18/github-blog-ji-ben-cao-zuo/"/>
-    <updated>2016-10-18T08:58:48+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2016/10/18/github-blog-ji-ben-cao-zuo</id>
-    <content type="html"><![CDATA[<h2>创建博文</h2>
-
-<p><code>rake new_post["article_name"]</code></p>
-
-<p>默认会在octopress/source/_post/目录下生成.markdown文件。</p>
-
-<h2>删除博文</h2>
-
-<p>只需删除对应的markdown文件即可。</p>
-
-<h2>预览博文</h2>
-
-<p><code>rake generate</code></p>
-
-<p>默认会在octopress/public/blog/目录下生成<strong>HTML</strong>页面。</p>
-
-<p><code>rake preview</code></p>
-
-<p>本地预览，地址为 <a href="http://localhost:4000">http://localhost:4000</a> ，必须使用<code>ctrl+c</code>终止预览，<code>ctrl+z</code>只起到挂起作用，当再次预览时会提示socket端口被占用。</p>
-
-<h2>发布博文</h2>
-
-<p><code>rake deploy</code></p>
-
-<p>先将本地博客存放至octopress/_deploy目录下，然后push至github上远程仓库的<strong>master</strong>分支。</p>
-
-<p>可以在_deploy目录下执行<code>git reset --hard origin master</code>强制同步远程仓库master分支内容，已解决不能push的问题。</p>
-
-<h2>push至Github</h2>
-
-<p>手动push源代码至github上远程仓库的<strong>source</strong>分支。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git add .
-</span><span class='line'>git commit -m "commit message"
-</span><span class='line'>git push origin source</span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[Markdown Syntax]]></title>
@@ -347,25 +291,6 @@
 </li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Hello Github Blog]]></title>
-    <link href="http://sxgfxm.github.io/blog/2016/10/16/hello-github-blog/"/>
-    <updated>2016-10-16T20:45:37+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2016/10/16/hello-github-blog</id>
-    <content type="html"><![CDATA[<p><strong>Hello world !</strong></p>
-
-<p>以此纪念独立搭建的<strong>Github Blog</strong>。</p>
-
-<p>感谢<strong>Github Pages</strong>免费空间，感谢<strong>Octopress</strong>静态化博客系统。</p>
-
-<p>感谢带我入门的Web前端工程师<strong>bounlusin</strong>（ 博客：<a href="http://bounlusin.github.io">http://bounlusin.github.io</a> ）</p>
-
-<p>感谢极客学院建立<strong>Github Blog</strong>教程 <a href="http://wiki.jikexueyuan.com/project/github-page/">http://wiki.jikexueyuan.com/project/github-page/</a></p>
-
-<p><strong>If you really want it , just make everyday count !</strong></p>
 ]]></content>
   </entry>
   
