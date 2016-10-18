@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2016-10-18T14:59:11+08:00</updated>
+  <updated>2016-10-18T15:43:50+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,15 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[Github Blog - 搭建]]></title>
-    <link href="http://sxgfxm.github.io/blog/2016/10/18/github-blog-da-jian/"/>
-    <updated>2016-10-18T10:44:43+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2016/10/18/github-blog-da-jian</id>
-    <content type="html"><![CDATA[
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[Github Blog - 基本操作]]></title>
@@ -66,6 +57,53 @@
 </span><span class='line'>git commit -m "commit message"
 </span><span class='line'>git push origin source</span></code></pre></td></tr></table></div></figure>
 
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Github Blog - 搭建]]></title>
+    <link href="http://sxgfxm.github.io/blog/2016/10/18/github-blog-da-jian/"/>
+    <updated>2016-10-18T08:44:43+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2016/10/18/github-blog-da-jian</id>
+    <content type="html"><![CDATA[<h2>安装Git</h2>
+
+<h2>安装Ruby</h2>
+
+<p>推荐使用RVM。</p>
+
+<h2>安装DevKit</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem install devkit</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>克隆Octopress库</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git://github.com/imathis/octopress.git </span></code></pre></td></tr></table></div></figure>
+
+
+<h2>安装Octopress依赖项</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem install bundler
+</span><span class='line'>bundler install</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>安装Octopress默认主题</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake install</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>关联Octopress至Github</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake setup_github_pages</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在Repository url中输入对应的仓库地址。</p>
 ]]></content>
   </entry>
   

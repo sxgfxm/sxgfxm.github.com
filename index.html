@@ -9,8 +9,7 @@
   <meta name="author" content="Light">
 
   
-  <meta name="description" content="
-">
+  <meta name="description" content="创建博文 rake new_post["article_name"] 默认会在octopress/source/_post/目录下生成.markdown文件。 删除博文 只需删除对应的markdown文件即可。 预览博文 rake generate 默认会在octopress/public/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -91,35 +90,6 @@ $(document).bind('DOMNodeInserted', function(event) {
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2016/10/18/github-blog-da-jian/">Github Blog - 搭建</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-10-18T10:44:43+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:44 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content">
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
       <h1 class="entry-title"><a href="/blog/2016/10/18/github-blog-ji-ben-cao-zuo/">Github Blog - 基本操作</a></h1>
     
     
@@ -175,6 +145,73 @@ $(document).bind('DOMNodeInserted', function(event) {
 </span><span class='line'>git commit -m "commit message"
 </span><span class='line'>git push origin source</span></code></pre></td></tr></table></div></figure>
 
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/10/18/github-blog-da-jian/">Github Blog - 搭建</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-10-18T08:44:43+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:44 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>安装Git</h2>
+
+<h2>安装Ruby</h2>
+
+<p>推荐使用RVM。</p>
+
+<h2>安装DevKit</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem install devkit</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>克隆Octopress库</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git://github.com/imathis/octopress.git </span></code></pre></td></tr></table></div></figure>
+
+
+<h2>安装Octopress依赖项</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem install bundler
+</span><span class='line'>bundler install</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>安装Octopress默认主题</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake install</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>关联Octopress至Github</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake setup_github_pages</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在Repository url中输入对应的仓库地址。</p>
 </div>
   
   
@@ -535,11 +572,11 @@ $(document).bind('DOMNodeInserted', function(event) {
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2016/10/18/github-blog-da-jian/">Github Blog - 搭建</a>
+        <a href="/blog/2016/10/18/github-blog-ji-ben-cao-zuo/">Github Blog - 基本操作</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2016/10/18/github-blog-ji-ben-cao-zuo/">Github Blog - 基本操作</a>
+        <a href="/blog/2016/10/18/github-blog-da-jian/">Github Blog - 搭建</a>
       </li>
     
       <li class="post">
