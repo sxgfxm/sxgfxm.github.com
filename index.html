@@ -9,7 +9,18 @@
   <meta name="author" content="Light">
 
   
-  <meta name="description" content="Octopress目录结构 Rakefile rake的配置文件，类似于makefile。 Gemfile bundle要下载需要的gem依赖关系的指定文件。 _config.yml 站点的配置文件。 public/ rake generate静态编译完成后的目录，该目录为网站展示的目录。 &hellip;">
+  <meta name="description" content="UICollectionView API变化 新增UICollectionViewDataSourcePrefetching协议 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+@protocol UICollectionViewDataSourcePrefetching &lt;NSObject &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -84,6 +95,114 @@ $(document).bind('DOMNodeInserted', function(event) {
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/10/18/uicollectionview-ios10-new-features/">UICollectionView iOS 10 New Features</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-10-18T20:01:45+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:01 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>UICollectionView API变化</h2>
+
+<h4>新增UICollectionViewDataSourcePrefetching协议</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@protocol</span> <span class="nc">UICollectionViewDataSourcePrefetching</span> <span class="o">&lt;</span><span class="bp">NSObject</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@required</span>
+</span><span class='line'><span class="c1">// indexPaths are ordered ascending by geometric distance from the collection view</span>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">collectionView</span><span class="p">:(</span><span class="bp">UICollectionView</span> <span class="o">*</span><span class="p">)</span><span class="n">collectionView</span> <span class="nl">prefetchItemsAtIndexPaths</span><span class="p">:(</span><span class="bp">NSArray</span><span class="o">&lt;</span><span class="bp">NSIndexPath</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="n">indexPaths</span> <span class="n">NS_AVAILABLE_IOS</span><span class="p">(</span><span class="mi">10</span><span class="n">_0</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@optional</span>
+</span><span class='line'><span class="c1">// indexPaths that previously were considered as candidates for pre-fetching, but were not actually used; may be a subset of the previous call to -collectionView:prefetchItemsAtIndexPaths:</span>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">collectionView</span><span class="p">:(</span><span class="bp">UICollectionView</span> <span class="o">*</span><span class="p">)</span><span class="n">collectionView</span> <span class="nl">cancelPrefetchingForItemsAtIndexPaths</span><span class="p">:(</span><span class="bp">NSArray</span><span class="o">&lt;</span><span class="bp">NSIndexPath</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="n">indexPaths</span>  <span class="n">NS_AVAILABLE_IOS</span><span class="p">(</span><span class="mi">10</span><span class="n">_0</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这两个方法均异步执行，可用于异步加载图片等。</p>
+
+<h4>新增prefetchDataSource代理</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">weak</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="kt">id</span><span class="o">&lt;</span><span class="n">UICollectionViewDataSourcePrefetching</span><span class="o">&gt;</span> <span class="n">prefetchDataSource</span> <span class="n">NS_AVAILABLE_IOS</span><span class="p">(</span><span class="mi">10</span><span class="n">_0</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>新增prefetchingEnabled属性</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">getter</span><span class="o">=</span><span class="n">isPrefetchingEnabled</span><span class="p">)</span> <span class="kt">BOOL</span> <span class="n">prefetchingEnabled</span> <span class="n">NS_AVAILABLE_IOS</span><span class="p">(</span><span class="mi">10</span><span class="n">_0</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>UICollectionView Cell生命周期变化</h2>
+
+<h4>UICollectionViewCell Lifecycle: iOS &lt;= 9</h4>
+
+<p> <img src="../images/UICollectionViewCell/UICollectionViewLifecycle_iOS_9.jpeg" alt="UICollectionViewLifecycle_iOS_9" /></p>
+
+<ol>
+<li>首先，调用<code>cellForItemAtIndexPath:</code>，从复用队列中弹出一个<strong>cell</strong>，准备对其调用<code>prepareForReuse</code>。</li>
+<li>然后，根据需求设置<strong>cell</strong>的内容，比如<strong>labels</strong>等。</li>
+<li>当<strong>cell</strong>即将出现时，调用<code>collectionView:willDisplayCell:forItemAtindexPath:</code>。</li>
+<li>当<strong>cell</strong>消失时，调用<code>collectionView:didEndDisplayingCell:forItemAtIndexPath:</code>。此时<strong>cell</strong>会重新进入复用队列，等待复用。</li>
+<li>当用户向相反方向再次把<strong>cell</strong>滑回屏幕时，会重新从第一步开始执行。</li>
+</ol>
+
+
+<h4>UICollectionViewCell Lifecycle: iOS 10</h4>
+
+<p> <img src="../images/UICollectionViewCell/UICollectionViewLifecycle_iOS_10.jpeg" alt="UICollectionViewLifecycle_iOS_10" /></p>
+
+<p>在iOS 10中，前3个步骤与iOS 9是相同的，新的变化发生在<strong>cell</strong>滑出屏幕的时候。</p>
+
+<p>当调用<code>collectionView:didEndDisplayingCell:forItemAtIndexPath:</code>后，<strong>cell</strong>不会立刻进入复用队列，系统会<strong>keeps it around for a bit</strong>。相当于会缓存该<strong>cell</strong>一小段时间，在这段时间内如果该<strong>cell</strong>再次回到屏幕中，便不会重新调用<code>cellForItemAtIndexPath:</code>，而是直接显示。</p>
+
+<p>至于系统会缓存多久，官方并没有给出明确的时间，感觉跟程序运行时开销有关。</p>
+
+<p>如果想关闭该功能，需要设置<code>collectionView.prefetchingEnabled = NO;</code>。</p>
+
+<h2>总结</h2>
+
+<ul>
+<li>在<code>cellForItemAtIndexPath:</code>中设置cell，尽量保持<code>willDisplay/didEndDisplay</code>轻量级。</li>
+<li>cell被创建，但不一定会显示。</li>
+<li>UITableView拥有相同的新特性。</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -669,6 +788,10 @@ $(document).bind('DOMNodeInserted', function(event) {
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/10/18/uicollectionview-ios10-new-features/">UICollectionView iOS 10 New Features</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/10/18/github-blog-zi-ding-yi/">Github Blog - 自定义</a>
       </li>
     
@@ -682,10 +805,6 @@ $(document).bind('DOMNodeInserted', function(event) {
     
       <li class="post">
         <a href="/blog/2016/10/17/markdown-syntax/">Markdown Syntax</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/10/16/hello-github-blog/">Hello Github Blog</a>
       </li>
     
   </ul>
