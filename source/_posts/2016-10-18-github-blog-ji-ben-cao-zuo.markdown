@@ -22,15 +22,19 @@ categories: octopress
 
 `rake preview`  
 
-本地预览，地址为 http://localhost:4000 ，必须使用`ctrl+c`终止预览。  
+本地预览，地址为 http://localhost:4000 ，必须使用`ctrl+c`终止预览，`ctrl+z`只起到挂起作用，当再次预览时会提示socket端口被占用。  
 
 ## 发布博文
 
 `rake deploy`  
 
-发布博文  
+先将本地博客存放至octopress/_deploy目录下，然后push至github上远程仓库的**master**分支。
+
+可以在_deploy目录下执行`git reset --hard origin master`强制同步远程仓库master分支内容，已解决不能push的问题。  
 
 ## push至Github
+
+手动push源代码至github上远程仓库的**source**分支。
 
 ```
 git add .
