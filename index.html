@@ -9,7 +9,7 @@
   <meta name="author" content="Light">
 
   
-  <meta name="description" content="Hello world ! 以此纪念独立搭建的Github Blog。 感谢Github Pages免费空间，感谢Octopress静态化博客系统。 感谢带我入门的Web前端工程师bounlusin（ 博客：http://bounlusin.github.io ） 感谢极客学院建立Github &hellip;">
+  <meta name="description" content="创建博文 rake new_post["article_name"] 默认会在octopress/source/_post/目录下生成.markdown文件。 删除博文 只需删除对应的markdown文件即可。 预览博文 rake generate 默认会在octopress/public/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -29,6 +29,25 @@
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+
+function addBlankTargetForLinks () {
+
+  $('a[href^="http"]').each(function(){
+
+      $(this).attr('target', '_blank');
+
+  });
+
+}
+
+$(document).bind('DOMNodeInserted', function(event) {
+
+  addBlankTargetForLinks();
+
+});
+
+</script>
 
   
 
@@ -65,6 +84,69 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/10/18/github-blog-ji-ben-cao-zuo/">Github Blog - 基本操作</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-10-18T08:58:48+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:58 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>创建博文</h2>
+
+<p><code>rake new_post["article_name"]</code></p>
+
+<p>默认会在octopress/source/_post/目录下生成.markdown文件。</p>
+
+<h2>删除博文</h2>
+
+<p>只需删除对应的markdown文件即可。</p>
+
+<h2>预览博文</h2>
+
+<p><code>rake generate</code></p>
+
+<p>默认会在octopress/public/blog/目录下生成<strong>HTML</strong>页面。</p>
+
+<p><code>rake preview</code></p>
+
+<p>本地预览，地址为 <a href="http://localhost:4000">http://localhost:4000</a> ，必须使用<code>ctrl+c</code>终止预览。</p>
+
+<h2>发布博文</h2>
+
+<p><code>rake deploy</code></p>
+
+<p>发布博文</p>
+
+<h2>push至Github</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git add .
+</span><span class='line'>git commit -m "commit message"
+</span><span class='line'>git push origin source</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -146,6 +228,10 @@ Test</p>
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/10/18/github-blog-ji-ben-cao-zuo/">Github Blog - 基本操作</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2016/10/17/hello-github-blog/">Hello Github Blog</a>

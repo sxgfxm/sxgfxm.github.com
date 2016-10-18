@@ -9,9 +9,10 @@
   <meta name="author" content="Light">
 
   
-  <meta name="description" content=" Blog Archive 2016 Hello Github Blog
+  <meta name="description" content="Blog Archive 2016 Github Blog - 基本操作
+Oct 18 2016 posted in octopress Hello Github Blog
 Oct 17 2016 Markdown Syntax
-Oct 17 2016 Recent Posts Hello Github Blog Markdown Syntax ">
+Oct 17 2016 Recent Posts Github &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -31,6 +32,25 @@ Oct 17 2016 Recent Posts Hello Github Blog Markdown Syntax ">
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+
+function addBlankTargetForLinks () {
+
+  $('a[href^="http"]').each(function(){
+
+      $(this).attr('target', '_blank');
+
+  });
+
+}
+
+$(document).bind('DOMNodeInserted', function(event) {
+
+  addBlankTargetForLinks();
+
+});
+
+</script>
 
   
 
@@ -82,6 +102,20 @@ Oct 17 2016 Recent Posts Hello Github Blog Markdown Syntax ">
 
 <article>
   
+<h1><a href="/blog/2016/10/18/github-blog-ji-ben-cao-zuo/">Github Blog - 基本操作</a></h1>
+<time datetime="2016-10-18T08:58:48+08:00" pubdate><span class='month'>Oct</span> <span class='day'>18</span> <span class='year'>2016</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/octopress/'>octopress</a></span>
+</footer>
+
+
+</article>
+
+
+
+<article>
+  
 <h1><a href="/blog/2016/10/17/hello-github-blog/">Hello Github Blog</a></h1>
 <time datetime="2016-10-17T20:45:37+08:00" pubdate><span class='month'>Oct</span> <span class='day'>17</span> <span class='year'>2016</span></time>
 
@@ -110,6 +144,10 @@ Oct 17 2016 Recent Posts Hello Github Blog Markdown Syntax ">
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/10/18/github-blog-ji-ben-cao-zuo/">Github Blog - 基本操作</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2016/10/17/hello-github-blog/">Hello Github Blog</a>

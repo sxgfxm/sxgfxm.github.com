@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2016-10-17T20:48:39+08:00</updated>
+  <updated>2016-10-18T09:50:29+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,49 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Github Blog - 基本操作]]></title>
+    <link href="http://sxgfxm.github.io/blog/2016/10/18/github-blog-ji-ben-cao-zuo/"/>
+    <updated>2016-10-18T08:58:48+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2016/10/18/github-blog-ji-ben-cao-zuo</id>
+    <content type="html"><![CDATA[<h2>创建博文</h2>
+
+<p><code>rake new_post["article_name"]</code></p>
+
+<p>默认会在octopress/source/_post/目录下生成.markdown文件。</p>
+
+<h2>删除博文</h2>
+
+<p>只需删除对应的markdown文件即可。</p>
+
+<h2>预览博文</h2>
+
+<p><code>rake generate</code></p>
+
+<p>默认会在octopress/public/blog/目录下生成<strong>HTML</strong>页面。</p>
+
+<p><code>rake preview</code></p>
+
+<p>本地预览，地址为 <a href="http://localhost:4000">http://localhost:4000</a> ，必须使用<code>ctrl+c</code>终止预览。</p>
+
+<h2>发布博文</h2>
+
+<p><code>rake deploy</code></p>
+
+<p>发布博文</p>
+
+<h2>push至Github</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git add .
+</span><span class='line'>git commit -m "commit message"
+</span><span class='line'>git push origin source</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Hello Github Blog]]></title>

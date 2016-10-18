@@ -29,6 +29,25 @@
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+
+function addBlankTargetForLinks () {
+
+  $('a[href^="http"]').each(function(){
+
+      $(this).attr('target', '_blank');
+
+  });
+
+}
+
+$(document).bind('DOMNodeInserted', function(event) {
+
+  addBlankTargetForLinks();
+
+});
+
+</script>
 
   
 
@@ -130,6 +149,8 @@
         <a class="basic-alignment left" href="/blog/2016/10/17/markdown-syntax/" title="Previous Post: Markdown Syntax">&laquo; Markdown Syntax</a>
       
       
+        <a class="basic-alignment right" href="/blog/2016/10/18/github-blog-ji-ben-cao-zuo/" title="Next Post: Github Blog - 基本操作">Github Blog - 基本操作 &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -141,6 +162,10 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/10/18/github-blog-ji-ben-cao-zuo/">Github Blog - 基本操作</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2016/10/17/hello-github-blog/">Hello Github Blog</a>

@@ -5,13 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Markdown Syntax - Light's Blog</title>
+  <title>Github Blog - 基本操作 - Light's Blog</title>
   <meta name="author" content="Light">
 
   
-  <meta name="description" content="Test
-Test
-">
+  <meta name="description" content="创建博文 rake new_post["article_name"] 默认会在octopress/source/_post/目录下生成.markdown文件。 删除博文 只需删除对应的markdown文件即可。 预览博文 rake generate 默认会在octopress/public/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -20,7 +18,7 @@ Test
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://sxgfxm.github.io/blog/2016/10/17/markdown-syntax/">
+  <link rel="canonical" href="http://sxgfxm.github.io/blog/2016/10/18/github-blog-ji-ben-cao-zuo/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Light's Blog" type="application/atom+xml">
@@ -89,7 +87,7 @@ $(document).bind('DOMNodeInserted', function(event) {
   
   <header>
     
-      <h1 class="entry-title">Markdown Syntax</h1>
+      <h1 class="entry-title">Github Blog - 基本操作</h1>
     
     
       <p class="meta">
@@ -98,15 +96,48 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 
-<time class='entry-date' datetime='2016-10-17T20:34:29+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:34 pm</span></time>
+<time class='entry-date' datetime='2016-10-18T08:58:48+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:58 am</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>Test<br/>
-Test</p>
+<div class="entry-content"><h2>创建博文</h2>
+
+<p><code>rake new_post["article_name"]</code></p>
+
+<p>默认会在octopress/source/_post/目录下生成.markdown文件。</p>
+
+<h2>删除博文</h2>
+
+<p>只需删除对应的markdown文件即可。</p>
+
+<h2>预览博文</h2>
+
+<p><code>rake generate</code></p>
+
+<p>默认会在octopress/public/blog/目录下生成<strong>HTML</strong>页面。</p>
+
+<p><code>rake preview</code></p>
+
+<p>本地预览，地址为 <a href="http://localhost:4000">http://localhost:4000</a> ，必须使用<code>ctrl+c</code>终止预览。</p>
+
+<h2>发布博文</h2>
+
+<p><code>rake deploy</code></p>
+
+<p>发布博文</p>
+
+<h2>push至Github</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git add .
+</span><span class='line'>git commit -m "commit message"
+</span><span class='line'>git push origin source</span></code></pre></td></tr></table></div></figure>
+
 </div>
 
 
@@ -122,15 +153,21 @@ Test</p>
 
 
 
-<time class='entry-date' datetime='2016-10-17T20:34:29+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:34 pm</span></time>
+<time class='entry-date' datetime='2016-10-18T08:58:48+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:58 am</span></time>
       
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/octopress/'>octopress</a>
+  
+</span>
 
 
     </p>
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://sxgfxm.github.io/blog/2016/10/17/markdown-syntax/" data-via="" data-counturl="http://sxgfxm.github.io/blog/2016/10/17/markdown-syntax/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://sxgfxm.github.io/blog/2016/10/18/github-blog-ji-ben-cao-zuo/" data-via="" data-counturl="http://sxgfxm.github.io/blog/2016/10/18/github-blog-ji-ben-cao-zuo/" >Tweet</a>
   
   
   
@@ -139,8 +176,8 @@ Test</p>
     
     <p class="meta">
       
+        <a class="basic-alignment left" href="/blog/2016/10/17/hello-github-blog/" title="Previous Post: Hello Github Blog">&laquo; Hello Github Blog</a>
       
-        <a class="basic-alignment right" href="/blog/2016/10/17/hello-github-blog/" title="Next Post: Hello Github Blog">Hello Github Blog &raquo;</a>
       
     </p>
   </footer>
