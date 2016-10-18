@@ -9,7 +9,8 @@
   <meta name="author" content="Light">
 
   
-  <meta name="description" content="创建博文 rake new_post["article_name"] 默认会在octopress/source/_post/目录下生成.markdown文件。 删除博文 只需删除对应的markdown文件即可。 预览博文 rake generate 默认会在octopress/public/ &hellip;">
+  <meta name="description" content="
+">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +91,35 @@ $(document).bind('DOMNodeInserted', function(event) {
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2016/10/18/github-blog-da-jian/">Github Blog - 搭建</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-10-18T10:44:43+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:44 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/10/18/github-blog-ji-ben-cao-zuo/">Github Blog - 基本操作</a></h1>
     
     
@@ -124,15 +154,19 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 <p><code>rake preview</code></p>
 
-<p>本地预览，地址为 <a href="http://localhost:4000">http://localhost:4000</a> ，必须使用<code>ctrl+c</code>终止预览。</p>
+<p>本地预览，地址为 <a href="http://localhost:4000">http://localhost:4000</a> ，必须使用<code>ctrl+c</code>终止预览，<code>ctrl+z</code>只起到挂起作用，当再次预览时会提示socket端口被占用。</p>
 
 <h2>发布博文</h2>
 
 <p><code>rake deploy</code></p>
 
-<p>发布博文</p>
+<p>先将本地博客存放至octopress/_deploy目录下，然后push至github上远程仓库的<strong>master</strong>分支。</p>
+
+<p>可以在_deploy目录下执行<code>git reset --hard origin master</code>强制同步远程仓库master分支内容，已解决不能push的问题。</p>
 
 <h2>push至Github</h2>
+
+<p>手动push源代码至github上远程仓库的<strong>source</strong>分支。</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -228,6 +262,10 @@ Test</p>
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/10/18/github-blog-da-jian/">Github Blog - 搭建</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2016/10/18/github-blog-ji-ben-cao-zuo/">Github Blog - 基本操作</a>

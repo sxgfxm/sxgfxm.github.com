@@ -121,15 +121,19 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 <p><code>rake preview</code></p>
 
-<p>本地预览，地址为 <a href="http://localhost:4000">http://localhost:4000</a> ，必须使用<code>ctrl+c</code>终止预览。</p>
+<p>本地预览，地址为 <a href="http://localhost:4000">http://localhost:4000</a> ，必须使用<code>ctrl+c</code>终止预览，<code>ctrl+z</code>只起到挂起作用，当再次预览时会提示socket端口被占用。</p>
 
 <h2>发布博文</h2>
 
 <p><code>rake deploy</code></p>
 
-<p>发布博文</p>
+<p>先将本地博客存放至octopress/_deploy目录下，然后push至github上远程仓库的<strong>master</strong>分支。</p>
+
+<p>可以在_deploy目录下执行<code>git reset --hard origin master</code>强制同步远程仓库master分支内容，已解决不能push的问题。</p>
 
 <h2>push至Github</h2>
+
+<p>手动push源代码至github上远程仓库的<strong>source</strong>分支。</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -179,6 +183,8 @@ $(document).bind('DOMNodeInserted', function(event) {
         <a class="basic-alignment left" href="/blog/2016/10/17/markdown-syntax/" title="Previous Post: Markdown Syntax">&laquo; Markdown Syntax</a>
       
       
+        <a class="basic-alignment right" href="/blog/2016/10/18/github-blog-da-jian/" title="Next Post: Github Blog - 搭建">Github Blog - 搭建 &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -190,6 +196,10 @@ $(document).bind('DOMNodeInserted', function(event) {
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/10/18/github-blog-da-jian/">Github Blog - 搭建</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2016/10/18/github-blog-ji-ben-cao-zuo/">Github Blog - 基本操作</a>
