@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Octopress | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2016-10-18T15:43:50+08:00</updated>
+  <updated>2016-10-18T15:50:22+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,15 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Github Blog - 自定义]]></title>
+    <link href="http://sxgfxm.github.io/blog/2016/10/18/github-blog-zi-ding-yi/"/>
+    <updated>2016-10-18T15:48:51+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2016/10/18/github-blog-zi-ding-yi</id>
+    <content type="html"><![CDATA[<h2>Octopress目录结构</h2>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Github Blog - 基本操作]]></title>
