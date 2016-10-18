@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Hello Github Blog"
-date: 2016-10-17 20:45:37 +0800
+date: 2016-10-16 20:45:37 +0800
 comments: true
 categories: 
 ---
