@@ -92,3 +92,12 @@ collection view包含多列的情况，主要体现cell的**独立性**。
 - prefetch进一步提升了collection view的性能，尤其是获取cell数据开销比较大或者比较慢时。
 - 每个cell独立出队，单独设置，确保cell在展示之前总是ready。
 - UITableView拥有相同的新特性。
+
+## 参考资料：
+
+[WWDC2016 UICollectionView相关视频](https://developer.apple.com/videos/play/wwdc2016/219/)
+
+[Adoption Curve Dot Net](https://adoptioncurve.net/archives/2016/06/collection-view-updates-in-ios10/)
+
+[little bites of cocoa](https://littlebitesofcocoa.com/241-uicollectionview-cell-pre-fetching)
+
