@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2016-10-19T09:34:53+08:00</updated>
+  <updated>2016-10-19T11:05:01+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,491 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS判断GPS坐标是否在中国]]></title>
+    <link href="http://sxgfxm.github.io/blog/2016/10/19/iospan-duan-gpszuo-biao-shi-fou-zai-zhong-guo/"/>
+    <updated>2016-10-19T10:29:23+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2016/10/19/iospan-duan-gpszuo-biao-shi-fou-zai-zhong-guo</id>
+    <content type="html"><![CDATA[<h2>Background</h2>
+
+<p>GPS定位已经深入生活的方方面面。现实生活中存在着多种GPS坐标系：</p>
+
+<ul>
+<li><strong>WGS-84坐标系</strong>（World Geodetic System——1984 Coordinate System），国际通用GPS坐标系。</li>
+<li><strong>GCJ-02坐标系</strong>（Guojia Cehui Ju Coordinate System），中国专用坐标系，加入随机偏差，俗称火星坐标。</li>
+<li><strong>百度坐标系</strong>，百度自己定义的坐标系。</li>
+</ul>
+
+
+<p>在iOS应用开发中，<strong>CoreLocation</strong>返回<strong>WGS坐标</strong>，当定位在中国时，如果直接用<strong>MKMapView</strong>显示位置，由于中国地图使用<strong>GCJ坐标</strong>，会使定位出现偏差，达不到预期效果。为解决这一问题，在显示位置之前，需要判断<strong>WGS坐标</strong>是否在中国，并作出相应的坐标转换。</p>
+
+<p>该问题抽象为<strong>判断点是否在多边形内部</strong>。</p>
+
+<h2>判断点是否在多边形内部算法</h2>
+
+<ul>
+<li>面积和判别法：判断目标点与多边形的每条边组成的三角形面积和是否等于该多边形，相等则在多边形内部。</li>
+<li>夹角和判别法：判断目标点与所有边的夹角和是否为360度，为360度则在多边形内部。</li>
+<li>引射线法：从目标点出发引一条射线，看这条射线和多边形所有边的交点数目。如果有奇数个交点，则说明在内部，如果有偶数个交点，则说明在外部。</li>
+</ul>
+
+
+<p>算法原理在此不再赘述，主要关注算法的实现问题。</p>
+
+<h2>采用引射线法判断GPS坐标是否在中国</h2>
+
+<h4>构造中国大陆轮廓</h4>
+
+<p>因为<strong>GCJ坐标系</strong>不包含港澳台地区，所有选取中国大陆地区的采样点。</p>
+
+<p>本文使用的采样点有限，某些边界可能存在偏差，仅供参考。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+<span class='line-number'>152</span>
+<span class='line-number'>153</span>
+<span class='line-number'>154</span>
+<span class='line-number'>155</span>
+<span class='line-number'>156</span>
+<span class='line-number'>157</span>
+<span class='line-number'>158</span>
+<span class='line-number'>159</span>
+<span class='line-number'>160</span>
+<span class='line-number'>161</span>
+<span class='line-number'>162</span>
+<span class='line-number'>163</span>
+<span class='line-number'>164</span>
+<span class='line-number'>165</span>
+<span class='line-number'>166</span>
+<span class='line-number'>167</span>
+<span class='line-number'>168</span>
+<span class='line-number'>169</span>
+<span class='line-number'>170</span>
+<span class='line-number'>171</span>
+<span class='line-number'>172</span>
+<span class='line-number'>173</span>
+<span class='line-number'>174</span>
+<span class='line-number'>175</span>
+<span class='line-number'>176</span>
+<span class='line-number'>177</span>
+<span class='line-number'>178</span>
+<span class='line-number'>179</span>
+<span class='line-number'>180</span>
+<span class='line-number'>181</span>
+<span class='line-number'>182</span>
+<span class='line-number'>183</span>
+<span class='line-number'>184</span>
+<span class='line-number'>185</span>
+<span class='line-number'>186</span>
+<span class='line-number'>187</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">//  中国大陆多边形，用于判断坐标是否在中国</span>
+</span><span class='line'><span class="c1">//  因为港澳台地区使用WGS坐标，所以多边形不包含港澳台地区</span>
+</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="bp">NSMutableArray</span> <span class="o">*</span><span class="p">)</span><span class="nf">polygonOfChina</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">static</span> <span class="bp">NSMutableArray</span> <span class="o">*</span><span class="n">polygonOfChina</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">static</span> <span class="kt">dispatch_once_t</span> <span class="n">onceToken</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">polygonOfChina</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSMutableArray</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">49.1506690000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">87.4150810000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">48.3664501790</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">85.7527085300</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">47.0253058185</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">85.3847443554</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">45.2406550000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">82.5214000000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">44.8957121295</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">79.9392351487</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">43.1166843846</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">80.6751253982</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">41.8701690000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">79.6882160000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">39.2896190000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">73.6171080000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">34.2303430000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">78.9155300000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">31.0238860000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">79.0627080000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">27.9989800000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">88.7028920000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">27.1793590000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">88.9972480000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">28.0969170000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">89.7331400000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">26.9157800000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">92.1615830000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">28.1947640000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">96.0986050000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">27.4094760000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">98.6742270000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">23.9085500000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">97.5703890000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">24.0775830000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">98.7846100000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">22.1375640000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">99.1893510000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">21.1398950000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">101.7649720000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">22.2746220000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">101.7281780000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">23.2641940000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">105.3708430000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">22.7191200000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">106.6954480000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">21.9945711661</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">106.7256731791</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">21.4847050000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">108.0200530000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">20.4478440000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">109.3814530000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">18.6689850000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">108.2408210000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">17.4017340000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">109.9333720000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">19.5085670000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">111.4051560000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">21.2716775175</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">111.2514995205</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">21.9936323233</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">113.4625292629</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">22.1818312942</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">113.4258358111</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">22.2249729295</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">113.5913115000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">22.4501912753</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">113.8946844490</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">22.5959159322</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">114.3623797842</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">22.4334610000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">114.5194740000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">22.9680954377</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">116.8326939975</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">25.3788220000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">119.9667980000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">28.3261276204</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">121.7724402562</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">31.9883610000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">123.8808230000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">39.8759700000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">124.4695370000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">41.7350890000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">126.9531720000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">41.5142160000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">128.3145720000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">42.9842081790</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">131.0676468344</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">45.2690810000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">131.8468530000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">45.0608370000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">133.0610740000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">48.4480260000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">135.0111880000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">48.0054800000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">131.6628800000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">50.2270740000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">127.6890640000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">53.3516070000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">125.3710040000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">53.4176040000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">119.9254040000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">47.5590810000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">115.1421070000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">47.1339370000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">119.1159230000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">44.8256460000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">111.2786750000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">42.5293560000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">109.2549720000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">43.2598160000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">97.2967290000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">45.4247620000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">90.9680590000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">47.8075570000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">90.6737020000</span><span class="p">)]];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">polygonOfChina</span>
+</span><span class='line'>     <span class="nl">addObject</span><span class="p">:[</span><span class="bp">NSValue</span> <span class="nl">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mf">49.1506690000</span><span class="p">,</span>
+</span><span class='line'>                                                     <span class="mf">87.4150810000</span><span class="p">)]];</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">polygonOfChina</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>采用引射线法判断</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> *  判断是不是在中国</span>
+</span><span class='line'><span class="cm"> *  用引射线法判断 点是否在多边形内部</span>
+</span><span class='line'><span class="cm"> *  算法参考：http://www.cnblogs.com/luxiaoxun/p/3722358.html</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">isLocationOutOfChina:</span><span class="p">(</span><span class="n">CLLocationCoordinate2D</span><span class="p">)</span><span class="nv">location</span> <span class="p">{</span>
+</span><span class='line'>  <span class="bp">CGPoint</span> <span class="n">point</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="n">location</span><span class="p">.</span><span class="n">latitude</span><span class="p">,</span> <span class="n">location</span><span class="p">.</span><span class="n">longitude</span><span class="p">);</span>
+</span><span class='line'>  <span class="kt">BOOL</span> <span class="n">oddFlag</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+</span><span class='line'>  <span class="bp">NSInteger</span> <span class="n">j</span> <span class="o">=</span> <span class="p">[</span><span class="nb">self</span> <span class="n">polygonOfChina</span><span class="p">].</span><span class="n">count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">for</span> <span class="p">(</span><span class="bp">NSInteger</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="p">[</span><span class="nb">self</span> <span class="n">polygonOfChina</span><span class="p">].</span><span class="n">count</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="bp">CGPoint</span> <span class="n">polygonPointi</span> <span class="o">=</span> <span class="p">[[</span><span class="nb">self</span> <span class="n">polygonOfChina</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="n">CGPointValue</span><span class="p">];</span>
+</span><span class='line'>    <span class="bp">CGPoint</span> <span class="n">polygonPointj</span> <span class="o">=</span> <span class="p">[[</span><span class="nb">self</span> <span class="n">polygonOfChina</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="n">CGPointValue</span><span class="p">];</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(((</span><span class="n">polygonPointi</span><span class="p">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="n">point</span><span class="p">.</span><span class="n">y</span> <span class="o">&amp;&amp;</span> <span class="n">polygonPointj</span><span class="p">.</span><span class="n">y</span> <span class="o">&gt;=</span> <span class="n">point</span><span class="p">.</span><span class="n">y</span><span class="p">)</span> <span class="o">||</span>
+</span><span class='line'>         <span class="p">(</span><span class="n">polygonPointj</span><span class="p">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="n">point</span><span class="p">.</span><span class="n">y</span> <span class="o">&amp;&amp;</span> <span class="n">polygonPointi</span><span class="p">.</span><span class="n">y</span> <span class="o">&gt;=</span> <span class="n">point</span><span class="p">.</span><span class="n">y</span><span class="p">))</span> <span class="o">&amp;&amp;</span>
+</span><span class='line'>        <span class="p">(</span><span class="n">polygonPointi</span><span class="p">.</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="n">point</span><span class="p">.</span><span class="n">x</span> <span class="o">||</span> <span class="n">polygonPointj</span><span class="p">.</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="n">point</span><span class="p">.</span><span class="n">x</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">oddFlag</span> <span class="o">^=</span> <span class="p">(</span><span class="n">polygonPointi</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span>
+</span><span class='line'>                  <span class="p">(</span><span class="n">point</span><span class="p">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">polygonPointi</span><span class="p">.</span><span class="n">y</span><span class="p">)</span> <span class="o">/</span>
+</span><span class='line'>                  <span class="p">(</span><span class="n">polygonPointj</span><span class="p">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">polygonPointi</span><span class="p">.</span><span class="n">y</span><span class="p">)</span> <span class="o">*</span>
+</span><span class='line'>                  <span class="p">(</span><span class="n">polygonPointj</span><span class="p">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">polygonPointi</span><span class="p">.</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;</span>
+</span><span class='line'>                  <span class="n">point</span><span class="p">.</span><span class="n">x</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">j</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="o">!</span><span class="n">oddFlag</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>测试结果</h4>
+
+<p> <img src="../images/Map/result.png" alt="result" /></p>
+
+<p>如上图所示，红色多边形为所构造的中国大陆轮廓。随机生成经纬度坐标进行测试，如果在中国，标记为红色；如果不在中国，标记为蓝色。</p>
+
+<h2>参考资料</h2>
+
+<p><a href="http://www.cnblogs.com/luxiaoxun/p/3722358.html">阿凡卢博客</a></p>
+
+<p><a href="https://github.com/TinyQ/TQLocationConverter">Github源码地址</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[UICollectionView iOS 10 New Features]]></title>
