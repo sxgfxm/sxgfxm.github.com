@@ -6,6 +6,12 @@ comments: true
 categories: iOS
 ---
 
+## Background
+
+iPhone屏幕的刷新频率固定为60fps，为了达到流畅的滑动效果，iOS应用展示必须满足该条件。当帧率很低时，就会出现明显的卡顿现象。
+
+60fps相当于每帧16.67毫秒，在这么短的时间内collection view可能并不能完成从相对较慢的数据源加载数据。为了提升collection view性能，一个常用的技巧是使`cellForItemAtIndexPath`尽可能快的返回cell，比如异步加载网络图片等。为了进一步提高collection view性能，并且尽量减少开发者的工作，在iOS 10中引入了新特性。
+
 ## UICollectionView API变化
 
 #### 新增UICollectionViewDataSourcePrefetching协议
@@ -38,6 +44,16 @@ categories: iOS
 @property (nonatomic, getter=isPrefetchingEnabled) BOOL prefetchingEnabled NS_AVAILABLE_IOS(10_0);
 ```
 
+## Prefetching
+
+当collection view滑动速率将要超过`cellForItemAtIndexPath`返回cell的速率时，collection view会调用`prefetchItemAtIndexPaths:`方法。
+
+collection view会把**可能**即将需要展示的cell的IndexPath放入数组中传递给prefetch方法。这为我们提供了预处理数据机会。比如，当我们需要加载网络图片时，可以在prefetch方法中请求网络数据，并把下载的数据插入到**data source**中，为`cellForItemAtIndexPath`的使用做准备。
+
+当collection view滑动方向改变时，collection view会调用`cancelPrefetchingForItemsAtIndexPaths`方法。
+
+该方法的目的是取消**原本可能**即将展示的cell的预加载数据工作。参数同样是IndexPath的数组。
+
 ## UICollectionView Cell生命周期变化
 
 #### UICollectionViewCell Lifecycle: iOS <= 9
@@ -62,8 +78,17 @@ categories: iOS
 
 如果想关闭该功能，需要设置`collectionView.prefetchingEnabled = NO;`。
 
+ ![multiple_cells](../images/UICollectionViewCell/multiple_cells.jpeg)
+
+collection view包含多列的情况，主要体现cell的**独立性**。
+
+当某一行需要展示时，每个cell独立出队并调用`cellForItemAtIndexPath:`方法；
+
+当该行即将展示时，每个cell调用`willDisplayCell:atIndexPath:`。
+
 ## 总结
 
-- 在`cellForItemAtIndexPath:`中设置cell，尽量保持`willDisplay/didEndDisplay`轻量级。
-- cell被创建，但不一定会显示。
+- 这些变化对开发者都是透明的，对开发者来说只需利用好prefetch特性。
+- prefetch进一步提升了collection view的性能，尤其是获取cell数据开销比较大或者比较慢时。
+- 每个cell独立出队，单独设置，确保cell在展示之前总是ready。
 - UITableView拥有相同的新特性。
