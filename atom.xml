@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2016-10-19T09:29:10+08:00</updated>
+  <updated>2016-10-19T09:34:53+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -123,6 +123,14 @@
 <li>UITableView拥有相同的新特性。</li>
 </ul>
 
+
+<h2>参考资料：</h2>
+
+<p><a href="https://developer.apple.com/videos/play/wwdc2016/219/">WWDC2016 UICollectionView相关视频</a></p>
+
+<p><a href="https://adoptioncurve.net/archives/2016/06/collection-view-updates-in-ios10/">Adoption Curve Dot Net</a></p>
+
+<p><a href="https://littlebitesofcocoa.com/241-uicollectionview-cell-pre-fetching">little bites of cocoa</a></p>
 ]]></content>
   </entry>
   
