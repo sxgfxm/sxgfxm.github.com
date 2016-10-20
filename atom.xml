@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2016-10-20T17:17:11+08:00</updated>
+  <updated>2016-10-20T17:30:38+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -476,6 +476,10 @@
 
 
 <p>一定要保持两者约定的scheme相同。跳转时传递的信息保存在<strong>URL</strong>中，按约定解析即可。</p>
+
+<h2>Github源码</h2>
+
+<p><a href="https://github.com/sxgfxm/WidgetDemo/tree/master">WidgetDemo</a></p>
 ]]></content>
   </entry>
   
