@@ -221,3 +221,9 @@ categories: iOS
 
 [iOS9新特性 3DTouch 开发教程全解](http://www.tuicool.com/articles/auIJbiN)
 
+### Github源码
+
+[3DTouchDemo](https://github.com/sxgfxm/3DTouchDemo)
+
+
+
