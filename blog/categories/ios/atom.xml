@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2016-10-20T17:00:37+08:00</updated>
+  <updated>2016-10-20T17:17:11+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -225,6 +225,10 @@
 <p><a href="https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/Adopting3DTouchOniPhone/#//apple_ref/doc/uid/TP40016543-CH1-SW1">Adopting 3D Touch on iPhone</a></p>
 
 <p><a href="http://www.tuicool.com/articles/auIJbiN">iOS9新特性 3DTouch 开发教程全解</a></p>
+
+<h3>Github源码</h3>
+
+<p><a href="https://github.com/sxgfxm/3DTouchDemo">3DTouchDemo</a></p>
 ]]></content>
   </entry>
   
