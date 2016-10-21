@@ -1,0 +1,527 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>ShareSDK接入 - Light's Blog</title>
+  <meta name="author" content="Light">
+
+  
+  <meta name="description" content="iOS接入ShareSDK实现第三方分享 因为友盟被阿里收购在Android平台的各种令人不悦的后台操作，改用ShareSDK实现第三方分享。以下为简单接入流程。详情可参考官方文档http://wiki.mob.com/ios%E7%AE%80%E6%B4%81%E7%89%88%E5%BF%AB &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://sxgfxm.github.io/blog/2016/10/21/sharesdkjie-ru/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Light's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+
+function addBlankTargetForLinks () {
+
+  $('a[href^="http"]').each(function(){
+
+      $(this).attr('target', '_blank');
+
+  });
+
+}
+
+$(document).bind('DOMNodeInserted', function(event) {
+
+  addBlankTargetForLinks();
+
+});
+
+</script>
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Light's Blog</a></h1>
+  
+    <h2>The best or nothing.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="sxgfxm.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">ShareSDK接入</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-10-21T14:12:36+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2016</span></span> <span class='time'>2:12 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>iOS接入ShareSDK实现第三方分享</h2>
+
+<p>因为<strong>友盟</strong>被阿里收购在Android平台的各种令人不悦的后台操作，改用<strong>ShareSDK</strong>实现第三方分享。以下为简单接入流程。详情可参考官方文档<a href="http://wiki.mob.com/ios%E7%AE%80%E6%B4%81%E7%89%88%E5%BF%AB%E9%80%9F%E9%9B%86%E6%88%90/">http://wiki.mob.com/ios%E7%AE%80%E6%B4%81%E7%89%88%E5%BF%AB%E9%80%9F%E9%9B%86%E6%88%90/</a></p>
+
+<h2>获取AppKey</h2>
+
+<p>在官网注册，并按要求创建应用，获取AppKey，比如为<strong>182947e7afac0</strong>。</p>
+
+<h2>下载所需版本的ShareSDK</h2>
+
+<p>解压后，将<strong>ShareSDK</strong>导入工程中，记得勾选<strong>Copy items into destination group&rsquo;s folder(if needed)</strong>。</p>
+
+<h2>添加依赖库</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//   ShareSDK
+</span><span class='line'>libicucore.dylib
+</span><span class='line'>libz.dylib
+</span><span class='line'>libstdc++.dylib
+</span><span class='line'>JavaScriptCore.framework
+</span><span class='line'>
+</span><span class='line'>//    新浪微博SDK
+</span><span class='line'>ImageIO.framework
+</span><span class='line'>libsqlite3.dylib
+</span><span class='line'>
+</span><span class='line'>//    QQ空间SDK
+</span><span class='line'>libsqlite3.dylib
+</span><span class='line'>
+</span><span class='line'>//    微信SDK
+</span><span class='line'>libsqlite3.dylib
+</span><span class='line'>
+</span><span class='line'>//    根据需要添加</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>初始化对应的第三方平台</h2>
+
+<p>在<strong>AppDelegate.m</strong>中，导入所需头文件。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &lt;ShareSDK/ShareSDK.h&gt;</span>
+</span><span class='line'><span class="cp">#import &lt;ShareSDKConnector/ShareSDKConnector.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//腾讯开放平台（对应QQ和QQ空间）SDK头文件</span>
+</span><span class='line'><span class="cp">#import &lt;TencentOpenAPI/TencentOAuth.h&gt;</span>
+</span><span class='line'><span class="cp">#import &lt;TencentOpenAPI/QQApiInterface.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//微信SDK头文件</span>
+</span><span class='line'><span class="cp">#import &quot;WXApi.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//新浪微博SDK头文件</span>
+</span><span class='line'><span class="cp">#import &quot;WeiboSDK.h&quot;</span>
+</span><span class='line'><span class="c1">//新浪微博SDK需要在项目Build Settings中的Other Linker Flags添加&quot;-ObjC&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在<code>application:didFinishLaunchingWithOptions:</code>方法中初始化。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">application:</span><span class="p">(</span><span class="bp">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="nv">application</span>
+</span><span class='line'>    <span class="nf">didFinishLaunchingWithOptions:</span><span class="p">(</span><span class="bp">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">launchOptions</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="cm">/**</span>
+</span><span class='line'><span class="cm">   *  设置ShareSDK的appKey，如果尚未在ShareSDK官网注册过App，请移步到http://mob.com/login</span>
+</span><span class='line'><span class="cm">   * 登录后台进行应用注册</span>
+</span><span class='line'><span class="cm">   *  在将生成的AppKey传入到此方法中。</span>
+</span><span class='line'><span class="cm">   *  方法中的第二个第三个参数为需要连接社交平台SDK时触发，</span>
+</span><span class='line'><span class="cm">   *  在此事件中写入连接代码。第四个参数则为配置本地社交平台时触发，根据返回的平台类型来配置平台信息。</span>
+</span><span class='line'><span class="cm">   *  如果您使用的时服务端托管平台信息时，第二、四项参数可以传入nil，第三项参数则根据服务端托管平台来决定要连接的社交SDK。</span>
+</span><span class='line'><span class="cm">   */</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">ShareSDK</span> <span class="nl">registerApp</span><span class="p">:</span><span class="s">@&quot;182947e7afac0&quot;</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nl">activePlatforms</span><span class="p">:</span><span class="l">@[</span>
+</span><span class='line'>        <span class="l">@(</span><span class="n">SSDKPlatformTypeSinaWeibo</span><span class="l">)</span><span class="p">,</span>
+</span><span class='line'>        <span class="l">@(</span><span class="n">SSDKPlatformTypeWechat</span><span class="l">)</span><span class="p">,</span>
+</span><span class='line'>        <span class="l">@(</span><span class="n">SSDKPlatformTypeQQ</span><span class="l">)</span><span class="p">,</span>
+</span><span class='line'>      <span class="l">]</span>
+</span><span class='line'>      <span class="nl">onImport</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">SSDKPlatformType</span> <span class="n">platformType</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">switch</span> <span class="p">(</span><span class="n">platformType</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">case</span> <span class="nl">SSDKPlatformTypeWechat</span><span class="p">:</span>
+</span><span class='line'>          <span class="p">[</span><span class="n">ShareSDKConnector</span> <span class="nl">connectWeChat</span><span class="p">:[</span><span class="n">WXApi</span> <span class="k">class</span><span class="p">]];</span>
+</span><span class='line'>          <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">case</span> <span class="nl">SSDKPlatformTypeQQ</span><span class="p">:</span>
+</span><span class='line'>          <span class="p">[</span><span class="n">ShareSDKConnector</span> <span class="nl">connectQQ</span><span class="p">:[</span><span class="n">QQApiInterface</span> <span class="k">class</span><span class="p">]</span>
+</span><span class='line'>                     <span class="nl">tencentOAuthClass</span><span class="p">:[</span><span class="n">TencentOAuth</span> <span class="k">class</span><span class="p">]];</span>
+</span><span class='line'>          <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">case</span> <span class="nl">SSDKPlatformTypeSinaWeibo</span><span class="p">:</span>
+</span><span class='line'>          <span class="p">[</span><span class="n">ShareSDKConnector</span> <span class="nl">connectWeibo</span><span class="p">:[</span><span class="n">WeiboSDK</span> <span class="k">class</span><span class="p">]];</span>
+</span><span class='line'>          <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">default</span><span class="o">:</span>
+</span><span class='line'>          <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="nl">onConfiguration</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">SSDKPlatformType</span> <span class="n">platformType</span><span class="p">,</span>
+</span><span class='line'>                        <span class="bp">NSMutableDictionary</span> <span class="o">*</span><span class="n">appInfo</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">switch</span> <span class="p">(</span><span class="n">platformType</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">case</span> <span class="nl">SSDKPlatformTypeSinaWeibo</span><span class="p">:</span>
+</span><span class='line'>          <span class="c1">//设置新浪微博应用信息,其中authType设置为使用SSO＋Web形式授权</span>
+</span><span class='line'>          <span class="p">[</span><span class="n">appInfo</span>
+</span><span class='line'>              <span class="nl">SSDKSetupSinaWeiboByAppKey</span><span class="p">:</span><span class="s">@&quot;3144028685&quot;</span>
+</span><span class='line'>                               <span class="nl">appSecret</span><span class="p">:</span><span class="s">@&quot;11abfe456bc8eefbab49fe7bbcd90bf0&quot;</span>
+</span><span class='line'>                             <span class="nl">redirectUri</span><span class="p">:</span><span class="s">@&quot;http://www.sharesdk.cn&quot;</span>
+</span><span class='line'>                                <span class="nl">authType</span><span class="p">:</span><span class="n">SSDKAuthTypeBoth</span><span class="p">];</span>
+</span><span class='line'>          <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">case</span> <span class="nl">SSDKPlatformTypeWechat</span><span class="p">:</span>
+</span><span class='line'>          <span class="p">[</span><span class="n">appInfo</span> <span class="nl">SSDKSetupWeChatByAppId</span><span class="p">:</span><span class="s">@&quot;wx4868b35061f87885&quot;</span>
+</span><span class='line'>                                <span class="nl">appSecret</span><span class="p">:</span><span class="s">@&quot;64020361b8ec4c99936c0e3999a9f249&quot;</span><span class="p">];</span>
+</span><span class='line'>          <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">case</span> <span class="nl">SSDKPlatformTypeQQ</span><span class="p">:</span>
+</span><span class='line'>          <span class="p">[</span><span class="n">appInfo</span> <span class="nl">SSDKSetupQQByAppId</span><span class="p">:</span><span class="s">@&quot;100371282&quot;</span>
+</span><span class='line'>                               <span class="nl">appKey</span><span class="p">:</span><span class="s">@&quot;aed9b0303e3ed1e27bae87c33761161d&quot;</span>
+</span><span class='line'>                             <span class="nl">authType</span><span class="p">:</span><span class="n">SSDKAuthTypeBoth</span><span class="p">];</span>
+</span><span class='line'>          <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">default</span><span class="o">:</span>
+</span><span class='line'>          <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>      <span class="p">}];</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接入不同的平台均需要注册并获取<strong>AppKey</strong>和<strong>AppSecret</strong>值。</p>
+
+<h2>添加分享实现代码</h2>
+
+<p>在<strong>ViewController.m</strong>中触发分享的方法中，添加分享代码。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">shareAction</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">tf</span> <span class="nl">endEditing</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">// 1、创建分享参数</span>
+</span><span class='line'>  <span class="bp">NSArray</span> <span class="o">*</span><span class="n">imageArray</span> <span class="o">=</span> <span class="l">@[</span> <span class="p">[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:</span><span class="s">@&quot;junxi5.jpg&quot;</span><span class="p">]</span> <span class="l">]</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">imageArray</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="bp">NSMutableDictionary</span> <span class="o">*</span><span class="n">shareParams</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableDictionary</span> <span class="n">dictionary</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">shareParams</span> <span class="nl">SSDKSetupShareParamsByText</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">tf</span><span class="p">.</span><span class="n">text</span>
+</span><span class='line'>                                     <span class="nl">images</span><span class="p">:</span><span class="n">imageArray</span>
+</span><span class='line'>                                        <span class="nl">url</span><span class="p">:</span><span class="nb">nil</span>
+</span><span class='line'>                                      <span class="nl">title</span><span class="p">:</span><span class="s">@&quot;Ticwatch Sport&quot;</span>
+</span><span class='line'>                                       <span class="nl">type</span><span class="p">:</span><span class="n">SSDKContentTypeAuto</span><span class="p">];</span>
+</span><span class='line'>    <span class="c1">// 2、分享（可以弹出我们的分享菜单和编辑界面）</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">ShareSDK</span> <span class="nl">showShareActionSheet</span><span class="p">:</span><span class="nb">nil</span>
+</span><span class='line'>                             <span class="nl">items</span><span class="p">:</span><span class="nb">nil</span>
+</span><span class='line'>                       <span class="nl">shareParams</span><span class="p">:</span><span class="n">shareParams</span>
+</span><span class='line'>               <span class="nl">onShareStateChanged</span><span class="p">:</span><span class="o">^</span><span class="p">(</span>
+</span><span class='line'>                   <span class="n">SSDKResponseState</span> <span class="n">state</span><span class="p">,</span> <span class="n">SSDKPlatformType</span> <span class="n">platformType</span><span class="p">,</span>
+</span><span class='line'>                   <span class="bp">NSDictionary</span> <span class="o">*</span><span class="n">userData</span><span class="p">,</span> <span class="n">SSDKContentEntity</span> <span class="o">*</span><span class="n">contentEntity</span><span class="p">,</span>
+</span><span class='line'>                   <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">,</span> <span class="kt">BOOL</span> <span class="n">end</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>                 <span class="k">switch</span> <span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                 <span class="k">case</span> <span class="nl">SSDKResponseStateSuccess</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>                   <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;分享成功&quot;</span><span class="p">);</span>
+</span><span class='line'>                   <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>                 <span class="p">}</span>
+</span><span class='line'>                 <span class="k">case</span> <span class="nl">SSDKResponseStateFail</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>                   <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;分享失败&quot;</span><span class="p">);</span>
+</span><span class='line'>                   <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span>
+</span><span class='line'>                   <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>                 <span class="p">}</span>
+</span><span class='line'>                 <span class="k">default</span><span class="o">:</span>
+</span><span class='line'>                   <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>                 <span class="p">}</span>
+</span><span class='line'>               <span class="p">}];</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>添加URL Schemes</h2>
+
+<p> <img src="../images/shareSDK/urlscheme.jpeg" alt="urlscheme" /></p>
+
+<h2>适配iOS 9问题</h2>
+
+<h3>退回http协议，并设置域</h3>
+
+<p><img src="../images/shareSDK/http.jpeg" alt="http" /></p>
+
+<h3>添加scheme白名单</h3>
+
+<p><img src="../images/shareSDK/%E7%99%BD%E5%90%8D%E5%8D%95.jpeg" alt="白名单" /></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Light</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-10-21T14:12:36+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2016</span></span> <span class='time'>2:12 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://sxgfxm.github.io/blog/2016/10/21/sharesdkjie-ru/" data-via="" data-counturl="http://sxgfxm.github.io/blog/2016/10/21/sharesdkjie-ru/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/10/20/3d-touch/" title="Previous Post: 3D Touch">&laquo; 3D Touch</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/10/21/sharesdkjie-ru/">ShareSDK接入</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/10/20/3d-touch/">3D Touch</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/10/19/today-extension-widget/">Today Extension - Widget</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/10/19/iospan-duan-gpszuo-biao-shi-fou-zai-zhong-guo/">iOS判断GPS坐标是否在中国</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/10/18/uicollectionview-ios10-new-features/">UICollectionView iOS 10 New Features</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Light -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
