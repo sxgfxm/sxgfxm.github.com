@@ -4,6 +4,8 @@ title: "UICollectionView iOS 10 New Features"
 date: 2016-10-18 20:01:45 +0800
 comments: true
 categories: iOS
+keywords: iOS，UICollectionView，iOS 10.0
+description: UICollectionView 
 ---
 
 ## Background

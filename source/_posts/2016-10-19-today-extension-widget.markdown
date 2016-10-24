@@ -4,6 +4,8 @@ title: "Today Extension - Widget"
 date: 2016-10-19 21:05:18 +0800
 comments: true
 categories: iOS
+keywords: iOS，Widget，app之间跳转
+description: Widget
 ---
 
 ## Widget简介

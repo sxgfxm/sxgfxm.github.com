@@ -4,6 +4,8 @@ title: "ShareSDK接入"
 date: 2016-10-21 14:12:36 +0800
 comments: true
 categories: iOS
+keywords: iOS，ShareSDK，第三方分享
+description: iOS ShareSDK第三方分享
 ---
 
 ## iOS接入ShareSDK实现第三方分享

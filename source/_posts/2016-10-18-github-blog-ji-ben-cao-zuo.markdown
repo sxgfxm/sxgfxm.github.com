@@ -4,6 +4,9 @@ title: "Github Blog - 基本操作"
 date: 2016-10-18 08:58:48 +0800
 comments: true
 categories: Octopress
+keywords: octopress，octopress基本操作
+description: octopress创建博客
+
 ---
 ##创建博文  
 `rake new_post["article_name"]`

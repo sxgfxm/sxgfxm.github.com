@@ -4,6 +4,8 @@ title: "3D Touch"
 date: 2016-10-20 15:51:27 +0800
 comments: true
 categories: iOS
+keywords: iOS，3D Touch，peek，pop
+description: 3D Touch，peek and pop
 ---
 
 ## 3D Touch简介

@@ -4,6 +4,8 @@ title: "Github Blog - 搭建"
 date: 2016-10-18 08:44:43 +0800
 comments: true
 categories: Octopress
+keywords: octopress，搭建octopress博客
+description: 搭建octopress博客
 ---
 
 ## 安装Git

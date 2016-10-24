@@ -4,6 +4,8 @@ title: "iOS判断GPS坐标是否在中国"
 date: 2016-10-19 10:29:23 +0800
 comments: true
 categories: iOS
+keywords: iOS，WGS，GCJ，点在多边形内部
+description: iOS判断GPS坐标是否在中国
 ---
 
 ## Background
