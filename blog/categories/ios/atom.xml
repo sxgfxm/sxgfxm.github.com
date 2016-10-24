@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2016-10-21T17:28:43+08:00</updated>
+  <updated>2016-10-24T10:54:13+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -193,6 +193,20 @@ libsqlite3.dylib
 <h3>添加scheme白名单</h3>
 
 <p><img src="../images/shareSDK/%E7%99%BD%E5%90%8D%E5%8D%95.jpeg" alt="白名单" /></p>
+
+<h2>分享平台title为英文问题</h2>
+
+<p>默认语言为英文，需要在项目中添加中文本地化。</p>
+
+<p><img src="../images/shareSDK/localization.jpeg" alt="localization" /></p>
+
+<p>如需修改标题可以修改对应的本地化文件。</p>
+
+<p> <img src="../images/shareSDK/customLocalization.jpeg" alt="customLocalization" /></p>
+
+<h2>Github源码</h2>
+
+<p><a href="https://github.com/sxgfxm/ShareSDKDemo">ShareSDKDemo</a></p>
 ]]></content>
   </entry>
   
