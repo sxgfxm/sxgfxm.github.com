@@ -20,11 +20,11 @@ widget的概念在Android中已经十分成熟，iOS widget与自由度相当高
 
 2、为工程添加新**Target**，并选择**Today Extension**模板；
 
-![step1](../images/widget/step1.jpeg) ![stept](../images/widget/stept.jpeg)
+![step1](http://ofj92itlz.bkt.clouddn.com/Widget:step1.jpeg) ![stept](http://ofj92itlz.bkt.clouddn.com/Widget:step2.jpeg)
 
- ![step3](../images/widget/step3.jpeg)
+ ![step3](http://ofj92itlz.bkt.clouddn.com/Widget:step3.jpeg)
 
-3、改为纯代码创建界面，默认会创建**MainInterface.storyboard**设计界面。删除Info.plist文件中的字段，并添加**NSExtensionPrincipalClass**字段，设为对应的**TodayViewController**； ![step4](../images/widget/step4.jpeg)
+3、改为纯代码创建界面，默认会创建**MainInterface.storyboard**设计界面。删除Info.plist文件中的字段，并添加**NSExtensionPrincipalClass**字段，设为对应的**TodayViewController**； ![step4](http://ofj92itlz.bkt.clouddn.com/Widget:step5.jpeg)
 
 4、在TodayViewController中创建界面。
 
@@ -49,7 +49,7 @@ tapAction方法发出打开URL请，系统会查找注册过相同scheme的应�
 
 首先，在主应用的**Info.plist**文件中，添加**URL types**字段，并最终添加对应的scheme。
 
-![step5](../images/widget/step5.jpeg)
+![step5](http://ofj92itlz.bkt.clouddn.com/Widget:step4.jpeg)
 
 然后，在主应用**AppDelegate.m**中添加如下方法：
 

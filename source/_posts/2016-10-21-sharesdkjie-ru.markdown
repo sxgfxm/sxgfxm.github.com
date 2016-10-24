@@ -174,27 +174,27 @@ libsqlite3.dylib
 
 ## 添加URL Schemes
 
- ![urlscheme](../images/shareSDK/urlscheme.jpeg)
+ ![urlscheme](http://ofj92itlz.bkt.clouddn.com/ShareSDK:WhiteList.jpeg)
 
 ## 适配iOS 9问题
 
 ### 退回http协议，并设置域
 
-![http](../images/shareSDK/http.jpeg)
+![http](http://ofj92itlz.bkt.clouddn.com/ShareSDK:Https.jpeg)
 
 ### 添加scheme白名单
 
-![白名单](../images/shareSDK/白名单.jpeg)
+![白名单](http://ofj92itlz.bkt.clouddn.com/ShareSDK:UrlScheme.jpeg)
 
 ## 分享平台title为英文问题
 
 默认语言为英文，需要在项目中添加中文本地化。
 
-![localization](../images/shareSDK/localization.jpeg)
+![localization](http://ofj92itlz.bkt.clouddn.com/ShareSDK:Localization.jpeg)
 
 如需修改标题可以修改对应的本地化文件。
 
- ![customLocalization](../images/shareSDK/customLocalization.jpeg)
+ ![customLocalization](http://ofj92itlz.bkt.clouddn.com/ShareSDK:CustomLocalization.jpeg)
 
 ## Github源码
 

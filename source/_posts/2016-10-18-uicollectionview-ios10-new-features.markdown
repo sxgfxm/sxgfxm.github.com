@@ -58,7 +58,7 @@ collection view会把**可能**即将需要展示的cell的IndexPath放入数组
 
 #### UICollectionViewCell Lifecycle: iOS <= 9
 
- ![UICollectionViewLifecycle_iOS_9](../images/UICollectionViewCell/UICollectionViewLifecycle_iOS_9.jpeg)
+ ![UICollectionViewLifecycle_iOS_9](http://ofj92itlz.bkt.clouddn.com/UICollectionView:UICollectionViewLifecycle_iOS_9.jpeg)
 
 1. 首先，调用`cellForItemAtIndexPath:`，从复用队列中弹出一个**cell**，准备对其调用`prepareForReuse`。
 2. 然后，根据需求设置**cell**的内容，比如**labels**等。
@@ -68,7 +68,7 @@ collection view会把**可能**即将需要展示的cell的IndexPath放入数组
 
 #### UICollectionViewCell Lifecycle: iOS 10
 
- ![UICollectionViewLifecycle_iOS_10](../images/UICollectionViewCell/UICollectionViewLifecycle_iOS_10.jpeg)
+ ![UICollectionViewLifecycle_iOS_10](http://ofj92itlz.bkt.clouddn.com/UICollectionView:UICollectionViewLifecycle_iOS_10.jpeg)
 
 在iOS 10中，前3个步骤与iOS 9是相同的，新的变化发生在**cell**滑出屏幕的时候。
 
@@ -78,7 +78,7 @@ collection view会把**可能**即将需要展示的cell的IndexPath放入数组
 
 如果想关闭该功能，需要设置`collectionView.prefetchingEnabled = NO;`。
 
- ![multiple_cells](../images/UICollectionViewCell/multiple_cells.jpeg)
+ ![multiple_cells](http://ofj92itlz.bkt.clouddn.com/UICollectionView:multiple_cells.jpeg)
 
 collection view包含多列的情况，主要体现cell的**独立性**。
 

@@ -256,7 +256,7 @@ GPS定位已经深入生活的方方面面。现实生活中存在着多种GPS�
 
 #### 测试结果
 
- ![result](../images/Map/result.png)
+ ![result](http://ofj92itlz.bkt.clouddn.com/Map:Result.png)
 
 如上图所示，红色多边形为所构造的中国大陆轮廓。随机生成经纬度坐标进行测试，如果在中国，标记为红色；如果不在中国，标记为蓝色。
 
