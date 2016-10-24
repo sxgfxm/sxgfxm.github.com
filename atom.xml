@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2016-10-24T10:54:13+08:00</updated>
+  <updated>2016-10-24T12:55:58+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -313,27 +313,27 @@
 
 <h2>添加URL Schemes</h2>
 
-<p> <img src="../images/shareSDK/urlscheme.jpeg" alt="urlscheme" /></p>
+<p> <img src="http://ofj92itlz.bkt.clouddn.com/ShareSDK:WhiteList.jpeg" alt="urlscheme" /></p>
 
 <h2>适配iOS 9问题</h2>
 
 <h3>退回http协议，并设置域</h3>
 
-<p><img src="../images/shareSDK/http.jpeg" alt="http" /></p>
+<p><img src="http://ofj92itlz.bkt.clouddn.com/ShareSDK:Https.jpeg" alt="http" /></p>
 
 <h3>添加scheme白名单</h3>
 
-<p><img src="../images/shareSDK/%E7%99%BD%E5%90%8D%E5%8D%95.jpeg" alt="白名单" /></p>
+<p><img src="http://ofj92itlz.bkt.clouddn.com/ShareSDK:UrlScheme.jpeg" alt="白名单" /></p>
 
 <h2>分享平台title为英文问题</h2>
 
 <p>默认语言为英文，需要在项目中添加中文本地化。</p>
 
-<p><img src="../images/shareSDK/localization.jpeg" alt="localization" /></p>
+<p><img src="http://ofj92itlz.bkt.clouddn.com/ShareSDK:Localization.jpeg" alt="localization" /></p>
 
 <p>如需修改标题可以修改对应的本地化文件。</p>
 
-<p> <img src="../images/shareSDK/customLocalization.jpeg" alt="customLocalization" /></p>
+<p> <img src="http://ofj92itlz.bkt.clouddn.com/ShareSDK:CustomLocalization.jpeg" alt="customLocalization" /></p>
 
 <h2>Github源码</h2>
 
@@ -460,7 +460,7 @@
 
 <p>运行效果：</p>
 
-<p> <img src="../images/3dtouch/step1.jpeg" alt="step1" /></p>
+<p> <img src="http://ofj92itlz.bkt.clouddn.com/3DTouch:step1.jpeg" alt="step1" /></p>
 
 <h2>Peek and Pop</h2>
 
@@ -558,7 +558,7 @@
 
 <p>运行效果：</p>
 
-<p><img src="../images/3dtouch/step2.jpeg" alt="step2" />      <img src="../images/3dtouch/step3.jpeg" alt="step3" /></p>
+<p><img src="http://ofj92itlz.bkt.clouddn.com/3DTouch:step2.jpeg" alt="step2" />      <img src="http://ofj92itlz.bkt.clouddn.com/3DTouch:step3.jpeg" alt="step3" /></p>
 
 <h3>在PreviewViewController中添加预览状态快捷选项</h3>
 
@@ -627,7 +627,7 @@
 
 <p>运行效果：</p>
 
-<p> <img src="../images/3dtouch/step4.jpeg" alt="step4" /></p>
+<p> <img src="http://ofj92itlz.bkt.clouddn.com/3DTouch:step5.jpeg" alt="step4" /></p>
 
 <h3>pop相关代理方法</h3>
 
@@ -654,7 +654,7 @@
 
 <p>运行效果：</p>
 
-<p> <img src="../images/3dtouch/step5.jpeg" alt="step5" /></p>
+<p> <img src="http://ofj92itlz.bkt.clouddn.com/3DTouch:step4.jpeg" alt="step5" /></p>
 
 <h2>3D Touch Force简单运用</h2>
 
@@ -704,11 +704,11 @@
 
 <p>2、为工程添加新<strong>Target</strong>，并选择<strong>Today Extension</strong>模板；</p>
 
-<p><img src="../images/widget/step1.jpeg" alt="step1" /> <img src="../images/widget/stept.jpeg" alt="stept" /></p>
+<p><img src="http://ofj92itlz.bkt.clouddn.com/Widget:step1.jpeg" alt="step1" /> <img src="http://ofj92itlz.bkt.clouddn.com/Widget:step2.jpeg" alt="stept" /></p>
 
-<p> <img src="../images/widget/step3.jpeg" alt="step3" /></p>
+<p> <img src="http://ofj92itlz.bkt.clouddn.com/Widget:step3.jpeg" alt="step3" /></p>
 
-<p>3、改为纯代码创建界面，默认会创建<strong>MainInterface.storyboard</strong>设计界面。删除Info.plist文件中的字段，并添加<strong>NSExtensionPrincipalClass</strong>字段，设为对应的<strong>TodayViewController</strong>； <img src="../images/widget/step4.jpeg" alt="step4" /></p>
+<p>3、改为纯代码创建界面，默认会创建<strong>MainInterface.storyboard</strong>设计界面。删除Info.plist文件中的字段，并添加<strong>NSExtensionPrincipalClass</strong>字段，设为对应的<strong>TodayViewController</strong>； <img src="http://ofj92itlz.bkt.clouddn.com/Widget:step5.jpeg" alt="step4" /></p>
 
 <p>4、在TodayViewController中创建界面。</p>
 
@@ -737,7 +737,7 @@
 
 <p>首先，在主应用的<strong>Info.plist</strong>文件中，添加<strong>URL types</strong>字段，并最终添加对应的scheme。</p>
 
-<p><img src="../images/widget/step5.jpeg" alt="step5" /></p>
+<p><img src="http://ofj92itlz.bkt.clouddn.com/Widget:step4.jpeg" alt="step5" /></p>
 
 <p>然后，在主应用<strong>AppDelegate.m</strong>中添加如下方法：</p>
 
@@ -1284,7 +1284,7 @@
 
 <h4>测试结果</h4>
 
-<p> <img src="../images/Map/result.png" alt="result" /></p>
+<p> <img src="http://ofj92itlz.bkt.clouddn.com/Map:Result.png" alt="result" /></p>
 
 <p>如上图所示，红色多边形为所构造的中国大陆轮廓。随机生成经纬度坐标进行测试，如果在中国，标记为红色；如果不在中国，标记为蓝色。</p>
 
@@ -1366,7 +1366,7 @@
 
 <h4>UICollectionViewCell Lifecycle: iOS &lt;= 9</h4>
 
-<p> <img src="../images/UICollectionViewCell/UICollectionViewLifecycle_iOS_9.jpeg" alt="UICollectionViewLifecycle_iOS_9" /></p>
+<p> <img src="http://ofj92itlz.bkt.clouddn.com/UICollectionView:UICollectionViewLifecycle_iOS_9.jpeg" alt="UICollectionViewLifecycle_iOS_9" /></p>
 
 <ol>
 <li>首先，调用<code>cellForItemAtIndexPath:</code>，从复用队列中弹出一个<strong>cell</strong>，准备对其调用<code>prepareForReuse</code>。</li>
@@ -1379,7 +1379,7 @@
 
 <h4>UICollectionViewCell Lifecycle: iOS 10</h4>
 
-<p> <img src="../images/UICollectionViewCell/UICollectionViewLifecycle_iOS_10.jpeg" alt="UICollectionViewLifecycle_iOS_10" /></p>
+<p> <img src="http://ofj92itlz.bkt.clouddn.com/UICollectionView:UICollectionViewLifecycle_iOS_10.jpeg" alt="UICollectionViewLifecycle_iOS_10" /></p>
 
 <p>在iOS 10中，前3个步骤与iOS 9是相同的，新的变化发生在<strong>cell</strong>滑出屏幕的时候。</p>
 
@@ -1389,7 +1389,7 @@
 
 <p>如果想关闭该功能，需要设置<code>collectionView.prefetchingEnabled = NO;</code>。</p>
 
-<p> <img src="../images/UICollectionViewCell/multiple_cells.jpeg" alt="multiple_cells" /></p>
+<p> <img src="http://ofj92itlz.bkt.clouddn.com/UICollectionView:multiple_cells.jpeg" alt="multiple_cells" /></p>
 
 <p>collection view包含多列的情况，主要体现cell的<strong>独立性</strong>。</p>
 
