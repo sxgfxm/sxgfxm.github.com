@@ -110,6 +110,10 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 然后，获取**Tracing Id**，添加到**_config.yml**的**google_analytics_tracking_id**后面即可。
 
+![](http://ofj92itlz.bkt.clouddn.com/GoogleAnalytics:trackingID1.jpeg)
+
+![](http://ofj92itlz.bkt.clouddn.com/GoogleAnalytics:config1.jpeg)
+
 ## 列表排版的缩进问题
 
 列表默认会冲出文章主主体区块。
@@ -142,7 +146,7 @@ footer: false
 
 ## 博客末尾增加原文链接、版权等
 
-参考博客[为octopress每篇文章添加一个文章信息](http://codemacro.com/2012/07/26/post-footer-plugin-for-octopress/)。
+参考博客[为octopress文章添加原文链接](http://www.cnblogs.com/maoxiong/p/4298207.html)
 
 ## 参考资料
 
