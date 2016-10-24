@@ -186,3 +186,17 @@ libsqlite3.dylib
 
 ![白名单](../images/shareSDK/白名单.jpeg)
 
+## 分享平台title为英文问题
+
+默认语言为英文，需要在项目中添加中文本地化。
+
+![localization](../images/shareSDK/localization.jpeg)
+
+如需修改标题可以修改对应的本地化文件。
+
+ ![customLocalization](../images/shareSDK/customLocalization.jpeg)
+
+## Github源码
+
+[ShareSDKDemo](https://github.com/sxgfxm/ShareSDKDemo)
+
