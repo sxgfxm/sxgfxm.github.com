@@ -16,6 +16,8 @@ categories: iOS
 
 3、3D Touch Force，3D touch压力值运用。
 
+<!--more-->
+
 ## Home Screen Quick Action
 
 ### 显示效果

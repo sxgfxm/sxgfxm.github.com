@@ -14,6 +14,8 @@ widget的概念在Android中已经十分成熟，iOS widget与自由度相当高
 
 尽管iOS widget是一种约束状态下的自由，但已经逐渐改变用户的交互行为。
 
+<!--more-->
+
 ## 创建Widget
 
 1、创建工程；

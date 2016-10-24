@@ -7,16 +7,18 @@ categories: Markdown
 ---
 ## Format
 
-| 语法                          | 效果                         | 快捷键           |
-| :-------------------------- | :------------------------- | :------------ |
-| \**strong**                 | **strong**                 | ⌘ + B         |
-| \*emphasis*                 | *emphasis*                 | ⌘ + I         |
-| \<u>underline</u>           | <u>underline</u>           | ⌘ + U         |
-| \`code`                     | `code`                     | ⌘ + shift + ` |
-| \~~strike~~                 | ~~strike~~                 |               |
-| \[百度](http://www.baidu.com) | [百度](http://www.baidu.com) | ⌘ + K         |
-| ![imageName](imageSource)   |                            | ⌘ + alt + I   |
-| \\                          | clear format               | ⌘ + \         |
+| 语法                                       | 效果                         | 快捷键         |
+| :--------------------------------------- | :------------------------- | :---------- |
+| \**strong**                              | **strong**                 | ⌘ + B       |
+| \*emphasis*                              | *emphasis*                 | ⌘ + I       |
+| \<u>underline</u>                        | <u>underline</u>           | ⌘ + U       |
+| \`code`                     | `code`                     | ⌘ + shift + ` |                            |             |
+| \~~strike~~                              | ~~strike~~                 |             |
+| \[百度](http://www.baidu.com)              | [百度](http://www.baidu.com) | ⌘ + K       |
+| ![imageName](imageSource)                |                            | ⌘ + alt + I |
+| \\                                       | clear format               | ⌘ + \       |
+
+<!--more-->
 
 ## Paragraph
 

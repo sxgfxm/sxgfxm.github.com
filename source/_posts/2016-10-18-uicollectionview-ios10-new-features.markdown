@@ -12,6 +12,8 @@ iPhone屏幕的刷新频率固定为60fps，为了达到流畅的滑动效果，
 
 60fps相当于每帧16.67毫秒，在这么短的时间内collection view可能并不能完成从相对较慢的数据源加载数据。为了提升collection view性能，一个常用的技巧是使`cellForItemAtIndexPath`尽可能快的返回cell，比如异步加载网络图片等。为了进一步提高collection view性能，并且尽量减少开发者的工作，在iOS 10中引入了新特性。
 
+<!--more-->
+
 ## UICollectionView API变化
 
 #### 新增UICollectionViewDataSourcePrefetching协议

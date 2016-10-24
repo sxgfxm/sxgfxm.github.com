@@ -12,6 +12,8 @@ categories: Octopress
 
 推荐使用RVM。
 
+<!--more-->
+
 ## 安装DevKit
 
 ```

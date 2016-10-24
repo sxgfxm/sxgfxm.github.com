@@ -14,6 +14,8 @@ categories: Octopress
 
 只需删除对应的markdown文件即可。
 
+<!--more-->
+
 ## 预览博文
 
 `rake generate `  

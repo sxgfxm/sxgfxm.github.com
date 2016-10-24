@@ -10,6 +10,8 @@ categories: iOS
 
 因为**友盟**被阿里收购在Android平台的各种令人不悦的后台操作，改用**ShareSDK**实现第三方分享。以下为简单接入流程。详情可参考官方文档<http://wiki.mob.com/ios%E7%AE%80%E6%B4%81%E7%89%88%E5%BF%AB%E9%80%9F%E9%9B%86%E6%88%90/>
 
+<!--more-->
+
 ## 获取AppKey
 
 在官网注册，并按要求创建应用，获取AppKey，比如为**182947e7afac0**。
