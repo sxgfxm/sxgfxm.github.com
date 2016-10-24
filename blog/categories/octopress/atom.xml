@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Octopress | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2016-10-24T12:55:58+08:00</updated>
+  <updated>2016-10-24T16:28:00+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -27,6 +27,9 @@
 <h3>Gemfile</h3>
 
 <p>bundle要下载需要的gem依赖关系的指定文件。</p>
+
+<!--more-->
+
 
 <h3>_config.yml</h3>
 
@@ -87,6 +90,81 @@
 <h4>images/</h4>
 
 <p>图片目录。</p>
+
+<h2>设置博客中的链接在新窗口中打开</h2>
+
+<p>将如下代码添加到<strong>occtopress/source/_includes/custom/head.html</strong>文件末尾。</p>
+
+<p>```javascript</p>
+
+<script type="text/javascript">
+function addBlankTargetForLinks () {
+  $('a[href^="http"]').each(function(){
+      $(this).attr('target', '_blank');
+  });
+}
+$(document).bind('DOMNodeInserted', function(event) {
+  addBlankTargetForLinks();
+});
+</script>
+
+
+<pre><code>
+## 自定义侧边栏
+
+首先，在**octopress/source/_includes/asides/**目录下创建**custom.html**。
+
+然后，在**_config.yml**的**default_asides:**设置中加入创建的自定义侧栏文件**/asides/custom.html**。
+
+侧边栏顺序即为**default_asides:**中参数的顺序，可以自己设置。
+
+## 增加Google Analytics统计工具
+
+首先，在[Google Analytics](https://analytics.google.com/analytics/web/)注册并按要求填写网站信息；
+
+然后，获取**Tracing Id**，添加到**_config.yml**的**google_analytics_tracking_id**后面即可。
+
+## 列表排版的缩进问题
+
+列表默认会冲出文章主主体区块。
+
+在**octopress/sass/custom/_layout.sccs**文件中找到**#$indented-lists: true**行，去掉**#**注释即可。
+
+## 公益404页面
+
+创建404.markdown，按如下编辑。
+</code></pre>
+
+<hr />
+
+<p>layout: page</p>
+
+<p>title: &ldquo;404 Error&rdquo;</p>
+
+<p>date: 2013-4-21 02:35</p>
+
+<p>comments: false</p>
+
+<p>sharing: false</p>
+
+<p>footer: false</p>
+
+<hr />
+
+<script type="text/javascript" src="http://www.qq.com/404/search_children.js" charset="utf-8"></script>
+
+
+<p>```</p>
+
+<h2>博客末尾增加原文链接、版权等</h2>
+
+<p>参考博客<a href="http://codemacro.com/2012/07/26/post-footer-plugin-for-octopress/">为octopress每篇文章添加一个文章信息</a>。</p>
+
+<h2>参考资料</h2>
+
+<p><a href="http://foggry.com/blog/2014/04/28/custom-your-octopress-blog/">自定义你的Octopress博客</a></p>
+
+<p><a href="http://blog.csdn.net/biaobiaoqi/article/details/9289563">定制Octopress</a></p>
 ]]></content>
   </entry>
   
@@ -104,6 +182,9 @@
 <h2>删除博文</h2>
 
 <p>只需删除对应的markdown文件即可。</p>
+
+<!--more-->
+
 
 <h2>预览博文</h2>
 
@@ -144,6 +225,9 @@ git push origin source
 <h2>安装Ruby</h2>
 
 <p>推荐使用RVM。</p>
+
+<!--more-->
+
 
 <h2>安装DevKit</h2>
 

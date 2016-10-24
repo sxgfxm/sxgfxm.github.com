@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2016-10-24T12:55:58+08:00</updated>
+  <updated>2016-10-24T16:28:00+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -21,6 +21,9 @@
     <content type="html"><![CDATA[<h2>iOS接入ShareSDK实现第三方分享</h2>
 
 <p>因为<strong>友盟</strong>被阿里收购在Android平台的各种令人不悦的后台操作，改用<strong>ShareSDK</strong>实现第三方分享。以下为简单接入流程。详情可参考官方文档<a href="http://wiki.mob.com/ios%E7%AE%80%E6%B4%81%E7%89%88%E5%BF%AB%E9%80%9F%E9%9B%86%E6%88%90/">http://wiki.mob.com/ios%E7%AE%80%E6%B4%81%E7%89%88%E5%BF%AB%E9%80%9F%E9%9B%86%E6%88%90/</a></p>
+
+<!--more-->
+
 
 <h2>获取AppKey</h2>
 
@@ -355,6 +358,9 @@
 <p>2、Peek and Pop，预览和进入；</p>
 
 <p>3、3D Touch Force，3D touch压力值运用。</p>
+
+<!--more-->
+
 
 <h2>Home Screen Quick Action</h2>
 
@@ -698,6 +704,9 @@
 
 <p>尽管iOS widget是一种约束状态下的自由，但已经逐渐改变用户的交互行为。</p>
 
+<!--more-->
+
+
 <h2>创建Widget</h2>
 
 <p>1、创建工程；</p>
@@ -830,6 +839,9 @@
 <p>在iOS应用开发中，<strong>CoreLocation</strong>返回<strong>WGS坐标</strong>，当定位在中国时，如果直接用<strong>MKMapView</strong>显示位置，由于中国地图使用<strong>GCJ坐标</strong>，会使定位出现偏差，达不到预期效果。为解决这一问题，在显示位置之前，需要判断<strong>WGS坐标</strong>是否在中国，并作出相应的坐标转换。</p>
 
 <p>该问题抽象为<strong>判断点是否在多边形内部</strong>。</p>
+
+<!--more-->
+
 
 <h2>判断点是否在多边形内部算法</h2>
 
@@ -1307,6 +1319,9 @@
 
 <p>60fps相当于每帧16.67毫秒，在这么短的时间内collection view可能并不能完成从相对较慢的数据源加载数据。为了提升collection view性能，一个常用的技巧是使<code>cellForItemAtIndexPath</code>尽可能快的返回cell，比如异步加载网络图片等。为了进一步提高collection view性能，并且尽量减少开发者的工作，在iOS 10中引入了新特性。</p>
 
+<!--more-->
+
+
 <h2>UICollectionView API变化</h2>
 
 <h4>新增UICollectionViewDataSourcePrefetching协议</h4>
@@ -1432,6 +1447,9 @@
 
 <p>bundle要下载需要的gem依赖关系的指定文件。</p>
 
+<!--more-->
+
+
 <h3>_config.yml</h3>
 
 <p>站点的配置文件。</p>
@@ -1491,6 +1509,104 @@
 <h4>images/</h4>
 
 <p>图片目录。</p>
+
+<h2>设置博客中的链接在新窗口中打开</h2>
+
+<p>将如下代码添加到<strong>occtopress/source/_includes/custom/head.html</strong>文件末尾。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text/javascript&quot;</span><span class="o">&gt;</span>
+</span><span class='line'><span class="kd">function</span> <span class="nx">addBlankTargetForLinks</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;a[href^=&quot;http&quot;]&#39;</span><span class="p">).</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>      <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;target&#39;</span><span class="p">,</span> <span class="s1">&#39;_blank&#39;</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;DOMNodeInserted&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">addBlankTargetForLinks</span><span class="p">();</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>自定义侧边栏</h2>
+
+<p>首先，在<strong>octopress/source/_includes/asides/</strong>目录下创建<strong>custom.html</strong>。</p>
+
+<p>然后，在<strong>_config.yml</strong>的<strong>default_asides:</strong>设置中加入创建的自定义侧栏文件<strong>/asides/custom.html</strong>。</p>
+
+<p>侧边栏顺序即为<strong>default_asides:</strong>中参数的顺序，可以自己设置。</p>
+
+<h2>增加Google Analytics统计工具</h2>
+
+<p>首先，在<a href="https://analytics.google.com/analytics/web/">Google Analytics</a>注册并按要求填写网站信息；</p>
+
+<p>然后，获取<strong>Tracing Id</strong>，添加到<strong>_config.yml</strong>的<strong>google_analytics_tracking_id</strong>后面即可。</p>
+
+<h2>列表排版的缩进问题</h2>
+
+<p>列表默认会冲出文章主主体区块。</p>
+
+<p>在<strong>octopress/sass/custom/_layout.sccs</strong>文件中找到<strong>#$indented-lists: true</strong>行，去掉<strong>#</strong>注释即可。</p>
+
+<h2>公益404页面</h2>
+
+<p>创建404.markdown，按如下编辑。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">---</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">layout</span><span class="o">:</span> <span class="nx">page</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">title</span><span class="o">:</span> <span class="s2">&quot;404 Error&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">date</span><span class="o">:</span> <span class="mi">2013</span><span class="o">-</span><span class="mi">4</span><span class="o">-</span><span class="mi">21</span> <span class="mi">02</span><span class="o">:</span><span class="mi">35</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">comments</span><span class="o">:</span> <span class="kc">false</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">sharing</span><span class="o">:</span> <span class="kc">false</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">footer</span><span class="o">:</span> <span class="kc">false</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">---</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text/javascript&quot;</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;http://www.qq.com/404/search_children.js&quot;</span> <span class="nx">charset</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="o">&gt;&lt;</span><span class="err">/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>博客末尾增加原文链接、版权等</h2>
+
+<p>参考博客<a href="http://codemacro.com/2012/07/26/post-footer-plugin-for-octopress/">为octopress每篇文章添加一个文章信息</a>。</p>
+
+<h2>参考资料</h2>
+
+<p><a href="http://foggry.com/blog/2014/04/28/custom-your-octopress-blog/">自定义你的Octopress博客</a></p>
+
+<p><a href="http://blog.csdn.net/biaobiaoqi/article/details/9289563">定制Octopress</a></p>
 ]]></content>
   </entry>
   
@@ -1508,6 +1624,9 @@
 <h2>删除博文</h2>
 
 <p>只需删除对应的markdown文件即可。</p>
+
+<!--more-->
+
 
 <h2>预览博文</h2>
 
@@ -1551,6 +1670,9 @@
 <h2>安装Ruby</h2>
 
 <p>推荐使用RVM。</p>
+
+<!--more-->
+
 
 <h2>安装DevKit</h2>
 
@@ -1598,54 +1720,57 @@
 <table>
 <thead>
 <tr>
-<th style="text-align:left;"> 语法                          </th>
+<th style="text-align:left;"> 语法                                       </th>
 <th style="text-align:left;"> 效果                         </th>
-<th style="text-align:left;"> 快捷键           </th>
+<th style="text-align:left;"> 快捷键         </th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left;"> **strong**                 </td>
+<td style="text-align:left;"> **strong**                              </td>
 <td style="text-align:left;"> <strong>strong</strong>                 </td>
-<td style="text-align:left;"> ⌘ + B         </td>
+<td style="text-align:left;"> ⌘ + B       </td>
 </tr>
 <tr>
-<td style="text-align:left;"> *emphasis*                 </td>
+<td style="text-align:left;"> *emphasis*                              </td>
 <td style="text-align:left;"> <em>emphasis</em>                 </td>
-<td style="text-align:left;"> ⌘ + I         </td>
+<td style="text-align:left;"> ⌘ + I       </td>
 </tr>
 <tr>
-<td style="text-align:left;"> \<u>underline</u>           </td>
+<td style="text-align:left;"> \<u>underline</u>                        </td>
 <td style="text-align:left;"> <u>underline</u>           </td>
-<td style="text-align:left;"> ⌘ + U         </td>
+<td style="text-align:left;"> ⌘ + U       </td>
 </tr>
 <tr>
 <td style="text-align:left;"> `code`                     </td>
 <td style="text-align:left;"> <code>code</code>                     </td>
-<td style="text-align:left;"> ⌘ + shift + ` </td>
+<td style="text-align:left;"> ⌘ + shift + ` |                            |             </td>
 </tr>
 <tr>
-<td style="text-align:left;"> \<del>strike</del>                 </td>
+<td style="text-align:left;"> \<del>strike</del>                              </td>
 <td style="text-align:left;"> <del>strike</del>                 </td>
-<td style="text-align:left;">               </td>
+<td style="text-align:left;">             </td>
 </tr>
 <tr>
-<td style="text-align:left;"> [百度](<a href="http://www.baidu.com">http://www.baidu.com</a>) </td>
+<td style="text-align:left;"> [百度](<a href="http://www.baidu.com">http://www.baidu.com</a>)              </td>
 <td style="text-align:left;"> <a href="http://www.baidu.com">百度</a> </td>
-<td style="text-align:left;"> ⌘ + K         </td>
+<td style="text-align:left;"> ⌘ + K       </td>
 </tr>
 <tr>
-<td style="text-align:left;"> <img src="imageSource" alt="imageName" />   </td>
+<td style="text-align:left;"> <img src="imageSource" alt="imageName" />                </td>
 <td style="text-align:left;">                            </td>
-<td style="text-align:left;"> ⌘ + alt + I   </td>
+<td style="text-align:left;"> ⌘ + alt + I </td>
 </tr>
 <tr>
-<td style="text-align:left;"> \                          </td>
+<td style="text-align:left;"> \                                       </td>
 <td style="text-align:left;"> clear format               </td>
-<td style="text-align:left;"> ⌘ + \         </td>
+<td style="text-align:left;"> ⌘ + \       </td>
 </tr>
 </tbody>
 </table>
+
+
+<!--more-->
 
 
 <h2>Paragraph</h2>

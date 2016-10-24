@@ -50,6 +50,18 @@ $(document).bind('DOMNodeInserted', function(event) {
 </script>
 
   
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-86198628-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
 
 </head>
 
@@ -110,6 +122,9 @@ $(document).bind('DOMNodeInserted', function(event) {
 <p>widget的概念在Android中已经十分成熟，iOS widget与自由度相当高的Android widget有显著的区别。iOS widget的刷新时间为展示widget时，而不是像Android widget时刻保持在后台，消耗系统资源。iOS widget只是作为很小的配角存在，Apple的中心思想还是希望开发者关注App本身的设计和性能。</p>
 
 <p>尽管iOS widget是一种约束状态下的自由，但已经逐渐改变用户的交互行为。</p>
+
+<!--more-->
+
 
 <h2>创建Widget</h2>
 
@@ -273,6 +288,23 @@ $(document).bind('DOMNodeInserted', function(event) {
 <aside class="sidebar">
   
     <section>
+ <h1>Introduction</h1>
+
+<li>
+	<span style="color:#222222;font-family:inherit;font-size:18px;font-style:inherit;font-weight:inherit;line-height:1.5;">Light</br></span>
+	<span style="font-family:inherit;font-style:inherit;font-weight:inherit;color:#222222;font-size:18px;line-height:1.5;">iOS开发工程师</br></span>
+	<span style="font-family:inherit;font-style:inherit;font-weight:inherit;color:#222222;font-size:18px;line-height:1.5;">现就职于 出门问问</br></span>
+</li>
+
+</section><section>
+ <h1>Categories</h1>
+ <ul id="categories">
+  <li class='category'><a href='/blog/categories/ios/'>ios (5)</a></li>
+<li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
+
+ </ul>
+</section><section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
@@ -298,7 +330,18 @@ $(document).bind('DOMNodeInserted', function(event) {
     
   </ul>
 </section>
-
+<section>
+ <h1>他山之石</h1>
+	<li>
+		<a href="http://southpeak.github.io/">南峰子的技术博客</a></br>
+	</li>
+	<li>
+		<a href="http://www.tutorialspoint.com/index.htm">TutorailSpoint</a></br>
+	</li>
+	<li>
+		<a href="http://stackoverflow.com/">StackOverflow</a></br>
+	</li>
+</section>
 
 
 
@@ -314,6 +357,16 @@ $(document).bind('DOMNodeInserted', function(event) {
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-86198628-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
 </footer>
   
 

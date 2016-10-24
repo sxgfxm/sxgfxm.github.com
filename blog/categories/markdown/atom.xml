@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Markdown | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/markdown/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2016-10-24T12:55:58+08:00</updated>
+  <updated>2016-10-24T16:28:00+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -23,54 +23,57 @@
 <table>
 <thead>
 <tr>
-<th style="text-align:left;"> 语法                          </th>
+<th style="text-align:left;"> 语法                                       </th>
 <th style="text-align:left;"> 效果                         </th>
-<th style="text-align:left;"> 快捷键           </th>
+<th style="text-align:left;"> 快捷键         </th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left;"> **strong**                 </td>
+<td style="text-align:left;"> **strong**                              </td>
 <td style="text-align:left;"> <strong>strong</strong>                 </td>
-<td style="text-align:left;"> ⌘ + B         </td>
+<td style="text-align:left;"> ⌘ + B       </td>
 </tr>
 <tr>
-<td style="text-align:left;"> *emphasis*                 </td>
+<td style="text-align:left;"> *emphasis*                              </td>
 <td style="text-align:left;"> <em>emphasis</em>                 </td>
-<td style="text-align:left;"> ⌘ + I         </td>
+<td style="text-align:left;"> ⌘ + I       </td>
 </tr>
 <tr>
-<td style="text-align:left;"> \<u>underline</u>           </td>
+<td style="text-align:left;"> \<u>underline</u>                        </td>
 <td style="text-align:left;"> <u>underline</u>           </td>
-<td style="text-align:left;"> ⌘ + U         </td>
+<td style="text-align:left;"> ⌘ + U       </td>
 </tr>
 <tr>
 <td style="text-align:left;"> `code`                     </td>
 <td style="text-align:left;"> <code>code</code>                     </td>
-<td style="text-align:left;"> ⌘ + shift + ` </td>
+<td style="text-align:left;"> ⌘ + shift + ` |                            |             </td>
 </tr>
 <tr>
-<td style="text-align:left;"> \<del>strike</del>                 </td>
+<td style="text-align:left;"> \<del>strike</del>                              </td>
 <td style="text-align:left;"> <del>strike</del>                 </td>
-<td style="text-align:left;">               </td>
+<td style="text-align:left;">             </td>
 </tr>
 <tr>
-<td style="text-align:left;"> [百度](<a href="http://www.baidu.com">http://www.baidu.com</a>) </td>
+<td style="text-align:left;"> [百度](<a href="http://www.baidu.com">http://www.baidu.com</a>)              </td>
 <td style="text-align:left;"> <a href="http://www.baidu.com">百度</a> </td>
-<td style="text-align:left;"> ⌘ + K         </td>
+<td style="text-align:left;"> ⌘ + K       </td>
 </tr>
 <tr>
-<td style="text-align:left;"> <img src="imageSource" alt="imageName" />   </td>
+<td style="text-align:left;"> <img src="imageSource" alt="imageName" />                </td>
 <td style="text-align:left;">                            </td>
-<td style="text-align:left;"> ⌘ + alt + I   </td>
+<td style="text-align:left;"> ⌘ + alt + I </td>
 </tr>
 <tr>
-<td style="text-align:left;"> \                          </td>
+<td style="text-align:left;"> \                                       </td>
 <td style="text-align:left;"> clear format               </td>
-<td style="text-align:left;"> ⌘ + \         </td>
+<td style="text-align:left;"> ⌘ + \       </td>
 </tr>
 </tbody>
 </table>
+
+
+<!--more-->
 
 
 <h2>Paragraph</h2>
