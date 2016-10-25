@@ -57,7 +57,8 @@ default_asides: [asides/introduction.html,asides/category_list.html,asides/recen
 original_url_pre: "原始地址："
 
 #comment and share
-comment_and_share: true
+#comment_and_share: true
+
 # Each layout uses the default asides, but they can have their own asides instead. Simply uncomment the lines below
 # and add an array with the asides you want to use.
 # blog_index_asides:
