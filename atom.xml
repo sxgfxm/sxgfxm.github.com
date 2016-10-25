@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2016-10-25T10:31:12+08:00</updated>
+  <updated>2016-10-25T20:11:01+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,109 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[XGChart_README]]></title>
+    <link href="http://sxgfxm.github.io/blog/2016/10/25/xgchart-readme/"/>
+    <updated>2016-10-25T19:52:46+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2016/10/25/xgchart-readme</id>
+    <content type="html"><![CDATA[<h2>Introduction</h2>
+
+<p><a href="https://github.com/sxgfxm/XGChart">XGChart</a>是一个简洁的iOS 图表库，可以快速集成自定义折线图，曲线图和条形图。</p>
+
+<h2>Install</h2>
+
+<p>首先，下载<strong>XGChart</strong>，将<strong>XGChart</strong>文件夹拖入工程。</p>
+
+<p><img src="http://ofj92itlz.bkt.clouddn.com/XGChart:import2.jpeg" alt="import" /></p>
+
+<p>然后，导入<strong>XGChart.h</strong>头文件，配置参数，创建即可。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &quot;XGChart.h&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'> <span class="c1">//  configuration</span>
+</span><span class='line'>  <span class="n">XGChartConfiguration</span> <span class="o">*</span><span class="n">configuration</span> <span class="o">=</span> <span class="p">[[</span><span class="n">XGChartConfiguration</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">configuration</span><span class="p">.</span><span class="n">chartType</span> <span class="o">=</span> <span class="n">XGChartTypeLineChart</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">configuration</span><span class="p">.</span><span class="n">paddingTop</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">configuration</span><span class="p">.</span><span class="n">paddingLeft</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">configuration</span><span class="p">.</span><span class="n">paddingBottom</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">configuration</span><span class="p">.</span><span class="n">paddingRight</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">configuration</span><span class="p">.</span><span class="n">xGridCount</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">configuration</span><span class="p">.</span><span class="n">yGridCount</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">configuration</span><span class="p">.</span><span class="n">gridColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">grayColor</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">configuration</span><span class="p">.</span><span class="n">xAxisLabelColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">configuration</span><span class="p">.</span><span class="n">xAxisLabelFontSize</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">configuration</span><span class="p">.</span><span class="n">yAxisLabelColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">configuration</span><span class="p">.</span><span class="n">yAxisLabelFontSize</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span>
+</span><span class='line'>  <span class="bp">NSMutableArray</span><span class="o">&lt;</span><span class="n">XGChartPoint</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">chartPoints</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSMutableArray</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">31</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">XGChartPoint</span> <span class="o">*</span><span class="n">point</span> <span class="o">=</span>
+</span><span class='line'>        <span class="p">[[</span><span class="n">XGChartPoint</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithX</span><span class="p">:</span><span class="n">i</span> <span class="nl">andY</span><span class="p">:</span><span class="n">arc4random_uniform</span><span class="p">(</span><span class="mi">100</span><span class="p">)];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">chartPoints</span> <span class="nl">addObject</span><span class="p">:</span><span class="n">point</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="n">configuration</span><span class="p">.</span><span class="n">chartPoints</span> <span class="o">=</span> <span class="n">chartPoints</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">configuration</span><span class="p">.</span><span class="n">strokeColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">redColor</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">configuration</span><span class="p">.</span><span class="n">fillColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">redColor</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">configuration</span><span class="p">.</span><span class="n">lineWidth</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+</span><span class='line'>  <span class="c1">//  line chart</span>
+</span><span class='line'>  <span class="n">XGChart</span> <span class="o">*</span><span class="n">lineChart</span> <span class="o">=</span> <span class="p">[[</span><span class="n">XGChart</span> <span class="n">alloc</span><span class="p">]</span>
+</span><span class='line'>      <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">,</span>
+</span><span class='line'>                               <span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">-</span> <span class="mi">64</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span>
+</span><span class='line'>      <span class="nl">configuration</span><span class="p">:</span><span class="n">configuration</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">lineChart</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">blackColor</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="n">lineChart</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Result</h2>
+
+<p><img src="http://ofj92itlz.bkt.clouddn.com/XGChart:result2.png" alt="" /></p>
+
+<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2016/10/25/xgchart-readme/'>http://sxgfxm.github.io/blog/2016/10/25/xgchart-readme/</a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
+  </p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ShareSDK接入]]></title>
