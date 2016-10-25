@@ -12,6 +12,8 @@ description: iOS chart，plot，diagram，XGChart，calayer
 
 [XGChart](https://github.com/sxgfxm/XGChart)是一个简洁的iOS 图表库，可以快速集成自定义折线图，曲线图和条形图。
 
+<!-- more -->
+
 ## Install
 
 首先，下载**XGChart**，将**XGChart**文件夹拖入工程。
