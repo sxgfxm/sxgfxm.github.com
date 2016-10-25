@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2016-10-25T20:11:01+08:00</updated>
+  <updated>2016-10-25T20:18:20+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -21,6 +21,9 @@
     <content type="html"><![CDATA[<h2>Introduction</h2>
 
 <p><a href="https://github.com/sxgfxm/XGChart">XGChart</a>是一个简洁的iOS 图表库，可以快速集成自定义折线图，曲线图和条形图。</p>
+
+<!-- more -->
+
 
 <h2>Install</h2>
 
