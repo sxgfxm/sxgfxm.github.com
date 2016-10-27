@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2016-10-27T17:38:34+08:00</updated>
+  <updated>2016-10-27T17:42:19+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -120,6 +120,8 @@ gradientLayer.colors =
 <p>绘制平滑渐变路径的关键在于速度数据的处理，大家可以尝试不同的滤波算法改进绘制效果。绘制路径的技巧也在文中列出，如有问题可以和我交流，大家共同探讨学习。</p>
 
 <h2>Github源码</h2>
+
+<p><a href="https://github.com/sxgfxm/SmoothGradientPolyline">SmoothGradientPolyline</a></p>
 ]]></content>
   </entry>
   
