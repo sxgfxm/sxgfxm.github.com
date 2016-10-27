@@ -29,7 +29,7 @@ description: smooth gradient polyline,colorful polyline,nike+
 
 ## 获取运动过程中GPS信息及对应的速度值
 
-可以使用**CoreLocation**获取GPS信息并计算对应的速度值。关于GPS坐标在中国大陆偏移及GPS坐标是否在中国大陆的判断方法，请参考另一篇博文。本文着重探讨路径的绘制，所以模拟产生随机的GPS和速度数据。
+可以使用**CoreLocation**获取GPS信息并计算对应的速度值。关于GPS坐标在中国大陆偏移及GPS坐标是否在中国大陆的判断方法，请参考[另一篇博文](https://sxgfxm.github.io/blog/2016/10/19/iospan-duan-gpszuo-biao-shi-fou-zai-zhong-guo/)。本文着重探讨路径的绘制，所以模拟产生随机的GPS和速度数据。
 
 ## 使用**低通滤波**处理速度数据
 
@@ -109,4 +109,6 @@ gradientLayer.locations = @[ @(0.2), @(0.8) ];
 绘制平滑渐变路径的关键在于速度数据的处理，大家可以尝试不同的滤波算法改进绘制效果。绘制路径的技巧也在文中列出，如有问题可以和我交流，大家共同探讨学习。
 
 ## Github源码
+
+[SmoothGradientPolyline](https://github.com/sxgfxm/SmoothGradientPolyline)
 
