@@ -10,6 +10,8 @@ description: Prevent duplicate clicks
 
 在应用开发过程中，点击事件为耗时操作或者延时响应，例如请求服务器数据，push至下一个界面，如果不处理用户重复点击事件，将会重复触发事件。下面介绍几种简单的处理方法。
 
+<!--more-->
+
 ##Button
 点击后button状态置为disabled；
 操作完成后button状态置为enabled；
