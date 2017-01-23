@@ -118,3 +118,8 @@ NSPersistentContainer是新添加的类，从此大部分情况下无需再和NS
   }
 }
 ~~~
+
+## GitHub源码
+
+[CoreDataDemo](https://github.com/sxgfxm/CoreDataDemo)
+
