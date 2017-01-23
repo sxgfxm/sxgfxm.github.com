@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-01-17T16:57:30+08:00</updated>
+  <updated>2017-01-23T16:45:44+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -14,11 +14,126 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Core Data Tutorial iOS 10]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/01/23/core-data-tutorial-ios-10/"/>
+    <updated>2017-01-23T16:40:01+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/01/23/core-data-tutorial-ios-10</id>
+    <content type="html"><![CDATA[<p>iOS 10 CoreData使用总结。</p>
+
+<!--more-->
+
+
+<h2>Include Core Data</h2>
+
+<p>创建工程时选择包含CoreData，系统会自动生成相关文件。</p>
+
+<h2>Add Entity</h2>
+
+<p>在xcdatamodeld文件中，添加Entity。<br/>
+Entity相当于表，其中Attributes相当于表中的记录，对应需要存储的数据。</p>
+
+<h2>Create NSManagedObject Subclass</h2>
+
+<p>创建Entity对应的model。<br/>
+在Xcode8中，创建方式为Editor ———— Create NSManagedObject Subclass。<br/>
+注意，创建之前需要将数据库的Codegen设置为Manual/None，否则会报duplicate错误。</p>
+
+<h2>Get NSPersistentContainer Object</h2>
+
+<p>iOS 10 对Core Data做了很大的优化和改进，大大简化了Core Data的使用。<br/>
+NSPersistentContainer是新添加的类，从此大部分情况下无需再和NSManagedObjectContext、NSPersistentStoreCoordinator打交道。<br/>
+获取NSPersistentContainer</p>
+
+<pre><code class="objective-c">#import 'AppDelegate.h'
+
+@interface ViewController ()
+
+@property(nonatomic, strong) NSPersistentContainer *container;
+
+@end
+
+@implementation ViewController
+
+-(void)viewDidLoad{
+  [super viewDidLoad];
+  self.container = ((AppDelegate *)[UIApplication sharedApplication].delegate).persistentContainer;
+}
+
+@end
+</code></pre>
+
+<h2>Add Record</h2>
+
+<p>导入通过系统创建的Create NSManagedObject Subclass，通过NSEntityDescription增添记录。</p>
+
+<pre><code class="objective-c">#import "People+CoreDataProperties.h"
+
+#define kEntityName @"People"
+
+-(void)addRecord{
+  People *people = [NSEntityDescription insertNewObjectForEntityForName:kEntityName inManagedObjectContext:self.container.viewContext];
+  people.name = @"Tom";
+  people.sex = YES;
+  people.age = 23;
+}
+</code></pre>
+
+<h2>Fetch Record</h2>
+
+<p>通过NSFetchRequest查询记录。</p>
+
+<pre><code class="objective-c">-(void)fetchRecord{
+  NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:kEntityName];
+  NSArray&lt;People *&gt; *results = [self.container.viewContext executeFetchRequest:fetchRequest error:nil];
+  for (People *people in results) {
+    NSLog(@"name %@", people.name);
+    NSLog(@"sex  %@", people.sex);
+    NSLog(@"age  %@", people.age);
+  }
+}
+</code></pre>
+
+<h2>Update Record</h2>
+
+<p>先fetch需要修改的记录，然后直接修改即可。</p>
+
+<pre><code class="objective-c">-(void)updateRecord{
+  NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:kEntityName];
+  NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", @"Tom"];
+  fetchRequest.predicate = predicate;
+  NSArray&lt;People *&gt; *results = [self.container.viewContext executeFetchRequest:fetchRequest error:nil];
+  for (People *people in results) {
+    people.name = @"Lily";
+  }
+}
+</code></pre>
+
+<h2>Delete Record</h2>
+
+<p>先fetch需要删除的记录，然后通过NSManagedObjectContext删除即可。</p>
+
+<pre><code class="objective-c">-(void)deleteRecord{
+  NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:kEntityName];
+  NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", @"Lily"];
+  fetchRequest.predicate = predicate;
+  NSArray&lt;People *&gt; *results = [self.container.viewContext executeFetchRequest:fetchRequest error:nil];
+  for (People *people in results) {
+    [self.container.viewContext deleteObject:people];
+  }
+}
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Prevent Duplicate Clicks]]></title>
     <link href="http://sxgfxm.github.io/blog/2017/01/17/prevent-duplicate-clicks/"/>
     <updated>2017-01-17T16:19:36+08:00</updated>
     <id>http://sxgfxm.github.io/blog/2017/01/17/prevent-duplicate-clicks</id>
     <content type="html"><![CDATA[<p>在应用开发过程中，点击事件为耗时操作或者延时响应，例如请求服务器数据，push至下一个界面，如果不处理用户重复点击事件，将会重复触发事件。下面介绍几种简单的处理方法。</p>
+
+<!--more-->
+
 
 <h2>Button</h2>
 
@@ -518,228 +633,6 @@ libsqlite3.dylib
 <h2>Github源码</h2>
 
 <p><a href="https://github.com/sxgfxm/ShareSDKDemo">ShareSDKDemo</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[3D Touch]]></title>
-    <link href="http://sxgfxm.github.io/blog/2016/10/20/3d-touch/"/>
-    <updated>2016-10-20T15:51:27+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2016/10/20/3d-touch</id>
-    <content type="html"><![CDATA[<h2>3D Touch简介</h2>
-
-<p>3D Touch是智能手机领域最先进技术之一，目前只有Apple在iPhone上构建了相对良好的生态，并在最新推出的iOS 10中进一步优化了用户体验，Android系统和手机厂商还未提供较为成熟的支持。 本文主要介绍3D Touch相关技术的基本实现方法，包括：</p>
-
-<p>1、Home Screen Quick Actions，主屏幕快捷访问；</p>
-
-<p>2、Peek and Pop，预览和进入；</p>
-
-<p>3、3D Touch Force，3D touch压力值运用。</p>
-
-<!--more-->
-
-
-<h2>Home Screen Quick Action</h2>
-
-<h3>显示效果</h3>
-
-<p>在主屏幕按下应用图标，会弹出设定好的快捷访问入口。本文采用纯代码创建，也可以通过设置Info.plist实现。</p>
-
-<h3>代码实现</h3>
-
-<p>首先，在<strong>AppDelegate.m</strong>的<code>application:didFinishLaunchingWithOptions:</code>方法中添加<strong>UIApplicationShortcutItems</strong>。</p>
-
-<pre><code class="objective-c">- (BOOL)application:(UIApplication *)application
-    didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-  // Override point for customization after application launch.
-  //  主界面入口
-  ViewController *vc = [[ViewController alloc] init];
-  self.mainNav = [[UINavigationController alloc] initWithRootViewController:vc];
-  self.window.rootViewController = self.mainNav;
-
-  //  创建快捷访问Items
-  UIApplicationShortcutIcon *icon1 = [UIApplicationShortcutIcon
-      iconWithType:UIApplicationShortcutIconTypeTask];
-  UIApplicationShortcutItem *item1 =
-      [[UIApplicationShortcutItem alloc] initWithType:@"item1"
-                                       localizedTitle:@"item1"
-                                    localizedSubtitle:@"1"
-                                                 icon:icon1
-                                             userInfo:nil];
-  UIApplicationShortcutIcon *icon2 = [UIApplicationShortcutIcon
-      iconWithType:UIApplicationShortcutIconTypeMail];
-  UIApplicationShortcutItem *item2 =
-      [[UIApplicationShortcutItem alloc] initWithType:@"item2"
-                                       localizedTitle:@"item2"
-                                    localizedSubtitle:@"2"
-                                                 icon:icon2
-                                             userInfo:nil];
-  //  添加快捷访问Items
-  application.shortcutItems = @[ item1, item2 ];
-  return YES;
-}
-</code></pre>
-
-<p>然后，在<strong>AppDelegate.m</strong>中添加如下方法，用于响应快捷访问事件。</p>
-
-<pre><code class="objective-c">- (void)application:(UIApplication *)application
-    performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem
-               completionHandler:(void (^)(BOOL))completionHandler {
-  //  响应Item对应的操作，跳转至对应controller
-  if ([shortcutItem.type isEqualToString:@"item1"]) {
-    Item1ViewController *vc = [[Item1ViewController alloc] init];
-    [self.mainNav pushViewController:vc animated:YES];
-  }
-  if ([shortcutItem.type isEqualToString:@"item2"]) {
-    Item2ViewController *vc = [[Item2ViewController alloc] init];
-    [self.mainNav pushViewController:vc animated:YES];
-  }
-}
-</code></pre>
-
-<p>运行效果：</p>
-
-<p> <img src="http://ofj92itlz.bkt.clouddn.com/3DTouch:step1.jpeg" alt="step1" /></p>
-
-<h2>Peek and Pop</h2>
-
-<p>3D Touch按压力度可以分为两级，一级力度触发<strong>peek</strong>，二级力度触发<strong>pop</strong>。</p>
-
-<p><strong>peek</strong>相当于<strong>预览</strong>与按压view相关的<strong>view controller</strong>。<strong>pop</strong>相当于<strong>跳转</strong>至对应的<strong>view controller</strong>。</p>
-
-<h3>为view添加3D Touch响应</h3>
-
-<p>本文以UIImageView为例，实现图片的预览效果。</p>
-
-<pre><code class="objective-c">  //  创建ImageView
-  self.imageView = [[UIImageView alloc]
-      initWithFrame:CGRectMake(self.view.bounds.size.width / 2 - 50, 300, 100,
-                               100)];
-  self.imageView.image = [UIImage imageNamed:@"junxi3.jpeg"];
-  //  非常重要
-  self.imageView.userInteractionEnabled = YES;
-  [self.view addSubview:self.imageView];
-  //  添加3D Touch 响应
-  if (self.traitCollection.forceTouchCapability ==
-      UIForceTouchCapabilityAvailable) {
-    [self registerForPreviewingWithDelegate:self sourceView:self.imageView];
-  } else {
-    NSLog(@"您的设备不支持3D Touch");
-  }
-</code></pre>
-
-<p>通过<strong>UIViewController</strong>的 <code>registerForPreviewingWithDelegate:sourceView:</code>方法添加3D Touch响应。需要遵守<strong>UIViewControllerPreviewingDelegate</strong>协议，并实现分别对应<strong>peek</strong>和<strong>pop</strong>的代理方法。</p>
-
-<p>注意，添加3D Touch响应的view，一定要使<strong>userInteractionEnabled = YES</strong>，否则无法响应。</p>
-
-<h3>peek相关代理方法实现</h3>
-
-<p>实现代理方法<code>previewingContext:viewControllerForLocation:</code>，在该代理方法中创建并返回待预览的<strong>view controller</strong>。</p>
-
-<pre><code class="objective-c">//  peek
-- (UIViewController *)previewingContext:
-                          (id&lt;UIViewControllerPreviewing&gt;)previewingContext
-              viewControllerForLocation:(CGPoint)location {
-  //  log信息
-  NSLog(@"peek");
-  NSLog(@"point %@", NSStringFromCGPoint(location));
-  NSLog(@"rect %@", NSStringFromCGRect(previewingContext.sourceRect));
-  //  创建待预览view controller
-  PreviewViewController *previewVC = [[PreviewViewController alloc] init];
-  //  设置大小
-  previewVC.preferredContentSize = CGSizeMake(0.0f, 0.0f);
-  //  设置内容
-  previewVC.image = self.imageView.image;
-  //  设置高亮显示区域，其他区域会模糊显示
-  previewingContext.sourceRect = self.imageView.frame;
-  //  返回待预览view controller
-  return previewVC;
-}
-</code></pre>
-
-<p>其中，previewingContext.sourceRect用于设置高亮区域，location为点击手势在view中的位置，preferredContentSize用于设置预览区域大小，为0时系统会设为最佳显示大小。</p>
-
-<p>运行效果：</p>
-
-<p><img src="http://ofj92itlz.bkt.clouddn.com/3DTouch:step2.jpeg" alt="step2" />      <img src="http://ofj92itlz.bkt.clouddn.com/3DTouch:step3.jpeg" alt="step3" /></p>
-
-<h3>在PreviewViewController中添加预览状态快捷选项</h3>
-
-<p>在<strong>peek</strong>状态下，向上滑动，即可弹出快捷选项。</p>
-
-<pre><code class="objective-c">- (NSArray&lt;id&lt;UIPreviewActionItem&gt;&gt; *)previewActionItems {
-  // setup a list of preview actions
-  UIPreviewAction *action1 = [UIPreviewAction
-      actionWithTitle:@"Aciton1"
-                style:UIPreviewActionStyleDefault
-              handler:^(UIPreviewAction *_Nonnull action,
-                        UIViewController *_Nonnull previewViewController) {
-                NSLog(@"Aciton1");
-              }];
-
-  UIPreviewAction *action2 = [UIPreviewAction
-      actionWithTitle:@"Aciton2"
-                style:UIPreviewActionStyleDefault
-              handler:^(UIPreviewAction *_Nonnull action,
-                        UIViewController *_Nonnull previewViewController) {
-                NSLog(@"Aciton2");
-              }];
-
-  UIPreviewAction *action3 = [UIPreviewAction
-      actionWithTitle:@"Aciton3"
-                style:UIPreviewActionStyleDefault
-              handler:^(UIPreviewAction *_Nonnull action,
-                        UIViewController *_Nonnull previewViewController) {
-                NSLog(@"Aciton3");
-              }];
-
-  NSArray *actions = @[ action1, action2, action3 ];
-  return actions;
-}
-</code></pre>
-
-<p>运行效果：</p>
-
-<p> <img src="http://ofj92itlz.bkt.clouddn.com/3DTouch:step5.jpeg" alt="step4" /></p>
-
-<h3>pop相关代理方法</h3>
-
-<p>实现代理方法<code>previewingContext:commitViewController:</code>，在该代理方法中跳转。</p>
-
-<pre><code class="objective-c">//  pop
-- (void)previewingContext:(id&lt;UIViewControllerPreviewing&gt;)previewingContext
-     commitViewController:(UIViewController *)viewControllerToCommit {
-  //  log信息
-  NSLog(@"pop");
-  //  跳转至对应view controller
-  [self showViewController:viewControllerToCommit sender:self];
-}
-</code></pre>
-
-<p>运行效果：</p>
-
-<p> <img src="http://ofj92itlz.bkt.clouddn.com/3DTouch:step4.jpeg" alt="step5" /></p>
-
-<h2>3D Touch Force简单运用</h2>
-
-<p>在<code>touchesMoved:withEvent:</code>方法中，获取touch对象，可以根据force属性值做相应操作。</p>
-
-<pre><code class="objective-c">- (void)touchesMoved:(NSSet&lt;UITouch *&gt; *)touches withEvent:(UIEvent *)event {
-  NSArray *arrayTouch = [touches allObjects];
-  UITouch *touch = (UITouch *)[arrayTouch lastObject];
-  NSLog(@"force = %f", touch.force);
-}
-</code></pre>
-
-<h2>参考资料</h2>
-
-<p><a href="https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/Adopting3DTouchOniPhone/#//apple_ref/doc/uid/TP40016543-CH1-SW1">Adopting 3D Touch on iPhone</a></p>
-
-<p><a href="http://www.tuicool.com/articles/auIJbiN">iOS9新特性 3DTouch 开发教程全解</a></p>
-
-<h3>Github源码</h3>
-
-<p><a href="https://github.com/sxgfxm/3DTouchDemo">3DTouchDemo</a></p>
 ]]></content>
   </entry>
   
