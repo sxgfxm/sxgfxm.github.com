@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-01-23T16:45:44+08:00</updated>
+  <updated>2017-01-23T17:01:31+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -122,6 +122,10 @@ NSPersistentContainer是新添加的类，从此大部分情况下无需再和NS
   }
 }
 </code></pre>
+
+<h2>GitHub源码</h2>
+
+<p><a href="https://github.com/sxgfxm/CoreDataDemo">CoreDataDemo</a></p>
 ]]></content>
   </entry>
   
