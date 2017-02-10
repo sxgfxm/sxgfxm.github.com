@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-01-23T17:01:31+08:00</updated>
+  <updated>2017-02-10T15:50:14+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,191 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Export Music From Itunes to Local App's Sandbox on iPhone]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/02/10/export-music-from-itunes-to-local-apps-sandbox-on-iphone/"/>
+    <updated>2017-02-10T15:31:20+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/02/10/export-music-from-itunes-to-local-apps-sandbox-on-iphone</id>
+    <content type="html"><![CDATA[<h2>Introduction</h2>
+
+<p>本文主要介绍app如何获取iTunes中音乐列表，并把iTunes中音乐文件导出至app的沙盒目录下。</p>
+
+<!--more-->
+
+
+<h2>import</h2>
+
+<p>导入所需的头文件。</p>
+
+<pre><code class="c">#import &lt;AVFoundation/AVAssetExportSession.h&gt;
+#import &lt;MediaPlayer/MediaPlayer.h&gt;
+</code></pre>
+
+<h2>注册通知</h2>
+
+<p>注册<strong>MPMediaLibraryDidChangeNotification</strong>通知，当iTunes音乐库文件发生变化时，做出响应。</p>
+
+<pre><code class="c">[[NSNotificationCenter defaultCenter]
+    addObserver:self
+    selector:@selector(mediaLibraryDidChange:)
+    name:MPMediaLibraryDidChangeNotification
+    object:nil];
+</code></pre>
+
+<h2>开启通知</h2>
+
+<p>开启<strong>MPMediaLibrary</strong>通知。</p>
+
+<pre><code class="c">[[MPMediaLibrary defaultMediaLibrary] beginGeneratingLibraryChangeNotifications];
+</code></pre>
+
+<h2>关闭通知</h2>
+
+<p>关闭<strong>MPMediaLibrary</strong>通知。</p>
+
+<pre><code class="c">[[MPMediaLibrary defaultMediaLibrary] endGeneratingLibraryChangeNotifications];
+</code></pre>
+
+<h2>MPMediaQuery</h2>
+
+<p>通过<strong>MPMediaQuery</strong>获取iTunes中音乐列表，可以自定义列表类型，调用<code>-collection</code>方法，返回对应列表的数组。数组中元素为<strong>MPMediaItemCollection</strong>类型。</p>
+
+<pre><code class="c">//  create
+MPMediaQuery *mediaQuery = [MPMediaQuery playlistQuery];
+//  groupType
+mediaQuery.groupingType = MPMediaGroupingAlbumArtist;
+//  query
+NSArray&lt;MPMediaItemCollection *&gt; *mediaCollections = [mediaQuery collections];
+</code></pre>
+
+<h2>MPMediaItem</h2>
+
+<p>通过<strong>MPMediaItemCollection</strong>获取对应的<strong>MPMediaItem</strong>，对应多媒体文件。通过<strong>MPMediaItem</strong>获取文件相关信息。导出时需要文件地址<strong>assetURL</strong>。</p>
+
+<pre><code class="c">NSMutableArray&lt;MPMediaItem *&gt; mediaItems = [NSMutableArray array];
+for (MPMediaItemCollection *collection in mediaCollections) {
+  //  mediaItem
+  MPMediaItem *mediaItem = [collection representativeItem];
+  //  歌曲名称
+  NSString *title = [mediaItem valueForProperty:MPMediaItemPropertyTitle];
+  //  演唱者
+  NSString *artist = [mediaItem valueForProperty:MPMediaItemPropertyArtist];
+  //  歌曲封面
+  MPMediaItemArtwork *artwork = [mediaItem valueForProperty:MPMediaItemPropertyArtwork];
+  //  歌曲格式
+  NSString *form = self.assetURL.pathExtension;
+  //  歌曲地址，本地iTunes中地址，可用于导出歌曲
+  NSURL *assetURL = [mediaItem valueForProperty:MPMediaItemPropertyAssetURL];
+  //  add
+  [mediaItems addObject:mediaItem];
+}
+</code></pre>
+
+<h2>Play</h2>
+
+<p>获取到<strong>MPMediaItemCollection</strong>后，可以选择使用iTunes直接播放该文件。</p>
+
+<pre><code class="c">MPMediaItemCollection *mediaItemCollection = [mediaCollections firstObject];
+MPMediaItem *selectedItem = [collection representativeItem];
+[[MPMusicPlayerController iPodMusicPlayer] setQueueWithItemCollection:mediaItemCollection];
+[[MPMusicPlayerController iPodMusicPlayer] setNowPlayingItem:selectedItem];
+[[MPMusicPlayerController iPodMusicPlayer] play];
+</code></pre>
+
+<h2>Export Music to Local Sandbox</h2>
+
+<p>导出音乐文件至本地沙盒目录下：</p>
+
+<p>1、获取音乐文件名（title）及input地址（<strong>assetURL</strong>）；</p>
+
+<p>2、获取沙盒目录，并创建output地址（<strong>outputURL</strong>）；</p>
+
+<p>3、获取<strong>AVURLAsset</strong>；</p>
+
+<p>4、使用<strong>AVAssetExportSession</strong>导出AVURLAsset。</p>
+
+<pre><code class="c">for (MPMediaItem *musicItem in musicItems) {
+    //  获取文件名及地址
+    NSString *title = [mediaItem valueForProperty:MPMediaItemPropertyTitle];
+    NSURL *assetURL = [mediaItem valueForProperty:MPMediaItemPropertyAssetURL];
+    if (assetURL &amp;&amp; [self validIpodLibraryURL:assetURL]) {
+      //  创建 output URL，存入沙盒目录下，以文件名为标识
+      NSString *pathExtension = assetURL.pathExtension;
+      NSArray *paths = NSSearchPathForDirectoriesInDomains(
+          NSDocumentDirectory, NSUserDomainMask, YES);
+      NSString *documentsDirectory = [paths firstObject];
+      NSURL *outputURL =
+          [[NSURL fileURLWithPath:[documentsDirectory
+                                      stringByAppendingPathComponent:title]]
+              URLByAppendingPathExtension:pathExtension];
+      //  保证无重复路径
+      [[NSFileManager defaultManager] removeItemAtURL:outputURL error:nil];
+      //  获取Asset
+      NSDictionary *options = [[NSDictionary alloc] init];
+      AVURLAsset *asset = [AVURLAsset URLAssetWithURL:assetURL options:options];
+      if (asset) {
+        //  创建export session
+        AVAssetExportSession *exportSession = [[AVAssetExportSession alloc]
+            initWithAsset:asset
+               presetName:AVAssetExportPresetPassthrough];
+        if (exportSession) {
+            //  导出类型
+            if ([pathExtension compare:@"m4a"] == NSOrderedSame) {
+              exportSession.outputFileType = AVFileTypeAppleM4A;
+            } else if ([pathExtension compare:@"wav"] == NSOrderedSame) {
+              exportSession.outputFileType = AVFileTypeWAVE;
+            } else if ([pathExtension compare:@"aif"] == NSOrderedSame) {
+              exportSession.outputFileType = AVFileTypeAIFF;
+            } else if ([pathExtension compare:@"m4v"] == NSOrderedSame) {
+              exportSession.outputFileType = AVFileTypeAppleM4V;
+            }
+            //  导出地址
+            exportSession.outputURL = outputURL;
+            //  导出
+            [exportSession exportAsynchronouslyWithCompletionHandler:^{
+              //  状态回调
+              if (completion) {
+                switch (exportSession.status) {
+                case AVAssetExportSessionStatusFailed:
+                  NSLog(@"Failed");
+                  break;
+                case AVAssetExportSessionStatusCancelled:
+                  NSLog(@"Cancelled");
+                  break;
+                case AVAssetExportSessionStatusCompleted:
+                  NSLog(@"Completed");
+                  break;
+                default:
+                  break;
+                }
+              }
+            }];
+        }
+      }
+    }
+  }
+</code></pre>
+
+<pre><code class="c">- (BOOL)validIpodLibraryURL:(NSURL *)url {
+  NSString *IPOD_SCHEME = @"ipod-library";
+  if (nil == url)
+    return NO;
+  if (nil == url.scheme)
+    return NO;
+  if ([url.scheme compare:IPOD_SCHEME] != NSOrderedSame)
+    return NO;
+  if ([url.pathExtension compare:@"aif"] != NSOrderedSame &amp;&amp;
+      [url.pathExtension compare:@"m4a"] != NSOrderedSame &amp;&amp;
+      [url.pathExtension compare:@"wav"] != NSOrderedSame &amp;&amp;
+      [url.pathExtension compare:@"m4v"] != NSOrderedSame) {
+    return NO;
+  }
+  return YES;
+}
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Core Data Tutorial iOS 10]]></title>
@@ -437,206 +622,6 @@ gradientLayer.colors =
 <h2>Result</h2>
 
 <p><img src="http://ofj92itlz.bkt.clouddn.com/XGChart:result2.png" alt="" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ShareSDK接入]]></title>
-    <link href="http://sxgfxm.github.io/blog/2016/10/21/sharesdkjie-ru/"/>
-    <updated>2016-10-21T14:12:36+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2016/10/21/sharesdkjie-ru</id>
-    <content type="html"><![CDATA[<h2>iOS接入ShareSDK实现第三方分享</h2>
-
-<p>因为<strong>友盟</strong>被阿里收购在Android平台的各种令人不悦的后台操作，改用<strong>ShareSDK</strong>实现第三方分享。以下为简单接入流程。详情可参考官方文档<a href="http://wiki.mob.com/ios%E7%AE%80%E6%B4%81%E7%89%88%E5%BF%AB%E9%80%9F%E9%9B%86%E6%88%90/">http://wiki.mob.com/ios%E7%AE%80%E6%B4%81%E7%89%88%E5%BF%AB%E9%80%9F%E9%9B%86%E6%88%90/</a></p>
-
-<!--more-->
-
-
-<h2>获取AppKey</h2>
-
-<p>在官网注册，并按要求创建应用，获取AppKey，比如为<strong>182947e7afac0</strong>。</p>
-
-<h2>下载所需版本的ShareSDK</h2>
-
-<p>解压后，将<strong>ShareSDK</strong>导入工程中，记得勾选<strong>Copy items into destination group&rsquo;s folder(if needed)</strong>。</p>
-
-<h2>添加依赖库</h2>
-
-<pre><code>//  ShareSDK
-libicucore.dylib
-libz.dylib
-libstdc++.dylib
-JavaScriptCore.framework
-
-//  新浪微博SDK
-ImageIO.framework
-libsqlite3.dylib
-
-//  QQ空间SDK
-libsqlite3.dylib
-
-//  微信SDK
-libsqlite3.dylib
-
-//  根据需要添加
-</code></pre>
-
-<h2>初始化对应的第三方平台</h2>
-
-<p>在<strong>AppDelegate.m</strong>中，导入所需头文件。</p>
-
-<pre><code class="objective-c">#import &lt;ShareSDK/ShareSDK.h&gt;
-#import &lt;ShareSDKConnector/ShareSDKConnector.h&gt;
-
-//腾讯开放平台（对应QQ和QQ空间）SDK头文件
-#import &lt;TencentOpenAPI/TencentOAuth.h&gt;
-#import &lt;TencentOpenAPI/QQApiInterface.h&gt;
-
-//微信SDK头文件
-#import "WXApi.h"
-
-//新浪微博SDK头文件
-#import "WeiboSDK.h"
-//新浪微博SDK需要在项目Build Settings中的Other Linker Flags添加"-ObjC"
-</code></pre>
-
-<p>在<code>application:didFinishLaunchingWithOptions:</code>方法中初始化。</p>
-
-<pre><code class="objective-c">- (BOOL)application:(UIApplication *)application
-    didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
-  /**
-   *  设置ShareSDK的appKey，如果尚未在ShareSDK官网注册过App，请移步到http://mob.com/login
-   * 登录后台进行应用注册
-   *  在将生成的AppKey传入到此方法中。
-   *  方法中的第二个第三个参数为需要连接社交平台SDK时触发，
-   *  在此事件中写入连接代码。第四个参数则为配置本地社交平台时触发，根据返回的平台类型来配置平台信息。
-   *  如果您使用的时服务端托管平台信息时，第二、四项参数可以传入nil，第三项参数则根据服务端托管平台来决定要连接的社交SDK。
-   */
-  [ShareSDK registerApp:@"182947e7afac0"
-
-      activePlatforms:@[
-        @(SSDKPlatformTypeSinaWeibo),
-        @(SSDKPlatformTypeWechat),
-        @(SSDKPlatformTypeQQ),
-      ]
-      onImport:^(SSDKPlatformType platformType) {
-        switch (platformType) {
-        case SSDKPlatformTypeWechat:
-          [ShareSDKConnector connectWeChat:[WXApi class]];
-          break;
-        case SSDKPlatformTypeQQ:
-          [ShareSDKConnector connectQQ:[QQApiInterface class]
-                     tencentOAuthClass:[TencentOAuth class]];
-          break;
-        case SSDKPlatformTypeSinaWeibo:
-          [ShareSDKConnector connectWeibo:[WeiboSDK class]];
-          break;
-        default:
-          break;
-        }
-      }
-      onConfiguration:^(SSDKPlatformType platformType,
-                        NSMutableDictionary *appInfo) {
-
-        switch (platformType) {
-        case SSDKPlatformTypeSinaWeibo:
-          //设置新浪微博应用信息,其中authType设置为使用SSO＋Web形式授权
-          [appInfo
-              SSDKSetupSinaWeiboByAppKey:@"3144028685"
-                               appSecret:@"11abfe456bc8eefbab49fe7bbcd90bf0"
-                             redirectUri:@"http://www.sharesdk.cn"
-                                authType:SSDKAuthTypeBoth];
-          break;
-        case SSDKPlatformTypeWechat:
-          [appInfo SSDKSetupWeChatByAppId:@"wx4868b35061f87885"
-                                appSecret:@"64020361b8ec4c99936c0e3999a9f249"];
-          break;
-        case SSDKPlatformTypeQQ:
-          [appInfo SSDKSetupQQByAppId:@"100371282"
-                               appKey:@"aed9b0303e3ed1e27bae87c33761161d"
-                             authType:SSDKAuthTypeBoth];
-          break;
-        default:
-          break;
-        }
-      }];
-  return YES;
-}
-</code></pre>
-
-<p>接入不同的平台均需要注册并获取<strong>AppKey</strong>和<strong>AppSecret</strong>值。</p>
-
-<h2>添加分享实现代码</h2>
-
-<p>在<strong>ViewController.m</strong>中触发分享的方法中，添加分享代码。</p>
-
-<pre><code class="objective-c">- (void)shareAction {
-  [self.tf endEditing:YES];
-  // 1、创建分享参数
-  NSArray *imageArray = @[ [UIImage imageNamed:@"junxi5.jpg"] ];
-  if (imageArray) {
-
-    NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
-    [shareParams SSDKSetupShareParamsByText:self.tf.text
-                                     images:imageArray
-                                        url:nil
-                                      title:@"Ticwatch Sport"
-                                       type:SSDKContentTypeAuto];
-    // 2、分享（可以弹出我们的分享菜单和编辑界面）
-    [ShareSDK showShareActionSheet:nil
-                             items:nil
-                       shareParams:shareParams
-               onShareStateChanged:^(
-                   SSDKResponseState state, SSDKPlatformType platformType,
-                   NSDictionary *userData, SSDKContentEntity *contentEntity,
-                   NSError *error, BOOL end) {
-
-                 switch (state) {
-                 case SSDKResponseStateSuccess: {
-                   NSLog(@"分享成功");
-                   break;
-                 }
-                 case SSDKResponseStateFail: {
-                   NSLog(@"分享失败");
-                   NSLog(@"%@", error);
-                   break;
-                 }
-                 default:
-                   break;
-                 }
-               }];
-  }
-}
-</code></pre>
-
-<h2>添加URL Schemes</h2>
-
-<p> <img src="http://ofj92itlz.bkt.clouddn.com/ShareSDK:WhiteList.jpeg" alt="urlscheme" /></p>
-
-<h2>适配iOS 9问题</h2>
-
-<h3>退回http协议，并设置域</h3>
-
-<p><img src="http://ofj92itlz.bkt.clouddn.com/ShareSDK:Https.jpeg" alt="http" /></p>
-
-<h3>添加scheme白名单</h3>
-
-<p><img src="http://ofj92itlz.bkt.clouddn.com/ShareSDK:UrlScheme.jpeg" alt="白名单" /></p>
-
-<h2>分享平台title为英文问题</h2>
-
-<p>默认语言为英文，需要在项目中添加中文本地化。</p>
-
-<p><img src="http://ofj92itlz.bkt.clouddn.com/ShareSDK:Localization.jpeg" alt="localization" /></p>
-
-<p>如需修改标题可以修改对应的本地化文件。</p>
-
-<p> <img src="http://ofj92itlz.bkt.clouddn.com/ShareSDK:CustomLocalization.jpeg" alt="customLocalization" /></p>
-
-<h2>Github源码</h2>
-
-<p><a href="https://github.com/sxgfxm/ShareSDKDemo">ShareSDKDemo</a></p>
 ]]></content>
   </entry>
   
