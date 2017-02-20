@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-02-10T15:50:14+08:00</updated>
+  <updated>2017-02-20T22:22:05+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,984 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Core Animation Advanced Techniques]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/02/20/ios-core-animation-advanced-techniques/"/>
+    <updated>2017-02-20T22:10:40+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/02/20/ios-core-animation-advanced-techniques</id>
+    <content type="html"><![CDATA[<h1>Introduction</h1>
+
+<p>本文主要为<strong>iOS Core Animation Advanced Techniques</strong>的笔记。</p>
+
+<!--more-->
+
+
+<h2>CALayer和UIView</h2>
+
+<p>1.CALayer和UIView有什么关系？<br/>
+UIView是对CALayer的封装，可以处理touch事件。<br/>
+UIView是通过CALayer显示的。<br/>
+UIView会自动重绘，CALayer需要手动重绘。<br/>
+UIView是二维的，CALayer是三维的。<br/>
+UIView支持autoLayout，CALayer不支持autoLayout。<br/>
+2、CALayer的特性是什么？<br/>
+可以绘制阴影、圆角、彩色边框；<br/>
+可以处理3D变换；<br/>
+可以处理非矩形边界；<br/>
+可以处理透明遮罩；<br/>
+可以处理多级非线性动画。<br/>
+3、什么情况下会使用CALayer？<br/>
+开发跨平台应用；<br/>
+与特殊图层打交道；<br/>
+提高性能。<br/>
+4、为什么不把CALayer和UIView合二为一，而是有两套并列的层次结构？<br/>
+把绘图和事件处理分离，是为了减少重复的代码。<br/>
+在Mac OS上已经有CALayer，但在iPhone和Mac的交互是有本质不同的，所以UIView来处理。</p>
+
+<h3>Contents</h3>
+
+<p>1、如何让UIView等比清晰显示图片的右上角？<br/>
+<code>layer.contents = (__bridge id)image.CGImage;</code><br/>
+<code>layer.contentsGravity = kCAGravityResizeAspect;</code><br/>
+<code>layer.contentsScale = [UIScreen mainScreen].scale;</code><br/>
+<code>layer.contentsRect = CGRectMake(0.5,0,0.5,0.5);</code><br/>
+2、-drawRect:方法的作用是什么？空的-drawRect:方法有何影响？<br/>
+UIView自定义绘图。<br/>
+如果自己实现-drawRect:方法，会为view创建一个backing image。<br/>
+3、如何绘制带阴影的有裁剪效果的UIView？<br/>
+设置layer阴影；<br/>
+通过layer代理绘图；</p>
+
+<h3>Geometry</h3>
+
+<p>1、center, position的区别？<br/>
+center对应view；position对应layer。<br/>
+两者都表示anchorPoint在父视图中的位置。<br/>
+因为UIView并没有暴露anchorPoint属性，所以被称作center。<br/>
+2、anchorPoint理解？<br/>
+控制点。<br/>
+3、frame的理解？<br/>
+是否可以改变view的frame而不改变layer的frame。<br/>
+frame是由bounds，position和transform计算而来的。<br/>
+4、坐标转换？</p>
+
+<pre><code>- (CGPoint)convertPoint:(CGPoint)point fromLayer:(CALayer *)layer;
+- (CGPoint)convertPoint:(CGPoint)point toLayer:(CALayer *)layer;
+- (CGRect)convertRect:(CGRect)rect fromLayer:(CALayer *)layer;
+- (CGRect)convertRect:(CGRect)rect toLayer:(CALayer *)layer;
+</code></pre>
+
+<p>5、坐标翻转</p>
+
+<p><code>layer.geometryFlipped = YES;</code></p>
+
+<p>6、如何在不修改layer层次结构的情况下，使下层的layer在顶层显示？<br/>
+zPosition，用来改变layer的显示层次；<br/>
+zAnchorPoint?<br/>
+7、如何用CALayer实现touch handling？<br/>
+-containsPoint:<br/>
+-hitTest: 严格按照layer tree的层次结构判断，与zPosition无关。<br/>
+8、如何实现CALayer的自动布局？<br/>
+<code>- (void)layoutSublayersOfLayer:(CALayer *)layer;</code>，<br/>
+当bounds改变或调用<code>-setNeedsLayout</code>时触发。</p>
+
+<h3>Visual Effects</h3>
+
+<p>1、如何实现圆角？曲率不同的圆角？</p>
+
+<pre><code>layer.cornerRadius = 5.0f;
+layer.maskToBounds = YES;
+</code></pre>
+
+<p>2、如何实现彩色边框？</p>
+
+<pre><code>layer.borderWidth = 1;
+layer.borderColor = [UIColor redColor].CGColor;
+</code></pre>
+
+<p>border只与bounds相关。<br/>
+3、如何添加阴影？</p>
+
+<pre><code>layer.shadowOpacity = 1;
+layer.shadowColor = [UIColor redColor].CGColor;
+layer.shadowOffset = CGSizeMake(0,1);
+layer.shadowRadius = 5;
+</code></pre>
+
+<p>shadow与形状有关。<br/>
+如何添加maskToBounds = YES时的阴影？<br/>
+两层。<br/>
+如何绘制不规则阴影？<br/>
+<code>layer.shadowPath = path;</code>
+4、不规则裁剪，动态裁剪<br/>
+<code>layer.mask = maskLayer;</code>
+5、scaling filter<br/>
+kCAFilterNearest，适用于无对角线，对比明显的图片，保留像素，像素图；<br/>
+kCAFilterLinear，适用于复杂图片，保留轮廓；<br/>
+6、group opacity<br/>
+opacity作用于层次结构，0.5+0.5 = 0.75<br/>
+UIViewGroupOpacity = YES，Info.plist，降低性能。<br/>
+<code>layer.shouldRasterize = YES</code>，在渲染前合成一张图片，防止alpha值影响。<br/>
+<code>layer.rasterizationScale = [UIScreen mainScreen].scale;</code></p>
+
+<h3>Transform</h3>
+
+<p>1、Affine Transforms，仿射变换<br/>
+CGAffineTransform，用来表示二维旋转，缩放和变换。对一个2D点做2D变换。<br/>
+它是一个3行2列的矩阵。<br/>
+做运算时需要扩展。<br/>
+变换前平行的线，变换后依然平行。<br/>
+2、创建仿射变换</p>
+
+<pre><code>CGAffineTransformMakeRotation(CGFloat angle);
+CGAffineTransformMakeScale(CGFloat sx, CGFloat sy);
+CGAffineTransformMakeTranslation(CGFloat tx, CGFloat ty);
+</code></pre>
+
+<p>角度弧度转换</p>
+
+<pre><code>#define RADIANS_TO_DEGREES(x) ((x)/M_PI*180.0)
+#define DEGREES_TO_RADIANS(x) ((x)/180.0*M_PI)
+</code></pre>
+
+<p>3、连续变换</p>
+
+<pre><code>CGAffineTransformRotate(CGAffineTransform t, CGFloat angle);
+CGAffineTransformScale(CGAffineTransform t, CGFloat sx, CGFloat sy);
+CGAffineTransformTranslate(CGAffineTransform t, CGFloat tx, CGFloat ty);
+或
+CGAffineTransformConcat(CGAffineTransform t1, CGAffineTransform t2);
+</code></pre>
+
+<p>单位矩阵，CGAffineTransformIdentity。<br/>
+变换顺序不同，结果不同。因为矩阵运算不符合交换律。<br/>
+4、shear变换</p>
+
+<pre><code>CGAffineTransform CGAffineTransformMakeShear(CGFloat x, CGFloat y) {
+  CGAffineTransform transform = CGAffineTransformIdentity; transform.c = -x;
+  transform.b = y;
+  return transform;
+}
+</code></pre>
+
+<p>5、3D Transform，3D变换<br/>
+CATransform3D，是一个4行4列的矩阵。对一个3D点做3D变换。</p>
+
+<pre><code>CATransform3DMakeRotation(CGFloat angle, CGFloat x, CGFloat y, CGFloat z);
+CATransform3DMakeScale(CGFloat sx, CGFloat sy, CGFloat sz);
+CATransform3DMakeTranslation(Gloat tx, CGFloat ty, CGFloat tz);
+</code></pre>
+
+<p>6、Perspective Projection，透视<br/>
+矩阵中m34的值用来设置透视，值越小透视约明显，值越大透视越不明显。<br/>
+7、The Vanishing Point，消失点<br/>
+定义消失点为anchorPoint。<br/>
+8、sublayer共享透视视角<br/>
+设置sublayerTransform<br/>
+9、Backfaces，<br/>
+layer是两面都有的。可以设置取消。</p>
+
+<h2>Specialized Layers</h2>
+
+<h3>CAShapeLayer</h3>
+
+<p>CAShapeLayer比Core Graphics效率更高，硬件加速；<br/>
+CAShapeLayer节省内存空间，不会创建backing image；<br/>
+CAShapeLayer不会受bounds限制，Core Graphics不行；<br/>
+CAShapeLayer不会变换后不会像素化。<br/>
+基本使用方法：<br/>
+<code>
+CAShapeLayer *shapeLayer = [CAShapeLayer layer];
+shapeLayer.strokeColor = [UIColor redColor].CGColor;
+shapeLayer.fillColor = [UIColor clearColor].CGColor;
+shapeLayer.lineWidth = 5;
+shapeLayer.lineJoin = kCALineJoinRound;
+shapeLayer.lineCap = kCALineCapRound;
+shapeLayer.path = path.CGPath;
+</code></p>
+
+<h3>CATextLayer</h3>
+
+<p>UILabel，通过layer代理方法使用CG绘制string。<br/>
+CATextLayer，用于显示文字，特效，效率比UILabel高。<br/>
+基本使用方法：<br/>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//set text attributes
+</span><span class='line'>textLayer.foregroundColor = [UIColor blackColor].CGColor;
+</span><span class='line'>textLayer.alignmentMode = kCAAlignmentJustified;
+</span><span class='line'>textLayer.wrapped = YES;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;//choose a font
+</span><span class='line'>UIFont *font = [UIFont systemFontOfSize:15];&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;//set layer font
+</span><span class='line'>CFStringRef fontName = (__bridge CFStringRef)font.fontName;
+</span><span class='line'>CGFontRef fontRef = CGFontCreateWithFontName(fontName);
+</span><span class='line'>textLayer.font = fontRef;
+</span><span class='line'>textLayer.fontSize = font.pointSize;
+</span><span class='line'>CGFontRelease(fontRef);&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;//text
+</span><span class='line'>textLayer.string = @&ldquo;Text&rdquo;;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;//scale
+</span><span class='line'>textLayer.contentsScale = [UIScreen mainScreen].scale;
+</span><span class='line'>&lt;code&gt;
+</span><span class='line'>富文本：  
+</span><span class='line'>&lt;/code&gt;
+</span><span class='line'>//create attributed string
+</span><span class='line'>NSMutableAttributedString *string = nil;
+</span><span class='line'>string = [[NSMutableAttributedString alloc] initWithString:text];&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;//convert UIFont to a CTFont
+</span><span class='line'>CFStringRef fontName = (__bridge CFStringRef)font.fontName; CGFloat fontSize = font.pointSize;
+</span><span class='line'>CTFontRef fontRef = CTFontCreateWithName(fontName, fontSize, NULL);&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;//set text attributes
+</span><span class='line'>NSDictionary *attribs = @{
+</span><span class='line'>  (&lt;strong&gt;bridge id)kCTForegroundColorAttributeName:(&lt;/strong&gt;bridge id)[UIColor blackColor].CGColor,
+</span><span class='line'>  (&lt;strong&gt;bridge id)kCTFontAttributeName: (&lt;/strong&gt;bridge id)fontRef
+</span><span class='line'>};
+</span><span class='line'>[string setAttributes:attribs range:NSMakeRange(0, [text length])];
+</span><span class='line'>attribs = @{
+</span><span class='line'>  (&lt;strong&gt;bridge id)kCTForegroundColorAttributeName: (&lt;/strong&gt;bridge id)[UIColor redColor].CGColor,
+</span><span class='line'>  (&lt;strong&gt;bridge id)kCTUnderlineStyleAttributeName: @(kCTUnderlineStyleSingle),
+</span><span class='line'>  (&lt;/strong&gt;bridge id)kCTFontAttributeName: (__bridge id)fontRef
+</span><span class='line'>};
+</span><span class='line'>[string setAttributes:attribs range:NSMakeRange(6, 5)];&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;//release the CTFont we created earlier
+</span><span class='line'>CFRelease(fontRef);&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;//set layer text
+</span><span class='line'>textLayer.string = string;
+</span><span class='line'>&lt;code&gt;
+</span><span class='line'>修改view的根layer。  
+</span><span class='line'>&lt;/code&gt;
+</span><span class='line'>+ (Class)layerClass {
+</span><span class='line'>  //this makes our label create a CATextLayer
+</span><span class='line'>  //instead of a regular CALayer for its backing layer
+</span><span class='line'>  return [CATextLayer class];
+</span><span class='line'>}
+</span><span class='line'>- (CATextLayer &lt;em&gt;)textLayer {
+</span><span class='line'>  return (CATextLayer &lt;/em&gt;)self.layer;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></p>
+
+<h3>CATransformLayer</h3>
+
+<p>保存变换后的layer</p>
+
+<h3>CAGradientLayer</h3>
+
+<p>用于绘制渐变层。<br/>
+线性渐变。<br/>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//create gradient layer and add it to our container view
+</span><span class='line'>CAGradientLayer *gradientLayer = [CAGradientLayer layer];
+</span><span class='line'>gradientLayer.frame = self.containerView.bounds;
+</span><span class='line'>[self.containerView.layer addSublayer:gradientLayer];&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;//set gradient colors
+</span><span class='line'>gradientLayer.colors = @[
+</span><span class='line'>  (&lt;strong&gt;bridge id)[UIColor redColor].CGColor,
+</span><span class='line'>  (&lt;/strong&gt;bridge id)[UIColor blueColor].CGColor,
+</span><span class='line'>  (__bridge id)[UIColor greenColor].CGColor
+</span><span class='line'>];&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;//set locations
+</span><span class='line'>gradientLayer.locations = @[@0.0, @0.25, @0.5];&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;//set gradient start and end points
+</span><span class='line'>gradientLayer.startPoint = CGPointMake(0, 0);
+</span><span class='line'>gradientLayer.endPoint = CGPointMake(1, 1);</span></code></pre></td></tr></table></div></figure>
+放射性渐变。</p>
+
+<h3>CAReplicatorLayer</h3>
+
+<p>用于高效绘制相似的layer。<br/>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//create a replicator layer and add it to our view
+</span><span class='line'>CAReplicatorLayer *replicator = [CAReplicatorLayer layer];
+</span><span class='line'>replicator.frame = self.containerView.bounds;
+</span><span class='line'>[self.containerView.layer addSublayer:replicator];&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;//configure the replicator
+</span><span class='line'>replicator.instanceCount = 10;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;//apply a transform for each instance
+</span><span class='line'>CATransform3D transform = CATransform3DIdentity;
+</span><span class='line'>transform = CATransform3DTranslate(transform, 0, 200, 0);
+</span><span class='line'>transform = CATransform3DRotate(transform, M_PI / 5.0, 0, 0, 1);
+</span><span class='line'>transform = CATransform3DTranslate(transform, 0, -200, 0);
+</span><span class='line'>replicator.instanceTransform = transform;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;//apply a color shift for each instance
+</span><span class='line'>replicator.instanceBlueOffset = -0.1;
+</span><span class='line'>replicator.instanceGreenOffset = -0.1;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;//create a sublayer and place it inside the replicator
+</span><span class='line'>CALayer &lt;em&gt;layer = [CALayer layer];
+</span><span class='line'>layer.frame = CGRectMake(100.0f, 100.0f, 100.0f, 100.0f);
+</span><span class='line'>layer.backgroundColor = [UIColor whiteColor].CGColor;
+</span><span class='line'>[replicator addSublayer:layer];
+</span><span class='line'>&lt;code&gt;
+</span><span class='line'>绘制镜面  
+</span><span class='line'>&lt;/code&gt;
+</span><span class='line'>+ (Class)layerClass {
+</span><span class='line'>  return [CAReplicatorLayer class];
+</span><span class='line'>}
+</span><span class='line'>- (void)setUp {
+</span><span class='line'>  //configure replicator
+</span><span class='line'>  CAReplicatorLayer &lt;/em&gt;layer = (CAReplicatorLayer *)self.layer;
+</span><span class='line'>  layer.instanceCount = 2;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  //move reflection instance below original and flip vertically
+</span><span class='line'>  CATransform3D transform = CATransform3DIdentity;
+</span><span class='line'>  CGFloat verticalOffset = self.bounds.size.height + 2;
+</span><span class='line'>  transform = CATransform3DTranslate(transform, 0, verticalOffset, 0);
+</span><span class='line'>  transform = CATransform3DScale(transform, 1, -1, 0);
+</span><span class='line'>  layer.instanceTransform = transform;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  //reduce alpha of reflection layer
+</span><span class='line'>  layer.instanceAlphaOffset = -0.6;
+</span><span class='line'>}&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;ul&gt;
+</span><span class='line'>&lt;li&gt;(id)initWithFrame:(CGRect)frame {
+</span><span class='line'>//this is called when view is created in code
+</span><span class='line'>if ((self = [super initWithFrame:frame])) {
+</span><span class='line'>  [self setUp];
+</span><span class='line'>}
+</span><span class='line'>return self;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></li>
+</ul>
+
+
+<h3>CAScrollLayer</h3>
+
+<p>用于绘制可以滑动的layer。<br/>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>+ (Class)layerClass {
+</span><span class='line'>  return [CAScrollLayer class];
+</span><span class='line'>}&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;ul&gt;
+</span><span class='line'>&lt;li&gt;&lt;p&gt;(void)setUp {
+</span><span class='line'>//enable clipping
+</span><span class='line'>self.layer.masksToBounds = YES;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;//attach pan gesture recognizer
+</span><span class='line'>UIPanGestureRecognizer *recognizer = nil;
+</span><span class='line'>recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
+</span><span class='line'>[self addGestureRecognizer:recognizer];
+</span><span class='line'>}&lt;/p&gt;&lt;/li&gt;
+</span><span class='line'>&lt;li&gt;&lt;p&gt;(id)initWithFrame:(CGRect)frame {
+</span><span class='line'>//this is called when view is created in code
+</span><span class='line'>if ((self = [super initWithFrame:frame])) {
+</span><span class='line'>  [self setUp];
+</span><span class='line'>}
+</span><span class='line'>return self;
+</span><span class='line'>}&lt;/p&gt;&lt;/li&gt;
+</span><span class='line'>&lt;li&gt;&lt;p&gt;(void)pan:(UIPanGestureRecognizer *)recognizer {
+</span><span class='line'>//get the offset by subtracting the pan gesture
+</span><span class='line'>//translation from the current bounds origin
+</span><span class='line'>CGPoint offset = self.bounds.origin;
+</span><span class='line'>offset.x -= [recognizer translationInView:self].x;
+</span><span class='line'>offset.y -= [recognizer translationInView:self].y;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;//scroll the layer
+</span><span class='line'>[(CAScrollLayer *)self.layer scrollToPoint:offset];&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;//reset the pan gesture translation
+</span><span class='line'>[recognizer setTranslation:CGPointZero inView:self];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></p></li>
+</ul>
+
+
+<h3>CATiledLayer</h3>
+
+<p>用于加载尺寸巨大的图片。<br/>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//add the tiled layer
+</span><span class='line'>CATiledLayer *tileLayer = [CATiledLayer layer];
+</span><span class='line'>tileLayer.frame = CGRectMake(0, 0, 2048, 2048);
+</span><span class='line'>tileLayer.delegate = self; [self.scrollView.layer addSublayer:tileLayer];&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;//configure the scroll view
+</span><span class='line'>self.scrollView.contentSize = tileLayer.frame.size;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;//draw layer
+</span><span class='line'>[tileLayer setNeedsDisplay];&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;ul&gt;
+</span><span class='line'>&lt;li&gt;&lt;p&gt;(void)drawLayer:(CATiledLayer *)layer inContext:(CGContextRef)ctx {
+</span><span class='line'>//determine tile coordinate
+</span><span class='line'>CGRect bounds = CGContextGetClipBoundingBox(ctx);
+</span><span class='line'>NSInteger x = floor(bounds.origin.x / layer.tileSize.width);
+</span><span class='line'>NSInteger y = floor(bounds.origin.y / layer.tileSize.height);&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;//load tile image
+</span><span class='line'>NSString &lt;em&gt;imageName = [NSString stringWithFormat: @&ldquo;Snowman&lt;em&gt;%02i&lt;/em&gt;%02i, x, y];
+</span><span class='line'>NSString &lt;/em&gt;imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:@"jpg&rdquo;];
+</span><span class='line'>UIImage *tileImage = [UIImage imageWithContentsOfFile:imagePath];&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;//draw tile
+</span><span class='line'>UIGraphicsPushContext(ctx);
+</span><span class='line'>[tileImage drawInRect:bounds];
+</span><span class='line'>UIGraphicsPopContext();
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></p></li>
+</ul>
+
+
+<h3>CAEmitterLayer</h3>
+
+<p>粒子特效。<br/>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//create particle emitter layer
+</span><span class='line'>CAEmitterLayer *emitter = [CAEmitterLayer layer];
+</span><span class='line'>emitter.frame = self.containerView.bounds;
+</span><span class='line'>[self.containerView.layer addSublayer:emitter];&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;//configure emitter
+</span><span class='line'>emitter.renderMode = kCAEmitterLayerAdditive;
+</span><span class='line'>emitter.emitterPosition = CGPointMake(emitter.frame.size.width / 2.0,emitter.frame.size.height / 2.0);&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;//create a particle template
+</span><span class='line'>CAEmitterCell *cell = [[CAEmitterCell alloc] init];
+</span><span class='line'>cell.contents = (__bridge id)[UIImage imageNamed:@&ldquo;Spark.png&rdquo;].CGImage;
+</span><span class='line'>cell.birthRate = 150;
+</span><span class='line'>cell.lifetime = 5.0;
+</span><span class='line'>cell.color = [UIColor colorWithRed:1 green:0.5 blue:0.1 alpha:1.0].CGColor;
+</span><span class='line'>cell.alphaSpeed = -0.4;
+</span><span class='line'>cell.velocity = 50;
+</span><span class='line'>cell.velocityRange = 50;
+</span><span class='line'>cell.emissionRange = M_PI * 2.0;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;//add particle template to emitter
+</span><span class='line'>emitter.emitterCells = @[cell];</span></code></pre></td></tr></table></div></figure></p>
+
+<h3>AVPlayerLayer</h3>
+
+<p>播放视频。<br/>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//get video URL
+</span><span class='line'>NSURL *URL = [[NSBundle mainBundle] URLForResource:@&ldquo;Ship&rdquo; withExtension:@&ldquo;mp4&rdquo;];&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;//create player and player layer
+</span><span class='line'>AVPlayer &lt;em&gt;player = [AVPlayer playerWithURL:URL];
+</span><span class='line'>AVPlayerLayer &lt;/em&gt;playerLayer = [AVPlayerLayer playerLayerWithPlayer:player];&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;//set player layer frame and attach it to our view
+</span><span class='line'>playerLayer.frame = self.containerView.bounds;
+</span><span class='line'>[self.containerView.layer addSublayer:playerLayer];&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;//play the video
+</span><span class='line'>[player play];</span></code></pre></td></tr></table></div></figure></p>
+
+<h2>Implicit Animations</h2>
+
+<p>隐式动画。改变支持动画的属性，自动生成动画。<br/>
+duration -> transaction，默认为0.25秒<br/>
+type -> layer action<br/>
+transaction只能begin和commit。<br/>
+每次runloop会执行一次transaction。<br/>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//begin a new transaction
+</span><span class='line'>[CATransaction begin];&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;//set the animation duration to 1 second
+</span><span class='line'>[CATransaction setAnimationDuration:1.0];&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;//add the spin animation on completion
+</span><span class='line'>[CATransaction setCompletionBlock:^{
+</span><span class='line'>  //rotate the layer 90 degrees
+</span><span class='line'>  CGAffineTransform transform = self.colorLayer.affineTransform;
+</span><span class='line'>  transform = CGAffineTransformRotate(transform, M_PI_2);
+</span><span class='line'>  self.colorLayer.affineTransform = transform;
+</span><span class='line'>}];&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;//randomize the layer background color
+</span><span class='line'>CGFloat red = arc4random() / (CGFloat)INT_MAX;
+</span><span class='line'>CGFloat green = arc4random() / (CGFloat)INT_MAX;
+</span><span class='line'>CGFloat blue = arc4random() / (CGFloat)INT_MAX;
+</span><span class='line'>self.colorLayer.backgroundColor = [UIColor colorWithRed:red green:green blue:blue alpha:1.0].CGColor;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;//commit the transaction
+</span><span class='line'>[CATransaction commit];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+隐式动画流程：<br/>
+-actionForLayer:forKey<br/>
+actions dictionary<br/>
+style dictionary<br/>
+-defaultActionForKey:</p>
+
+<p>UIView默认不开启隐式动画。<br/>
+CATransition</p>
+
+<p>修改layer属性会立即生效，但是并不会立刻显示。</p>
+
+<p>presentation layer，记录当前layer在哪儿，同步动画和处理点击事件。<br/>
+model layer，记录当前layer要去哪儿</p>
+
+<h2>Explicit Aniamtions</h2>
+
+<p>显式动画。</p>
+
+<h3>Property Animations</h3>
+
+<p>只与一个属性相关的动画。</p>
+
+<p>CABasicAnimation : CAPropertyAnimation : CAAnimation<br/>
+fromeValue<br/>
+toValue<br/>
+byValue</p>
+
+<p>Animations只作用于presentation，而不作用于model。<br/>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)applyBasicAnimation:(CABasicAnimation &lt;em&gt;)animation toLayer:(CALayer &lt;/em&gt;)layer{
+</span><span class='line'>  //set the from value (using presentation layer if available)&lt;br/&gt;
+</span><span class='line'>  animation.fromValue = [layer.presentationLayer ?: layer valueForKeyPath:animation.keyPath];&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  //update the property in advance
+</span><span class='line'>  //note: this approach will only work if toValue != nil
+</span><span class='line'>  [CATransaction begin];
+</span><span class='line'>  [CATransaction setDisableActions:YES];
+</span><span class='line'>  [layer setValue:animation.toValue forKeyPath:animation.keyPath];
+</span><span class='line'>  [CATransaction commit];&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  //apply animation to layer
+</span><span class='line'>  [layer addAnimation:animation forKey:nil];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></p>
+
+<p>CAKeyframeAnimation : CAPropertyAnimation : CAAnimation<br/>
+values<br/>
+path<br/>
+rotationMode = kCAAnimationRotateAuto</p>
+
+<p>CAAnimationGroup<br/>
+animations<br/>
+duration</p>
+
+<p>Transitions<br/>
+CATransition : CAAnimation<br/>
+type<br/>
+subtype</p>
+
+<p>视图控制器切换时使用，效果更平滑；</p>
+
+<h3>Cancel animations</h3>
+
+<p><code>-removeAnimationForKey: </code></p>
+
+<h2>Layer time</h2>
+
+<h2>Tuning for speed</h2>
+
+<p>合理分配绘图任务至CPU和GPU。</p>
+
+<h3>The Stages of an Animation</h3>
+
+<p>Layout：setup layers<br/>
+Display：draw backing image，call -drawRect:<br/>
+Prepare：prepare send animation data to render server<br/>
+Commit：package up and send over IPC<br/>
+render server form render tree:<br/>
+  calculate intermediate values<br/>
+  render to screen<br/>
+只有最后一步通过GPU处理。<br/>
+开发者只能控制前两步，layout和display。</p>
+
+<p>影响GPU绘图效率的因素：<br/>
+1、过多的layer；<br/>
+2、过多的半透明layer；<br/>
+3、离屏绘制，如圆角、遮罩、阴影、光栅化；<br/>
+4、过大的图片。</p>
+
+<p>影响CPU绘图效率的因素：<br/>
+1、复杂的layout计算；<br/>
+2、view的懒加载，从数据库获取数据，从nib中加载view，加载图片；<br/>
+3、Core Graphics 绘图；<br/>
+4、图片解压缩；</p>
+
+<p>IO限制因素：<br/>
+IO操作耗时严重；</p>
+
+<p>通过测量发现实际的瓶颈点：<br/>
+1、在真机上测试，使用release版本，在低性能机器上测试；<br/>
+2、保持稳定的帧率；<br/>
+3、instrument：</p>
+
+<pre><code>Time Profiler：查看CPU时间开销；
+    Separate by Thread：按线程将方法分组；
+    Hide System Libraries：隐藏系统库；
+    Show Obj-C Only：只显示OC方法调用；
+Core Animation：查看Core Animation性能；
+    Color Blended Layers：标记出混合的图层，从绿到红表示严重程度，最好没有；
+    Color Hits Green and Misses Red：标记出重复缓存的图层；
+    Color Copied Images：标记出backing image，最好没有；
+    Color Immediately：随时反馈；
+    Color Misaligned Images：标记非正确缩放的图片；
+    Color Offscreen-Rendered Yellow：标记出需要离屏绘制的layer，通过栅格化优化；
+    Color OpenGL Fast Path Blue：标记出OpenGL绘图；
+    Flash Updated Regions：标记出重绘的layer，最好没有；
+OpenGL ES Driver：查看GPU性能；
+    Tiler Utilization
+    Renderer Utilization
+组合使用效果更佳。
+</code></pre>
+
+<p>优化方法：<br/>
+cache offscreen render layer：</p>
+
+<pre><code>layer.shouldRasterize = YES;
+layer.rasterizationScale = [UIScreen mainScreen].scale;
+</code></pre>
+
+<h2>Efficient Drawing</h2>
+
+<h3>Software Drawing</h3>
+
+<p>速度慢并且需要大量内存空间。<br/>
+少写drawRect方法。</p>
+
+<h3>Vector Graphics</h3>
+
+<p>多边形；<br/>
+对角线和曲线；<br/>
+文字；<br/>
+渐变。<br/>
+使用CAShapeLayer</p>
+
+<h3>Dirty Rectangles</h3>
+
+<p>需要重绘的区域<br/>
+调用-setNeedsDisplayInRect:方法指定重绘区域。</p>
+
+<h3>Asynchronous Drawing</h3>
+
+<p>在子线程绘图，将结果直接作为layer的contents。<br/>
+CATiledLayer。<br/>
+drawsAsynchronously属性。</p>
+
+<h2>Image IO</h2>
+
+<pre><code>//  通过tag防止重复创建
+UIImageView *imageView = (UIImageView *)[cell viewWithTag:imageTag];
+if (!imageView){
+  imageView = [UIImageView alloc] init];
+  [cell.contentView addSubview:imageView];
+}
+</code></pre>
+
+<h3>Loading and Latency</h3>
+
+<p>button的响应时间要保持在0.2秒以下。</p>
+
+<h3>Threaded Loading</h3>
+
+<p>gcd</p>
+
+<pre><code>//  标记cell
+cell.tag = indexPath.row;
+imageView.image = nil;
+//  异步加载图片
+dispatch_aysnc(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW),0),^{
+  //  加载图片
+  NSInteger index = indexPath.row;
+  NSString *imagePath = self.imagePaths[index];
+  UIImageView *image = [UIImage imageWithContentsOfFile:imagePath];
+
+  //  在主线程显示图片
+  dispatch_async(dispatch_get_main_queue(),^{
+    if (index == cell.tag){
+      imageView.image = image;
+    }
+  });
+});
+</code></pre>
+
+<h3>Deferred Decompression</h3>
+
+<p>PNG图片大，但解压快；<br/>
+JPEG图片小，但解压慢。<br/>
+图片通常在需要绘制前才开始解压。<br/>
+[UIImage imageWithName:imageName] 该方法载入图片后即开始解压。<br/>
+layer的contents或UIImageView的image。<br/>
+ImageIO.framework</p>
+
+<pre><code>NSInteger index = indexPath.row;
+NSURL *imageURL = [NSURL fileURLWithPath:self.imagePaths[index]];
+NSDictionary *options = @{(__bridge id)kCGImageSourceShouldCache:@YES};
+CGImageSourceRef source = CGImageSourceCreateWithURL((__bridge CFURLRef)imageURL,NULL);
+CGImageRef imageRef = CGImageSourceCreateImageAtIndex(source,0,(__bridge CFDictionaryRef)options);
+UIImage *image = [UIImage imageWithCGImage:imageRef];
+CGImageRelease(imageRef);
+CFRelease(source);
+</code></pre>
+
+<p>NSCache</p>
+
+<h2>Layer Performance</h2>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Export Music From Itunes to Local App's Sandbox on iPhone]]></title>
@@ -560,68 +1538,6 @@ gradientLayer.colors =
 <h2>Github源码</h2>
 
 <p><a href="https://github.com/sxgfxm/SmoothGradientPolyline">SmoothGradientPolyline</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[XGChart_README]]></title>
-    <link href="http://sxgfxm.github.io/blog/2016/10/25/xgchart-readme/"/>
-    <updated>2016-10-25T19:52:46+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2016/10/25/xgchart-readme</id>
-    <content type="html"><![CDATA[<h2>Introduction</h2>
-
-<p><a href="https://github.com/sxgfxm/XGChart">XGChart</a>是一个简洁的iOS 图表库，可以快速集成自定义折线图，曲线图和条形图。</p>
-
-<!-- more -->
-
-
-<h2>Install</h2>
-
-<p>首先，下载<strong>XGChart</strong>，将<strong>XGChart</strong>文件夹拖入工程。</p>
-
-<p><img src="http://ofj92itlz.bkt.clouddn.com/XGChart:import2.jpeg" alt="import" /></p>
-
-<p>然后，导入<strong>XGChart.h</strong>头文件，配置参数，创建即可。</p>
-
-<pre><code class="objective-c">#import "XGChart.h"
-</code></pre>
-
-<pre><code class="objective-c"> //  configuration
-  XGChartConfiguration *configuration = [[XGChartConfiguration alloc] init];
-  configuration.chartType = XGChartTypeLineChart;
-  configuration.paddingTop = 20;
-  configuration.paddingLeft = 20;
-  configuration.paddingBottom = 20;
-  configuration.paddingRight = 20;
-  configuration.xGridCount = 3;
-  configuration.yGridCount = 4;
-  configuration.gridColor = [UIColor grayColor];
-  configuration.xAxisLabelColor = [UIColor whiteColor];
-  configuration.xAxisLabelFontSize = 12;
-  configuration.yAxisLabelColor = [UIColor whiteColor];
-  configuration.yAxisLabelFontSize = 12;
-  NSMutableArray&lt;XGChartPoint *&gt; *chartPoints = [[NSMutableArray alloc] init];
-  for (int i = 1; i &lt; 31; i++) {
-    XGChartPoint *point =
-        [[XGChartPoint alloc] initWithX:i andY:arc4random_uniform(100)];
-    [chartPoints addObject:point];
-  }
-  configuration.chartPoints = chartPoints;
-  configuration.strokeColor = [UIColor redColor];
-  configuration.fillColor = [UIColor redColor];
-  configuration.lineWidth = 3;
-  //  line chart
-  XGChart *lineChart = [[XGChart alloc]
-      initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width,
-                               (self.view.bounds.size.height - 64) / 3)
-      configuration:configuration];
-  lineChart.backgroundColor = [UIColor blackColor];
-  [self.view addSubview:lineChart];
-</code></pre>
-
-<h2>Result</h2>
-
-<p><img src="http://ofj92itlz.bkt.clouddn.com/XGChart:result2.png" alt="" /></p>
 ]]></content>
   </entry>
   
