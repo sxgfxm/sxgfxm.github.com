@@ -3,8 +3,8 @@ layout: post
 title: "iOS知识小集-170227"
 date: 2017-03-06 16:15:46 +0800
 comments: true
-categories: iOS, lock, circular image, RxJava, socket
-keywords: sxgfxm
+categories: iOS
+keywords: sxgfxm, lock, circular image, RxJava, socket
 description: iOS, lock, circular image, RxJava, socket
 ---
 
