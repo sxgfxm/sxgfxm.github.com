@@ -30,7 +30,37 @@ description: sxgfxm,Block,单例,Healthkit,UIPasteboard,发送本地通知
 2. 何时创建单例？  
 3. 单例的特性？  
 
+## NSOperation
+~~~
+-(void)start;
+-(void)main;
+-(void)cancel;
+-(void)addDependency:(NSOperation*)op;
+-(void)removeDependency:(NSOperation*)op;
+@property BOOL executing;
+@property BOOL cancelled;
+@property BOOL finished;
+@property copy void (^completionBlock)(void);
+~~~
+使用方法：  
+1、继承NSOperation，通过init方法初始化，重写main方法执行任务；  
+2、可以通过completionBlock设置执行完成回调；  
+3、可以方便的判断任务执行状态，取消任务等；  
+4、可以添加和删除依赖关系，依赖其他operation的执行；  
+5、可以通过NSCondition阻塞，加锁，生产者-消费者；  
+
 ## NSOperationQueue
+~~~
+@property NSInteger maxCoucurrentOperationCount;
+@property NSInteger operationCount;
+-(void)addOperation:(NSOperation*)op;
+-(void)cancelAllOperations;
+-(void)waitUntilAllOperationsAreFinished;
+~~~
+使用方法：  
+1、初始化NSOperationQueue，设置同时可并行任务数量；  
+2、创建任务，并将其加入队列中，任务自动开始执行；  
+3、可以通过operationCount判断还有多少任务未执行；  
 
 ## HealthKit
 功能：存放健康数据，自动合并；  
