@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-03-20T16:53:40+08:00</updated>
+  <updated>2017-03-27T10:01:29+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,56 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-170320]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/03/27/ioszhi-shi-xiao-ji-170320/"/>
+    <updated>2017-03-27T09:58:51+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/03/27/ioszhi-shi-xiao-ji-170320</id>
+    <content type="html"><![CDATA[<h2>iOS系统分享</h2>
+
+<p>需增加版本判断：<code>UIActivityTypeOpenInIBooks</code>iOS 9.0之后才有。</p>
+
+<h2>iOS导出音乐</h2>
+
+<p>如何导出mp3：先按mov格式导出，再转为mp3。<br/>
+如何包含metadata信息：m4a格式自动包含metadata信息，mp3无。<br/>
+路径去除特殊字符。</p>
+
+<!-- more -->
+
+
+<h2>GCDWebserver后台运行</h2>
+
+<p>设置option</p>
+
+<pre><code>- (BOOL)startServer {
+  for (int i = 0; i &lt; 10; i++) {
+    //  随机端口号
+    NSInteger port = arc4random_uniform(64510) + 1025;
+    NSDictionary *options = @{
+      GCDWebServerOption_ConnectedStateCoalescingInterval : @(20),
+      GCDWebServerOption_Port : @(port)
+    };
+    NSError *error = nil;
+    if ([self.webServer startWithOptions:options error:&amp;error]) {
+      DDLogDebug(@"Start local server: %@", self.webServer.serverURL);
+      return YES;
+    }
+  }
+  return NO;
+}
+</code></pre>
+
+<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2017/03/27/ioszhi-shi-xiao-ji-170320/'>http://sxgfxm.github.io/blog/2017/03/27/ioszhi-shi-xiao-ji-170320/</a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
+  </p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-170313]]></title>
@@ -4087,277 +4137,6 @@ static const char *UIControl_enventIsIgnoreEvent = "UIControl_enventIsIgnoreEven
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
   </p></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Markdown Syntax]]></title>
-    <link href="http://sxgfxm.github.io/blog/2016/10/17/markdown-syntax/"/>
-    <updated>2016-10-17T20:34:29+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2016/10/17/markdown-syntax</id>
-    <content type="html"><![CDATA[<h2>Format</h2>
-
-<table>
-<thead>
-<tr>
-<th style="text-align:left;"> 语法                                       </th>
-<th style="text-align:left;"> 效果                         </th>
-<th style="text-align:left;"> 快捷键         </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;"> **strong**                              </td>
-<td style="text-align:left;"> <strong>strong</strong>                 </td>
-<td style="text-align:left;"> ⌘ + B       </td>
-</tr>
-<tr>
-<td style="text-align:left;"> *emphasis*                              </td>
-<td style="text-align:left;"> <em>emphasis</em>                 </td>
-<td style="text-align:left;"> ⌘ + I       </td>
-</tr>
-<tr>
-<td style="text-align:left;"> \<u>underline</u>                        </td>
-<td style="text-align:left;"> <u>underline</u>           </td>
-<td style="text-align:left;"> ⌘ + U       </td>
-</tr>
-<tr>
-<td style="text-align:left;"> `code`                     </td>
-<td style="text-align:left;"> <code>code</code>                     </td>
-<td style="text-align:left;"> ⌘ + shift + ` |                            |             </td>
-</tr>
-<tr>
-<td style="text-align:left;"> \<del>strike</del>                              </td>
-<td style="text-align:left;"> <del>strike</del>                 </td>
-<td style="text-align:left;">             </td>
-</tr>
-<tr>
-<td style="text-align:left;"> [百度](<a href="http://www.baidu.com">http://www.baidu.com</a>)              </td>
-<td style="text-align:left;"> <a href="http://www.baidu.com">百度</a> </td>
-<td style="text-align:left;"> ⌘ + K       </td>
-</tr>
-<tr>
-<td style="text-align:left;"> <img src="imageSource" alt="imageName" />                </td>
-<td style="text-align:left;">                            </td>
-<td style="text-align:left;"> ⌘ + alt + I </td>
-</tr>
-<tr>
-<td style="text-align:left;"> \                                       </td>
-<td style="text-align:left;"> clear format               </td>
-<td style="text-align:left;"> ⌘ + \       </td>
-</tr>
-</tbody>
-</table>
-
-
-<!--more-->
-
-
-<h2>Paragraph</h2>
-
-<h3>Heading</h3>
-
-<ul>
-<li><p>语法</p>
-
-<ul>
-<li>#h1</li>
-<li>##h2</li>
-<li>###h3</li>
-<li>####h4</li>
-<li>#####h5</li>
-<li>######h6</li>
-</ul>
-</li>
-<li><p>效果</p>
-
-<ul>
-<li><h1>h1</h1></li>
-<li><h2>h2</h2></li>
-<li><h3>h3</h3></li>
-<li><h4>h4</h4></li>
-<li><h5>h5</h5></li>
-<li><h6>h6</h6></li>
-</ul>
-</li>
-<li><p>快捷键</p>
-
-<ul>
-<li>⌘ + 数字键</li>
-</ul>
-</li>
-</ul>
-
-
-<h3>Code Block</h3>
-
-<ul>
-<li><p>语法</p>
-
-<ul>
-<li>\~~~</li>
-</ul>
-</li>
-<li><p>效果</p>
-
-<ul>
-<li><pre><code>code block
-</code></pre></li>
-</ul>
-</li>
-<li><p>快捷键</p>
-
-<ul>
-<li>⌘ + alt + C</li>
-</ul>
-</li>
-</ul>
-
-
-<h3>Quote</h3>
-
-<ul>
-<li><p>语法</p>
-
-<ul>
-<li>>引用</li>
-</ul>
-</li>
-<li><p>效果</p>
-
-<ul>
-<li><blockquote><p>引用</p></blockquote></li>
-</ul>
-</li>
-<li><p>快捷键</p>
-
-<ul>
-<li>⌘ + alt +Q</li>
-</ul>
-</li>
-</ul>
-
-
-<h3>Horizontal Line</h3>
-
-<ul>
-<li><p>语法</p>
-
-<ul>
-<li>-&ndash;</li>
-</ul>
-</li>
-<li><p>效果</p>
-
-<hr /></li>
-<li><p>快捷键</p>
-
-<ul>
-<li>⌘ + shift + -</li>
-</ul>
-</li>
-</ul>
-
-
-<h3>Ordered List</h3>
-
-<ul>
-<li>语法
-
-<ul>
-<li>\1. Item</li>
-<li>\2. Item</li>
-<li>\3. Item</li>
-</ul>
-</li>
-<li>效果
-
-<ul>
-<li><ol>
-<li>Item</li>
-</ol>
-</li>
-<li><ol>
-<li>Item</li>
-</ol>
-</li>
-<li><ol>
-<li>Item</li>
-</ol>
-</li>
-</ul>
-</li>
-<li>快捷键
-
-<ul>
-<li>⌘ + alt + O</li>
-</ul>
-</li>
-</ul>
-
-
-<h3>Unordered List</h3>
-
-<ul>
-<li>语法
-
-<ul>
-<li>* Item</li>
-<li>* Item</li>
-<li>* Item</li>
-</ul>
-</li>
-<li>效果
-
-<ul>
-<li><ul>
-<li>Item</li>
-</ul>
-</li>
-<li><ul>
-<li>Item</li>
-</ul>
-</li>
-<li><ul>
-<li>Item</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>快捷键
-
-<ul>
-<li>⌘ + alt + U</li>
-</ul>
-</li>
-</ul>
-
-
-<h3>Table List</h3>
-
-<ul>
-<li><p>快捷键</p>
-
-<ul>
-<li>⌘ + T</li>
-</ul>
-</li>
-<li><p>效果</p>
-
-<ul>
-<li>| 1    | 2    | 3    |
-| &mdash;- | &mdash;- | &mdash;- |
-| 4    | 5    | 6    |
-| 7    | 8    | 9    |<p class='post-footer'>
-原始地址：
-<a href='http://sxgfxm.github.io/blog/2016/10/17/markdown-syntax/'><a href="http://sxgfxm.github.io/blog/2016/10/17/markdown-syntax/">http://sxgfxm.github.io/blog/2016/10/17/markdown-syntax/</a></a><br/>
-written by <a href='http://sxgfxm.github.io'>Light</a>
-&nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
-</p></li>
-</ul>
-</li>
-</ul>
-
 ]]></content>
   </entry>
   
