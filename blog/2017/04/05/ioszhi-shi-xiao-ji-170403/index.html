@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Prevent Duplicate Clicks - Light's Blog</title>
+  <title>iOS知识小集-170403 - Light's Blog</title>
   <meta name="author" content="Light">
 
   
-  <meta name="description" content="Prevent duplicate clicks">
-  <meta name="keywords" content="sxgfxm, duplicate clicks">
+  <meta name="description" content="sxgfxm, NSURL, NSString, ID3v1, Metadata, MPMediaItem, GCDWebServer">
+  <meta name="keywords" content="sxgfxm, NSURL, NSString, ID3v1, Metadata, MPMediaItem, GCDWebServer">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://sxgfxm.github.io/blog/2017/01/17/prevent-duplicate-clicks/">
+  <link rel="canonical" href="http://sxgfxm.github.io/blog/2017/04/05/ioszhi-shi-xiao-ji-170403/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Light's Blog" type="application/atom+xml">
@@ -102,7 +102,7 @@ $(document).bind('DOMNodeInserted', function(event) {
   
   <header>
     
-      <h1 class="entry-title">Prevent Duplicate Clicks</h1>
+      <h1 class="entry-title">iOS知识小集-170403</h1>
     
     
       <p class="meta">
@@ -111,146 +111,80 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 
-<time class='entry-date' datetime='2017-01-17T16:19:36+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:19 pm</span></time>
+<time class='entry-date' datetime='2017-04-05T09:07:16+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>9:07 am</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>在应用开发过程中，点击事件为耗时操作或者延时响应，例如请求服务器数据，push至下一个界面，如果不处理用户重复点击事件，将会重复触发事件。下面介绍几种简单的处理方法。</p>
+<div class="entry-content"><h2>转换</h2>
 
-<!--more-->
+<p>NSURL -> NSString：<code>NSString *path = [url path];</code><br/>
+NSString -> NSURL：<code>NSURL *url = [NSURL fileURLWithPath:path];</code> <br/>
+UIImage -> NSData：<code>NSData *data = UIImagePNGRepresentation(image);</code><br/>
+NSData -> UIImage：<code>UIImage *image = [UIImage imageWithData:data];</code></p>
 
-
-<h2>Button</h2>
-
-<p>点击后button状态置为disabled；
-操作完成后button状态置为enabled；</p>
-
-<h2>View</h2>
-
-<p>根据处理状态设置userInteractiveEnable。</p>
-
-<h2>Push</h2>
-
-<p>方法一：
-    点击后button状态置为disabled；
-    viewDidDisappear置为enabled；</p>
-
-<p>方法二：在push前添加判断：如果和上一个视图控制器一样，隔绝此次操作。</p>
-
-<pre><code class="objective-c">if ([self.navigationController.topViewController isKindOfClass:[MyViewController class]]) {
-    return;
-}
-</code></pre>
-
-<h2>时间监听类</h2>
-
-<p>用一个静态变量记录上一次点击的时间，每次点击check时间间隔是否达到要求。</p>
-
-<h2>Runtime</h2>
-
-<p>使用Runtime监听点击事件，忽略重复点击。
-添加一个eventTimeInterval属性，使其规定时间内只能响应一次点击事件。</p>
-
-<p>参考<a href="http://www.cnblogs.com/wanxudong/p/5984941.html">iOS防止重复点击button</a></p>
-
-<p>.h</p>
-
-<pre><code>#import &lt;UIKit/UIKit.h&gt;
-
-@interface UIButton (WXD)
-
-/**
-*  为按钮添加点击间隔 eventTimeInterval秒
-*/
-@property (nonatomic, assign) NSTimeInterval eventTimeInterval;
-
-@end
-</code></pre>
-
-<p>.m</p>
-
-<pre><code class="objective-c">#import "UIButton+WXD.h"
-#import &lt;objc/runtime.h&gt;
-#define defaultInterval 1  //默认时间间隔
-
-@interface UIButton ()
-
-/**
-*  bool YES 忽略点击事件   NO 允许点击事件
-*/
-@property (nonatomic, assign) BOOL isIgnoreEvent;
-
-@end
-
-@implementation UIButton (WXD)
-
-static const char *UIControl_eventTimeInterval = "UIControl_eventTimeInterval";
-static const char *UIControl_enventIsIgnoreEvent = "UIControl_enventIsIgnoreEvent";
+<!-- more -->
 
 
-// runtime 动态绑定 属性
-- (void)setIsIgnoreEvent:(BOOL)isIgnoreEvent
-{
-    objc_setAssociatedObject(self, UIControl_enventIsIgnoreEvent, @(isIgnoreEvent), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-- (BOOL)isIgnoreEvent{
-    return [objc_getAssociatedObject(self, UIControl_enventIsIgnoreEvent) boolValue];
-}
+<h2>向歌曲中写入metadata信息</h2>
 
-- (NSTimeInterval)eventTimeInterval
-{
-  return [objc_getAssociatedObject(self, UIControl_eventTimeInterval) doubleValue];
-}
+<p>导入第三方库<a href="https://github.com/larsbs/id3v2lib">id3v2lib</a>。</p>
 
-- (void)setEventTimeInterval:(NSTimeInterval)eventTimeInterval
-{
- objc_setAssociatedObject(self, UIControl_eventTimeInterval, @(eventTimeInterval), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-+ (void)load
-{
-  // Method Swizzling
- static dispatch_once_t onceToken;
- dispatch_once(&amp;onceToken, ^{
-       SEL selA = @selector(sendAction:to:forEvent:);
-       SEL selB = @selector(_wxd_sendAction:to:forEvent:);
-       Method methodA = class_getInstanceMethod(self,selA);
-       Method methodB = class_getInstanceMethod(self, selB);
-
-       BOOL isAdd = class_addMethod(self, selA, method_getImplementation(methodB), method_getTypeEncoding(methodB));
-
-       if (isAdd) {
-           class_replaceMethod(self, selB, method_getImplementation(methodA), method_getTypeEncoding(methodA));
-       }else{
-           //添加失败了 说明本类中有methodB的实现，此时只需要将methodA和methodB的IMP互换一下即可。
-          method_exchangeImplementations(methodA, methodB);
-      }
- });
-}
-
-- (void)_wxd_sendAction:(SEL)action to:(id)target forEvent:(UIEvent *)event
-{
-  self.eventTimeInterval = self.eventTimeInterval == 0 ? defaultInterval : self.eventTimeInterval;
-  if (self.isIgnoreEvent){
-      return;
-  }else if (self.eventTimeInterval &gt; 0){
-      dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.eventTimeInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-       [self setIsIgnoreEvent:NO];
-       });
+<pre><code>  //  文件路径
+  const char *cPath = [[url path] cStringUsingEncoding:NSUTF8StringEncoding];
+  //  创建tag
+  ID3v2_tag *tag = load_tag(cPath);
+  if (tag == NULL) {
+    tag = new_tag();
   }
-
-  self.isIgnoreEvent = YES;
-  // 这里看上去会陷入递归调用死循环，但在运行期此方法是和sendAction:to:forEvent:互换的，相当于执行sendAction:to:forEvent:方法，所以并不会陷入死循环。
-  [self _wxd_sendAction:action to:target forEvent:event];
-}  
+  //  设置tag
+  char *title = (char *)[item.title cStringUsingEncoding:NSUTF8StringEncoding];
+  tag_set_title(title, 0, tag);
+  char *artist = (char *)[item.artist cStringUsingEncoding:NSUTF8StringEncoding];
+  tag_set_artist(artist, 0, tag);
+  UIImage *image = [item.artwork imageWithSize:CGSizeMake(400, 400)];
+  NSData *data = UIImagePNGRepresentation(image);
+  NSString *coverPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]
+      stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", item.title]];
+  [[NSFileManager defaultManager] removeItemAtPath:coverPath error:nil];
+  [[NSFileManager defaultManager] createFileAtPath:coverPath contents:data attributes:nil];
+  tag_set_album_cover([coverPath cStringUsingEncoding:NSUTF8StringEncoding], tag);
+  [[NSFileManager defaultManager] removeItemAtPath:coverPath error:nil];
+  //  写入tag
+  set_tag(cPath, tag);
 </code></pre>
+
+<h2>MPMediaItem</h2>
+
+<p>isCloudItem：是否为云端文件；<br/>
+hasProtectedAsset：是否含有被保护文件；<br/>
+以上两个原因可能导致assertURL为nil。</p>
+
+<h2>NSOperation内存泄露</h2>
+
+<p>operation.completionBlock会引起循环引用。<br/>
+在block中创建对象注意生命周期。</p>
+
+<h2>GCDWebServer监听传输状态</h2>
+
+<p>继承<code>GCDWebServerConnection</code>，重写<code>- (void)didWriteBytes:(const void *)bytes length:(NSUInteger)length</code>方法，以通知的形式传递值。</p>
+
+<h2>c string in OC</h2>
+
+<p><code>char *cString = (char *)[string cStringUsingEncoding:NSUTF8StringEncoding]</code>，
+无需手动释放，当receiver被释放或者内存不足时，会自动释放cString。</p>
+
+<h2>WiFi ap隔离</h2>
+
+<h2>观察者模式</h2>
+
+<h2>工厂模式</h2>
 
 <p class='post-footer'>
   原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/01/17/prevent-duplicate-clicks/'>http://sxgfxm.github.io/blog/2017/01/17/prevent-duplicate-clicks/</a><br/>
+  <a href='http://sxgfxm.github.io/blog/2017/04/05/ioszhi-shi-xiao-ji-170403/'>http://sxgfxm.github.io/blog/2017/04/05/ioszhi-shi-xiao-ji-170403/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>
@@ -270,7 +204,7 @@ static const char *UIControl_enventIsIgnoreEvent = "UIControl_enventIsIgnoreEven
 
 
 
-<time class='entry-date' datetime='2017-01-17T16:19:36+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:19 pm</span></time>
+<time class='entry-date' datetime='2017-04-05T09:07:16+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>9:07 am</span></time>
       
 
 <span class="categories">
@@ -292,10 +226,8 @@ static const char *UIControl_enventIsIgnoreEvent = "UIControl_enventIsIgnoreEven
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2016/10/27/smooth-gradient-polyline/" title="Previous Post: Smooth Gradient Polyline">&laquo; Smooth Gradient Polyline</a>
+        <a class="basic-alignment left" href="/blog/2017/03/27/ioszhi-shi-xiao-ji-170320/" title="Previous Post: iOS知识小集-170320">&laquo; iOS知识小集-170320</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2017/01/23/core-data-tutorial-ios-10/" title="Next Post: Core Data Tutorial iOS 10">Core Data Tutorial iOS 10 &raquo;</a>
       
     </p>
   </footer>
