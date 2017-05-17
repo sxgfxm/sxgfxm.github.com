@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Core Data Tutorial iOS 10 - Light's Blog</title>
+  <title>iOS知识小集-170424 - Light's Blog</title>
   <meta name="author" content="Light">
 
   
-  <meta name="description" content="Core Data in iOS 10, NSPersistentContainer">
-  <meta name="keywords" content="sxgfxm, Core Data, iOS 10, NSPersistentContainer">
+  <meta name="description" content="sxgfxm,ComponentKit Tutorial,Flexbox Layout,CKStackLayoutComponent">
+  <meta name="keywords" content="sxgfxm,ComponentKit Tutorial,Flexbox Layout,CKStackLayoutComponent">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://sxgfxm.github.io/blog/2017/01/23/core-data-tutorial-ios-10/">
+  <link rel="canonical" href="http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170424/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Light's Blog" type="application/atom+xml">
@@ -102,7 +102,7 @@ $(document).bind('DOMNodeInserted', function(event) {
   
   <header>
     
-      <h1 class="entry-title">Core Data Tutorial iOS 10</h1>
+      <h1 class="entry-title">iOS知识小集-170424</h1>
     
     
       <p class="meta">
@@ -111,125 +111,155 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 
-<time class='entry-date' datetime='2017-01-23T16:40:01+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2017</span></span> <span class='time'>4:40 pm</span></time>
+<time class='entry-date' datetime='2017-05-17T16:38:39+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:38 pm</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>iOS 10 CoreData使用总结。</p>
+<div class="entry-content"><h1>ComponentKit Tutorial - Layout</h1>
 
-<!--more-->
+<h2>Flexbox Layout</h2>
+
+<p><strong>flex container</strong>：容器。<br/>
+main axis：main start， main end。<br/>
+cross axis：cross start， cross end。<br/>
+<strong>flex item</strong>：成员。<br/>
+main size。<br/>
+cross size。</p>
+
+<!-- more -->
 
 
-<h2>Include Core Data</h2>
+<h2>Container Properties</h2>
 
-<p>创建工程时选择包含CoreData，系统会自动生成相关文件。</p>
+<p>flex-direction：决定主轴方向。</p>
 
-<h2>Add Entity</h2>
-
-<p>在xcdatamodeld文件中，添加Entity。<br/>
-Entity相当于表，其中Attributes相当于表中的记录，对应需要存储的数据。</p>
-
-<h2>Create NSManagedObject Subclass</h2>
-
-<p>创建Entity对应的model。<br/>
-在Xcode8中，创建方式为Editor ———— Create NSManagedObject Subclass。<br/>
-注意，创建之前需要将数据库的Codegen设置为Manual/None，否则会报duplicate错误。</p>
-
-<h2>Get NSPersistentContainer Object</h2>
-
-<p>iOS 10 对Core Data做了很大的优化和改进，大大简化了Core Data的使用。<br/>
-NSPersistentContainer是新添加的类，从此大部分情况下无需再和NSManagedObjectContext、NSPersistentStoreCoordinator打交道。<br/>
-获取NSPersistentContainer</p>
-
-<pre><code class="objective-c">#import 'AppDelegate.h'
-
-@interface ViewController ()
-
-@property(nonatomic, strong) NSPersistentContainer *container;
-
-@end
-
-@implementation ViewController
-
--(void)viewDidLoad{
-  [super viewDidLoad];
-  self.container = ((AppDelegate *)[UIApplication sharedApplication].delegate).persistentContainer;
-}
-
-@end
+<pre><code>typedef NS_ENUM(NSUInteger, CKStackLayoutDirection) {
+  //  垂直方向
+  CKStackLayoutDirectionVertical,
+  //  水平方向
+  CKStackLayoutDirectionHorizontal,
+};
 </code></pre>
 
-<h2>Add Record</h2>
+<p>flex-wrap：决定如何换行。<br/>
+flex-flow：flex-direction和flex-wrap的简写形式。<br/>
+<strong>justify-content</strong>：决定items在主轴上的对齐方式。</p>
 
-<p>导入通过系统创建的Create NSManagedObject Subclass，通过NSEntityDescription增添记录。</p>
-
-<pre><code class="objective-c">#import "People+CoreDataProperties.h"
-
-#define kEntityName @"People"
-
--(void)addRecord{
-  People *people = [NSEntityDescription insertNewObjectForEntityForName:kEntityName inManagedObjectContext:self.container.viewContext];
-  people.name = @"Tom";
-  people.sex = YES;
-  people.age = 23;
-}
+<pre><code>/** If no children are flexible, how should this component justify its children in the available space? */
+typedef NS_ENUM(NSUInteger, CKStackLayoutJustifyContent) {
+  /**
+   On overflow, children overflow out of this component's bounds on the right/bottom side.
+   On underflow, children are left/top-aligned within this component's bounds.
+   */
+  //  左对齐
+  CKStackLayoutJustifyContentStart,
+  /**
+   On overflow, children are centered and overflow on both sides.
+   On underflow, children are centered within this component's bounds in the stacking direction.
+   */
+  //  居中
+  CKStackLayoutJustifyContentCenter,
+  /**
+   On overflow, children overflow out of this component's bounds on the left/top side.
+   On underflow, children are right/bottom-aligned within this component's bounds.
+   */
+  //  右对齐
+  CKStackLayoutJustifyContentEnd,
+};
 </code></pre>
 
-<h2>Fetch Record</h2>
+<p><strong>align-items</strong>：决定items在交叉轴上的对齐方式。</p>
 
-<p>通过NSFetchRequest查询记录。</p>
+<pre><code>typedef NS_ENUM(NSUInteger, CKStackLayoutAlignItems) {
+  /** Align children to start of cross axis */
+  //  交叉轴起点对齐
+  CKStackLayoutAlignItemsStart,
+  /** Align children with end of cross axis */
+  CKStackLayoutAlignItemsEnd,
+  //  交叉轴终点对齐
+  /** Center children on cross axis */
+  //  交叉轴居中对齐
+  CKStackLayoutAlignItemsCenter,
+  /** Expand children to fill cross axis */
+  //  交叉轴方向拉伸
+  CKStackLayoutAlignItemsStretch,
+};
+</code></pre>
 
-<pre><code class="objective-c">-(void)fetchRecord{
-  NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:kEntityName];
-  NSArray&lt;People *&gt; *results = [self.container.viewContext executeFetchRequest:fetchRequest error:nil];
-  for (People *people in results) {
-    NSLog(@"name %@", people.name);
-    NSLog(@"sex  %@", people.sex);
-    NSLog(@"age  %@", people.age);
+<h2>Item Properties</h2>
+
+<p>order：决定item排列顺序，数值越小，排位越靠前。<br/>
+<strong>flex-grow</strong>：决定item主轴方向的放大比例，默认为0，即如果存在剩余空间，也不放大。<br/>
+如果所有项目的flex-grow属性都为1，则它们将等分剩余空间（如果有的话）。如果一个项目的flex-grow属性为2，其他项目都为1，则前者占据的剩余空间将比其他项多一倍。<br/>
+<strong>flex-shrink</strong>：决定item主轴方向的缩小比例，默认为1，即如果空间不足，该item将缩小。<br/>
+如果所有项目的flex-shrink属性都为1，当空间不足时，都将等比例缩小。如果一个项目的flex-shrink属性为0，其他项目都为1，则空间不足时，前者不缩小。<br/>
+<strong>flex-basis</strong>：决定了在分配多余空间之前，item的main size大小，根据该值计算主轴是否有多余空间。<br/>
+flex：flex-grow, flex-shrink 和 flex-basis的简写。<br/>
+<strong>align-self</strong>：决定item单独的对齐方式，可以覆盖 <strong>align-items</strong> 属性。<br/>
+默认值为auto，表示继承父元素的align-items属性，如果没有父元素，则等同于stretch。</p>
+
+<pre><code>/**
+ Each child may override their parent stack's cross axis alignment.
+ @see CKStackLayoutAlignItems
+ */
+typedef NS_ENUM(NSUInteger, CKStackLayoutAlignSelf) {
+  /** Inherit alignment value from containing stack. */
+  CKStackLayoutAlignSelfAuto,
+  CKStackLayoutAlignSelfStart,
+  CKStackLayoutAlignSelfEnd,
+  CKStackLayoutAlignSelfCenter,
+  CKStackLayoutAlignSelfStretch,
+};
+</code></pre>
+
+<h2>CKStackLayoutComponent</h2>
+
+<p>A simple layout component that stacks a list of children vertically or horizontally.<br/>
+动态创建children：</p>
+
+<pre><code>static std::vector&lt;CKStackLayoutComponentChild&gt; createChildren(NSArray* list){
+  std::vector&lt;CKStackLayoutComponentChild&gt; children;
+  for (VPANewsModel*newsModel in list) {
+    children.push_back({[VPANewsComponent newWithNewsModel:newsModel]});
   }
+  return children;
 }
 </code></pre>
 
-<h2>Update Record</h2>
+<h2>CKBackgroundLayoutComponent</h2>
 
-<p>先fetch需要修改的记录，然后直接修改即可。</p>
+<p>Lays out a single child component, then lays out a background component behind it stretched to its size.</p>
 
-<pre><code class="objective-c">-(void)updateRecord{
-  NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:kEntityName];
-  NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", @"Tom"];
-  fetchRequest.predicate = predicate;
-  NSArray&lt;People *&gt; *results = [self.container.viewContext executeFetchRequest:fetchRequest error:nil];
-  for (People *people in results) {
-    people.name = @"Lily";
-  }
-}
+<pre><code>+ (instancetype)newWithComponent:(CKComponent *)component
+                      background:(CKComponent *)background;
 </code></pre>
 
-<h2>Delete Record</h2>
+<h2>CKStaticLayoutComponent</h2>
 
-<p>先fetch需要删除的记录，然后通过NSManagedObjectContext删除即可。</p>
+<p>A component that positions children at fixed positions.<br/>
+Computes a size that is the union of all childrens' frames.</p>
 
-<pre><code class="objective-c">-(void)deleteRecord{
-  NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:kEntityName];
-  NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", @"Lily"];
-  fetchRequest.predicate = predicate;
-  NSArray&lt;People *&gt; *results = [self.container.viewContext executeFetchRequest:fetchRequest error:nil];
-  for (People *people in results) {
-    [self.container.viewContext deleteObject:people];
-  }
-}
+<h2>CKCenterLayoutComponent</h2>
+
+<p>Lays out a single child component and position it so that it is centered into the layout bounds.</p>
+
+<pre><code>+ (instancetype)newWithCenteringOptions:(CKCenterLayoutComponentCenteringOptions)centeringOptions
+                          sizingOptions:(CKCenterLayoutComponentSizingOptions)sizingOptions
+                                  child:(CKComponent *)child
+                                   size:(const CKComponentSize &amp;)size;
 </code></pre>
 
-<h2>GitHub源码</h2>
+<h2>CKRatioLayoutComponent</h2>
 
-<p><a href="https://github.com/sxgfxm/CoreDataDemo">CoreDataDemo</a></p>
+<p>For when the content should respect a certain inherent ratio but can be scaled (think photos or videos).
+The ratio passed is the ratio of height / width you expect.</p>
 
 <p class='post-footer'>
   原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/01/23/core-data-tutorial-ios-10/'>http://sxgfxm.github.io/blog/2017/01/23/core-data-tutorial-ios-10/</a><br/>
+  <a href='http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170424/'>http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170424/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>
@@ -249,7 +279,7 @@ NSPersistentContainer是新添加的类，从此大部分情况下无需再和NS
 
 
 
-<time class='entry-date' datetime='2017-01-23T16:40:01+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2017</span></span> <span class='time'>4:40 pm</span></time>
+<time class='entry-date' datetime='2017-05-17T16:38:39+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:38 pm</span></time>
       
 
 <span class="categories">
@@ -271,10 +301,8 @@ NSPersistentContainer是新添加的类，从此大部分情况下无需再和NS
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2017/01/17/prevent-duplicate-clicks/" title="Previous Post: Prevent duplicate clicks">&laquo; Prevent duplicate clicks</a>
+        <a class="basic-alignment left" href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170417/" title="Previous Post: iOS知识小集-170417">&laquo; iOS知识小集-170417</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2017/02/10/export-music-from-itunes-to-local-apps-sandbox-on-iphone/" title="Next Post: Export Music from Itunes to Local App's Sandbox on iPhone">Export Music from Itunes to Local App's Sandbox on iPhone &raquo;</a>
       
     </p>
   </footer>
