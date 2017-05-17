@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-05-17T16:30:55+08:00</updated>
+  <updated>2017-05-17T16:36:32+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,151 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-170417]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170417/"/>
+    <updated>2017-05-17T16:33:08+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170417</id>
+    <content type="html"><![CDATA[<h1>ComponentKit Tutorial - Component</h1>
+
+<h2>CKComponent</h2>
+
+<p>A component is an immutable object that specifies how to configure a view, loosely inspired by React.</p>
+
+<pre><code>+ (instancetype)newWithView:(const CKComponentViewConfiguration &amp;)view
+                       size:(const CKComponentSize &amp;)size;
+</code></pre>
+
+<p>Example:</p>
+
+<pre><code>CKComponent *component = [CKComponent
+    newWithView:{
+        [UIView class],
+        {
+            {@selector(setBackgroundColor:),[UIColor redColor]},
+            {@selector(setUserInteractionEnabled:), @YES},
+            {CKComponentTapGestureAttribute(@selector(didTap))},
+            {CKComponentViewAttribute::LayerAttribute(@selector(setCornerRadius:)), @10.0}
+        }
+    }
+    size:{50,50}];
+
+- (void)didTap{
+  [self updateState:^(NSNumber *oldState){
+    return [oldState boolValue] ? @NO : @YES;
+  } mode:CKUpdateModeSynchronous];
+}
+</code></pre>
+
+<!-- more -->
+
+
+<h2>CKLabelComponent</h2>
+
+<p>多行文字通过size.width控制。</p>
+
+<pre><code>CKLabelComponent *titleComponent = [CKLabelComponent newWithLabelAttributes:{
+    .string = newsModel.title,
+    .color = [UIColor whiteColor],
+    .alignment = NSTextAlignmentLeft,
+    .font = [UIFont systemFontOfSize:20]
+  }
+  viewAttributes:{
+    { @selector(setBackgroundColor:), [UIColor clearColor] }
+  }
+  size:{}];
+</code></pre>
+
+<h2>CKButtonComponent</h2>
+
+<pre><code> CKButtonComponent *buttonComponent = [CKButtonComponent
+    newWithTitles:{
+      {UIControlStateNormal,@"button"}
+    }
+    titleColors:{
+      {UIControlStateNormal,[UIColor whiteColor]}
+    }
+    images:{}
+    backgroundImages:{}
+    titleFont:[UIFont systemFontOfSize:17]
+    selected:NO
+    enabled:YES
+    action:{@selector(tapAction)}
+    size:{}
+    attributes:{}
+    accessibilityConfiguration:{}];
+</code></pre>
+
+<h2>CKImageComponent</h2>
+
+<pre><code>CKImageComponent *image = [CKImageComponent newWithImage:
+    [UIImage imageNamed:newsModel.imageURL]
+    attributes:{
+        { @selector(setBackgroundColor:), [UIColor whiteColor] },
+        {CKComponentViewAttribute::LayerAttribute(@selector(setCornerRadius:)), @10.0}
+    }
+    size:{60, 60}];
+</code></pre>
+
+<h2>CKInsetComponent</h2>
+
+<p>A component that wraps another component, applying insets around it.</p>
+
+<pre><code>+ (instancetype)newWithView:(const CKComponentViewConfiguration &amp;)view
+                     insets:(UIEdgeInsets)insets
+                  component:(CKComponent *)component;
+
++ (instancetype)newWithInsets:(UIEdgeInsets)insets component:(CKComponent *)child;
+</code></pre>
+
+<p>Example:</p>
+
+<pre><code>CKInsetComponent *insetComponent = [CKInsetComponent
+    newWithInsets:{.top = 10,.left = 20,.right = 10,.bottom = 20}
+    component:[CKComponent
+        newWithView:{}
+        size:{}]
+    ];
+</code></pre>
+
+<h2>CKOverlayLayoutComponent</h2>
+
+<p>This component lays out a single component and then overlays a component on top of it streched to its size.</p>
+
+<pre><code>+ (instancetype)newWithComponent:(CKComponent *)component
+                         overlay:(CKComponent *)overlay;
+</code></pre>
+
+<h2>State</h2>
+
+<p>Simply ask three questions about each piece of data:<br/>
+1. Is it passed in from a parent via props? If so, it probably isn&rsquo;t state.<br/>
+2. Does it remain unchanged over time? If so, it probably isn&rsquo;t state.<br/>
+3. Can you compute it based on any other state or props in your component? If so, it isn&rsquo;t state.</p>
+
+<p>For each piece of state in your application:<br/>
+1. Identify every component that renders something based on that state.<br/>
+2. Find a common owner component (a single component above all the components that need the state in the hierarchy).<br/>
+3. Either the common owner or another component higher up in the hierarchy should own the state.<br/>
+4. If you can&rsquo;t find a component where it makes sense to own the state, create a new component simply for holding the state and add it somewhere in the hierarchy above the common owner component.</p>
+
+<h2>Scope</h2>
+
+<ol>
+<li>Components that have state must have a scope.</li>
+<li>Components that have a controller must have a scope.</li>
+<li>Components that have child components with state or controllers may need a scope, even if they don’t have state or controllers.</li>
+</ol>
+
+
+<h2>ComponentController</h2>
+
+<p>与component写在同一个文件里，系统自动创建。<br/>
+用来处理代理、事件响应等，有持续的生命周期。<br/>
+scope必须唯一，与controller一一对应。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-170410]]></title>
@@ -411,57 +556,6 @@ hasProtectedAsset：是否含有被保护文件；<br/>
     }
   }
   return NO;
-}
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-170313]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/03/20/ioszhi-shi-xiao-ji-170313/"/>
-    <updated>2017-03-20T16:50:46+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/03/20/ioszhi-shi-xiao-ji-170313</id>
-    <content type="html"><![CDATA[<h2>Masonry</h2>
-
-<p>需要先添加到父视图，再设置约束。<br/>
-block中无需使用weakself。<br/>
-添加约束：makeConstrains。<br/>
-更新约束：updateConstrains，与之相关的布局自动调整。<br/>
-重设约束：remakeConstrains，删除之前的约束重新添加。</p>
-
-<pre><code>[self.view updateConstraints:^(MASConstraintMaker *make){
-  //  updateConstraints
-}];
-[self.view updateConstraints];
-[self.view setNeedsLayout];
-[UIView animateWithDuration:3 animations:^{
-  [self.view layoutIfNeeded];
-}];
-</code></pre>
-
-<!-- more -->
-
-
-<h2>Autolayout</h2>
-
-<p><code>setNeedsLayout</code>：使当前布局失效，并在下一个更新循环中触发布局更新，遍历view的结构。<br/>
-<code>layoutIfNeeded</code>：强制立即更新布局，可以实现动画效果。<br/>
-scrollview自动布局：添加tmpview，在tmpview上添加view，最后约束tmpview和contentsize。</p>
-
-<h2>退出viewcontroller事件监听</h2>
-
-<h2>IQActionSheetPickerView</h2>
-
-<pre><code>IQActionSheetPickerView *picker = [IQActionSheetPickerView actionSheetWithTitle:@"Age" delegate:self];
-NSArray *dataSource = @[@"10",@"20",@"30",@"40",@"50",@"60"];
-[picker setTitlesForComponents:@[dataSource]];
-[picker setSelectedTitles:@[@"20"]];
-[picker show];
-</code></pre>
-
-<p>代理回调</p>
-
-<pre><code>- (void)actionSheetPickerView:(IQActionSheetPickerView *)pickerView didSelectTitles:(NSArray *)titles {
 }
 </code></pre>
 ]]></content>

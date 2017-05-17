@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-05-17T16:30:55+08:00</updated>
+  <updated>2017-05-17T16:36:32+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,159 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-170417]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170417/"/>
+    <updated>2017-05-17T16:33:08+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170417</id>
+    <content type="html"><![CDATA[<h1>ComponentKit Tutorial - Component</h1>
+
+<h2>CKComponent</h2>
+
+<p>A component is an immutable object that specifies how to configure a view, loosely inspired by React.</p>
+
+<pre><code>+ (instancetype)newWithView:(const CKComponentViewConfiguration &amp;)view
+                       size:(const CKComponentSize &amp;)size;
+</code></pre>
+
+<p>Example:</p>
+
+<pre><code>CKComponent *component = [CKComponent
+    newWithView:{
+        [UIView class],
+        {
+            {@selector(setBackgroundColor:),[UIColor redColor]},
+            {@selector(setUserInteractionEnabled:), @YES},
+            {CKComponentTapGestureAttribute(@selector(didTap))},
+            {CKComponentViewAttribute::LayerAttribute(@selector(setCornerRadius:)), @10.0}
+        }
+    }
+    size:{50,50}];
+
+- (void)didTap{
+  [self updateState:^(NSNumber *oldState){
+    return [oldState boolValue] ? @NO : @YES;
+  } mode:CKUpdateModeSynchronous];
+}
+</code></pre>
+
+<!-- more -->
+
+
+<h2>CKLabelComponent</h2>
+
+<p>多行文字通过size.width控制。</p>
+
+<pre><code>CKLabelComponent *titleComponent = [CKLabelComponent newWithLabelAttributes:{
+    .string = newsModel.title,
+    .color = [UIColor whiteColor],
+    .alignment = NSTextAlignmentLeft,
+    .font = [UIFont systemFontOfSize:20]
+  }
+  viewAttributes:{
+    { @selector(setBackgroundColor:), [UIColor clearColor] }
+  }
+  size:{}];
+</code></pre>
+
+<h2>CKButtonComponent</h2>
+
+<pre><code> CKButtonComponent *buttonComponent = [CKButtonComponent
+    newWithTitles:{
+      {UIControlStateNormal,@"button"}
+    }
+    titleColors:{
+      {UIControlStateNormal,[UIColor whiteColor]}
+    }
+    images:{}
+    backgroundImages:{}
+    titleFont:[UIFont systemFontOfSize:17]
+    selected:NO
+    enabled:YES
+    action:{@selector(tapAction)}
+    size:{}
+    attributes:{}
+    accessibilityConfiguration:{}];
+</code></pre>
+
+<h2>CKImageComponent</h2>
+
+<pre><code>CKImageComponent *image = [CKImageComponent newWithImage:
+    [UIImage imageNamed:newsModel.imageURL]
+    attributes:{
+        { @selector(setBackgroundColor:), [UIColor whiteColor] },
+        {CKComponentViewAttribute::LayerAttribute(@selector(setCornerRadius:)), @10.0}
+    }
+    size:{60, 60}];
+</code></pre>
+
+<h2>CKInsetComponent</h2>
+
+<p>A component that wraps another component, applying insets around it.</p>
+
+<pre><code>+ (instancetype)newWithView:(const CKComponentViewConfiguration &amp;)view
+                     insets:(UIEdgeInsets)insets
+                  component:(CKComponent *)component;
+
++ (instancetype)newWithInsets:(UIEdgeInsets)insets component:(CKComponent *)child;
+</code></pre>
+
+<p>Example:</p>
+
+<pre><code>CKInsetComponent *insetComponent = [CKInsetComponent
+    newWithInsets:{.top = 10,.left = 20,.right = 10,.bottom = 20}
+    component:[CKComponent
+        newWithView:{}
+        size:{}]
+    ];
+</code></pre>
+
+<h2>CKOverlayLayoutComponent</h2>
+
+<p>This component lays out a single component and then overlays a component on top of it streched to its size.</p>
+
+<pre><code>+ (instancetype)newWithComponent:(CKComponent *)component
+                         overlay:(CKComponent *)overlay;
+</code></pre>
+
+<h2>State</h2>
+
+<p>Simply ask three questions about each piece of data:<br/>
+1. Is it passed in from a parent via props? If so, it probably isn&rsquo;t state.<br/>
+2. Does it remain unchanged over time? If so, it probably isn&rsquo;t state.<br/>
+3. Can you compute it based on any other state or props in your component? If so, it isn&rsquo;t state.</p>
+
+<p>For each piece of state in your application:<br/>
+1. Identify every component that renders something based on that state.<br/>
+2. Find a common owner component (a single component above all the components that need the state in the hierarchy).<br/>
+3. Either the common owner or another component higher up in the hierarchy should own the state.<br/>
+4. If you can&rsquo;t find a component where it makes sense to own the state, create a new component simply for holding the state and add it somewhere in the hierarchy above the common owner component.</p>
+
+<h2>Scope</h2>
+
+<ol>
+<li>Components that have state must have a scope.</li>
+<li>Components that have a controller must have a scope.</li>
+<li>Components that have child components with state or controllers may need a scope, even if they don’t have state or controllers.</li>
+</ol>
+
+
+<h2>ComponentController</h2>
+
+<p>与component写在同一个文件里，系统自动创建。<br/>
+用来处理代理、事件响应等，有持续的生命周期。<br/>
+scope必须唯一，与controller一一对应。</p>
+
+<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170417/'>http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170417/</a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
+  </p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-170410]]></title>
@@ -4083,138 +4236,6 @@ static const char *UIControl_enventIsIgnoreEvent = "UIControl_enventIsIgnoreEven
 <p class='post-footer'>
   原始地址：
   <a href='http://sxgfxm.github.io/blog/2016/10/19/iospan-duan-gpszuo-biao-shi-fou-zai-zhong-guo/'>http://sxgfxm.github.io/blog/2016/10/19/iospan-duan-gpszuo-biao-shi-fou-zai-zhong-guo/</a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[UICollectionView iOS 10 New Features]]></title>
-    <link href="http://sxgfxm.github.io/blog/2016/10/18/uicollectionview-ios10-new-features/"/>
-    <updated>2016-10-18T20:01:45+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2016/10/18/uicollectionview-ios10-new-features</id>
-    <content type="html"><![CDATA[<h2>Background</h2>
-
-<p>iPhone屏幕的刷新频率固定为60fps，为了达到流畅的滑动效果，iOS应用展示必须满足该条件。当帧率很低时，就会出现明显的卡顿现象。</p>
-
-<p>60fps相当于每帧16.67毫秒，在这么短的时间内collection view可能并不能完成从相对较慢的数据源加载数据。为了提升collection view性能，一个常用的技巧是使<code>cellForItemAtIndexPath</code>尽可能快的返回cell，比如异步加载网络图片等。为了进一步提高collection view性能，并且尽量减少开发者的工作，在iOS 10中引入了新特性。</p>
-
-<!--more-->
-
-
-<h2>UICollectionView API变化</h2>
-
-<h4>新增UICollectionViewDataSourcePrefetching协议</h4>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@protocol</span> <span class="nc">UICollectionViewDataSourcePrefetching</span> <span class="o">&lt;</span><span class="bp">NSObject</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@required</span>
-</span><span class='line'><span class="c1">// indexPaths are ordered ascending by geometric distance from the collection view</span>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">collectionView</span><span class="p">:(</span><span class="bp">UICollectionView</span> <span class="o">*</span><span class="p">)</span><span class="n">collectionView</span> <span class="nl">prefetchItemsAtIndexPaths</span><span class="p">:(</span><span class="bp">NSArray</span><span class="o">&lt;</span><span class="bp">NSIndexPath</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="n">indexPaths</span> <span class="n">NS_AVAILABLE_IOS</span><span class="p">(</span><span class="mi">10</span><span class="n">_0</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@optional</span>
-</span><span class='line'><span class="c1">// indexPaths that previously were considered as candidates for pre-fetching, but were not actually used; may be a subset of the previous call to -collectionView:prefetchItemsAtIndexPaths:</span>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">collectionView</span><span class="p">:(</span><span class="bp">UICollectionView</span> <span class="o">*</span><span class="p">)</span><span class="n">collectionView</span> <span class="nl">cancelPrefetchingForItemsAtIndexPaths</span><span class="p">:(</span><span class="bp">NSArray</span><span class="o">&lt;</span><span class="bp">NSIndexPath</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="n">indexPaths</span>  <span class="n">NS_AVAILABLE_IOS</span><span class="p">(</span><span class="mi">10</span><span class="n">_0</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这两个方法均异步执行，可用于异步加载图片等。</p>
-
-<h4>新增prefetchDataSource代理</h4>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">weak</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="kt">id</span><span class="o">&lt;</span><span class="n">UICollectionViewDataSourcePrefetching</span><span class="o">&gt;</span> <span class="n">prefetchDataSource</span> <span class="n">NS_AVAILABLE_IOS</span><span class="p">(</span><span class="mi">10</span><span class="n">_0</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>新增prefetchingEnabled属性</h4>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">getter</span><span class="o">=</span><span class="n">isPrefetchingEnabled</span><span class="p">)</span> <span class="kt">BOOL</span> <span class="n">prefetchingEnabled</span> <span class="n">NS_AVAILABLE_IOS</span><span class="p">(</span><span class="mi">10</span><span class="n">_0</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Prefetching</h2>
-
-<p>当collection view滑动速率将要超过<code>cellForItemAtIndexPath</code>返回cell的速率时，collection view会调用<code>prefetchItemAtIndexPaths:</code>方法。</p>
-
-<p>collection view会把<strong>可能</strong>即将需要展示的cell的IndexPath放入数组中传递给prefetch方法。这为我们提供了预处理数据机会。比如，当我们需要加载网络图片时，可以在prefetch方法中请求网络数据，并把下载的数据插入到<strong>data source</strong>中，为<code>cellForItemAtIndexPath</code>的使用做准备。</p>
-
-<p>当collection view滑动方向改变时，collection view会调用<code>cancelPrefetchingForItemsAtIndexPaths</code>方法。</p>
-
-<p>该方法的目的是取消<strong>原本可能</strong>即将展示的cell的预加载数据工作。参数同样是IndexPath的数组。</p>
-
-<h2>UICollectionView Cell生命周期变化</h2>
-
-<h4>UICollectionViewCell Lifecycle: iOS &lt;= 9</h4>
-
-<p> <img src="http://ofj92itlz.bkt.clouddn.com/UICollectionView:UICollectionViewLifecycle_iOS_9.jpeg" alt="UICollectionViewLifecycle_iOS_9" /></p>
-
-<ol>
-<li>首先，调用<code>cellForItemAtIndexPath:</code>，从复用队列中弹出一个<strong>cell</strong>，准备对其调用<code>prepareForReuse</code>。</li>
-<li>然后，根据需求设置<strong>cell</strong>的内容，比如<strong>labels</strong>等。</li>
-<li>当<strong>cell</strong>即将出现时，调用<code>collectionView:willDisplayCell:forItemAtindexPath:</code>。</li>
-<li>当<strong>cell</strong>消失时，调用<code>collectionView:didEndDisplayingCell:forItemAtIndexPath:</code>。此时<strong>cell</strong>会重新进入复用队列，等待复用。</li>
-<li>当用户向相反方向再次把<strong>cell</strong>滑回屏幕时，会重新从第一步开始执行。</li>
-</ol>
-
-
-<h4>UICollectionViewCell Lifecycle: iOS 10</h4>
-
-<p> <img src="http://ofj92itlz.bkt.clouddn.com/UICollectionView:UICollectionViewLifecycle_iOS_10.jpeg" alt="UICollectionViewLifecycle_iOS_10" /></p>
-
-<p>在iOS 10中，前3个步骤与iOS 9是相同的，新的变化发生在<strong>cell</strong>滑出屏幕的时候。</p>
-
-<p>当调用<code>collectionView:didEndDisplayingCell:forItemAtIndexPath:</code>后，<strong>cell</strong>不会立刻进入复用队列，系统会<strong>keeps it around for a bit</strong>。相当于会缓存该<strong>cell</strong>一小段时间，在这段时间内如果该<strong>cell</strong>再次回到屏幕中，便不会重新调用<code>cellForItemAtIndexPath:</code>，而是直接显示。</p>
-
-<p>至于系统会缓存多久，官方并没有给出明确的时间，感觉跟程序运行时开销有关。</p>
-
-<p>如果想关闭该功能，需要设置<code>collectionView.prefetchingEnabled = NO;</code>。</p>
-
-<p> <img src="http://ofj92itlz.bkt.clouddn.com/UICollectionView:multiple_cells.jpeg" alt="multiple_cells" /></p>
-
-<p>collection view包含多列的情况，主要体现cell的<strong>独立性</strong>。</p>
-
-<p>当某一行需要展示时，每个cell独立出队并调用<code>cellForItemAtIndexPath:</code>方法；</p>
-
-<p>当该行即将展示时，每个cell调用<code>willDisplayCell:atIndexPath:</code>。</p>
-
-<h2>总结</h2>
-
-<ul>
-<li>这些变化对开发者都是透明的，对开发者来说只需利用好prefetch特性。</li>
-<li>prefetch进一步提升了collection view的性能，尤其是获取cell数据开销比较大或者比较慢时。</li>
-<li>每个cell独立出队，单独设置，确保cell在展示之前总是ready。</li>
-<li>UITableView拥有相同的新特性。</li>
-</ul>
-
-
-<h2>参考资料：</h2>
-
-<p><a href="https://developer.apple.com/videos/play/wwdc2016/219/">WWDC2016 UICollectionView相关视频</a></p>
-
-<p><a href="https://adoptioncurve.net/archives/2016/06/collection-view-updates-in-ios10/">Adoption Curve Dot Net</a></p>
-
-<p><a href="https://littlebitesofcocoa.com/241-uicollectionview-cell-pre-fetching">little bites of cocoa</a></p>
-
-<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2016/10/18/uicollectionview-ios10-new-features/'>http://sxgfxm.github.io/blog/2016/10/18/uicollectionview-ios10-new-features/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>
