@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-05-17T16:41:01+08:00</updated>
+  <updated>2017-05-17T16:50:55+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,159 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-170501]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170501/"/>
+    <updated>2017-05-17T16:42:40+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170501</id>
+    <content type="html"><![CDATA[<h1>ComponentKit Tutorial - CollectionView</h1>
+
+<h2>Install</h2>
+
+<p>通过 <strong>Carthage</strong> 安装，在 <strong>Cartfile</strong> 中添加<code>github "facebook/ComponentKit" ~&gt; 0.20</code>，然后运行<code>carthage update</code>，编译完成后，在 <strong>Embedded Binaries</strong> 添加<code>Carthage/Build/iOS/ComponentKit.framework</code>。所有需要使用ComponentKit的源文件需要修改后缀为 <strong>.mm</strong>。</p>
+
+<h2>Philosophy</h2>
+
+<p>Doing so this reverses the traditional approach for a <code>UICollectionViewDataSource</code>. Usually the controller layer will <strong>tell</strong> the <code>UICollectionView</code> to update and then the <code>UICollectionView</code> <strong>ask</strong> the datasource for the data. Here the model is  more Reactive, from an external prospective, the datasource is <strong>told</strong> what changes to apply and then <strong>tell</strong> the collection view to apply the corresponding changes.</p>
+
+<!-- more -->
+
+
+<h2>步骤</h2>
+
+<h3>CKComponentProvider Protocol</h3>
+
+<p>ViewController需要遵守<code>CKComponentProvider</code>协议，实现<code>+componentForModel: context:</code>方法，将model转换为component。<br/>
+在该方法中，通过不同类型的model返回不同类型的component。</p>
+
+<pre><code>+ (CKComponent *)componentForModel:(id&lt;NSObject&gt;)model
+                           context:(id&lt;NSObject&gt;)context {
+  if ([model isKindOfClass:[NewsModel class]]) {
+    return [NewsComponent newWithNewsModel:model context:context];
+  }
+  return nil;
+}
+</code></pre>
+
+<h3>FlowLayout</h3>
+
+<pre><code>UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+[flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
+[flowLayout setMinimumInteritemSpacing:0];
+[flowLayout setMinimumLineSpacing:0];
+</code></pre>
+
+<h3>CollectionView</h3>
+
+<pre><code>self.collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:flowLayout];
+self.collectionView.delegate = self;
+self.collectionView.backgroundColor = [UIColor blackColor];
+[self.view addSubview:self.collectionView];
+</code></pre>
+
+<h3>Item size range</h3>
+
+<p>Item size range。通过设置<code>CKComponentSizeRangeFlexibleHeight</code>使item的高度自适应。</p>
+
+<pre><code>const CKSizeRange sizeRange = [[CKComponentFlexibleSizeRangeProvider
+      providerWithFlexibility:CKComponentSizeRangeFlexibleHeight]
+     sizeRangeForBoundingSize:self.collectionView.bounds.size];
+</code></pre>
+
+<h3>Context</h3>
+
+<p>Context可以是任何不可变对象，创建component时的不可变上下文信息，比如设备类型，图片下载器。<br/>
+<code>MyContext *context = [MyContext new];</code><br/>
+预先在主线程加载图片。</p>
+
+<h3>Configuration</h3>
+
+<p>DataSource的configuration，需要 <strong>ComponentProvider</strong>，<strong>sizeRange</strong>，<strong>context</strong> 三个参数。</p>
+
+<pre><code>CKTransactionalComponentDataSourceConfiguration *configuration =
+      [[CKTransactionalComponentDataSourceConfiguration alloc]
+          initWithComponentProvider:[self class]
+                            context:context
+                          sizeRange:sizeRange];
+</code></pre>
+
+<h3>DataSource</h3>
+
+<p>需要 <strong>collectionView</strong>，<strong>supplementaryViewDataSource</strong>，<strong>configuration</strong> 三个参数。</p>
+
+<pre><code>self.dataSource = [[CKCollectionViewTransactionalDataSource alloc]
+           initWithCollectionView:self.collectionView
+      supplementaryViewDataSource:nil
+                    configuration:configuration];
+</code></pre>
+
+<h3>Initial Changeset</h3>
+
+<p>需要初始化DataSource，即向DataSource中添加Section。</p>
+
+<pre><code>CKTransactionalComponentDataSourceChangeset *initialChangeset =
+  [[[CKTransactionalComponentDataSourceChangesetBuilder
+      transactionalComponentDataSourceChangeset]
+      withInsertedSections:[NSIndexSet indexSetWithIndex:0]] build];
+[self.dataSource applyChangeset:initialChangeset
+                           mode:CKUpdateModeAsynchronous
+                       userInfo:nil];
+</code></pre>
+
+<h3>insert/update items</h3>
+
+<p>向DataSource中插入Items才能显示。</p>
+
+<pre><code>NSMutableDictionary&lt;NSIndexPath *, NewsModel *&gt; *items = [NSMutableDictionary new];
+for (NSInteger i = 0; i &lt; 50; i++) {
+  NewsModel *newsModel = [[NewsModel alloc] init];
+  newsModel.title = [NSString stringWithFormat:@"News Title: Title %ld", i];
+  newsModel.category = @"科技";
+  newsModel.updateTime = [NSDate date];
+  newsModel.source = @"网易新闻";
+  [items setObject:newsModel
+            forKey:[NSIndexPath indexPathForRow:i inSection:0]];
+}
+CKTransactionalComponentDataSourceChangeset *changeset =
+  [[[CKTransactionalComponentDataSourceChangesetBuilder
+      transactionalComponentDataSourceChangeset]
+      withInsertedItems:items] build];
+[self.dataSource applyChangeset:changeset
+                           mode:CKUpdateModeAsynchronous
+                       userInfo:nil];
+</code></pre>
+
+<h3>UICollectionView delegate</h3>
+
+<pre><code>- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout *)collectionViewLayout
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+  return [self.dataSource sizeForItemAtIndexPath:indexPath];
+}
+
+- (void)collectionView:(UICollectionView *)collectionView
+       willDisplayCell:(UICollectionViewCell *)cell
+    forItemAtIndexPath:(NSIndexPath *)indexPath {
+  [self.dataSource announceWillDisplayCell:cell];
+}
+
+- (void)collectionView:(UICollectionView *)collectionView
+  didEndDisplayingCell:(UICollectionViewCell *)cell
+    forItemAtIndexPath:(NSIndexPath *)indexPath {
+  [self.dataSource announceDidEndDisplayingCell:cell];
+}
+</code></pre>
+
+<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170501/'>http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170501/</a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
+  </p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-170424]]></title>
@@ -3757,143 +3910,6 @@ static const char *UIControl_enventIsIgnoreEvent = "UIControl_enventIsIgnoreEven
 <p class='post-footer'>
   原始地址：
   <a href='http://sxgfxm.github.io/blog/2016/10/20/3d-touch/'>http://sxgfxm.github.io/blog/2016/10/20/3d-touch/</a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Today Extension - Widget]]></title>
-    <link href="http://sxgfxm.github.io/blog/2016/10/19/today-extension-widget/"/>
-    <updated>2016-10-19T21:05:18+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2016/10/19/today-extension-widget</id>
-    <content type="html"><![CDATA[<h2>Widget简介</h2>
-
-<p>从iOS 8开始，引入<strong>widget</strong>特性。可以在通知中心的<strong>Today</strong>栏中添加widget。widget可以简单理解为一个小的扩展程序，可以展示相关应用的简略信息，提供快捷访问等功能。</p>
-
-<p>widget的概念在Android中已经十分成熟，iOS widget与自由度相当高的Android widget有显著的区别。iOS widget的刷新时间为展示widget时，而不是像Android widget时刻保持在后台，消耗系统资源。iOS widget只是作为很小的配角存在，Apple的中心思想还是希望开发者关注App本身的设计和性能。</p>
-
-<p>尽管iOS widget是一种约束状态下的自由，但已经逐渐改变用户的交互行为。</p>
-
-<!--more-->
-
-
-<h2>创建Widget</h2>
-
-<p>1、创建工程；</p>
-
-<p>2、为工程添加新<strong>Target</strong>，并选择<strong>Today Extension</strong>模板；</p>
-
-<p><img src="http://ofj92itlz.bkt.clouddn.com/Widget:step1.jpeg" alt="step1" /> <img src="http://ofj92itlz.bkt.clouddn.com/Widget:step2.jpeg" alt="stept" /></p>
-
-<p> <img src="http://ofj92itlz.bkt.clouddn.com/Widget:step3.jpeg" alt="step3" /></p>
-
-<p>3、改为纯代码创建界面，默认会创建<strong>MainInterface.storyboard</strong>设计界面。删除Info.plist文件中的字段，并添加<strong>NSExtensionPrincipalClass</strong>字段，设为对应的<strong>TodayViewController</strong>； <img src="http://ofj92itlz.bkt.clouddn.com/Widget:step5.jpeg" alt="step4" /></p>
-
-<p>4、在TodayViewController中创建界面。</p>
-
-<h2>点击Widget跳转至主应用</h2>
-
-<p>为widget添加跳转至主应用的快捷入口。</p>
-
-<p>为widget添加一层透明UIView，并添加tap手势，当点击widget时，执行下面方法：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">tapAction</span> <span class="p">{</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">extensionContext</span> <span class="nl">openURL</span><span class="p">:[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="s">@&quot;customScheme://url&quot;</span><span class="p">]</span>
-</span><span class='line'>               <span class="nl">completionHandler</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>其中<strong>customScheme</strong>可以自定义为需要的名字，字符串整体一定要符合<strong>URL</strong>格式，否则无法跳转。</p>
-
-<h2>主应用响应跳转</h2>
-
-<p>tapAction方法发出打开URL请，系统会查找注册过相同scheme的应用，并对其通知。所以主应用要注册相同的scheme，并且实现对通知的响应。</p>
-
-<p>首先，在主应用的<strong>Info.plist</strong>文件中，添加<strong>URL types</strong>字段，并最终添加对应的scheme。</p>
-
-<p><img src="http://ofj92itlz.bkt.clouddn.com/Widget:step4.jpeg" alt="step5" /></p>
-
-<p>然后，在主应用<strong>AppDelegate.m</strong>中添加如下方法：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">application:</span><span class="p">(</span><span class="bp">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="nv">application</span>
-</span><span class='line'>            <span class="nf">openURL:</span><span class="p">(</span><span class="bp">NSURL</span> <span class="o">*</span><span class="p">)</span><span class="nv">url</span>
-</span><span class='line'>  <span class="nf">sourceApplication:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">sourceApplication</span>
-</span><span class='line'>         <span class="nf">annotation:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">annotation</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">([[</span><span class="n">url</span> <span class="n">scheme</span><span class="p">]</span> <span class="nl">isEqualToString</span><span class="p">:</span><span class="s">@&quot;customScheme&quot;</span><span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>    <span class="c1">//   scheme相同，打开应用</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="c1">// scheme不同，退出</span>
-</span><span class='line'>  <span class="k">return</span> <span class="nb">NO</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>不同应用间跳转</h2>
-
-<p>大致过程与widget跳转至主应用相同，差别在于发送跳转请求的方法不同，如下：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">jumpToApp2</span> <span class="p">{</span>
-</span><span class='line'>  <span class="p">[[</span><span class="bp">UIApplication</span> <span class="n">sharedApplication</span><span class="p">]</span>
-</span><span class='line'>      <span class="nl">openURL</span><span class="p">:[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;customScheme://&quot;</span>
-</span><span class='line'>                                                              <span class="s">@&quot;www.ticwath.&quot;</span>
-</span><span class='line'>                                                              <span class="s">@&quot;com?name=%@&quot;</span><span class="p">,</span>
-</span><span class='line'>                                                              <span class="nb">self</span><span class="p">.</span><span class="n">tf</span><span class="p">.</span><span class="n">text</span><span class="p">]]</span>
-</span><span class='line'>      <span class="nl">options</span><span class="p">:</span><span class="l">@{}</span>
-</span><span class='line'>      <span class="nl">completionHandler</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">success</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">success</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>          <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;success&quot;</span><span class="p">);</span>
-</span><span class='line'>        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span><span class='line'>          <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;failed&quot;</span><span class="p">);</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>      <span class="p">}];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>一定要保持两者约定的scheme相同。跳转时传递的信息保存在<strong>URL</strong>中，按约定解析即可。</p>
-
-<h2>Github源码</h2>
-
-<p><a href="https://github.com/sxgfxm/WidgetDemo/tree/master">WidgetDemo</a></p>
-
-<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2016/10/19/today-extension-widget/'>http://sxgfxm.github.io/blog/2016/10/19/today-extension-widget/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>

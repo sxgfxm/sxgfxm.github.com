@@ -105,6 +105,48 @@ $(document).bind('DOMNodeInserted', function(event) {
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170501/">iOS知识小集-170501</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-05-17T16:42:40+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:42 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>ComponentKit Tutorial - CollectionView</h1>
+
+<h2>Install</h2>
+
+<p>通过 <strong>Carthage</strong> 安装，在 <strong>Cartfile</strong> 中添加<code>github "facebook/ComponentKit" ~&gt; 0.20</code>，然后运行<code>carthage update</code>，编译完成后，在 <strong>Embedded Binaries</strong> 添加<code>Carthage/Build/iOS/ComponentKit.framework</code>。所有需要使用ComponentKit的源文件需要修改后缀为 <strong>.mm</strong>。</p>
+
+<h2>Philosophy</h2>
+
+<p>Doing so this reverses the traditional approach for a <code>UICollectionViewDataSource</code>. Usually the controller layer will <strong>tell</strong> the <code>UICollectionView</code> to update and then the <code>UICollectionView</code> <strong>ask</strong> the datasource for the data. Here the model is  more Reactive, from an external prospective, the datasource is <strong>told</strong> what changes to apply and then <strong>tell</strong> the collection view to apply the corresponding changes.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170501/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170424/">iOS知识小集-170424</a></h1>
     
     
@@ -502,56 +544,6 @@ block中无需使用weakself。<br/>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/03/06/ioszhi-shi-xiao-ji-170220/">iOS知识小集-170220</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2017-03-06T16:06:34+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:06 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>App生命周期</h2>
-
-<p><strong>main.m</strong>：app程序入口，将控制权交给UIKit framework。<br/>
-<strong>UIApplication</strong>：管理事件循环和高级行为，传递通知给代理。<br/>
-<strong>App Delegate</strong>：处理应用初始化，状态转换，等高级行为。每个应用都要有。<br/>
-<strong>Data Model</strong>：存储应用数据。<br/>
-<strong>View Controller</strong>：管理应用展示内容。<br/>
-<strong>View</strong>：展示内容。<br/>
-<strong>Main Run Loop</strong>：Main run loop由UIApplication在主线程中开启，保证用户操作串行执行。
-用户操作 -> 操作系统 -> 端口 -> 事件队列 -> Main run loop -> App object -> Core object
--> 操作系统 -> 屏幕反馈。<br/>
-<strong>执行状态</strong>：<br/>
-- 关闭状态。<br/>
-- 未激活状态：在前台运行，但未接收到事件。<br/>
-- 激活状态：在前台运行，接收到事件。<br/>
-- 后台状态：在后台，且正在执行程序，通常会接着进入挂起状态。<br/>
-- 挂起状态：在后台，且没有执行程序。当内存不足时会清理挂起应用。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2017/03/06/ioszhi-shi-xiao-ji-170220/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -574,7 +566,7 @@ block中无需使用weakself。<br/>
 </section><section>
  <h1>Categories</h1>
  <ul id="categories">
-  <li class='category'><a href='/blog/categories/ios/'>ios (22)</a></li>
+  <li class='category'><a href='/blog/categories/ios/'>ios (23)</a></li>
 <li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
 
@@ -582,6 +574,10 @@ block中无需使用weakself。<br/>
 </section><section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170501/">iOS知识小集-170501</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170424/">iOS知识小集-170424</a>
@@ -597,10 +593,6 @@ block中无需使用weakself。<br/>
     
       <li class="post">
         <a href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170403/">iOS知识小集-170403</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/04/05/ioszhi-shi-xiao-ji-170403/">iOS知识小集-170327</a>
       </li>
     
   </ul>

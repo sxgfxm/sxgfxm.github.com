@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-05-17T16:41:01+08:00</updated>
+  <updated>2017-05-17T16:50:55+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,151 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-170501]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170501/"/>
+    <updated>2017-05-17T16:42:40+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170501</id>
+    <content type="html"><![CDATA[<h1>ComponentKit Tutorial - CollectionView</h1>
+
+<h2>Install</h2>
+
+<p>通过 <strong>Carthage</strong> 安装，在 <strong>Cartfile</strong> 中添加<code>github "facebook/ComponentKit" ~&gt; 0.20</code>，然后运行<code>carthage update</code>，编译完成后，在 <strong>Embedded Binaries</strong> 添加<code>Carthage/Build/iOS/ComponentKit.framework</code>。所有需要使用ComponentKit的源文件需要修改后缀为 <strong>.mm</strong>。</p>
+
+<h2>Philosophy</h2>
+
+<p>Doing so this reverses the traditional approach for a <code>UICollectionViewDataSource</code>. Usually the controller layer will <strong>tell</strong> the <code>UICollectionView</code> to update and then the <code>UICollectionView</code> <strong>ask</strong> the datasource for the data. Here the model is  more Reactive, from an external prospective, the datasource is <strong>told</strong> what changes to apply and then <strong>tell</strong> the collection view to apply the corresponding changes.</p>
+
+<!-- more -->
+
+
+<h2>步骤</h2>
+
+<h3>CKComponentProvider Protocol</h3>
+
+<p>ViewController需要遵守<code>CKComponentProvider</code>协议，实现<code>+componentForModel: context:</code>方法，将model转换为component。<br/>
+在该方法中，通过不同类型的model返回不同类型的component。</p>
+
+<pre><code>+ (CKComponent *)componentForModel:(id&lt;NSObject&gt;)model
+                           context:(id&lt;NSObject&gt;)context {
+  if ([model isKindOfClass:[NewsModel class]]) {
+    return [NewsComponent newWithNewsModel:model context:context];
+  }
+  return nil;
+}
+</code></pre>
+
+<h3>FlowLayout</h3>
+
+<pre><code>UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+[flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
+[flowLayout setMinimumInteritemSpacing:0];
+[flowLayout setMinimumLineSpacing:0];
+</code></pre>
+
+<h3>CollectionView</h3>
+
+<pre><code>self.collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:flowLayout];
+self.collectionView.delegate = self;
+self.collectionView.backgroundColor = [UIColor blackColor];
+[self.view addSubview:self.collectionView];
+</code></pre>
+
+<h3>Item size range</h3>
+
+<p>Item size range。通过设置<code>CKComponentSizeRangeFlexibleHeight</code>使item的高度自适应。</p>
+
+<pre><code>const CKSizeRange sizeRange = [[CKComponentFlexibleSizeRangeProvider
+      providerWithFlexibility:CKComponentSizeRangeFlexibleHeight]
+     sizeRangeForBoundingSize:self.collectionView.bounds.size];
+</code></pre>
+
+<h3>Context</h3>
+
+<p>Context可以是任何不可变对象，创建component时的不可变上下文信息，比如设备类型，图片下载器。<br/>
+<code>MyContext *context = [MyContext new];</code><br/>
+预先在主线程加载图片。</p>
+
+<h3>Configuration</h3>
+
+<p>DataSource的configuration，需要 <strong>ComponentProvider</strong>，<strong>sizeRange</strong>，<strong>context</strong> 三个参数。</p>
+
+<pre><code>CKTransactionalComponentDataSourceConfiguration *configuration =
+      [[CKTransactionalComponentDataSourceConfiguration alloc]
+          initWithComponentProvider:[self class]
+                            context:context
+                          sizeRange:sizeRange];
+</code></pre>
+
+<h3>DataSource</h3>
+
+<p>需要 <strong>collectionView</strong>，<strong>supplementaryViewDataSource</strong>，<strong>configuration</strong> 三个参数。</p>
+
+<pre><code>self.dataSource = [[CKCollectionViewTransactionalDataSource alloc]
+           initWithCollectionView:self.collectionView
+      supplementaryViewDataSource:nil
+                    configuration:configuration];
+</code></pre>
+
+<h3>Initial Changeset</h3>
+
+<p>需要初始化DataSource，即向DataSource中添加Section。</p>
+
+<pre><code>CKTransactionalComponentDataSourceChangeset *initialChangeset =
+  [[[CKTransactionalComponentDataSourceChangesetBuilder
+      transactionalComponentDataSourceChangeset]
+      withInsertedSections:[NSIndexSet indexSetWithIndex:0]] build];
+[self.dataSource applyChangeset:initialChangeset
+                           mode:CKUpdateModeAsynchronous
+                       userInfo:nil];
+</code></pre>
+
+<h3>insert/update items</h3>
+
+<p>向DataSource中插入Items才能显示。</p>
+
+<pre><code>NSMutableDictionary&lt;NSIndexPath *, NewsModel *&gt; *items = [NSMutableDictionary new];
+for (NSInteger i = 0; i &lt; 50; i++) {
+  NewsModel *newsModel = [[NewsModel alloc] init];
+  newsModel.title = [NSString stringWithFormat:@"News Title: Title %ld", i];
+  newsModel.category = @"科技";
+  newsModel.updateTime = [NSDate date];
+  newsModel.source = @"网易新闻";
+  [items setObject:newsModel
+            forKey:[NSIndexPath indexPathForRow:i inSection:0]];
+}
+CKTransactionalComponentDataSourceChangeset *changeset =
+  [[[CKTransactionalComponentDataSourceChangesetBuilder
+      transactionalComponentDataSourceChangeset]
+      withInsertedItems:items] build];
+[self.dataSource applyChangeset:changeset
+                           mode:CKUpdateModeAsynchronous
+                       userInfo:nil];
+</code></pre>
+
+<h3>UICollectionView delegate</h3>
+
+<pre><code>- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout *)collectionViewLayout
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+  return [self.dataSource sizeForItemAtIndexPath:indexPath];
+}
+
+- (void)collectionView:(UICollectionView *)collectionView
+       willDisplayCell:(UICollectionViewCell *)cell
+    forItemAtIndexPath:(NSIndexPath *)indexPath {
+  [self.dataSource announceWillDisplayCell:cell];
+}
+
+- (void)collectionView:(UICollectionView *)collectionView
+  didEndDisplayingCell:(UICollectionViewCell *)cell
+    forItemAtIndexPath:(NSIndexPath *)indexPath {
+  [self.dataSource announceDidEndDisplayingCell:cell];
+}
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-170424]]></title>
@@ -591,77 +736,6 @@ Select Run on the left and open the Diagnostics tab at the top. To enable zombie
 1. 下载安装<a href="https://atom.io/">Atom</a>。
 2. Atom -> Preferences -> Packages -> plantuml-viewer。
 3. 学习语法，编写代码，自动生成对应图形。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-170327]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/04/05/ioszhi-shi-xiao-ji-170403/"/>
-    <updated>2017-04-05T09:07:16+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/04/05/ioszhi-shi-xiao-ji-170403</id>
-    <content type="html"><![CDATA[<h2>转换</h2>
-
-<p>NSURL -> NSString：<code>NSString *path = [url path];</code><br/>
-NSString -> NSURL：<code>NSURL *url = [NSURL fileURLWithPath:path];</code> <br/>
-UIImage -> NSData：<code>NSData *data = UIImagePNGRepresentation(image);</code><br/>
-NSData -> UIImage：<code>UIImage *image = [UIImage imageWithData:data];</code></p>
-
-<!-- more -->
-
-
-<h2>向歌曲中写入metadata信息</h2>
-
-<p>导入第三方库<a href="https://github.com/larsbs/id3v2lib">id3v2lib</a>。</p>
-
-<pre><code>  //  文件路径
-  const char *cPath = [[url path] cStringUsingEncoding:NSUTF8StringEncoding];
-  //  创建tag
-  ID3v2_tag *tag = load_tag(cPath);
-  if (tag == NULL) {
-    tag = new_tag();
-  }
-  //  设置tag
-  char *title = (char *)[item.title cStringUsingEncoding:NSUTF8StringEncoding];
-  tag_set_title(title, 0, tag);
-  char *artist = (char *)[item.artist cStringUsingEncoding:NSUTF8StringEncoding];
-  tag_set_artist(artist, 0, tag);
-  UIImage *image = [item.artwork imageWithSize:CGSizeMake(400, 400)];
-  NSData *data = UIImagePNGRepresentation(image);
-  NSString *coverPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]
-      stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", item.title]];
-  [[NSFileManager defaultManager] removeItemAtPath:coverPath error:nil];
-  [[NSFileManager defaultManager] createFileAtPath:coverPath contents:data attributes:nil];
-  tag_set_album_cover([coverPath cStringUsingEncoding:NSUTF8StringEncoding], tag);
-  [[NSFileManager defaultManager] removeItemAtPath:coverPath error:nil];
-  //  写入tag
-  set_tag(cPath, tag);
-</code></pre>
-
-<h2>MPMediaItem</h2>
-
-<p>isCloudItem：是否为云端文件；<br/>
-hasProtectedAsset：是否含有被保护文件；<br/>
-以上两个原因可能导致assertURL为nil。</p>
-
-<h2>NSOperation内存泄露</h2>
-
-<p>operation.completionBlock会引起循环引用。<br/>
-在block中创建对象注意生命周期。</p>
-
-<h2>GCDWebServer监听传输状态</h2>
-
-<p>继承<code>GCDWebServerConnection</code>，重写<code>- (void)didWriteBytes:(const void *)bytes length:(NSUInteger)length</code>方法，以通知的形式传递值。</p>
-
-<h2>c string in OC</h2>
-
-<p><code>char *cString = (char *)[string cStringUsingEncoding:NSUTF8StringEncoding]</code>，
-无需手动释放，当receiver被释放或者内存不足时，会自动释放cString。</p>
-
-<h2>WiFi ap隔离</h2>
-
-<h2>观察者模式</h2>
-
-<h2>工厂模式</h2>
 ]]></content>
   </entry>
   
