@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Core Data Tutorial iOS 10 - Light's Blog</title>
+  <title>iOS知识小集-170515 - Light's Blog</title>
   <meta name="author" content="Light">
 
   
-  <meta name="description" content="Core Data in iOS 10, NSPersistentContainer">
-  <meta name="keywords" content="sxgfxm, Core Data, iOS 10, NSPersistentContainer">
+  <meta name="description" content="sxgfxm,Get local bundle,custom cocoapods, Localized string in cocoapods,Image in cocoapods,Font in cocoapods">
+  <meta name="keywords" content="sxgfxm,Get local bundle,custom cocoapods, Localized string in cocoapods,Image in cocoapods,Font in cocoapods">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://sxgfxm.github.io/blog/2017/01/23/core-data-tutorial-ios-10/">
+  <link rel="canonical" href="http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170515/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Light's Blog" type="application/atom+xml">
@@ -102,7 +102,7 @@ $(document).bind('DOMNodeInserted', function(event) {
   
   <header>
     
-      <h1 class="entry-title">Core Data Tutorial iOS 10</h1>
+      <h1 class="entry-title">iOS知识小集-170515</h1>
     
     
       <p class="meta">
@@ -111,125 +111,149 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 
-<time class='entry-date' datetime='2017-01-23T16:40:01+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2017</span></span> <span class='time'>4:40 pm</span></time>
+<time class='entry-date' datetime='2017-05-17T16:57:00+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:57 pm</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>iOS 10 CoreData使用总结。</p>
+<div class="entry-content"><h2>更新cocoapods版本</h2>
 
-<!--more-->
+<p>正式版：<code>sudo gem install cocoapods</code><br/>
+开发版：<code>sudo gem install cocoapods --pre </code></p>
+
+<!-- more -->
 
 
-<h2>Include Core Data</h2>
+<h2>Get local bundle</h2>
 
-<p>创建工程时选择包含CoreData，系统会自动生成相关文件。</p>
+<p>通过<code>frameworkName</code>和<code>bundleName</code>获取对应bundle。</p>
 
-<h2>Add Entity</h2>
+<pre><code class="c">+ (NSBundle *)getBundleWithFrameworkName:(NSString *)frameworkName bundleName:(NSString *)bundleName {
+  NSString *tmpBundleName = [bundleName copy];
+  if (![bundleName hasSuffix:@".bundle"]) {
+    tmpBundleName = [NSString stringWithFormat:@"%@.bundle", tmpBundleName];
+  }
 
-<p>在xcdatamodeld文件中，添加Entity。<br/>
-Entity相当于表，其中Attributes相当于表中的记录，对应需要存储的数据。</p>
+  NSString *mainBundlePath = [[NSBundle mainBundle] resourcePath];
+  NSString *bundlePath = [mainBundlePath stringByAppendingPathComponent:tmpBundleName];
+  NSBundle *bundle = [NSBundle bundleWithPath:bundlePath];
+  if (bundle) {
+    return bundle;
+  }
 
-<h2>Create NSManagedObject Subclass</h2>
+  NSString *tempFramework = [frameworkName copy];
+  NSString *frameExtension = @".framework";
+  if (![tempFramework hasSuffix:frameExtension]) {
+    tempFramework = [tempFramework stringByAppendingString:frameExtension];
+  }
 
-<p>创建Entity对应的model。<br/>
-在Xcode8中，创建方式为Editor ———— Create NSManagedObject Subclass。<br/>
-注意，创建之前需要将数据库的Codegen设置为Manual/None，否则会报duplicate错误。</p>
+  NSString *path = [[[NSBundle mainBundle] privateFrameworksPath] stringByAppendingPathComponent:tempFramework];
+  return [NSBundle bundleWithPath:[path stringByAppendingPathComponent:tmpBundleName]];
+}
+</code></pre>
 
-<h2>Get NSPersistentContainer Object</h2>
+<h2>Localized string in cocoapods</h2>
 
-<p>iOS 10 对Core Data做了很大的优化和改进，大大简化了Core Data的使用。<br/>
-NSPersistentContainer是新添加的类，从此大部分情况下无需再和NSManagedObjectContext、NSPersistentStoreCoordinator打交道。<br/>
-获取NSPersistentContainer</p>
+<p>在自定义pod中添加语言本地化：<br/>
+1. 为<code>MyPod</code>添加语言路径<code>MyPod/Languages/**/*</code>,pod中使用的不同语言的<code>.strings</code>存放在该目录下；<br/>
+2. 在<code>MyPod.podspec</code>文件中添加语言bundle：<code>s.resource_bundles = {'LanguageBundle' =&gt; ['MyPod/Languages/**/*']}</code>；<br/>
+3. 添加简便调用方法：</p>
 
-<pre><code class="objective-c">#import 'AppDelegate.h'
+<pre><code class="c">NSString *XGLocalizedString(NSString *key, NSString *comment) {
+  return [XGFitnessLocalize localizedString:key];
+}
 
-@interface ViewController ()
++ (NSString *)localizedString:(NSString *)key {
+  //  key == nil, return nil;
+  if (!key) {
+    return key;
+  }
+  //  system language
+  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+  NSArray *languages = [defaults objectForKey:kAppleLanguageKey];
+  NSString *language = [languages firstObject];
+  //  set default language
+  NSString *fileNamePrefix = language;
+  if (!([fileNamePrefix isEqualToString:kLanguageEnglish] ||
+        [fileNamePrefix isEqualToString:kLanguageSimplifiedChinese] ||
+        [fileNamePrefix isEqualToString:kLanguageTraditionalChinese])) {
+    fileNamePrefix = kDefaultLanguage;
+  }
+  //  language bundle
+  NSBundle *languageBundle =
+      [WWFitnessBundleUtil getBundleWithFrameworkName:kFrameworkName bundleName:kLanguageBundleName];
+  //  lproj bundle
+  NSString *path = [languageBundle pathForResource:fileNamePrefix ofType:@"lproj"];
+  NSBundle *lprojBundle = [NSBundle bundleWithPath:path];
+  //  localized string
+  NSString *localizedString = [lprojBundle localizedStringForKey:key value:@"" table:@"Localizable"];
+  if (!localizedString) {
+    localizedString = key;
+  }
+  return localizedString;
+}
+</code></pre>
 
-@property(nonatomic, strong) NSPersistentContainer *container;
+<h2>Image in cocoapods</h2>
+
+<p>在自定义pod中添加图片步骤：<br/>
+1. 为<code>MyPod</code>添加图片路径<code>MyPod/Assets/Images</code>,pod中使用的图片存放在该目录下；<br/>
+2. 在<code>MyPod.podspec</code>文件中添加图片bundle：<code>s.resource_bundles = {'ImageBundle' =&gt; ['MyPod/Assets/Images/**/*']}</code>；<br/>
+3. 为<code>UIImage</code>添加类别方法<code>bundleImageNamed:</code></p>
+
+<pre><code class="objective-c">@implementation UIImage (BundleImage)
+
++ (UIImage *)bundleImageNamed:(NSString *)name {
+  NSBundle *imageBundle = [WWFitnessBundleUtil getBundleWithFrameworkName:@"MyPod" bundleName:@"ImageBundle"];
+  return [UIImage imageNamed:name inBundle:imageBundle compatibleWithTraitCollection:nil];
+}
 
 @end
-
-@implementation ViewController
-
--(void)viewDidLoad{
-  [super viewDidLoad];
-  self.container = ((AppDelegate *)[UIApplication sharedApplication].delegate).persistentContainer;
-}
-
-@end
 </code></pre>
 
-<h2>Add Record</h2>
+<h2>Font in cocoapods</h2>
 
-<p>导入通过系统创建的Create NSManagedObject Subclass，通过NSEntityDescription增添记录。</p>
+<p>自定义字体无法静态添加到自定义pod中，需要动态注册字体才能使用。<br/>
+1. 为<code>MyPod</code>添加字体路径<code>MyPod/Fonts</code>,pod中使用的字体存放在该目录下；<br/>
+2. 在<code>MyPod.podspec</code>文件中添加字体bundle：<code>s.resource_bundles = {'FontBundle' =&gt; ['MyPod/Fonts/*']}</code>；<br/>
+3. 创建注册字体方法，并在使用前仅调用一次。</p>
 
-<pre><code class="objective-c">#import "People+CoreDataProperties.h"
+<pre><code class="objective-c">#import &lt;CoreText/CTFontManager.h&gt;
 
-#define kEntityName @"People"
-
--(void)addRecord{
-  People *people = [NSEntityDescription insertNewObjectForEntityForName:kEntityName inManagedObjectContext:self.container.viewContext];
-  people.name = @"Tom";
-  people.sex = YES;
-  people.age = 23;
++ (void)registerFitnessFont {
+  [self registerFitnessFont:@"DIN-Regular"];
+  [self registerFitnessFont:@"DIN-Medium"];
+  [self registerFitnessFont:@"DIN-Bold"];
 }
-</code></pre>
 
-<h2>Fetch Record</h2>
++ (void)registerFitnessFont:(NSString *)fontName {
+  NSBundle *fontBundle = [WWFitnessBundleUtil getBundleWithFrameworkName:@"MyPod" bundleName:@"FontBundle"];
+  NSURL *fontURL = [fontBundle URLForResource:fontName withExtension:@"otf" /*or TTF*/];
+  NSData *inData = [NSData dataWithContentsOfURL:fontURL];
+  CFErrorRef error;
+  CGDataProviderRef provider = CGDataProviderCreateWithCFData((CFDataRef)inData);
+  CGFontRef font = CGFontCreateWithDataProvider(provider);
+  if (!CTFontManagerRegisterGraphicsFont(font, &amp;error)) {
+    CFStringRef errorDescription = CFErrorCopyDescription(error);
+    NSLog(@"Failed to load font: %@", errorDescription);
+    CFRelease(errorDescription);
+  }
+  CFSafeRelease(font);
+  CFSafeRelease(provider);
+}
 
-<p>通过NSFetchRequest查询记录。</p>
-
-<pre><code class="objective-c">-(void)fetchRecord{
-  NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:kEntityName];
-  NSArray&lt;People *&gt; *results = [self.container.viewContext executeFetchRequest:fetchRequest error:nil];
-  for (People *people in results) {
-    NSLog(@"name %@", people.name);
-    NSLog(@"sex  %@", people.sex);
-    NSLog(@"age  %@", people.age);
+void CFSafeRelease(CFTypeRef cf) {
+  if (cf != NULL) {
+    CFRelease(cf);
   }
 }
 </code></pre>
-
-<h2>Update Record</h2>
-
-<p>先fetch需要修改的记录，然后直接修改即可。</p>
-
-<pre><code class="objective-c">-(void)updateRecord{
-  NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:kEntityName];
-  NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", @"Tom"];
-  fetchRequest.predicate = predicate;
-  NSArray&lt;People *&gt; *results = [self.container.viewContext executeFetchRequest:fetchRequest error:nil];
-  for (People *people in results) {
-    people.name = @"Lily";
-  }
-}
-</code></pre>
-
-<h2>Delete Record</h2>
-
-<p>先fetch需要删除的记录，然后通过NSManagedObjectContext删除即可。</p>
-
-<pre><code class="objective-c">-(void)deleteRecord{
-  NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:kEntityName];
-  NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", @"Lily"];
-  fetchRequest.predicate = predicate;
-  NSArray&lt;People *&gt; *results = [self.container.viewContext executeFetchRequest:fetchRequest error:nil];
-  for (People *people in results) {
-    [self.container.viewContext deleteObject:people];
-  }
-}
-</code></pre>
-
-<h2>GitHub源码</h2>
-
-<p><a href="https://github.com/sxgfxm/CoreDataDemo">CoreDataDemo</a></p>
 
 <p class='post-footer'>
   原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/01/23/core-data-tutorial-ios-10/'>http://sxgfxm.github.io/blog/2017/01/23/core-data-tutorial-ios-10/</a><br/>
+  <a href='http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170515/'>http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170515/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>
@@ -249,7 +273,7 @@ NSPersistentContainer是新添加的类，从此大部分情况下无需再和NS
 
 
 
-<time class='entry-date' datetime='2017-01-23T16:40:01+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2017</span></span> <span class='time'>4:40 pm</span></time>
+<time class='entry-date' datetime='2017-05-17T16:57:00+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:57 pm</span></time>
       
 
 <span class="categories">
@@ -271,10 +295,8 @@ NSPersistentContainer是新添加的类，从此大部分情况下无需再和NS
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2017/01/17/prevent-duplicate-clicks/" title="Previous Post: Prevent duplicate clicks">&laquo; Prevent duplicate clicks</a>
+        <a class="basic-alignment left" href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170508/" title="Previous Post: iOS知识小集-170508">&laquo; iOS知识小集-170508</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2017/02/10/export-music-from-itunes-to-local-apps-sandbox-on-iphone/" title="Next Post: Export Music from Itunes to Local App's Sandbox on iPhone">Export Music from Itunes to Local App's Sandbox on iPhone &raquo;</a>
       
     </p>
   </footer>
