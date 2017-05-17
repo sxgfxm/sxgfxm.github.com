@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>iOS知识小集-170320 - Light's Blog</title>
+  <title>iOS知识小集-170508 - Light's Blog</title>
   <meta name="author" content="Light">
 
   
-  <meta name="description" content="sxgfxm,UIActivityViewController,AVAssetExportSession,GCDWebServer">
-  <meta name="keywords" content="sxgfxm,UIActivityViewController,AVAssetExportSession,GCDWebServer">
+  <meta name="description" content="sxgfxm,Carthage,Objective-C static vs external,NavigationBar">
+  <meta name="keywords" content="sxgfxm,Carthage,Objective-C static vs external,NavigationBar">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://sxgfxm.github.io/blog/2017/03/27/ioszhi-shi-xiao-ji-170320/">
+  <link rel="canonical" href="http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170508/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Light's Blog" type="application/atom+xml">
@@ -102,7 +102,7 @@ $(document).bind('DOMNodeInserted', function(event) {
   
   <header>
     
-      <h1 class="entry-title">iOS知识小集-170320</h1>
+      <h1 class="entry-title">iOS知识小集-170508</h1>
     
     
       <p class="meta">
@@ -111,51 +111,88 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 
-<time class='entry-date' datetime='2017-03-27T09:58:51+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>9:58 am</span></time>
+<time class='entry-date' datetime='2017-05-17T16:52:43+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:52 pm</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><h2>iOS系统分享</h2>
+<div class="entry-content"><h2>Carthage</h2>
 
-<p>需增加版本判断：<code>UIActivityTypeOpenInIBooks</code>iOS 9.0之后才有。</p>
-
-<h2>iOS导出音乐</h2>
-
-<p>如何导出mp3：先按mov格式导出，再转为mp3。<br/>
-如何包含metadata信息：m4a格式自动包含metadata信息，mp3无。<br/>
-路径去除特殊字符。</p>
+<p>安装：<code>brew install carthage</code><br/>
+添加：<code>Cartfile</code><br/>
+运行：<code>carthage update</code><br/>
+添加：<code>Carthage/Build/.framework</code></p>
 
 <!-- more -->
 
 
-<h2>GCDWebserver后台运行</h2>
+<h2>防止重复push/present类型相同的controller</h2>
 
-<p>设置option</p>
+<ol>
+<li>找到最上层view controller；</li>
+<li>判断最上层view controller与待展示view controller是否类型相同；</li>
+<li>如果类型不同，才进行操作。
+获取最底层view controller：<code>[UIApplication sharedApplication].delegate.window.rootViewController</code>。<br/>
+获取最上层view controller：</li>
+</ol>
 
-<pre><code>- (BOOL)startServer {
-  for (int i = 0; i &lt; 10; i++) {
-    //  随机端口号
-    NSInteger port = arc4random_uniform(64510) + 1025;
-    NSDictionary *options = @{
-      GCDWebServerOption_ConnectedStateCoalescingInterval : @(20),
-      GCDWebServerOption_Port : @(port)
-    };
-    NSError *error = nil;
-    if ([self.webServer startWithOptions:options error:&amp;error]) {
-      DDLogDebug(@"Start local server: %@", self.webServer.serverURL);
-      return YES;
-    }
+
+<pre><code>+ (UIViewController *)topViewController {
+  return [self
+      topViewControllerWithRootViewController:[UIApplication sharedApplication].delegate.window.rootViewController];
+}
+
++ (UIViewController *)topViewControllerWithRootViewController:(UIViewController *)rootViewController {
+  NSLog(@"root to top vc:%@", NSStringFromClass([rootViewController class]));
+  if ([rootViewController isKindOfClass:[MMDrawerController class]]) {
+    MMDrawerController *mmdVc = (MMDrawerController *)rootViewController;
+    return [self topViewControllerWithRootViewController:mmdVc.centerViewController];
+  } else if ([rootViewController isKindOfClass:[UITabBarController class]]) {
+    UITabBarController *tabBarController = (UITabBarController *)rootViewController;
+    return [self topViewControllerWithRootViewController:tabBarController.selectedViewController];
+  } else if ([rootViewController isKindOfClass:[UINavigationController class]]) {
+    UINavigationController *navigationController = (UINavigationController *)rootViewController;
+    return [self topViewControllerWithRootViewController:navigationController.visibleViewController];
+  } else if (rootViewController.presentedViewController) {
+    UIViewController *presentedViewController = rootViewController.presentedViewController;
+    return [self topViewControllerWithRootViewController:presentedViewController];
+  } else {
+    return rootViewController;
   }
-  return NO;
 }
 </code></pre>
 
+<h2>Create Groups vs Create Folder References</h2>
+
+<p>Group：不创建文件夹，不能同名； <br/>
+Folder：创建文件夹，可以重名；</p>
+
+<h2>拉伸Image</h2>
+
+<p>代码：<code>- (UIImage *)resizableImageWithCapInsets:(UIEdgeInsets)capInsets resizingMode:(UIImageResizingMode)resizingMode NS_AVAILABLE_IOS(6_0);</code><br/>
+设置：Assets -> Attributes Inspector -> Slicing</p>
+
+<h2>隐藏文件</h2>
+
+<p>显示隐藏文件：<code>defaults write com.apple.finder AppleShowAllFiles -bool true</code><br/>
+隐藏隐藏文件：<code>defaults write com.apple.finder AppleShowAllFiles -bool false</code>
+重启finder：<code>killall Finder</code></p>
+
+<h2>NavigationBar &amp; ScrollView</h2>
+
+<p>自动：<code>contentOffset.y == -64</code><br/>
+手动：<code>self.edgesForExtendedLayout = UIRectEdgeNone;</code>，y轴0点下移64。</p>
+
+<h2>Objective-C static vs external</h2>
+
+<p>static: In C and Objective-C, a static variable or function at global scope means that that symbol has internal linkage.<br/>
+external: If you want to have a single global variable, you can&rsquo;t have it in class scope like in C++. One option is to create a global variable with external linkage: declare the variable with the extern keyword in a header file, and then in one source file, define it at global scope without the extern keyword.</p>
+
 <p class='post-footer'>
   原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/03/27/ioszhi-shi-xiao-ji-170320/'>http://sxgfxm.github.io/blog/2017/03/27/ioszhi-shi-xiao-ji-170320/</a><br/>
+  <a href='http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170508/'>http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170508/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>
@@ -175,7 +212,7 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 
-<time class='entry-date' datetime='2017-03-27T09:58:51+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>9:58 am</span></time>
+<time class='entry-date' datetime='2017-05-17T16:52:43+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:52 pm</span></time>
       
 
 <span class="categories">
@@ -197,10 +234,8 @@ $(document).bind('DOMNodeInserted', function(event) {
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2017/03/20/ioszhi-shi-xiao-ji-170313/" title="Previous Post: iOS知识小集-170313">&laquo; iOS知识小集-170313</a>
+        <a class="basic-alignment left" href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170501/" title="Previous Post: iOS知识小集-170501">&laquo; iOS知识小集-170501</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2017/04/05/ioszhi-shi-xiao-ji-170403/" title="Next Post: iOS知识小集-170327">iOS知识小集-170327 &raquo;</a>
       
     </p>
   </footer>

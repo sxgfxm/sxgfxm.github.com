@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-05-17T16:50:55+08:00</updated>
+  <updated>2017-05-17T16:54:59+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,85 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-170508]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170508/"/>
+    <updated>2017-05-17T16:52:43+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170508</id>
+    <content type="html"><![CDATA[<h2>Carthage</h2>
+
+<p>安装：<code>brew install carthage</code><br/>
+添加：<code>Cartfile</code><br/>
+运行：<code>carthage update</code><br/>
+添加：<code>Carthage/Build/.framework</code></p>
+
+<!-- more -->
+
+
+<h2>防止重复push/present类型相同的controller</h2>
+
+<ol>
+<li>找到最上层view controller；</li>
+<li>判断最上层view controller与待展示view controller是否类型相同；</li>
+<li>如果类型不同，才进行操作。
+获取最底层view controller：<code>[UIApplication sharedApplication].delegate.window.rootViewController</code>。<br/>
+获取最上层view controller：</li>
+</ol>
+
+
+<pre><code>+ (UIViewController *)topViewController {
+  return [self
+      topViewControllerWithRootViewController:[UIApplication sharedApplication].delegate.window.rootViewController];
+}
+
++ (UIViewController *)topViewControllerWithRootViewController:(UIViewController *)rootViewController {
+  NSLog(@"root to top vc:%@", NSStringFromClass([rootViewController class]));
+  if ([rootViewController isKindOfClass:[MMDrawerController class]]) {
+    MMDrawerController *mmdVc = (MMDrawerController *)rootViewController;
+    return [self topViewControllerWithRootViewController:mmdVc.centerViewController];
+  } else if ([rootViewController isKindOfClass:[UITabBarController class]]) {
+    UITabBarController *tabBarController = (UITabBarController *)rootViewController;
+    return [self topViewControllerWithRootViewController:tabBarController.selectedViewController];
+  } else if ([rootViewController isKindOfClass:[UINavigationController class]]) {
+    UINavigationController *navigationController = (UINavigationController *)rootViewController;
+    return [self topViewControllerWithRootViewController:navigationController.visibleViewController];
+  } else if (rootViewController.presentedViewController) {
+    UIViewController *presentedViewController = rootViewController.presentedViewController;
+    return [self topViewControllerWithRootViewController:presentedViewController];
+  } else {
+    return rootViewController;
+  }
+}
+</code></pre>
+
+<h2>Create Groups vs Create Folder References</h2>
+
+<p>Group：不创建文件夹，不能同名； <br/>
+Folder：创建文件夹，可以重名；</p>
+
+<h2>拉伸Image</h2>
+
+<p>代码：<code>- (UIImage *)resizableImageWithCapInsets:(UIEdgeInsets)capInsets resizingMode:(UIImageResizingMode)resizingMode NS_AVAILABLE_IOS(6_0);</code><br/>
+设置：Assets -> Attributes Inspector -> Slicing</p>
+
+<h2>隐藏文件</h2>
+
+<p>显示隐藏文件：<code>defaults write com.apple.finder AppleShowAllFiles -bool true</code><br/>
+隐藏隐藏文件：<code>defaults write com.apple.finder AppleShowAllFiles -bool false</code>
+重启finder：<code>killall Finder</code></p>
+
+<h2>NavigationBar &amp; ScrollView</h2>
+
+<p>自动：<code>contentOffset.y == -64</code><br/>
+手动：<code>self.edgesForExtendedLayout = UIRectEdgeNone;</code>，y轴0点下移64。</p>
+
+<h2>Objective-C static vs external</h2>
+
+<p>static: In C and Objective-C, a static variable or function at global scope means that that symbol has internal linkage.<br/>
+external: If you want to have a single global variable, you can&rsquo;t have it in class scope like in C++. One option is to create a global variable with external linkage: declare the variable with the extern keyword in a header file, and then in one source file, define it at global scope without the extern keyword.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-170501]]></title>
@@ -682,60 +761,6 @@ Mounting -> Remounting -> Unmounting -> Updating</p>
 animationsFromPreviousComponent: Override this method to specify how to animate between two versions of a component.<br/>
 boundsAnimationFromPreviousComponent: Override this method to specify how the top-level bounds of a component should animate inside a <code>UICollectionView</code>.<br/>
 If you implement either method, your component must have a <code>scope</code>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-170403]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170403/"/>
-    <updated>2017-05-17T16:16:33+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170403</id>
-    <content type="html"><![CDATA[<h2>Heap and Stack</h2>
-
-<p>Value types are created on the stack, Reference types are created on the heap.<br/>
-Stack is attached to a thread, and Heap is attached to the application.<br/>
-Stack is faster than Heap.</p>
-
-<!-- more -->
-
-
-<h2>dealloc 是否需要调用[super dealloc]</h2>
-
-<p>ARC中不能调用<code>[super dealloc]</code>。</p>
-
-<p>MRC中，必须最后调用<code>[super dealloc]</code>。</p>
-
-<h2>set a breakpoint in malloc_error_break to debug</h2>
-
-<p>The error message indicates a pointer to a block of freed memory doesn&rsquo;t actually point to free memory.
-The most likely cause is that the memory is a freed object instance, but your code as an unretained reference to it and has tried to use it like a &ldquo;live&rdquo; instance.<br/>
-Click on the breakpoints navigator (looks like a sign post) on the top of the left bar on XCode.<br/>
-On the bottom left hand corner there is a plus sign. Click on it.<br/>
-Add Symbolic Breakpoint and set malloc_error_break as the symbol.<br/>
-Click the next breakpoint button.</p>
-
-<h2>EXC_BAD_ACCESS</h2>
-
-<p>Whenever you encounter EXC_BAD_ACCESS, it means that you are sending a message to an object that has already been released.<br/>
-In summary, when you run into EXC_BAD_ACCESS, it means that you try to send a message to a block of memory that can&rsquo;t execute that message.<br/>
-Put differently, deallocated objects are kept alive for debugging purposes. If you send a message to a zombie object, your application will still crash as a result of EXC_BAD_ACCESS.<br/>
-Click the active scheme in the top left and choose Edit Scheme.<br/>
-Select Run on the left and open the Diagnostics tab at the top. To enable zombie objects, tick the checkbox labeled Enable Zombie Objects.</p>
-
-<h2>dyld: Library not loaded</h2>
-
-<p>In the target&rsquo;s General tab, there is an Embedded Binaries field. When you add the framework there the crash is resolved.</p>
-
-<p>Reference is here on Apple Developer Forums.</p>
-
-<h2>PlantUML</h2>
-
-<p><a href="http://plantuml.com/">PlantUML</a>是一个开源项目，支持快速绘制时序图、用例图、类图等常用软件开发示意图。<br/>
-优点：通过代码实现图形绘制，逻辑清晰，扩展维护，效率高。<br/>
-集成方法：<br/>
-1. 下载安装<a href="https://atom.io/">Atom</a>。
-2. Atom -> Preferences -> Packages -> plantuml-viewer。
-3. 学习语法，编写代码，自动生成对应图形。</p>
 ]]></content>
   </entry>
   
