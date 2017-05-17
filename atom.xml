@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-05-17T16:24:11+08:00</updated>
+  <updated>2017-05-17T16:30:55+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,250 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-170410]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170410/"/>
+    <updated>2017-05-17T16:25:45+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170410</id>
+    <content type="html"><![CDATA[<h1>ComponentKit Tutorial - Introduction</h1>
+
+<h2>Philosophy</h2>
+
+<p>Components are immutable objects that specify how to configure views.<br/>
+<strong>Declarative</strong> : You declare the subcomponents of your component.<br/>
+<strong>Functional</strong> : Data flows in one direction.<br/>
+<strong>Composable</strong> : Reusing it is a one-liner.</p>
+
+<!-- more -->
+
+
+<h2>Flex box</h2>
+
+<p><strong>main axis</strong>: The main axis of a flex container is the primary axis along which flex items are laid out. It extends in the main dimension.<br/>
+<strong>main-start,main-end</strong>: The flex items are placed within the container starting on the main-start side and going toward the main-end side.<br/>
+<strong>main size</strong>: The flex item’s main size property is either the width or height property, whichever is in the main dimension.<br/>
+<strong>cross axis</strong>: The axis perpendicular to the main axis is called the cross axis. It extends in the cross dimension.<br/>
+<strong>cross-start,cross-end</strong>: Flex lines are filled with items and placed into the container starting on the cross-start side of the flex container and going toward the cross-end side.<br/>
+<strong>cross size</strong>: The cross size property is whichever of width or height that is in the cross dimension.</p>
+
+<h2>Uses</h2>
+
+<p><strong>Strengths</strong>:<br/>
+Simple and Declarative: Just like React itself. Why React? sums up these benefits.<br/>
+Scroll Performance: All layout is performed on a background thread, ensuring the main thread isn’t tied up measuring text.<br/>
+View Recycling: By requiring all view configurations to be expressed declaratively, ComponentKit makes error-free view recycling automatic.<br/>
+Composability: By encouraging heavy use of composition, it’s possible to build UIs as complex as News Feed without any single component exceeding 300 lines of code.<br/>
+<strong>Considerations</strong>:<br/>
+Interfaces that aren’t lists or tables aren’t ideally suited to ComponentKit since it is optimized to work well with a UICollectionView.<br/>
+ComponentKit is fully native and compiled. React Native offers an alternative based on JavaScriptCore and React, including features like instant reload with no recompilation.<br/>
+Dynamic gesture-driven UIs are currently hard to implement in ComponentKit; consider using AsyncDisplayKit.<br/>
+ComponentKit is built on Objective-C++. There is no easy way to interoperate with Swift since Swift cannot bridge to C++.</p>
+
+<h2>Component API</h2>
+
+<pre><code>@interface CKComponent : NSObject
+
+/** Returns a new component. */
++ (instancetype)newWithView:(const CKComponentViewConfiguration &amp;)view
+                       size:(const CKComponentSize &amp;)size;
+
+@end
+</code></pre>
+
+<p>Notes:<br/>
+A component is totally immutable. For example, there is no <code>addSubcomponent:</code> method.<br/>
+A component can be created on any thread. This helps keep all sizing and construction operations off the main thread.<br/>
+The Objective-C idiom <code>+newWith...</code> is used for instantiation instead of the more typical <code>+alloc/-initWith...</code> This is mainly for brevity. Getting rid of noise is important to keep components code readable.</p>
+
+<h2>Composite Components</h2>
+
+<p>Avoid subclassing <code>CKComponent directly</code>. Instead, subclass <code>CKCompositeComponent</code>.<br/>
+A “composite component” simply wraps another component, hiding its implementation details from the outside world.</p>
+
+<pre><code>@implementation ShareButtonComponent
+
++ (instancetype)newWithArticle:(ArticleModel *)article
+{
+  return [super newWithComponent:
+          [CKButtonComponent
+           newWithTitles:...
+           titleColors:...]];
+}
+
+- (void)shareTapped
+{
+  // Share the article
+}
+
+@end
+</code></pre>
+
+<h2>Views</h2>
+
+<pre><code>struct CKComponentViewConfiguration {
+  CKComponentViewClass viewClass;
+  std::unordered_map&lt;CKComponentViewAttribute, id&gt; attributes;
+};
+</code></pre>
+
+<p>The first field is a view class. Ignore <code>CKComponentViewClass</code> for now — in most cases you just pass a class like <code>[UIImageView class]</code> or <code>[UIButton class]</code>.<br/>
+The second field holds a map of attributes to values: font, color, background image, and so forth. Again, ignore <code>CKComponentViewAttribute</code> for now; you can usually use a <code>SEL</code> as the attribute.</p>
+
+<pre><code>[CKComponent
+ newWithView:{
+   [UIImageView class],
+   {
+     {@selector(setImage:), image},
+     {@selector(setContentMode:), @(UIViewContentModeCenter)} // Wrapping into an NSNumber
+   }
+ }
+ size:{image.size.width, image.size.height}];
+</code></pre>
+
+<p>In such situations, just pass {} for the view configuration and no view is created.</p>
+
+<h2>Layout</h2>
+
+<p><code>CKComponent</code> instances do not have any size or position information. Instead, ComponentKit calls the <code>layoutThatFits:</code> method with a given size constraint and the component must return a structure describing both its size, and the position and sizes of its children.</p>
+
+<pre><code>struct CKComponentLayout {
+  CKComponent *component;
+  CGSize size;
+  std::vector&lt;CKComponentLayoutChild&gt; children;
+};
+
+struct CKComponentLayoutChild {
+  CGPoint position;
+  CKComponentLayout layout;
+};
+</code></pre>
+
+<p><strong>Layout Components</strong>:<br/>
+<code>CKStackLayoutComponent</code>: It allows you to stack components vertically or horizontally and specify how they should be flexed and aligned to fit in the available space.<br/>
+<code>CKInsetComponent</code>: Applies an inset margin around a component.<br/>
+<code>CKBackgroundLayoutComponent</code>: Lays out a component, stretching another component behind it as a backdrop.<br/>
+<code>CKOverlayLayoutComponent</code>: Lays out a component, stretching another component on top of it as an overlay.<br/>
+<code>CKCenterLayoutComponent</code>: Centers a component in the available space.<br/>
+<code>CKRatioLayoutComponent</code>: Lays out a component at a fixed aspect ratio.<br/>
+<code>CKStaticLayoutComponent</code>: Allows positioning children at fixed offsets.<br/>
+If the components above aren’t powerful enough, you can implement <code>computeLayoutThatFits:</code> manually.</p>
+
+<h2>Responder Chain</h2>
+
+<p>The ComponentKit responder chain is separate from UIView’s responder chain, so you must manually bridge over to the component responder chain if desired.<br/>
+The easiest way to handle taps on UIControl views is to use <code>CKComponentActionAttribute</code>.</p>
+
+<pre><code>@implementation SomeComponent
+
++ (instancetype)new
+{
+  return [self newWithView:{
+    [UIButton class],
+    {CKComponentActionAttribute(@selector(didTapButton))}
+  }];
+}
+
+- (void)didTapButton
+{
+  // Aha! The button has been tapped.
+}
+
+@end
+</code></pre>
+
+<h2>Component Actions</h2>
+
+<h2>State</h2>
+
+<p><code>State</code>: Internal to the component, this holds implementation details that the parent should not have to know about.</p>
+
+<pre><code>#import "CKComponentSubclass.h" // import to expose updateState:
+@implementation MessageComponent
+
++ (id)initialState
+{
+  return @NO;
+}
+
++ (instancetype)newWithMessage:(NSAttributedString *)message
+{
+  CKComponentScope scope(self);
+  NSNumber *state = scope.state();
+  return [super newWithComponent:
+          [CKTextComponent
+           newWithAttributes:{
+             .attributedString = message,
+             .maximumNumberOfLines = [state boolValue] ? 0 : 5,
+           }
+           viewAttributes:{}
+           accessibilityContext:{}]];
+}
+
+- (void)didTapContinueReading
+{
+  [self updateState:^(id oldState){ return @YES; } mode:CKUpdateModeAsynchronous];
+}
+
+@end
+</code></pre>
+
+<h2>Scopes</h2>
+
+<p><code>Scopes</code> give components a persistent, unique identity. They’re needed in three cases:<br/>
+Components that have <code>state</code> must have a scope.<br/>
+Components that have a <code>controller</code> must have a scope.<br/>
+Components that have child components with state or controllers may need a scope, even if they don’t have state or controllers.<br/>
+Use the <code>CKComponentScope</code> type to define a component scope at the top of a component’s <code>+new</code> method.</p>
+
+<pre><code>+ (instancetype)newWithModel:(Model *)model
+{
+  CKComponentScope scope(self, model.uniqueID);
+  ...
+  return [super newWithComponent:...];
+}
+</code></pre>
+
+<p>If your component doesn’t have a model object with a unique identifier, you can omit that parameter as long as there won’t be multiple siblings of the same type.</p>
+
+<pre><code>CKComponentScope scope(self);
+</code></pre>
+
+<h2>Component Controllers</h2>
+
+<p>Every time something changes, an entirely new component is created and the old one is thrown away.<br/>
+This means components are short-lived, and their lifecycle is not under your control.<br/>
+But sometimes, you do need <strong>an object with a longer lifecycle</strong>. Component controllers fill that role:<br/>
+Components can’t be delegates because they are short-lived, but component controllers can be delegates.<br/>
+Network downloads take time to complete; the component may have been recreated by the time the download completes. The controller can handle the callback.<br/>
+You may need an object to own some other object that should have a long lifetime.<br/>
+Controllers are instantiated automatically by ComponentKit. Don’t try to create them manually.<br/>
+There is a only a one-way communication channel between the component and its component controller - you can only pass data off of a component to a component controller.<br/>
+A component has no reference its corresponding component controller. This is by design.<br/>
+To pass data from a component to its controller, expose a <code>@property</code> on the component in a class extension.<br/>
+The controller can initialize itself with the properties in <code>initWithComponent:</code>.</p>
+
+<h2>Lifecycle Methods</h2>
+
+<p>Whenever possible, avoid using lifecycle methods. Think of them as an emergency escape hatch for integrating with stateful code.<br/>
+Mounting -> Remounting -> Unmounting -> Updating</p>
+
+<h2>Animation</h2>
+
+<p>animationsOnInitialMount: Override this method to specify how to animate the initial appearance of a component.<br/>
+animationsFromPreviousComponent: Override this method to specify how to animate between two versions of a component.<br/>
+boundsAnimationFromPreviousComponent: Override this method to specify how the top-level bounds of a component should animate inside a <code>UICollectionView</code>.<br/>
+If you implement either method, your component must have a <code>scope</code>.</p>
+
+<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170410/'>http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170410/</a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
+  </p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-170403]]></title>
@@ -3971,196 +4215,6 @@ static const char *UIControl_enventIsIgnoreEvent = "UIControl_enventIsIgnoreEven
 <p class='post-footer'>
   原始地址：
   <a href='http://sxgfxm.github.io/blog/2016/10/18/uicollectionview-ios10-new-features/'>http://sxgfxm.github.io/blog/2016/10/18/uicollectionview-ios10-new-features/</a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Github Blog - 自定义]]></title>
-    <link href="http://sxgfxm.github.io/blog/2016/10/18/github-blog-zi-ding-yi/"/>
-    <updated>2016-10-18T15:48:51+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2016/10/18/github-blog-zi-ding-yi</id>
-    <content type="html"><![CDATA[<h2>Octopress目录结构</h2>
-
-<h3>Rakefile</h3>
-
-<p>rake的配置文件，类似于makefile。</p>
-
-<h3>Gemfile</h3>
-
-<p>bundle要下载需要的gem依赖关系的指定文件。</p>
-
-<!--more-->
-
-
-<h3>_config.yml</h3>
-
-<p>站点的配置文件。</p>
-
-<h3>public/</h3>
-
-<p><code>rake generate</code>静态编译完成后的目录，该目录为网站展示的目录。</p>
-
-<h3>_deploy/</h3>
-
-<p><code>rake deploy</code>deploy时生成的缓存文件夹，内容和public目录一样。</p>
-
-<p>该目录中内容由Octopress自动提交至Github远程仓库的<strong>master</strong>分支。</p>
-
-<h3>sass/</h3>
-
-<p>css文件的源文件目录。</p>
-
-<h3>plugins/</h3>
-
-<p>放置自带及第三方插件目录，ruby程序。</p>
-
-<h3>source/</h3>
-
-<p>站点的源文件目录，public目录就是根据该目录下数据生成的。</p>
-
-<p>该目录中内容由用户手动提交至Github远程仓库的<strong>source</strong>分支。</p>
-
-<h4>_includes/custom/</h4>
-
-<p>自定义的模板目录。</p>
-
-<h4>_includes/asides/</h4>
-
-<p>边栏模板目录。</p>
-
-<h4>_includes/post/</h4>
-
-<p>文章页面相应模板目录。</p>
-
-<h4>_layouts/</h4>
-
-<p>默认网站html相关文件，最底层。</p>
-
-<h4>_posts/</h4>
-
-<p>文章源文件，由<code>rake new_post["article name"]</code>命令产生。</p>
-
-<h4>_stylesheets/</h4>
-
-<p>css文件目录。</p>
-
-<h4>javascripts/</h4>
-
-<p>js文件目录。</p>
-
-<h4>images/</h4>
-
-<p>图片目录。</p>
-
-<h2>设置博客中的链接在新窗口中打开</h2>
-
-<p>将如下代码添加到<strong>occtopress/source/_includes/custom/head.html</strong>文件末尾。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text/javascript&quot;</span><span class="o">&gt;</span>
-</span><span class='line'><span class="kd">function</span> <span class="nx">addBlankTargetForLinks</span> <span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;a[href^=&quot;http&quot;]&#39;</span><span class="p">).</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
-</span><span class='line'>      <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;target&#39;</span><span class="p">,</span> <span class="s1">&#39;_blank&#39;</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">});</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;DOMNodeInserted&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nx">addBlankTargetForLinks</span><span class="p">();</span>
-</span><span class='line'><span class="p">});</span>
-</span><span class='line'><span class="o">&lt;</span><span class="err">/script&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>自定义侧边栏</h2>
-
-<p>首先，在<strong>octopress/source/_includes/asides/</strong>目录下创建<strong>custom.html</strong>。</p>
-
-<p>然后，在<strong>_config.yml</strong>的<strong>default_asides:</strong>设置中加入创建的自定义侧栏文件<strong>/asides/custom.html</strong>。</p>
-
-<p>侧边栏顺序即为<strong>default_asides:</strong>中参数的顺序，可以自己设置。</p>
-
-<h2>增加Google Analytics统计工具</h2>
-
-<p>首先，在<a href="https://analytics.google.com/analytics/web/">Google Analytics</a>注册并按要求填写网站信息；</p>
-
-<p>然后，获取<strong>Tracing Id</strong>，添加到<strong>_config.yml</strong>的<strong>google_analytics_tracking_id</strong>后面即可。</p>
-
-<p><img src="http://ofj92itlz.bkt.clouddn.com/GoogleAnalytics:trackingID1.jpeg" alt="" /></p>
-
-<p><img src="http://ofj92itlz.bkt.clouddn.com/GoogleAnalytics:config1.jpeg" alt="" /></p>
-
-<h2>列表排版的缩进问题</h2>
-
-<p>列表默认会冲出文章主主体区块。</p>
-
-<p>在<strong>octopress/sass/custom/_layout.sccs</strong>文件中找到<strong>#$indented-lists: true</strong>行，去掉<strong>#</strong>注释即可。</p>
-
-<h2>公益404页面</h2>
-
-<p>创建404.markdown，按如下编辑。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">---</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">layout</span><span class="o">:</span> <span class="nx">page</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">title</span><span class="o">:</span> <span class="s2">&quot;404 Error&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">date</span><span class="o">:</span> <span class="mi">2013</span><span class="o">-</span><span class="mi">4</span><span class="o">-</span><span class="mi">21</span> <span class="mi">02</span><span class="o">:</span><span class="mi">35</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">comments</span><span class="o">:</span> <span class="kc">false</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">sharing</span><span class="o">:</span> <span class="kc">false</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">footer</span><span class="o">:</span> <span class="kc">false</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">---</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text/javascript&quot;</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;http://www.qq.com/404/search_children.js&quot;</span> <span class="nx">charset</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="o">&gt;&lt;</span><span class="err">/script&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>博客末尾增加原文链接、版权等</h2>
-
-<p>参考博客<a href="http://www.cnblogs.com/maoxiong/p/4298207.html">为octopress文章添加原文链接</a></p>
-
-<h2>参考资料</h2>
-
-<p><a href="http://foggry.com/blog/2014/04/28/custom-your-octopress-blog/">自定义你的Octopress博客</a></p>
-
-<p><a href="http://blog.csdn.net/biaobiaoqi/article/details/9289563">定制Octopress</a></p>
-
-<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2016/10/18/github-blog-zi-ding-yi/'>http://sxgfxm.github.io/blog/2016/10/18/github-blog-zi-ding-yi/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>
