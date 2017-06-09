@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-06-09T10:03:37+08:00</updated>
+  <updated>2017-06-09T10:11:31+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,251 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-170529]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/06/09/ioszhi-shi-xiao-ji-170529/"/>
+    <updated>2017-06-09T10:08:09+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/06/09/ioszhi-shi-xiao-ji-170529</id>
+    <content type="html"><![CDATA[<h2>Open system wifi settings</h2>
+
+<p><code>[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"App-Prefs:root=WIFI"]];</code></p>
+
+<!-- more -->
+
+
+<h2>UITextField</h2>
+
+<pre><code>-(void)setupTextField{
+  self.wifiNameTF =
+      [[UITextField alloc] initWithFrame:CGRectMake(kScaleFrom_iPhone6_Desgin(16), 0,
+                                                    self.view.bounds.size.width - kScaleFrom_iPhone6_Desgin(32),
+                                                    kScaleFrom_iPhone6_Desgin(54))];
+  self.wifiNameTF.placeholder = @"请输入Wi-Fi名称";
+  self.wifiNameTF.font = [UIFont systemFontOfSize:kScaleFrom_iPhone6_Desgin(16)];
+  self.wifiNameTF.textColor = UIColorFromRGBA(0xff16181d);
+  self.wifiNameTF.clearButtonMode = UITextFieldViewModeWhileEditing;
+  self.wifiNameTF.autocapitalizationType = UITextAutocapitalizationTypeNone;
+  self.wifiNameTF.returnKeyType = UIReturnKeyDone;
+  self.wifiNameTF.delegate = self;
+  self.wifiNameTF.secureTextEntry = YES;
+  self.wifiNameTF.rightView = secureBtn;
+  self.wifiNameTF.rightViewMode = UITextFieldViewModeAlways;
+  [self.view addSubview:self.wifiNameTF];
+}
+</code></pre>
+
+<h2>Gradient flow animation</h2>
+
+<p>两倍长度，添加左右移动动画，并添加左右两边覆盖层。</p>
+
+<pre><code>  //  progress bar
+  self.progressBar =
+      [[UIView alloc] initWithFrame:CGRectMake((self.view.bounds.size.width - kScaleFrom_iPhone6_Desgin(120)) / 2,
+                                               kScaleFrom_iPhone6_Desgin(360), kScaleFrom_iPhone6_Desgin(120),
+                                               kScaleFrom_iPhone6_Desgin(4))];
+  [self.view addSubview:self.progressBar];
+  self.gradientLayer = [CAGradientLayer layer];
+  self.gradientLayer.frame =
+      CGRectMake(-kScaleFrom_iPhone6_Desgin(120), 0, kScaleFrom_iPhone6_Desgin(240), kScaleFrom_iPhone6_Desgin(4));
+  self.gradientLayer.locations = @[ @0, @0.15, @0.3, @0.5, @0.65, @0.8, @1 ];
+  self.gradientLayer.colors = @[
+    (__bridge id)UIColorFromRGBA(0xff1af28f)
+        .CGColor,
+    (__bridge id)UIColorFromRGBA(0xff0de9c5).CGColor,
+    (__bridge id)UIColorFromRGBA(0xff3293fe).CGColor,
+    (__bridge id)UIColorFromRGBA(0xff1af28f).CGColor,
+    (__bridge id)UIColorFromRGBA(0xff0de9c5).CGColor,
+    (__bridge id)UIColorFromRGBA(0xff3293fe).CGColor,
+    (__bridge id)UIColorFromRGBA(0xff1af28f).CGColor
+  ];
+  self.gradientLayer.startPoint = CGPointMake(0, 0);
+  self.gradientLayer.endPoint = CGPointMake(1, 0);
+  [self.progressBar.layer addSublayer:self.gradientLayer];
+  CALayer *leftMask = [CALayer layer];
+  leftMask.frame =
+      CGRectMake(-kScaleFrom_iPhone6_Desgin(120), 0, kScaleFrom_iPhone6_Desgin(120), kScaleFrom_iPhone6_Desgin(4));
+  leftMask.backgroundColor = [UIColor whiteColor].CGColor;
+  [self.progressBar.layer addSublayer:leftMask];
+  CALayer *rightMask = [CALayer layer];
+  rightMask.frame =
+      CGRectMake(kScaleFrom_iPhone6_Desgin(120), 0, kScaleFrom_iPhone6_Desgin(120), kScaleFrom_iPhone6_Desgin(4));
+  rightMask.backgroundColor = [UIColor whiteColor].CGColor;
+  [self.progressBar.layer addSublayer:rightMask];
+  CABasicAnimation *moveAnimation = [CABasicAnimation animationWithKeyPath:@"position.x"];
+  moveAnimation.fromValue = @(self.gradientLayer.position.x);
+  moveAnimation.toValue = @(self.gradientLayer.position.x + kScaleFrom_iPhone6_Desgin(120));
+  moveAnimation.repeatCount = 100;
+  moveAnimation.duration = 2;
+  moveAnimation.autoreverses = NO;
+  [self.gradientLayer addAnimation:moveAnimation forKey:@"animation"];
+</code></pre>
+
+<h2>Alert with text field</h2>
+
+<pre><code>- (void)changeName {
+  // 修改昵称提示框
+  UIAlertController *alertController =
+      [UIAlertController alertControllerWithTitle:@"Title"
+                                          message:nil
+                                   preferredStyle:UIAlertControllerStyleAlert];
+  // 添加输入框
+  [alertController addTextFieldWithConfigurationHandler:^(UITextField *_Nonnull textField) {
+    textField.placeholder = @"Please input";
+  }];
+  // 添加确定按钮
+  [alertController addAction:[UIAlertAction actionWithTitle:@"Done"
+                                                      style:UIAlertActionStyleDefault
+                                                    handler:^(UIAlertAction *_Nonnull action) {
+                                                      // 获得当前输入的字符串
+                                                      NSString *name = alertController.textFields[0].text;
+                                                      self.tichomeNameLbl.text = name;
+                                                    }]];
+  // 添加取消按钮
+  [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel"
+                                                      style:UIAlertActionStyleCancel
+                                                    handler:^(UIAlertAction *_Nonnull action){
+                                                    }]];
+  [self presentViewController:alertController animated:YES completion:nil];
+}
+</code></pre>
+
+<h2>UISlider</h2>
+
+<pre><code>-(void)setupSlider{
+  self.volumeSlider = [UISlider new];
+  [self.volumeSlider addTarget:self action:@selector(changeVolumeAction) forControlEvents:UIControlEventTouchUpInside];
+  self.volumeSlider.minimumValueImage = [UIImage imageNamed:@"icVolumeDown"];
+  self.volumeSlider.maximumValueImage = [UIImage imageNamed:@"icVolumeUp"];
+  [self.volumeSlider setThumbImage:[UIImage imageNamed:@"icVolumeBtn"] forState:UIControlStateNormal];
+  [self.volumeSlider setMinimumTrackImage:[UIImage imageNamed:@"minTrackBg"] forState:UIControlStateNormal];
+  [self.volumeSlider setMaximumTrackImage:[UIImage imageNamed:@"maxTrackBg"] forState:UIControlStateNormal];
+  [self.contentView addSubview:self.volumeSlider];
+  [self.volumeSlider mas_makeConstraints:^(MASConstraintMaker *make) {
+    make.centerX.equalTo(self.contentView.mas_centerX);
+    make.bottom.equalTo(self.contentView.mas_bottom).offset(-kScaleFrom_iPhone6_Desgin(15));
+    make.width.equalTo(@(kScaleFrom_iPhone6_Desgin(270)));
+  }];
+}
+</code></pre>
+
+<h2>UITextView</h2>
+
+<pre><code>-(void)setupTextView{
+  self.textView = [UITextView new];
+  self.textView.backgroundColor = [UIColor clearColor];
+  self.textView.text = @"placeholder";
+  self.textView.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.2];
+  self.textView.font = [UIFont systemFontOfSize:14];
+  self.textView.delegate = self;
+  self.textView.autocapitalizationType = UITextAutocapitalizationTypeNone;
+  self.textView.returnKeyType = UIReturnKeyDone;
+  [self.contentView addSubview:self.textView];
+}
+
+//  实现placeholder功能
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
+  if (self.isEmpty) {
+    textView.textColor = [UIColor whiteColor];
+    textView.text = @"";
+    self.isEmpty = NO;
+  }
+  return YES;
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView {
+  if (textView.text.length == 0) {
+    self.isEmpty = YES;
+    textView.text = @"placeholder";
+    textView.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.2];
+  }
+  [textView resignFirstResponder];
+}
+
+//  实现换行替换为结束编辑
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+  if ([text isEqualToString:@"\n"]) {
+    [textView resignFirstResponder];
+    return NO;
+  }
+  return YES;
+}
+</code></pre>
+
+<h2>IQActionSheetPickerView</h2>
+
+<pre><code>-(void)setupPickerView{
+  NSArray *dataSource = @[@"item1",@"item2",@"item3"];
+  IQActionSheetPickerView *categoryPicker = [[IQActionSheetPickerView alloc] initWithTitle:@"选择" delegate:self];
+  //  tool bar
+  [categoryPicker setTitleFont:[UIFont systemFontOfSize:17]];
+  [categoryPicker setTitleColor:[UIColor whiteColor]];
+  [categoryPicker setToolbarTintColor:[UIColorFromRGBA(0xff26272e) colorWithAlphaComponent:0.6]];
+  [categoryPicker setDoneButtonAttributes:@{
+    kIQActionSheetAttributesForNormalStateKey : @{
+      NSForegroundColorAttributeName : [[UIColor whiteColor] colorWithAlphaComponent:0.5],
+      NSFontAttributeName : [UIFont systemFontOfSize:15]
+    }
+  }];
+  [categoryPicker setCancelButtonAttributes:@{
+    kIQActionSheetAttributesForNormalStateKey : @{
+      NSForegroundColorAttributeName : [[UIColor grayColor] colorWithAlphaComponent:0.5],
+      NSFontAttributeName : [UIFont systemFontOfSize:15]
+    }
+  }];
+  //  component
+  [categoryPicker setPickerViewBackgroundColor:UIColorFromRGBA(0xff1c1d24)];
+  [categoryPicker setPickerComponentsFont:[UIFont systemFontOfSize:16]];
+  [categoryPicker setPickerComponentsColor:[UIColor whiteColor]];
+  //  data source
+  [categoryPicker setTitlesForComponents:@[ dataSource ]];
+  if (self.category) {
+    [categoryPicker setSelectedTitles:@[ @"item2" ]];
+  }
+  //  show
+  [categoryPicker show];
+}
+
+- (void)actionSheetPickerView:(IQActionSheetPickerView *)pickerView didSelectTitles:(NSArray *)titles {
+  //  do something with selected item
+}
+</code></pre>
+
+<h2>NSURLSession</h2>
+
+<p>completion handler 并非在主线程回调。<br/>
+UI相关操作必须在主线程执行。</p>
+
+<h2>Protocol Buffers</h2>
+
+<p>Protocol buffers – a language-neutral, platform-neutral, extensible way of serializing structured data for use in communications protocols, data storage, and more.<br/>
+Protocol buffers have many advantages over XML for serializing structured data. Protocol buffers:<br/>
+  are simpler<br/>
+  are 3 to 10 times smaller<br/>
+  are 20 to 100 times faster<br/>
+  are less ambiguous<br/>
+  generate data access classes that are easier to use programmatically</p>
+
+<ol>
+<li>protoc</li>
+<li>build rules</li>
+<li>build phases</li>
+</ol>
+
+
+<h2>Undefined symbols for architecture arm64</h2>
+
+<p>build phases -> compile source</p>
+
+<h2>NSError</h2>
+
+<p>error.localizedDescription</p>
+
+<h2>block</h2>
+
+<p>循环引用。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-170522]]></title>
@@ -462,152 +707,6 @@ CKTransactionalComponentDataSourceChangeset *changeset =
   [self.dataSource announceDidEndDisplayingCell:cell];
 }
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-170424]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170424/"/>
-    <updated>2017-05-17T16:38:39+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170424</id>
-    <content type="html"><![CDATA[<h1>ComponentKit Tutorial - Layout</h1>
-
-<h2>Flexbox Layout</h2>
-
-<p><strong>flex container</strong>：容器。<br/>
-main axis：main start， main end。<br/>
-cross axis：cross start， cross end。<br/>
-<strong>flex item</strong>：成员。<br/>
-main size。<br/>
-cross size。</p>
-
-<!-- more -->
-
-
-<h2>Container Properties</h2>
-
-<p>flex-direction：决定主轴方向。</p>
-
-<pre><code>typedef NS_ENUM(NSUInteger, CKStackLayoutDirection) {
-  //  垂直方向
-  CKStackLayoutDirectionVertical,
-  //  水平方向
-  CKStackLayoutDirectionHorizontal,
-};
-</code></pre>
-
-<p>flex-wrap：决定如何换行。<br/>
-flex-flow：flex-direction和flex-wrap的简写形式。<br/>
-<strong>justify-content</strong>：决定items在主轴上的对齐方式。</p>
-
-<pre><code>/** If no children are flexible, how should this component justify its children in the available space? */
-typedef NS_ENUM(NSUInteger, CKStackLayoutJustifyContent) {
-  /**
-   On overflow, children overflow out of this component's bounds on the right/bottom side.
-   On underflow, children are left/top-aligned within this component's bounds.
-   */
-  //  左对齐
-  CKStackLayoutJustifyContentStart,
-  /**
-   On overflow, children are centered and overflow on both sides.
-   On underflow, children are centered within this component's bounds in the stacking direction.
-   */
-  //  居中
-  CKStackLayoutJustifyContentCenter,
-  /**
-   On overflow, children overflow out of this component's bounds on the left/top side.
-   On underflow, children are right/bottom-aligned within this component's bounds.
-   */
-  //  右对齐
-  CKStackLayoutJustifyContentEnd,
-};
-</code></pre>
-
-<p><strong>align-items</strong>：决定items在交叉轴上的对齐方式。</p>
-
-<pre><code>typedef NS_ENUM(NSUInteger, CKStackLayoutAlignItems) {
-  /** Align children to start of cross axis */
-  //  交叉轴起点对齐
-  CKStackLayoutAlignItemsStart,
-  /** Align children with end of cross axis */
-  CKStackLayoutAlignItemsEnd,
-  //  交叉轴终点对齐
-  /** Center children on cross axis */
-  //  交叉轴居中对齐
-  CKStackLayoutAlignItemsCenter,
-  /** Expand children to fill cross axis */
-  //  交叉轴方向拉伸
-  CKStackLayoutAlignItemsStretch,
-};
-</code></pre>
-
-<h2>Item Properties</h2>
-
-<p>order：决定item排列顺序，数值越小，排位越靠前。<br/>
-<strong>flex-grow</strong>：决定item主轴方向的放大比例，默认为0，即如果存在剩余空间，也不放大。<br/>
-如果所有项目的flex-grow属性都为1，则它们将等分剩余空间（如果有的话）。如果一个项目的flex-grow属性为2，其他项目都为1，则前者占据的剩余空间将比其他项多一倍。<br/>
-<strong>flex-shrink</strong>：决定item主轴方向的缩小比例，默认为1，即如果空间不足，该item将缩小。<br/>
-如果所有项目的flex-shrink属性都为1，当空间不足时，都将等比例缩小。如果一个项目的flex-shrink属性为0，其他项目都为1，则空间不足时，前者不缩小。<br/>
-<strong>flex-basis</strong>：决定了在分配多余空间之前，item的main size大小，根据该值计算主轴是否有多余空间。<br/>
-flex：flex-grow, flex-shrink 和 flex-basis的简写。<br/>
-<strong>align-self</strong>：决定item单独的对齐方式，可以覆盖 <strong>align-items</strong> 属性。<br/>
-默认值为auto，表示继承父元素的align-items属性，如果没有父元素，则等同于stretch。</p>
-
-<pre><code>/**
- Each child may override their parent stack's cross axis alignment.
- @see CKStackLayoutAlignItems
- */
-typedef NS_ENUM(NSUInteger, CKStackLayoutAlignSelf) {
-  /** Inherit alignment value from containing stack. */
-  CKStackLayoutAlignSelfAuto,
-  CKStackLayoutAlignSelfStart,
-  CKStackLayoutAlignSelfEnd,
-  CKStackLayoutAlignSelfCenter,
-  CKStackLayoutAlignSelfStretch,
-};
-</code></pre>
-
-<h2>CKStackLayoutComponent</h2>
-
-<p>A simple layout component that stacks a list of children vertically or horizontally.<br/>
-动态创建children：</p>
-
-<pre><code>static std::vector&lt;CKStackLayoutComponentChild&gt; createChildren(NSArray* list){
-  std::vector&lt;CKStackLayoutComponentChild&gt; children;
-  for (VPANewsModel*newsModel in list) {
-    children.push_back({[VPANewsComponent newWithNewsModel:newsModel]});
-  }
-  return children;
-}
-</code></pre>
-
-<h2>CKBackgroundLayoutComponent</h2>
-
-<p>Lays out a single child component, then lays out a background component behind it stretched to its size.</p>
-
-<pre><code>+ (instancetype)newWithComponent:(CKComponent *)component
-                      background:(CKComponent *)background;
-</code></pre>
-
-<h2>CKStaticLayoutComponent</h2>
-
-<p>A component that positions children at fixed positions.<br/>
-Computes a size that is the union of all childrens' frames.</p>
-
-<h2>CKCenterLayoutComponent</h2>
-
-<p>Lays out a single child component and position it so that it is centered into the layout bounds.</p>
-
-<pre><code>+ (instancetype)newWithCenteringOptions:(CKCenterLayoutComponentCenteringOptions)centeringOptions
-                          sizingOptions:(CKCenterLayoutComponentSizingOptions)sizingOptions
-                                  child:(CKComponent *)child
-                                   size:(const CKComponentSize &amp;)size;
-</code></pre>
-
-<h2>CKRatioLayoutComponent</h2>
-
-<p>For when the content should respect a certain inherent ratio but can be scaled (think photos or videos).
-The ratio passed is the ratio of height / width you expect.</p>
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-06-09T10:03:37+08:00</updated>
+  <updated>2017-06-09T10:11:31+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,259 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-170529]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/06/09/ioszhi-shi-xiao-ji-170529/"/>
+    <updated>2017-06-09T10:08:09+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/06/09/ioszhi-shi-xiao-ji-170529</id>
+    <content type="html"><![CDATA[<h2>Open system wifi settings</h2>
+
+<p><code>[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"App-Prefs:root=WIFI"]];</code></p>
+
+<!-- more -->
+
+
+<h2>UITextField</h2>
+
+<pre><code>-(void)setupTextField{
+  self.wifiNameTF =
+      [[UITextField alloc] initWithFrame:CGRectMake(kScaleFrom_iPhone6_Desgin(16), 0,
+                                                    self.view.bounds.size.width - kScaleFrom_iPhone6_Desgin(32),
+                                                    kScaleFrom_iPhone6_Desgin(54))];
+  self.wifiNameTF.placeholder = @"请输入Wi-Fi名称";
+  self.wifiNameTF.font = [UIFont systemFontOfSize:kScaleFrom_iPhone6_Desgin(16)];
+  self.wifiNameTF.textColor = UIColorFromRGBA(0xff16181d);
+  self.wifiNameTF.clearButtonMode = UITextFieldViewModeWhileEditing;
+  self.wifiNameTF.autocapitalizationType = UITextAutocapitalizationTypeNone;
+  self.wifiNameTF.returnKeyType = UIReturnKeyDone;
+  self.wifiNameTF.delegate = self;
+  self.wifiNameTF.secureTextEntry = YES;
+  self.wifiNameTF.rightView = secureBtn;
+  self.wifiNameTF.rightViewMode = UITextFieldViewModeAlways;
+  [self.view addSubview:self.wifiNameTF];
+}
+</code></pre>
+
+<h2>Gradient flow animation</h2>
+
+<p>两倍长度，添加左右移动动画，并添加左右两边覆盖层。</p>
+
+<pre><code>  //  progress bar
+  self.progressBar =
+      [[UIView alloc] initWithFrame:CGRectMake((self.view.bounds.size.width - kScaleFrom_iPhone6_Desgin(120)) / 2,
+                                               kScaleFrom_iPhone6_Desgin(360), kScaleFrom_iPhone6_Desgin(120),
+                                               kScaleFrom_iPhone6_Desgin(4))];
+  [self.view addSubview:self.progressBar];
+  self.gradientLayer = [CAGradientLayer layer];
+  self.gradientLayer.frame =
+      CGRectMake(-kScaleFrom_iPhone6_Desgin(120), 0, kScaleFrom_iPhone6_Desgin(240), kScaleFrom_iPhone6_Desgin(4));
+  self.gradientLayer.locations = @[ @0, @0.15, @0.3, @0.5, @0.65, @0.8, @1 ];
+  self.gradientLayer.colors = @[
+    (__bridge id)UIColorFromRGBA(0xff1af28f)
+        .CGColor,
+    (__bridge id)UIColorFromRGBA(0xff0de9c5).CGColor,
+    (__bridge id)UIColorFromRGBA(0xff3293fe).CGColor,
+    (__bridge id)UIColorFromRGBA(0xff1af28f).CGColor,
+    (__bridge id)UIColorFromRGBA(0xff0de9c5).CGColor,
+    (__bridge id)UIColorFromRGBA(0xff3293fe).CGColor,
+    (__bridge id)UIColorFromRGBA(0xff1af28f).CGColor
+  ];
+  self.gradientLayer.startPoint = CGPointMake(0, 0);
+  self.gradientLayer.endPoint = CGPointMake(1, 0);
+  [self.progressBar.layer addSublayer:self.gradientLayer];
+  CALayer *leftMask = [CALayer layer];
+  leftMask.frame =
+      CGRectMake(-kScaleFrom_iPhone6_Desgin(120), 0, kScaleFrom_iPhone6_Desgin(120), kScaleFrom_iPhone6_Desgin(4));
+  leftMask.backgroundColor = [UIColor whiteColor].CGColor;
+  [self.progressBar.layer addSublayer:leftMask];
+  CALayer *rightMask = [CALayer layer];
+  rightMask.frame =
+      CGRectMake(kScaleFrom_iPhone6_Desgin(120), 0, kScaleFrom_iPhone6_Desgin(120), kScaleFrom_iPhone6_Desgin(4));
+  rightMask.backgroundColor = [UIColor whiteColor].CGColor;
+  [self.progressBar.layer addSublayer:rightMask];
+  CABasicAnimation *moveAnimation = [CABasicAnimation animationWithKeyPath:@"position.x"];
+  moveAnimation.fromValue = @(self.gradientLayer.position.x);
+  moveAnimation.toValue = @(self.gradientLayer.position.x + kScaleFrom_iPhone6_Desgin(120));
+  moveAnimation.repeatCount = 100;
+  moveAnimation.duration = 2;
+  moveAnimation.autoreverses = NO;
+  [self.gradientLayer addAnimation:moveAnimation forKey:@"animation"];
+</code></pre>
+
+<h2>Alert with text field</h2>
+
+<pre><code>- (void)changeName {
+  // 修改昵称提示框
+  UIAlertController *alertController =
+      [UIAlertController alertControllerWithTitle:@"Title"
+                                          message:nil
+                                   preferredStyle:UIAlertControllerStyleAlert];
+  // 添加输入框
+  [alertController addTextFieldWithConfigurationHandler:^(UITextField *_Nonnull textField) {
+    textField.placeholder = @"Please input";
+  }];
+  // 添加确定按钮
+  [alertController addAction:[UIAlertAction actionWithTitle:@"Done"
+                                                      style:UIAlertActionStyleDefault
+                                                    handler:^(UIAlertAction *_Nonnull action) {
+                                                      // 获得当前输入的字符串
+                                                      NSString *name = alertController.textFields[0].text;
+                                                      self.tichomeNameLbl.text = name;
+                                                    }]];
+  // 添加取消按钮
+  [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel"
+                                                      style:UIAlertActionStyleCancel
+                                                    handler:^(UIAlertAction *_Nonnull action){
+                                                    }]];
+  [self presentViewController:alertController animated:YES completion:nil];
+}
+</code></pre>
+
+<h2>UISlider</h2>
+
+<pre><code>-(void)setupSlider{
+  self.volumeSlider = [UISlider new];
+  [self.volumeSlider addTarget:self action:@selector(changeVolumeAction) forControlEvents:UIControlEventTouchUpInside];
+  self.volumeSlider.minimumValueImage = [UIImage imageNamed:@"icVolumeDown"];
+  self.volumeSlider.maximumValueImage = [UIImage imageNamed:@"icVolumeUp"];
+  [self.volumeSlider setThumbImage:[UIImage imageNamed:@"icVolumeBtn"] forState:UIControlStateNormal];
+  [self.volumeSlider setMinimumTrackImage:[UIImage imageNamed:@"minTrackBg"] forState:UIControlStateNormal];
+  [self.volumeSlider setMaximumTrackImage:[UIImage imageNamed:@"maxTrackBg"] forState:UIControlStateNormal];
+  [self.contentView addSubview:self.volumeSlider];
+  [self.volumeSlider mas_makeConstraints:^(MASConstraintMaker *make) {
+    make.centerX.equalTo(self.contentView.mas_centerX);
+    make.bottom.equalTo(self.contentView.mas_bottom).offset(-kScaleFrom_iPhone6_Desgin(15));
+    make.width.equalTo(@(kScaleFrom_iPhone6_Desgin(270)));
+  }];
+}
+</code></pre>
+
+<h2>UITextView</h2>
+
+<pre><code>-(void)setupTextView{
+  self.textView = [UITextView new];
+  self.textView.backgroundColor = [UIColor clearColor];
+  self.textView.text = @"placeholder";
+  self.textView.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.2];
+  self.textView.font = [UIFont systemFontOfSize:14];
+  self.textView.delegate = self;
+  self.textView.autocapitalizationType = UITextAutocapitalizationTypeNone;
+  self.textView.returnKeyType = UIReturnKeyDone;
+  [self.contentView addSubview:self.textView];
+}
+
+//  实现placeholder功能
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
+  if (self.isEmpty) {
+    textView.textColor = [UIColor whiteColor];
+    textView.text = @"";
+    self.isEmpty = NO;
+  }
+  return YES;
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView {
+  if (textView.text.length == 0) {
+    self.isEmpty = YES;
+    textView.text = @"placeholder";
+    textView.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.2];
+  }
+  [textView resignFirstResponder];
+}
+
+//  实现换行替换为结束编辑
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+  if ([text isEqualToString:@"\n"]) {
+    [textView resignFirstResponder];
+    return NO;
+  }
+  return YES;
+}
+</code></pre>
+
+<h2>IQActionSheetPickerView</h2>
+
+<pre><code>-(void)setupPickerView{
+  NSArray *dataSource = @[@"item1",@"item2",@"item3"];
+  IQActionSheetPickerView *categoryPicker = [[IQActionSheetPickerView alloc] initWithTitle:@"选择" delegate:self];
+  //  tool bar
+  [categoryPicker setTitleFont:[UIFont systemFontOfSize:17]];
+  [categoryPicker setTitleColor:[UIColor whiteColor]];
+  [categoryPicker setToolbarTintColor:[UIColorFromRGBA(0xff26272e) colorWithAlphaComponent:0.6]];
+  [categoryPicker setDoneButtonAttributes:@{
+    kIQActionSheetAttributesForNormalStateKey : @{
+      NSForegroundColorAttributeName : [[UIColor whiteColor] colorWithAlphaComponent:0.5],
+      NSFontAttributeName : [UIFont systemFontOfSize:15]
+    }
+  }];
+  [categoryPicker setCancelButtonAttributes:@{
+    kIQActionSheetAttributesForNormalStateKey : @{
+      NSForegroundColorAttributeName : [[UIColor grayColor] colorWithAlphaComponent:0.5],
+      NSFontAttributeName : [UIFont systemFontOfSize:15]
+    }
+  }];
+  //  component
+  [categoryPicker setPickerViewBackgroundColor:UIColorFromRGBA(0xff1c1d24)];
+  [categoryPicker setPickerComponentsFont:[UIFont systemFontOfSize:16]];
+  [categoryPicker setPickerComponentsColor:[UIColor whiteColor]];
+  //  data source
+  [categoryPicker setTitlesForComponents:@[ dataSource ]];
+  if (self.category) {
+    [categoryPicker setSelectedTitles:@[ @"item2" ]];
+  }
+  //  show
+  [categoryPicker show];
+}
+
+- (void)actionSheetPickerView:(IQActionSheetPickerView *)pickerView didSelectTitles:(NSArray *)titles {
+  //  do something with selected item
+}
+</code></pre>
+
+<h2>NSURLSession</h2>
+
+<p>completion handler 并非在主线程回调。<br/>
+UI相关操作必须在主线程执行。</p>
+
+<h2>Protocol Buffers</h2>
+
+<p>Protocol buffers – a language-neutral, platform-neutral, extensible way of serializing structured data for use in communications protocols, data storage, and more.<br/>
+Protocol buffers have many advantages over XML for serializing structured data. Protocol buffers:<br/>
+  are simpler<br/>
+  are 3 to 10 times smaller<br/>
+  are 20 to 100 times faster<br/>
+  are less ambiguous<br/>
+  generate data access classes that are easier to use programmatically</p>
+
+<ol>
+<li>protoc</li>
+<li>build rules</li>
+<li>build phases</li>
+</ol>
+
+
+<h2>Undefined symbols for architecture arm64</h2>
+
+<p>build phases -> compile source</p>
+
+<h2>NSError</h2>
+
+<p>error.localizedDescription</p>
+
+<h2>block</h2>
+
+<p>循环引用。</p>
+
+<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2017/06/09/ioszhi-shi-xiao-ji-170529/'>http://sxgfxm.github.io/blog/2017/06/09/ioszhi-shi-xiao-ji-170529/</a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
+  </p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-170522]]></title>
@@ -3306,141 +3559,6 @@ static const char *UIControl_enventIsIgnoreEvent = "UIControl_enventIsIgnoreEven
 <p class='post-footer'>
   原始地址：
   <a href='http://sxgfxm.github.io/blog/2017/01/17/prevent-duplicate-clicks/'>http://sxgfxm.github.io/blog/2017/01/17/prevent-duplicate-clicks/</a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Smooth Gradient Polyline]]></title>
-    <link href="http://sxgfxm.github.io/blog/2016/10/27/smooth-gradient-polyline/"/>
-    <updated>2016-10-27T15:47:23+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2016/10/27/smooth-gradient-polyline</id>
-    <content type="html"><![CDATA[<h2>Introduction</h2>
-
-<p>近年来，人们越来越注重运动锻炼，运动相关App层出不穷。其中运动路径追踪是一个重要的功能点。可以很容易的使用<strong>MKPolyline</strong>实现单色路径追踪。更进一步，如果想通过路径的不同颜色反映出运动过程中的速度变化，如<strong>Nike+</strong>类似的效果，需要更多的工作。本文主要讨论如何绘制<strong>平滑渐变</strong>的运动路径。</p>
-
-<!-- more -->
-
-
-<p><img src="http://ofj92itlz.bkt.clouddn.com/GradientPolyline:nike+.jpeg" alt="" /></p>
-
-<p><img src="http://ofj92itlz.bkt.clouddn.com/GradientPolyline:ditongfilter.jpeg" alt="" /></p>
-
-<p>上图为优化后的渐变色路径，图下方红色曲线为运动过程的速度曲线。</p>
-
-<h2>主要流程</h2>
-
-<ol>
-<li>获取运动过程中GPS信息及对应的速度值；</li>
-<li>使用<strong>低通滤波</strong>处理速度数据；</li>
-<li>通过<strong>MKMapView</strong>转换坐标至对应大小的UIView；</li>
-<li>使用<strong>CAGradientLayer</strong>及<strong>CAShaperLayer</strong>分段绘制渐变路径；</li>
-</ol>
-
-
-<h2>获取运动过程中GPS信息及对应的速度值</h2>
-
-<p>可以使用<strong>CoreLocation</strong>获取GPS信息并计算对应的速度值。关于GPS坐标在中国大陆偏移及GPS坐标是否在中国大陆的判断方法，请参考<a href="https://sxgfxm.github.io/blog/2016/10/19/iospan-duan-gpszuo-biao-shi-fou-zai-zhong-guo/">另一篇博文</a>。本文着重探讨路径的绘制，所以模拟产生随机的GPS和速度数据。</p>
-
-<h2>使用<strong>低通滤波</strong>处理速度数据</h2>
-
-<p>因为所绘路径的颜色不同，所以只能分段绘制。</p>
-
-<p>如果各分段为纯色，则绘制出的路径略显生硬，无法体现出过渡效果（如下图）。</p>
-
-<p><img src="http://ofj92itlz.bkt.clouddn.com/GradientPolyline:pure.jpeg" alt="" /></p>
-
-<p>如果根据速度直接绘制成渐变色，因为速度波动的原因，渐变效果并不理想（如下图）。</p>
-
-<p><img src="http://ofj92itlz.bkt.clouddn.com/GradientPolyline:Gradient.jpeg" alt="" /></p>
-
-<p>所以需要预先处理速度数据，使速度数据变得平滑，渐变的效果才好。本人分别使用了<strong>滑动窗口滤波</strong>和<strong>低通滤波</strong>，对比之下，<strong>低通滤波</strong>表现更好。</p>
-
-<p><img src="http://ofj92itlz.bkt.clouddn.com/GradientPolyline:origin.jpeg" alt="" /></p>
-
-<p>上图为原数据效果。</p>
-
-<p><img src="http://ofj92itlz.bkt.clouddn.com/GradientPolyline:smoothwindow.jpeg" alt="" /></p>
-
-<p>上图为滑动窗口平滑效果。</p>
-
-<p><img src="http://ofj92itlz.bkt.clouddn.com/GradientPolyline:ditongfilter.jpeg" alt="" /></p>
-
-<p>上图为低通滤波平滑效果，滤波参数可以根据需要调整。</p>
-
-<h2>通过<strong>MKMapView</strong>转换坐标至对应大小的UIView</h2>
-
-<p>首先需要说明的是，本文的方法将路径绘制在与MKMapView大小一致的UIView上，而非直接以MKOverlay的形式绘制在MKMapView上，所以只能看到路径大致的轮廓而不能像地图一样缩放。如果想要在地图上直接绘制渐变路径，需要自定义<strong>MKOverlayPathRenderer</strong>，如有需要我再放出来。</p>
-
-<p>坐标转换方法，调用MKMapView的<code>convertCoordinate:toPointToView:</code>方法，即可把地图上的GPS坐标，转换为与地图大小相同的CGPoint，为绘制路径做准备。</p>
-
-<h2>使用<strong>CAGradientLayer</strong>及<strong>CAShaperLayer</strong>分段绘制渐变路径</h2>
-
-<h3>在<strong>CAGradientLayer</strong>上绘制对应的渐变颜色；</h3>
-
-<p>1、渐变方向需要根据路径方向计算；</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">gradientLayer</span><span class="p">.</span><span class="n">startPoint</span> <span class="o">=</span>
-</span><span class='line'>        <span class="n">CGPointMake</span><span class="p">(</span><span class="n">lastPoint</span><span class="p">.</span><span class="n">x</span> <span class="o">/</span> <span class="n">gradientView</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">,</span>
-</span><span class='line'>                    <span class="n">lastPoint</span><span class="p">.</span><span class="n">y</span> <span class="o">/</span> <span class="n">gradientView</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">);</span>
-</span><span class='line'><span class="n">gradientLayer</span><span class="p">.</span><span class="n">endPoint</span> <span class="o">=</span>
-</span><span class='line'>        <span class="n">CGPointMake</span><span class="p">(</span><span class="n">newPoint</span><span class="p">.</span><span class="n">x</span> <span class="o">/</span> <span class="n">gradientView</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">,</span>
-</span><span class='line'>                    <span class="n">newPoint</span><span class="p">.</span><span class="n">y</span> <span class="o">/</span> <span class="n">gradientView</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>2、渐变颜色为路径两端速度值映射后的颜色，推荐使用HSB颜色值映射；</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">CGFloat</span> <span class="n">hue</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">speed</span> <span class="o">/</span> <span class="nb">self</span><span class="p">.</span><span class="n">maxSpeed</span> <span class="o">*</span> <span class="nb">self</span><span class="p">.</span><span class="n">maxHue</span><span class="p">;</span>
-</span><span class='line'><span class="bp">UIColor</span> <span class="o">*</span><span class="n">newColor</span> <span class="o">=</span>
-</span><span class='line'>        <span class="p">[</span><span class="bp">UIColor</span> <span class="nl">colorWithHue</span><span class="p">:</span><span class="n">hue</span> <span class="nl">saturation</span><span class="p">:</span><span class="mi">1</span> <span class="nl">brightness</span><span class="p">:</span><span class="mi">1</span> <span class="nl">alpha</span><span class="p">:</span><span class="mi">1</span><span class="p">];</span>
-</span><span class='line'><span class="n">gradientLayer</span><span class="p">.</span><span class="n">colors</span> <span class="o">=</span>
-</span><span class='line'>        <span class="l">@[</span> <span class="p">(</span><span class="k">__bridge</span> <span class="kt">id</span><span class="p">)(</span><span class="n">lastColor</span><span class="p">.</span><span class="bp">CGColor</span><span class="p">),</span> <span class="p">(</span><span class="k">__bridge</span> <span class="kt">id</span><span class="p">)(</span><span class="n">newColor</span><span class="p">.</span><span class="bp">CGColor</span><span class="p">)</span> <span class="l">]</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>3、渐变起止可按需要自行控制；</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">gradientLayer</span><span class="p">.</span><span class="n">locations</span> <span class="o">=</span> <span class="l">@[</span> <span class="l">@(</span><span class="mf">0.2</span><span class="l">)</span><span class="p">,</span> <span class="l">@(</span><span class="mf">0.8</span><span class="l">)</span> <span class="l">]</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>在<strong>CAShapeLayer</strong>上绘制对应的路径；</h3>
-
-<p>1、路径的起止坐标为转换后的CGPoint；</p>
-
-<p>2、注意设置<code>shapeLayer.lineCap = kCALineCapRound;</code>，否则路径会断；</p>
-
-<p>3、注意<code>shapeLayer.strokeColor</code>不能为透明色，否则无法mask；</p>
-
-<h3>设置<code>gradientLayer.mask = shapeLayer</code>；</h3>
-
-<h2>总结</h2>
-
-<p>绘制平滑渐变路径的关键在于速度数据的处理，大家可以尝试不同的滤波算法改进绘制效果。绘制路径的技巧也在文中列出，如有问题可以和我交流，大家共同探讨学习。</p>
-
-<h2>Github源码</h2>
-
-<p><a href="https://github.com/sxgfxm/SmoothGradientPolyline">SmoothGradientPolyline</a></p>
-
-<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2016/10/27/smooth-gradient-polyline/'>http://sxgfxm.github.io/blog/2016/10/27/smooth-gradient-polyline/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>
