@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-05-17T17:00:41+08:00</updated>
+  <updated>2017-06-09T10:03:37+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,94 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-170522]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/06/09/ioszhi-shi-xiao-ji-170522/"/>
+    <updated>2017-06-09T09:57:35+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/06/09/ioszhi-shi-xiao-ji-170522</id>
+    <content type="html"><![CDATA[<h2>Networking Concepts</h2>
+
+<p><a href="https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/NetworkingConcepts/Introduction/Introduction.html#//apple_ref/doc/uid/TP40012487">Networking Concepts</a></p>
+
+<!-- more -->
+
+
+<h3>Networking Terminology</h3>
+
+<p><strong>host</strong>: a host is any device that is connected to a network and provides an endpoint for networked communication.It is called a host because it hosts the applications and daemons that run on it.<br/>
+<strong>nfrastructure device</strong>: an infrastructure device is any piece of equipment that is responsible for making the network function.
+When one host sends data across a network, it divides the data into small pieces called packets.
+A packet generally contains three basic parts: a <strong>header</strong> that tells where the packet should be sent, a <strong>payload</strong> that contains the actual data, and a <strong>trailer</strong> that contains checksum information to ensure that the packet was received correctly.<br/>
+<strong>encapsulation</strong>: When one packet contains another packet (generally of a different type), this is called encapsulation.</p>
+
+<h3>Networking Layers</h3>
+
+<p><strong>Link Layer</strong>: The bottommost layer is the link layer, or <strong>physical layer</strong>.This layer of the networking stack involves the actual hardware used to communicate with nearby physically connected hosts.A network interface is a piece of hardware that provides a link-layer interconnect.<br/>
+<strong>IP Layer</strong>: Sitting on top of the link layer is the IP layer. The IP layer provides packet transport from one host to another in such a way that the packets can pass across multiple physical networks. The path your packets take is called a route, and each link that the packets follow from one router to another along the route is called a hop.To hide this difference, the IP layer splits packets into multiple pieces—a process known as fragmentation—and reassembles them at the other end.<br/>
+<strong>Transport Layer</strong>: On top of the IP layer, you’ll find several transport layers. The two most common protocols at this layer are the transmission control protocol (TCP) and the user datagram protocol (UDP). Both TCP and UDP provide basic data transport from one host to another, much like IP, but add the notion of port numbers.<br/>
+<strong>UDP</strong><br/>
+  No guarantee &mdash;- Like the layers below it, UDP provides no guarantee that the data will ever reach its destination.<br/>
+  Low latency &mdash;- UDP may be a good choice for situations where low latency is required.<br/>
+  Broadcast messages in IPv4 &mdash;- packets sent to a broadcast address are received by every host within its broadcast domain.<br/>
+  Multicast messages &mdash;- UDP packets sent to a multicast address are sent out to any host that subscribes to them.<br/>
+  Preservation of record (packet) boundaries &mdash;- With UDP, the receiver sees each message individually instead of as a continuous stream of bytes.<br/>
+<strong>TCP </strong> <br/>
+  Delivery guarantees &mdash;- Data transmitted using TCP is guaranteed to be received in the order in which it was sent and (connection failures notwithstanding) in its entirety.<br/>
+  Congestion control &mdash;- Sending hosts back off the speed of transmission (and retransmission) if data is getting dropped along the way due to an over-utilized link.<br/>
+  Flow control &mdash;- When busy, receiving hosts tell sending hosts to wait until they are ready to handle more data.<br/>
+  Stream-based data flow &mdash;- Your software sees the data as a series of bytes instead of as a series of discrete records (messages, in UDP parlance)<br/>
+  Path MTU discovery &mdash;- TCP chooses the largest packet size that avoids fragmentation en route.<br/>
+<strong>Application Layer</strong>: The application layer sits at the top of the protocol stack. This layer includes such protocols as hypertext transfer protocol (HTTP) and file transfer protocol (FTP).</p>
+
+<h3>Understanding Latency</h3>
+
+<p>Latency refers to the round-trip time for a request. Every network has latency.<br/>
+The minimum latency between two points on the earth can be calculated by dividing the distance by the speed at which light or electricity moves in a particular medium.<br/>
+Routing delays.<br/>
+Retransmission and exponential backoff.<br/>
+Signal propagation delays within hardware that receives, transmits, forwards, or repeats packets.</p>
+
+<h3>Addressing Schemes and Domain Names</h3>
+
+<p>At every level of networking, each host is assigned one or more numeric identifiers that uniquely represent it within a particular network.<br/>
+<strong>Link-Layer Addressing</strong>: At the link layer (physical layer), each network interface is usually identified by a globally unique hardware ID: Ethernet—MAC address etc.The hardware ID is used to determine whether a particular device should listen to a packet or ignore it.<br/>
+<strong>IP-Layer Addressing</strong>: At the IP layer and above, hosts are identified by an IP address. An IP address can be in one of two forms: IPv4 or IPv6.<br/>
+  <strong>IPv4</strong>: An IPv4 address consists of four bytes, and is usually represented to the user as a series of four numbers separated by decimal points.<br/>
+  <strong>IPv6</strong>: An IPv6 address is a 128-bit value, and is usually written as eight groups of 16-bit hexadecimal numbers separated by colons. Leading zeros in each group can be omitted as long as there is at least one digit in each group.<br/>
+<strong>Domain Name System (DNS)</strong>:
+A domain name is a human-readable name that describes a particular host. Each domain name is made up of a series of parts separated by periods.<br/>
+Features:<br/>
+  Minimize service disruption when an IP address changes.<br/>
+  Allow a host to be accessed by more than one address.<br/>
+  Allow multiple physical hosts to pretend to be a single host.<br/>
+  Can adapt to changes in the underlying technology.<br/>
+  Being easier to remember.</p>
+
+<h3>Packet Routing and Delivery</h3>
+
+<p>Each packet contains a the link-layer address of its intended recipient.</p>
+
+<h2>Networking Overview</h2>
+
+<p><a href="https://developer.apple.com/library/content/documentation/NetworkingInternetWeb/Conceptual/NetworkingOverview/Introduction/Introduction.html#//apple_ref/doc/uid/TP40010220">Networking Overview</a></p>
+
+<h2>Bonjour Overview</h2>
+
+<p><a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/NetServices/Introduction.html#//apple_ref/doc/uid/10000119i">Bonjour Overview</a></p>
+
+<p>The Bonjour zero-configuration networking architecture provides support for publishing and discovering TCP/IP-based services on a local area or wide area network.<br/>
+Bonjour is Apple’s implementation of a suite of zero-configuration networking protocols. Bonjour is designed to make network configuration easier for users.</p>
+
+<h2>NSNetServices and CFNetworkServices Programming Guide</h2>
+
+<p><a href="https://developer.apple.com/library/content/documentation/Networking/Conceptual/NSNetServiceProgGuide/Introduction.html#//apple_ref/doc/uid/TP40002736">NSNetServices and CFNetworkServices Programming Guide</a></p>
+
+<h2>DNS Service Discovery Programming Guide</h2>
+
+<p><a href="https://developer.apple.com/library/content/documentation/Networking/Conceptual/dns_discovery_api/Introduction.html#//apple_ref/doc/uid/TP30000964">DNS Service Discovery Programming Guide</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-170515]]></title>
@@ -520,151 +608,6 @@ Computes a size that is the union of all childrens' frames.</p>
 
 <p>For when the content should respect a certain inherent ratio but can be scaled (think photos or videos).
 The ratio passed is the ratio of height / width you expect.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-170417]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170417/"/>
-    <updated>2017-05-17T16:33:08+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170417</id>
-    <content type="html"><![CDATA[<h1>ComponentKit Tutorial - Component</h1>
-
-<h2>CKComponent</h2>
-
-<p>A component is an immutable object that specifies how to configure a view, loosely inspired by React.</p>
-
-<pre><code>+ (instancetype)newWithView:(const CKComponentViewConfiguration &amp;)view
-                       size:(const CKComponentSize &amp;)size;
-</code></pre>
-
-<p>Example:</p>
-
-<pre><code>CKComponent *component = [CKComponent
-    newWithView:{
-        [UIView class],
-        {
-            {@selector(setBackgroundColor:),[UIColor redColor]},
-            {@selector(setUserInteractionEnabled:), @YES},
-            {CKComponentTapGestureAttribute(@selector(didTap))},
-            {CKComponentViewAttribute::LayerAttribute(@selector(setCornerRadius:)), @10.0}
-        }
-    }
-    size:{50,50}];
-
-- (void)didTap{
-  [self updateState:^(NSNumber *oldState){
-    return [oldState boolValue] ? @NO : @YES;
-  } mode:CKUpdateModeSynchronous];
-}
-</code></pre>
-
-<!-- more -->
-
-
-<h2>CKLabelComponent</h2>
-
-<p>多行文字通过size.width控制。</p>
-
-<pre><code>CKLabelComponent *titleComponent = [CKLabelComponent newWithLabelAttributes:{
-    .string = newsModel.title,
-    .color = [UIColor whiteColor],
-    .alignment = NSTextAlignmentLeft,
-    .font = [UIFont systemFontOfSize:20]
-  }
-  viewAttributes:{
-    { @selector(setBackgroundColor:), [UIColor clearColor] }
-  }
-  size:{}];
-</code></pre>
-
-<h2>CKButtonComponent</h2>
-
-<pre><code> CKButtonComponent *buttonComponent = [CKButtonComponent
-    newWithTitles:{
-      {UIControlStateNormal,@"button"}
-    }
-    titleColors:{
-      {UIControlStateNormal,[UIColor whiteColor]}
-    }
-    images:{}
-    backgroundImages:{}
-    titleFont:[UIFont systemFontOfSize:17]
-    selected:NO
-    enabled:YES
-    action:{@selector(tapAction)}
-    size:{}
-    attributes:{}
-    accessibilityConfiguration:{}];
-</code></pre>
-
-<h2>CKImageComponent</h2>
-
-<pre><code>CKImageComponent *image = [CKImageComponent newWithImage:
-    [UIImage imageNamed:newsModel.imageURL]
-    attributes:{
-        { @selector(setBackgroundColor:), [UIColor whiteColor] },
-        {CKComponentViewAttribute::LayerAttribute(@selector(setCornerRadius:)), @10.0}
-    }
-    size:{60, 60}];
-</code></pre>
-
-<h2>CKInsetComponent</h2>
-
-<p>A component that wraps another component, applying insets around it.</p>
-
-<pre><code>+ (instancetype)newWithView:(const CKComponentViewConfiguration &amp;)view
-                     insets:(UIEdgeInsets)insets
-                  component:(CKComponent *)component;
-
-+ (instancetype)newWithInsets:(UIEdgeInsets)insets component:(CKComponent *)child;
-</code></pre>
-
-<p>Example:</p>
-
-<pre><code>CKInsetComponent *insetComponent = [CKInsetComponent
-    newWithInsets:{.top = 10,.left = 20,.right = 10,.bottom = 20}
-    component:[CKComponent
-        newWithView:{}
-        size:{}]
-    ];
-</code></pre>
-
-<h2>CKOverlayLayoutComponent</h2>
-
-<p>This component lays out a single component and then overlays a component on top of it streched to its size.</p>
-
-<pre><code>+ (instancetype)newWithComponent:(CKComponent *)component
-                         overlay:(CKComponent *)overlay;
-</code></pre>
-
-<h2>State</h2>
-
-<p>Simply ask three questions about each piece of data:<br/>
-1. Is it passed in from a parent via props? If so, it probably isn&rsquo;t state.<br/>
-2. Does it remain unchanged over time? If so, it probably isn&rsquo;t state.<br/>
-3. Can you compute it based on any other state or props in your component? If so, it isn&rsquo;t state.</p>
-
-<p>For each piece of state in your application:<br/>
-1. Identify every component that renders something based on that state.<br/>
-2. Find a common owner component (a single component above all the components that need the state in the hierarchy).<br/>
-3. Either the common owner or another component higher up in the hierarchy should own the state.<br/>
-4. If you can&rsquo;t find a component where it makes sense to own the state, create a new component simply for holding the state and add it somewhere in the hierarchy above the common owner component.</p>
-
-<h2>Scope</h2>
-
-<ol>
-<li>Components that have state must have a scope.</li>
-<li>Components that have a controller must have a scope.</li>
-<li>Components that have child components with state or controllers may need a scope, even if they don’t have state or controllers.</li>
-</ol>
-
-
-<h2>ComponentController</h2>
-
-<p>与component写在同一个文件里，系统自动创建。<br/>
-用来处理代理、事件响应等，有持续的生命周期。<br/>
-scope必须唯一，与controller一一对应。</p>
 ]]></content>
   </entry>
   

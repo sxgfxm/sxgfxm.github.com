@@ -105,6 +105,42 @@ $(document).bind('DOMNodeInserted', function(event) {
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2017/06/09/ioszhi-shi-xiao-ji-170522/">iOS知识小集-170522</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-06-09T09:57:35+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>9:57 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Networking Concepts</h2>
+
+<p><a href="https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/NetworkingConcepts/Introduction/Introduction.html#//apple_ref/doc/uid/TP40012487">Networking Concepts</a></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/06/09/ioszhi-shi-xiao-ji-170522/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170515/">iOS知识小集-170515</a></h1>
     
     
@@ -484,56 +520,6 @@ NSData -> UIImage：<code>UIImage *image = [UIImage imageWithData:data];</code><
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/03/20/ioszhi-shi-xiao-ji-170313/">iOS知识小集-170313</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2017-03-20T16:50:46+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:50 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Masonry</h2>
-
-<p>需要先添加到父视图，再设置约束。<br/>
-block中无需使用weakself。<br/>
-添加约束：makeConstrains。<br/>
-更新约束：updateConstrains，与之相关的布局自动调整。<br/>
-重设约束：remakeConstrains，删除之前的约束重新添加。</p>
-
-<pre><code>[self.view updateConstraints:^(MASConstraintMaker *make){
-  //  updateConstraints
-}];
-[self.view updateConstraints];
-[self.view setNeedsLayout];
-[UIView animateWithDuration:3 animations:^{
-  [self.view layoutIfNeeded];
-}];
-</code></pre>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2017/03/20/ioszhi-shi-xiao-ji-170313/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -556,7 +542,7 @@ block中无需使用weakself。<br/>
 </section><section>
  <h1>Categories</h1>
  <ul id="categories">
-  <li class='category'><a href='/blog/categories/ios/'>ios (25)</a></li>
+  <li class='category'><a href='/blog/categories/ios/'>ios (26)</a></li>
 <li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
 
@@ -564,6 +550,10 @@ block中无需使用weakself。<br/>
 </section><section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/06/09/ioszhi-shi-xiao-ji-170522/">iOS知识小集-170522</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170515/">iOS知识小集-170515</a>
@@ -579,10 +569,6 @@ block中无需使用weakself。<br/>
     
       <li class="post">
         <a href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170424/">iOS知识小集-170424</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170417/">iOS知识小集-170417</a>
       </li>
     
   </ul>

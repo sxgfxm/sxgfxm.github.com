@@ -1,0 +1,384 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS知识小集-170522 - Light's Blog</title>
+  <meta name="author" content="Light">
+
+  
+  <meta name="description" content="Networking Concepts, Bonjour Overview, NSNetServices, DNS Service Discovery">
+  <meta name="keywords" content="sxgfxm, Networking Concepts, Bonjour Overview, NSNetServices, DNS Service Discovery">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://sxgfxm.github.io/blog/2017/06/09/ioszhi-shi-xiao-ji-170522/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Light's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+
+function addBlankTargetForLinks () {
+
+  $('a[href^="http"]').each(function(){
+
+      $(this).attr('target', '_blank');
+
+  });
+
+}
+
+$(document).bind('DOMNodeInserted', function(event) {
+
+  addBlankTargetForLinks();
+
+});
+
+</script>
+
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-86198628-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  
+  <meta name="baidu-site-verification" content="vgau9BNOtE" />
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Light's Blog</a></h1>
+  
+    <h2>The best or nothing.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <!-- <input type="hidden" name="sitesearch" value="sxgfxm.github.io"> -->
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS知识小集-170522</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-06-09T09:57:35+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>9:57 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>Networking Concepts</h2>
+
+<p><a href="https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/NetworkingConcepts/Introduction/Introduction.html#//apple_ref/doc/uid/TP40012487">Networking Concepts</a></p>
+
+<!-- more -->
+
+
+<h3>Networking Terminology</h3>
+
+<p><strong>host</strong>: a host is any device that is connected to a network and provides an endpoint for networked communication.It is called a host because it hosts the applications and daemons that run on it.<br/>
+<strong>nfrastructure device</strong>: an infrastructure device is any piece of equipment that is responsible for making the network function.
+When one host sends data across a network, it divides the data into small pieces called packets.
+A packet generally contains three basic parts: a <strong>header</strong> that tells where the packet should be sent, a <strong>payload</strong> that contains the actual data, and a <strong>trailer</strong> that contains checksum information to ensure that the packet was received correctly.<br/>
+<strong>encapsulation</strong>: When one packet contains another packet (generally of a different type), this is called encapsulation.</p>
+
+<h3>Networking Layers</h3>
+
+<p><strong>Link Layer</strong>: The bottommost layer is the link layer, or <strong>physical layer</strong>.This layer of the networking stack involves the actual hardware used to communicate with nearby physically connected hosts.A network interface is a piece of hardware that provides a link-layer interconnect.<br/>
+<strong>IP Layer</strong>: Sitting on top of the link layer is the IP layer. The IP layer provides packet transport from one host to another in such a way that the packets can pass across multiple physical networks. The path your packets take is called a route, and each link that the packets follow from one router to another along the route is called a hop.To hide this difference, the IP layer splits packets into multiple pieces—a process known as fragmentation—and reassembles them at the other end.<br/>
+<strong>Transport Layer</strong>: On top of the IP layer, you’ll find several transport layers. The two most common protocols at this layer are the transmission control protocol (TCP) and the user datagram protocol (UDP). Both TCP and UDP provide basic data transport from one host to another, much like IP, but add the notion of port numbers.<br/>
+<strong>UDP</strong><br/>
+  No guarantee &mdash;- Like the layers below it, UDP provides no guarantee that the data will ever reach its destination.<br/>
+  Low latency &mdash;- UDP may be a good choice for situations where low latency is required.<br/>
+  Broadcast messages in IPv4 &mdash;- packets sent to a broadcast address are received by every host within its broadcast domain.<br/>
+  Multicast messages &mdash;- UDP packets sent to a multicast address are sent out to any host that subscribes to them.<br/>
+  Preservation of record (packet) boundaries &mdash;- With UDP, the receiver sees each message individually instead of as a continuous stream of bytes.<br/>
+<strong>TCP </strong> <br/>
+  Delivery guarantees &mdash;- Data transmitted using TCP is guaranteed to be received in the order in which it was sent and (connection failures notwithstanding) in its entirety.<br/>
+  Congestion control &mdash;- Sending hosts back off the speed of transmission (and retransmission) if data is getting dropped along the way due to an over-utilized link.<br/>
+  Flow control &mdash;- When busy, receiving hosts tell sending hosts to wait until they are ready to handle more data.<br/>
+  Stream-based data flow &mdash;- Your software sees the data as a series of bytes instead of as a series of discrete records (messages, in UDP parlance)<br/>
+  Path MTU discovery &mdash;- TCP chooses the largest packet size that avoids fragmentation en route.<br/>
+<strong>Application Layer</strong>: The application layer sits at the top of the protocol stack. This layer includes such protocols as hypertext transfer protocol (HTTP) and file transfer protocol (FTP).</p>
+
+<h3>Understanding Latency</h3>
+
+<p>Latency refers to the round-trip time for a request. Every network has latency.<br/>
+The minimum latency between two points on the earth can be calculated by dividing the distance by the speed at which light or electricity moves in a particular medium.<br/>
+Routing delays.<br/>
+Retransmission and exponential backoff.<br/>
+Signal propagation delays within hardware that receives, transmits, forwards, or repeats packets.</p>
+
+<h3>Addressing Schemes and Domain Names</h3>
+
+<p>At every level of networking, each host is assigned one or more numeric identifiers that uniquely represent it within a particular network.<br/>
+<strong>Link-Layer Addressing</strong>: At the link layer (physical layer), each network interface is usually identified by a globally unique hardware ID: Ethernet—MAC address etc.The hardware ID is used to determine whether a particular device should listen to a packet or ignore it.<br/>
+<strong>IP-Layer Addressing</strong>: At the IP layer and above, hosts are identified by an IP address. An IP address can be in one of two forms: IPv4 or IPv6.<br/>
+  <strong>IPv4</strong>: An IPv4 address consists of four bytes, and is usually represented to the user as a series of four numbers separated by decimal points.<br/>
+  <strong>IPv6</strong>: An IPv6 address is a 128-bit value, and is usually written as eight groups of 16-bit hexadecimal numbers separated by colons. Leading zeros in each group can be omitted as long as there is at least one digit in each group.<br/>
+<strong>Domain Name System (DNS)</strong>:
+A domain name is a human-readable name that describes a particular host. Each domain name is made up of a series of parts separated by periods.<br/>
+Features:<br/>
+  Minimize service disruption when an IP address changes.<br/>
+  Allow a host to be accessed by more than one address.<br/>
+  Allow multiple physical hosts to pretend to be a single host.<br/>
+  Can adapt to changes in the underlying technology.<br/>
+  Being easier to remember.</p>
+
+<h3>Packet Routing and Delivery</h3>
+
+<p>Each packet contains a the link-layer address of its intended recipient.</p>
+
+<h2>Networking Overview</h2>
+
+<p><a href="https://developer.apple.com/library/content/documentation/NetworkingInternetWeb/Conceptual/NetworkingOverview/Introduction/Introduction.html#//apple_ref/doc/uid/TP40010220">Networking Overview</a></p>
+
+<h2>Bonjour Overview</h2>
+
+<p><a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/NetServices/Introduction.html#//apple_ref/doc/uid/10000119i">Bonjour Overview</a></p>
+
+<p>The Bonjour zero-configuration networking architecture provides support for publishing and discovering TCP/IP-based services on a local area or wide area network.<br/>
+Bonjour is Apple’s implementation of a suite of zero-configuration networking protocols. Bonjour is designed to make network configuration easier for users.</p>
+
+<h2>NSNetServices and CFNetworkServices Programming Guide</h2>
+
+<p><a href="https://developer.apple.com/library/content/documentation/Networking/Conceptual/NSNetServiceProgGuide/Introduction.html#//apple_ref/doc/uid/TP40002736">NSNetServices and CFNetworkServices Programming Guide</a></p>
+
+<h2>DNS Service Discovery Programming Guide</h2>
+
+<p><a href="https://developer.apple.com/library/content/documentation/Networking/Conceptual/dns_discovery_api/Introduction.html#//apple_ref/doc/uid/TP30000964">DNS Service Discovery Programming Guide</a></p>
+
+<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2017/06/09/ioszhi-shi-xiao-ji-170522/'>http://sxgfxm.github.io/blog/2017/06/09/ioszhi-shi-xiao-ji-170522/</a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
+  </p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Light</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2017-06-09T09:57:35+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>9:57 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170515/" title="Previous Post: iOS知识小集-170515">&laquo; iOS知识小集-170515</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+ <h1>Introduction</h1>
+
+<li>
+	<span style="color:#222222;font-family:inherit;font-size:18px;font-style:inherit;font-weight:inherit;line-height:1.5;">Light</br></span>
+	<span style="font-family:inherit;font-style:inherit;font-weight:inherit;color:#222222;font-size:18px;line-height:1.5;">iOS开发工程师</br></span>
+	<span style="font-family:inherit;font-style:inherit;font-weight:inherit;color:#222222;font-size:18px;line-height:1.5;">现就职于 出门问问</br></span>
+</li>
+
+</section><section>
+ <h1>Categories</h1>
+ <ul id="categories">
+  <li class='category'><a href='/blog/categories/ios/'>ios (26)</a></li>
+<li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
+
+ </ul>
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/06/09/ioszhi-shi-xiao-ji-170522/">iOS知识小集-170522</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170515/">iOS知识小集-170515</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170508/">iOS知识小集-170508</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170501/">iOS知识小集-170501</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170424/">iOS知识小集-170424</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+ <h1>他山之石</h1>
+	<li>
+		<a href="http://southpeak.github.io/">南峰子的技术博客</a></br>
+	</li>
+	<li>
+		<a href="http://www.tutorialspoint.com/index.htm">TutorailSpoint</a></br>
+	</li>
+	<li>
+		<a href="http://stackoverflow.com/">StackOverflow</a></br>
+	</li>
+</section>
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/sxgfxm">@sxgfxm</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'sxgfxm',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+<section>
+ <h1>Visitors</h1>
+	<a href="http://info.flagcounter.com/CVgH"><img src="http://s09.flagcounter.com/count2/CVgH/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_10/viewers_0/labels_0/pageviews_0/flags_0/percent_0/" alt="Flag Counter" border="0"></a>
+</section>
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Light -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-86198628-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

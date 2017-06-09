@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-05-17T17:00:41+08:00</updated>
+  <updated>2017-06-09T10:03:37+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,102 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-170522]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/06/09/ioszhi-shi-xiao-ji-170522/"/>
+    <updated>2017-06-09T09:57:35+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/06/09/ioszhi-shi-xiao-ji-170522</id>
+    <content type="html"><![CDATA[<h2>Networking Concepts</h2>
+
+<p><a href="https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/NetworkingConcepts/Introduction/Introduction.html#//apple_ref/doc/uid/TP40012487">Networking Concepts</a></p>
+
+<!-- more -->
+
+
+<h3>Networking Terminology</h3>
+
+<p><strong>host</strong>: a host is any device that is connected to a network and provides an endpoint for networked communication.It is called a host because it hosts the applications and daemons that run on it.<br/>
+<strong>nfrastructure device</strong>: an infrastructure device is any piece of equipment that is responsible for making the network function.
+When one host sends data across a network, it divides the data into small pieces called packets.
+A packet generally contains three basic parts: a <strong>header</strong> that tells where the packet should be sent, a <strong>payload</strong> that contains the actual data, and a <strong>trailer</strong> that contains checksum information to ensure that the packet was received correctly.<br/>
+<strong>encapsulation</strong>: When one packet contains another packet (generally of a different type), this is called encapsulation.</p>
+
+<h3>Networking Layers</h3>
+
+<p><strong>Link Layer</strong>: The bottommost layer is the link layer, or <strong>physical layer</strong>.This layer of the networking stack involves the actual hardware used to communicate with nearby physically connected hosts.A network interface is a piece of hardware that provides a link-layer interconnect.<br/>
+<strong>IP Layer</strong>: Sitting on top of the link layer is the IP layer. The IP layer provides packet transport from one host to another in such a way that the packets can pass across multiple physical networks. The path your packets take is called a route, and each link that the packets follow from one router to another along the route is called a hop.To hide this difference, the IP layer splits packets into multiple pieces—a process known as fragmentation—and reassembles them at the other end.<br/>
+<strong>Transport Layer</strong>: On top of the IP layer, you’ll find several transport layers. The two most common protocols at this layer are the transmission control protocol (TCP) and the user datagram protocol (UDP). Both TCP and UDP provide basic data transport from one host to another, much like IP, but add the notion of port numbers.<br/>
+<strong>UDP</strong><br/>
+  No guarantee &mdash;- Like the layers below it, UDP provides no guarantee that the data will ever reach its destination.<br/>
+  Low latency &mdash;- UDP may be a good choice for situations where low latency is required.<br/>
+  Broadcast messages in IPv4 &mdash;- packets sent to a broadcast address are received by every host within its broadcast domain.<br/>
+  Multicast messages &mdash;- UDP packets sent to a multicast address are sent out to any host that subscribes to them.<br/>
+  Preservation of record (packet) boundaries &mdash;- With UDP, the receiver sees each message individually instead of as a continuous stream of bytes.<br/>
+<strong>TCP </strong> <br/>
+  Delivery guarantees &mdash;- Data transmitted using TCP is guaranteed to be received in the order in which it was sent and (connection failures notwithstanding) in its entirety.<br/>
+  Congestion control &mdash;- Sending hosts back off the speed of transmission (and retransmission) if data is getting dropped along the way due to an over-utilized link.<br/>
+  Flow control &mdash;- When busy, receiving hosts tell sending hosts to wait until they are ready to handle more data.<br/>
+  Stream-based data flow &mdash;- Your software sees the data as a series of bytes instead of as a series of discrete records (messages, in UDP parlance)<br/>
+  Path MTU discovery &mdash;- TCP chooses the largest packet size that avoids fragmentation en route.<br/>
+<strong>Application Layer</strong>: The application layer sits at the top of the protocol stack. This layer includes such protocols as hypertext transfer protocol (HTTP) and file transfer protocol (FTP).</p>
+
+<h3>Understanding Latency</h3>
+
+<p>Latency refers to the round-trip time for a request. Every network has latency.<br/>
+The minimum latency between two points on the earth can be calculated by dividing the distance by the speed at which light or electricity moves in a particular medium.<br/>
+Routing delays.<br/>
+Retransmission and exponential backoff.<br/>
+Signal propagation delays within hardware that receives, transmits, forwards, or repeats packets.</p>
+
+<h3>Addressing Schemes and Domain Names</h3>
+
+<p>At every level of networking, each host is assigned one or more numeric identifiers that uniquely represent it within a particular network.<br/>
+<strong>Link-Layer Addressing</strong>: At the link layer (physical layer), each network interface is usually identified by a globally unique hardware ID: Ethernet—MAC address etc.The hardware ID is used to determine whether a particular device should listen to a packet or ignore it.<br/>
+<strong>IP-Layer Addressing</strong>: At the IP layer and above, hosts are identified by an IP address. An IP address can be in one of two forms: IPv4 or IPv6.<br/>
+  <strong>IPv4</strong>: An IPv4 address consists of four bytes, and is usually represented to the user as a series of four numbers separated by decimal points.<br/>
+  <strong>IPv6</strong>: An IPv6 address is a 128-bit value, and is usually written as eight groups of 16-bit hexadecimal numbers separated by colons. Leading zeros in each group can be omitted as long as there is at least one digit in each group.<br/>
+<strong>Domain Name System (DNS)</strong>:
+A domain name is a human-readable name that describes a particular host. Each domain name is made up of a series of parts separated by periods.<br/>
+Features:<br/>
+  Minimize service disruption when an IP address changes.<br/>
+  Allow a host to be accessed by more than one address.<br/>
+  Allow multiple physical hosts to pretend to be a single host.<br/>
+  Can adapt to changes in the underlying technology.<br/>
+  Being easier to remember.</p>
+
+<h3>Packet Routing and Delivery</h3>
+
+<p>Each packet contains a the link-layer address of its intended recipient.</p>
+
+<h2>Networking Overview</h2>
+
+<p><a href="https://developer.apple.com/library/content/documentation/NetworkingInternetWeb/Conceptual/NetworkingOverview/Introduction/Introduction.html#//apple_ref/doc/uid/TP40010220">Networking Overview</a></p>
+
+<h2>Bonjour Overview</h2>
+
+<p><a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/NetServices/Introduction.html#//apple_ref/doc/uid/10000119i">Bonjour Overview</a></p>
+
+<p>The Bonjour zero-configuration networking architecture provides support for publishing and discovering TCP/IP-based services on a local area or wide area network.<br/>
+Bonjour is Apple’s implementation of a suite of zero-configuration networking protocols. Bonjour is designed to make network configuration easier for users.</p>
+
+<h2>NSNetServices and CFNetworkServices Programming Guide</h2>
+
+<p><a href="https://developer.apple.com/library/content/documentation/Networking/Conceptual/NSNetServiceProgGuide/Introduction.html#//apple_ref/doc/uid/TP40002736">NSNetServices and CFNetworkServices Programming Guide</a></p>
+
+<h2>DNS Service Discovery Programming Guide</h2>
+
+<p><a href="https://developer.apple.com/library/content/documentation/Networking/Conceptual/dns_discovery_api/Introduction.html#//apple_ref/doc/uid/TP30000964">DNS Service Discovery Programming Guide</a></p>
+
+<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2017/06/09/ioszhi-shi-xiao-ji-170522/'>http://sxgfxm.github.io/blog/2017/06/09/ioszhi-shi-xiao-ji-170522/</a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
+  </p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-170515]]></title>
@@ -3345,112 +3441,6 @@ static const char *UIControl_enventIsIgnoreEvent = "UIControl_enventIsIgnoreEven
 <p class='post-footer'>
   原始地址：
   <a href='http://sxgfxm.github.io/blog/2016/10/27/smooth-gradient-polyline/'>http://sxgfxm.github.io/blog/2016/10/27/smooth-gradient-polyline/</a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[XGChart_README]]></title>
-    <link href="http://sxgfxm.github.io/blog/2016/10/25/xgchart-readme/"/>
-    <updated>2016-10-25T19:52:46+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2016/10/25/xgchart-readme</id>
-    <content type="html"><![CDATA[<h2>Introduction</h2>
-
-<p><a href="https://github.com/sxgfxm/XGChart">XGChart</a>是一个简洁的iOS 图表库，可以快速集成自定义折线图，曲线图和条形图。</p>
-
-<!-- more -->
-
-
-<h2>Install</h2>
-
-<p>首先，下载<strong>XGChart</strong>，将<strong>XGChart</strong>文件夹拖入工程。</p>
-
-<p><img src="http://ofj92itlz.bkt.clouddn.com/XGChart:import2.jpeg" alt="import" /></p>
-
-<p>然后，导入<strong>XGChart.h</strong>头文件，配置参数，创建即可。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &quot;XGChart.h&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'> <span class="c1">//  configuration</span>
-</span><span class='line'>  <span class="n">XGChartConfiguration</span> <span class="o">*</span><span class="n">configuration</span> <span class="o">=</span> <span class="p">[[</span><span class="n">XGChartConfiguration</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'>  <span class="n">configuration</span><span class="p">.</span><span class="n">chartType</span> <span class="o">=</span> <span class="n">XGChartTypeLineChart</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">configuration</span><span class="p">.</span><span class="n">paddingTop</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">configuration</span><span class="p">.</span><span class="n">paddingLeft</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">configuration</span><span class="p">.</span><span class="n">paddingBottom</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">configuration</span><span class="p">.</span><span class="n">paddingRight</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">configuration</span><span class="p">.</span><span class="n">xGridCount</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">configuration</span><span class="p">.</span><span class="n">yGridCount</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">configuration</span><span class="p">.</span><span class="n">gridColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">grayColor</span><span class="p">];</span>
-</span><span class='line'>  <span class="n">configuration</span><span class="p">.</span><span class="n">xAxisLabelColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">];</span>
-</span><span class='line'>  <span class="n">configuration</span><span class="p">.</span><span class="n">xAxisLabelFontSize</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">configuration</span><span class="p">.</span><span class="n">yAxisLabelColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">];</span>
-</span><span class='line'>  <span class="n">configuration</span><span class="p">.</span><span class="n">yAxisLabelFontSize</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span>
-</span><span class='line'>  <span class="bp">NSMutableArray</span><span class="o">&lt;</span><span class="n">XGChartPoint</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">chartPoints</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSMutableArray</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'>  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">31</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">XGChartPoint</span> <span class="o">*</span><span class="n">point</span> <span class="o">=</span>
-</span><span class='line'>        <span class="p">[[</span><span class="n">XGChartPoint</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithX</span><span class="p">:</span><span class="n">i</span> <span class="nl">andY</span><span class="p">:</span><span class="n">arc4random_uniform</span><span class="p">(</span><span class="mi">100</span><span class="p">)];</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">chartPoints</span> <span class="nl">addObject</span><span class="p">:</span><span class="n">point</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="n">configuration</span><span class="p">.</span><span class="n">chartPoints</span> <span class="o">=</span> <span class="n">chartPoints</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">configuration</span><span class="p">.</span><span class="n">strokeColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">redColor</span><span class="p">];</span>
-</span><span class='line'>  <span class="n">configuration</span><span class="p">.</span><span class="n">fillColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">redColor</span><span class="p">];</span>
-</span><span class='line'>  <span class="n">configuration</span><span class="p">.</span><span class="n">lineWidth</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
-</span><span class='line'>  <span class="c1">//  line chart</span>
-</span><span class='line'>  <span class="n">XGChart</span> <span class="o">*</span><span class="n">lineChart</span> <span class="o">=</span> <span class="p">[[</span><span class="n">XGChart</span> <span class="n">alloc</span><span class="p">]</span>
-</span><span class='line'>      <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">,</span>
-</span><span class='line'>                               <span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">-</span> <span class="mi">64</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span>
-</span><span class='line'>      <span class="nl">configuration</span><span class="p">:</span><span class="n">configuration</span><span class="p">];</span>
-</span><span class='line'>  <span class="n">lineChart</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">blackColor</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="n">lineChart</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Result</h2>
-
-<p><img src="http://ofj92itlz.bkt.clouddn.com/XGChart:result2.png" alt="" /></p>
-
-<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2016/10/25/xgchart-readme/'>http://sxgfxm.github.io/blog/2016/10/25/xgchart-readme/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>
