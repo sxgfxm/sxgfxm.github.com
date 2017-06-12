@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-06-09T10:11:31+08:00</updated>
+  <updated>2017-06-12T09:44:22+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,57 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-170605]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/06/12/ioszhi-shi-xiao-ji-170605/"/>
+    <updated>2017-06-12T09:42:42+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/06/12/ioszhi-shi-xiao-ji-170605</id>
+    <content type="html"><![CDATA[<h2>fopen时路径名为日文时崩溃</h2>
+
+<p>路径中尽量不要出现特殊字符。</p>
+
+<!-- more -->
+
+
+<h2>显示 &lt; 号</h2>
+
+<p>居然因为是字体原因</p>
+
+<pre><code>      CGFloat width = kScaleFrom_iPhone6_Desgin(5);
+      CAShapeLayer *shapeLayer = [CAShapeLayer layer];
+      shapeLayer.frame = CGRectMake(CGRectGetMinX(textLayer.frame) - kScaleFrom_iPhone6_Desgin(9), 0, width, width);
+      shapeLayer.position = CGPointMake(shapeLayer.position.x, point.y);
+      UIBezierPath *path = [UIBezierPath bezierPath];
+      [path moveToPoint:CGPointMake(0, width / 2)];
+      [path addLineToPoint:CGPointMake(width, 0)];
+      [path moveToPoint:CGPointMake(0, width / 2)];
+      [path addLineToPoint:CGPointMake(width, width)];
+      shapeLayer.path = path.CGPath;
+      shapeLayer.strokeColor = UIColorFromRGBA(0xff959595).CGColor;
+      shapeLayer.fillColor = [UIColor clearColor].CGColor;
+      shapeLayer.lineWidth = 1;
+      shapeLayer.lineCap = kCALineCapButt;
+      shapeLayer.lineJoin = kCALineJoinMiter;
+      [self.yAxisLayer addSublayer:shapeLayer];
+</code></pre>
+
+<h2>Register DDLog</h2>
+
+<pre><code>  // Register DDLog
+  [DDLog addLogger:[DDTTYLogger sharedInstance]];  // TTY = Xcode console
+  [DDLog addLogger:[DDASLLogger sharedInstance]];  // ASL = File log
+</code></pre>
+
+<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2017/06/12/ioszhi-shi-xiao-ji-170605/'>http://sxgfxm.github.io/blog/2017/06/12/ioszhi-shi-xiao-ji-170605/</a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
+  </p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-170529]]></title>
@@ -3414,151 +3465,6 @@ NSPersistentContainer是新添加的类，从此大部分情况下无需再和NS
 <p class='post-footer'>
   原始地址：
   <a href='http://sxgfxm.github.io/blog/2017/01/23/core-data-tutorial-ios-10/'>http://sxgfxm.github.io/blog/2017/01/23/core-data-tutorial-ios-10/</a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Prevent Duplicate Clicks]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/01/17/prevent-duplicate-clicks/"/>
-    <updated>2017-01-17T16:19:36+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/01/17/prevent-duplicate-clicks</id>
-    <content type="html"><![CDATA[<p>在应用开发过程中，点击事件为耗时操作或者延时响应，例如请求服务器数据，push至下一个界面，如果不处理用户重复点击事件，将会重复触发事件。下面介绍几种简单的处理方法。</p>
-
-<!--more-->
-
-
-<h2>Button</h2>
-
-<p>点击后button状态置为disabled；
-操作完成后button状态置为enabled；</p>
-
-<h2>View</h2>
-
-<p>根据处理状态设置userInteractiveEnable。</p>
-
-<h2>Push</h2>
-
-<p>方法一：
-    点击后button状态置为disabled；
-    viewDidDisappear置为enabled；</p>
-
-<p>方法二：在push前添加判断：如果和上一个视图控制器一样，隔绝此次操作。</p>
-
-<pre><code class="objective-c">if ([self.navigationController.topViewController isKindOfClass:[MyViewController class]]) {
-    return;
-}
-</code></pre>
-
-<h2>时间监听类</h2>
-
-<p>用一个静态变量记录上一次点击的时间，每次点击check时间间隔是否达到要求。</p>
-
-<h2>Runtime</h2>
-
-<p>使用Runtime监听点击事件，忽略重复点击。
-添加一个eventTimeInterval属性，使其规定时间内只能响应一次点击事件。</p>
-
-<p>参考<a href="http://www.cnblogs.com/wanxudong/p/5984941.html">iOS防止重复点击button</a></p>
-
-<p>.h</p>
-
-<pre><code>#import &lt;UIKit/UIKit.h&gt;
-
-@interface UIButton (WXD)
-
-/**
-*  为按钮添加点击间隔 eventTimeInterval秒
-*/
-@property (nonatomic, assign) NSTimeInterval eventTimeInterval;
-
-@end
-</code></pre>
-
-<p>.m</p>
-
-<pre><code class="objective-c">#import "UIButton+WXD.h"
-#import &lt;objc/runtime.h&gt;
-#define defaultInterval 1  //默认时间间隔
-
-@interface UIButton ()
-
-/**
-*  bool YES 忽略点击事件   NO 允许点击事件
-*/
-@property (nonatomic, assign) BOOL isIgnoreEvent;
-
-@end
-
-@implementation UIButton (WXD)
-
-static const char *UIControl_eventTimeInterval = "UIControl_eventTimeInterval";
-static const char *UIControl_enventIsIgnoreEvent = "UIControl_enventIsIgnoreEvent";
-
-
-// runtime 动态绑定 属性
-- (void)setIsIgnoreEvent:(BOOL)isIgnoreEvent
-{
-    objc_setAssociatedObject(self, UIControl_enventIsIgnoreEvent, @(isIgnoreEvent), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-- (BOOL)isIgnoreEvent{
-    return [objc_getAssociatedObject(self, UIControl_enventIsIgnoreEvent) boolValue];
-}
-
-- (NSTimeInterval)eventTimeInterval
-{
-  return [objc_getAssociatedObject(self, UIControl_eventTimeInterval) doubleValue];
-}
-
-- (void)setEventTimeInterval:(NSTimeInterval)eventTimeInterval
-{
- objc_setAssociatedObject(self, UIControl_eventTimeInterval, @(eventTimeInterval), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-+ (void)load
-{
-  // Method Swizzling
- static dispatch_once_t onceToken;
- dispatch_once(&amp;onceToken, ^{
-       SEL selA = @selector(sendAction:to:forEvent:);
-       SEL selB = @selector(_wxd_sendAction:to:forEvent:);
-       Method methodA = class_getInstanceMethod(self,selA);
-       Method methodB = class_getInstanceMethod(self, selB);
-
-       BOOL isAdd = class_addMethod(self, selA, method_getImplementation(methodB), method_getTypeEncoding(methodB));
-
-       if (isAdd) {
-           class_replaceMethod(self, selB, method_getImplementation(methodA), method_getTypeEncoding(methodA));
-       }else{
-           //添加失败了 说明本类中有methodB的实现，此时只需要将methodA和methodB的IMP互换一下即可。
-          method_exchangeImplementations(methodA, methodB);
-      }
- });
-}
-
-- (void)_wxd_sendAction:(SEL)action to:(id)target forEvent:(UIEvent *)event
-{
-  self.eventTimeInterval = self.eventTimeInterval == 0 ? defaultInterval : self.eventTimeInterval;
-  if (self.isIgnoreEvent){
-      return;
-  }else if (self.eventTimeInterval &gt; 0){
-      dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.eventTimeInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-       [self setIsIgnoreEvent:NO];
-       });
-  }
-
-  self.isIgnoreEvent = YES;
-  // 这里看上去会陷入递归调用死循环，但在运行期此方法是和sendAction:to:forEvent:互换的，相当于执行sendAction:to:forEvent:方法，所以并不会陷入死循环。
-  [self _wxd_sendAction:action to:target forEvent:event];
-}  
-</code></pre>
-
-<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/01/17/prevent-duplicate-clicks/'>http://sxgfxm.github.io/blog/2017/01/17/prevent-duplicate-clicks/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>

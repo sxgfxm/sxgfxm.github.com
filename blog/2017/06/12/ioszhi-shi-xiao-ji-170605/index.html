@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>iOS知识小集-170227 - Light's Blog</title>
+  <title>iOS知识小集-170605 - Light's Blog</title>
   <meta name="author" content="Light">
 
   
-  <meta name="description" content="iOS, lock, circular image, RxJava, socket">
-  <meta name="keywords" content="sxgfxm, lock, circular image, RxJava, socket">
+  <meta name="description" content="sxgfxm, fopen, font, DDLog">
+  <meta name="keywords" content="sxgfxm, fopen, font, DDLog">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://sxgfxm.github.io/blog/2017/03/06/ioszhi-shi-xiao-ji-170227/">
+  <link rel="canonical" href="http://sxgfxm.github.io/blog/2017/06/12/ioszhi-shi-xiao-ji-170605/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Light's Blog" type="application/atom+xml">
@@ -102,7 +102,7 @@ $(document).bind('DOMNodeInserted', function(event) {
   
   <header>
     
-      <h1 class="entry-title">iOS知识小集-170227</h1>
+      <h1 class="entry-title">iOS知识小集-170605</h1>
     
     
       <p class="meta">
@@ -111,159 +111,52 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 
-<time class='entry-date' datetime='2017-03-06T16:15:46+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:15 pm</span></time>
+<time class='entry-date' datetime='2017-06-12T09:42:42+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>9:42 am</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><h2>OC中的锁</h2>
+<div class="entry-content"><h2>fopen时路径名为日文时崩溃</h2>
 
-<pre><code>@implementation TestObj
+<p>路径中尽量不要出现特殊字符。</p>
 
--(void)method1{
-  NSLog(@"Method1");
-}
--(void)method2{
-  NSLog(@"Method2");
-}
+<!-- more -->
 
-@end
+
+<h2>显示 &lt; 号</h2>
+
+<p>居然因为是字体原因</p>
+
+<pre><code>      CGFloat width = kScaleFrom_iPhone6_Desgin(5);
+      CAShapeLayer *shapeLayer = [CAShapeLayer layer];
+      shapeLayer.frame = CGRectMake(CGRectGetMinX(textLayer.frame) - kScaleFrom_iPhone6_Desgin(9), 0, width, width);
+      shapeLayer.position = CGPointMake(shapeLayer.position.x, point.y);
+      UIBezierPath *path = [UIBezierPath bezierPath];
+      [path moveToPoint:CGPointMake(0, width / 2)];
+      [path addLineToPoint:CGPointMake(width, 0)];
+      [path moveToPoint:CGPointMake(0, width / 2)];
+      [path addLineToPoint:CGPointMake(width, width)];
+      shapeLayer.path = path.CGPath;
+      shapeLayer.strokeColor = UIColorFromRGBA(0xff959595).CGColor;
+      shapeLayer.fillColor = [UIColor clearColor].CGColor;
+      shapeLayer.lineWidth = 1;
+      shapeLayer.lineCap = kCALineCapButt;
+      shapeLayer.lineJoin = kCALineJoinMiter;
+      [self.yAxisLayer addSublayer:shapeLayer];
 </code></pre>
 
-<!--more-->
+<h2>Register DDLog</h2>
 
-
-<h3>NSLock</h3>
-
-<pre><code>NSLock *lock = [[NSLock alloc] init];
-//线程1
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    [lock lock];
-    [obj method1];
-    sleep(10);
-    [lock unlock];
-});
-//线程2
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    sleep(1);//以保证让线程2的代码后执行
-    [lock lock];
-    [obj method2];
-    [lock unlock];
-});
+<pre><code>  // Register DDLog
+  [DDLog addLogger:[DDTTYLogger sharedInstance]];  // TTY = Xcode console
+  [DDLog addLogger:[DDASLLogger sharedInstance]];  // ASL = File log
 </code></pre>
-
-<h3>synchronized关键字。</h3>
-
-<pre><code>//主线程中
-TestObj *obj = [[TestObj alloc] init];
-//线程1
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    @synchronized(obj){
-        [obj method1];
-        sleep(10);
-    }
-});
-//线程2
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    sleep(1);
-    @synchronized(obj){
-        [obj method2];
-    }
-});
-</code></pre>
-
-<h3>phread_mutex_t。</h3>
-
-<pre><code>//主线程中
-TestObj *obj = [[TestObj alloc] init];
-__block pthread_mutex_t mutex;
-pthread_mutex_init(&amp;mutex, NULL);
-//线程1
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    pthread_mutex_lock(&amp;mutex);
-    [obj method1];
-    sleep(5);
-    pthread_mutex_unlock(&amp;mutex);
-});
-//线程2
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    sleep(1);
-    pthread_mutex_lock(&amp;mutex);
-    [obj method2];
-    pthread_mutex_unlock(&amp;mutex);
-});
-</code></pre>
-
-<h3>GCD。</h3>
-
-<pre><code>//主线程中
-TestObj *obj = [[TestObj alloc] init];
-dispatch_semaphore_t semaphore = dispatch_semaphore_create(1);
-//线程1
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
-    [obj method1];
-    sleep(10);
-    dispatch_semaphore_signal(semaphore);
-});
-//线程2
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    sleep(1);
-    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
-    [obj method2];
-    dispatch_semaphore_signal(semaphore);
-});
-</code></pre>
-
-<h2>生成圆形透明背景图片</h2>
-
-<pre><code>+ (UIImage *)circularScaleAndCropImage:(UIImage *)image {
-  // Create the bitmap graphics context
-  UIGraphicsBeginImageContextWithOptions(CGSizeMake(image.size.width, image.size.height), NO, 0.0);
-  CGContextRef context = UIGraphicsGetCurrentContext();
-
-  // Get the width and heights
-  CGFloat imageWidth = image.size.width;
-  CGFloat imageHeight = image.size.height;
-
-  // Calculate the centre of the circle
-  CGFloat imageCentreX = imageWidth / 2;
-  CGFloat imageCentreY = imageHeight / 2;
-
-  // Create and CLIP to a CIRCULAR Path
-  CGFloat radius = imageWidth / 2;
-  CGContextBeginPath(context);
-  CGContextAddArc(context, imageCentreX, imageCentreY, radius, 0, 2 * M_PI, 0);
-  CGContextClosePath(context);
-  CGContextClip(context);
-
-  // Draw the IMAGE
-  CGRect myRect = CGRectMake(0, 0, imageWidth, imageHeight);
-  [image drawInRect:myRect];
-
-  UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-  UIGraphicsEndImageContext();
-
-  return newImage;
-}
-</code></pre>
-
-<h2>RxJava</h2>
-
-<p>响应式函数编程<br/>
-订阅的思想<br/>
-多层异步回调逻辑更清晰</p>
-
-<h2>Socket</h2>
-
-<p><strong>Packet-based communication</strong><br/>
-<strong>Stream-based clients </strong></p>
 
 <p class='post-footer'>
   原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/03/06/ioszhi-shi-xiao-ji-170227/'>http://sxgfxm.github.io/blog/2017/03/06/ioszhi-shi-xiao-ji-170227/</a><br/>
+  <a href='http://sxgfxm.github.io/blog/2017/06/12/ioszhi-shi-xiao-ji-170605/'>http://sxgfxm.github.io/blog/2017/06/12/ioszhi-shi-xiao-ji-170605/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>
@@ -283,7 +176,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 
 
 
-<time class='entry-date' datetime='2017-03-06T16:15:46+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:15 pm</span></time>
+<time class='entry-date' datetime='2017-06-12T09:42:42+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>9:42 am</span></time>
       
 
 <span class="categories">
@@ -305,10 +198,8 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2017/03/06/ioszhi-shi-xiao-ji-170220/" title="Previous Post: iOS知识小集-170220">&laquo; iOS知识小集-170220</a>
+        <a class="basic-alignment left" href="/blog/2017/06/09/ioszhi-shi-xiao-ji-170529/" title="Previous Post: iOS知识小集-170529">&laquo; iOS知识小集-170529</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2017/03/10/ioszhi-shi-xiao-ji-170306/" title="Next Post: iOS知识小集-170306">iOS知识小集-170306 &raquo;</a>
       
     </p>
   </footer>
