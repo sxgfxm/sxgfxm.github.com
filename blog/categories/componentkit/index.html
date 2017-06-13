@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>iOS知识小集-170306 - Light's Blog</title>
+  <title>Category: Componentkit - Light's Blog</title>
   <meta name="author" content="Light">
 
   
-  <meta name="description" content="sxgfxm,Block,单例,Healthkit,UIPasteboard,发送本地通知">
-  <meta name="keywords" content="sxgfxm,Block,单例,Healthkit,UIPasteboard,发送本地通知">
+  <meta name="description" content="Category: componentkit">
+  <meta name="keywords" content="iOS, sxgfxm,Light's Blog, octopress, markdown, objectiveC">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://sxgfxm.github.io/blog/2017/03/10/ioszhi-shi-xiao-ji-170306/">
+  <link rel="canonical" href="http://sxgfxm.github.io/blog/categories/componentkit/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Light's Blog" type="application/atom+xml">
@@ -98,206 +98,35 @@ $(document).bind('DOMNodeInserted', function(event) {
   <div id="main">
     <div id="content">
       <div>
-<article class="hentry" role="article">
+<article role="article">
   
   <header>
-    
-      <h1 class="entry-title">iOS知识小集-170306</h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2017-03-10T17:00:41+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>5:00 pm</span></time>
-        
-      </p>
+    <h1 class="entry-title">Category: Componentkit</h1>
     
   </header>
+  
+  <div id="blog-archives" class="category">
 
 
-<div class="entry-content"><h2>异步回调</h2>
 
-<ol>
-<li>明确知道操作执行完成；</li>
-<li>操作时间未知；</li>
-</ol>
+  
+  <h2>2017</h2>
 
+<article>
+  
+<h1><a href="/blog/2017/06/13/componentkit-tutorial/">ComponentKit Tutorial</a></h1>
+<time datetime="2017-06-13T16:23:00+08:00" pubdate><span class='month'>Jun</span> <span class='day'>13</span> <span class='year'>2017</span></time>
 
-<!-- more -->
-
-
-<h2>Block</h2>
-
-<ol>
-<li>对block中的内容强引用；</li>
-<li>循环引用，类A的强property类B的强property block强引用self；</li>
-<li>单例不用管循环引用；</li>
-</ol>
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/componentkit/'>componentkit</a></span>
+</footer>
 
 
-<h2>内存划分</h2>
-
-<ol>
-<li>全局区；</li>
-<li>静态区；</li>
-<li>堆区；</li>
-<li>栈区；</li>
-</ol>
-
-
-<h2>单例</h2>
-
-<ol>
-<li>如何创建单例？</li>
-<li>何时创建单例？</li>
-<li>单例的特性？</li>
-</ol>
-
-
-<h2>NSOperation</h2>
-
-<pre><code>-(void)start;
--(void)main;
--(void)cancel;
--(void)addDependency:(NSOperation*)op;
--(void)removeDependency:(NSOperation*)op;
-@property BOOL executing;
-@property BOOL cancelled;
-@property BOOL finished;
-@property copy void (^completionBlock)(void);
-</code></pre>
-
-<p>使用方法：<br/>
-1、继承NSOperation，通过init方法初始化，重写main方法执行任务；<br/>
-2、可以通过completionBlock设置执行完成回调；<br/>
-3、可以方便的判断任务执行状态，取消任务等；<br/>
-4、可以添加和删除依赖关系，依赖其他operation的执行；<br/>
-5、可以通过NSCondition阻塞，加锁，生产者-消费者；</p>
-
-<h2>NSOperationQueue</h2>
-
-<pre><code>@property NSInteger maxCoucurrentOperationCount;
-@property NSInteger operationCount;
--(void)addOperation:(NSOperation*)op;
--(void)cancelAllOperations;
--(void)waitUntilAllOperationsAreFinished;
-</code></pre>
-
-<p>使用方法：<br/>
-1、初始化NSOperationQueue，设置同时可并行任务数量；<br/>
-2、创建任务，并将其加入队列中，任务自动开始执行；<br/>
-3、可以通过operationCount判断还有多少任务未执行；</p>
-
-<h2>HealthKit</h2>
-
-<p>功能：存放健康数据，自动合并；<br/>
-读：读某一类别健康数据；<br/>
-写：写某一类别健康数据；<br/>
-改：改自己写的健康数据。<br/>
-锁屏时无法读数据，保护用户数据安全。</p>
-
-<h2>UIPasteboard</h2>
-
-<p>将信息写到剪切板中。</p>
-
-<pre><code>UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-[pasteboard setString:string];
-</code></pre>
-
-<h2>发送本地通知</h2>
-
-<pre><code>// 创建一个本地推送
-UILocalNotification *notification = [UILocalNotification new];
-if (notification != nil) {
-  // 推送声音
-  notification.soundName = UILocalNotificationDefaultSoundName;
-  // 推送内容
-  notification.alertBody = NSLocalizedString(@"stopWatch.timing", @"已将打点计时信息复制到剪切板");
-  // 显示在icon上的红色圈中的数子
-  notification.applicationIconBadgeNumber++;
-  // 设置userinfo 方便在之后需要撤销的时候使用
-  NSDictionary *info = [NSDictionary dictionaryWithObject:kStopWatchKey forKey:kNotificationKey];
-  notification.userInfo = info;
-  // 添加推送到UIApplication
-  UIApplication *app = [UIApplication sharedApplication];
-  [app scheduleLocalNotification:notification];
-}
-</code></pre>
-
-<h2>string label</h2>
-
-<pre><code>NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
-ceil()
-</code></pre>
-
-<h2>相册和相机</h2>
-
-<p>取消选择照片和选择没有照片是不同的回调。<br/>
-相片可以编辑，相机不可以编辑。</p>
-
-<h2>类方法、类变量、单例</h2>
-
-<h2>埋点</h2>
-
-<p>点击量；<br/>
-人次；<br/>
-存留；<br/>
-停留时间；</p>
-
-<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/03/10/ioszhi-shi-xiao-ji-170306/'>http://sxgfxm.github.io/blog/2017/03/10/ioszhi-shi-xiao-ji-170306/</a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
+</article>
 
 </div>
 
-
-  <footer>
-    <p class="meta">
-      
   
-
-<span class="byline author vcard">Posted by <span class="fn">Light</span></span>
-
-      
-
-
-
-
-<time class='entry-date' datetime='2017-03-10T17:00:41+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>5:00 pm</span></time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/ios/'>ios</a>
-  
-</span>
-
-
-    </p>
-    
-      <div class="sharing">
-  
-  
-  
-  
-</div>
-
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2017/03/06/ioszhi-shi-xiao-ji-170227/" title="Previous Post: iOS知识小集-170227">&laquo; iOS知识小集-170227</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2017/03/20/ioszhi-shi-xiao-ji-170313/" title="Next Post: iOS知识小集-170313">iOS知识小集-170313 &raquo;</a>
-      
-    </p>
-  </footer>
 </article>
 
 </div>
