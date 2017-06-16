@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-06-13T16:50:22+08:00</updated>
+  <updated>2017-06-16T14:12:56+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,217 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-170612]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/06/16/ioszhi-shi-xiao-ji-170612/"/>
+    <updated>2017-06-16T14:08:12+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/06/16/ioszhi-shi-xiao-ji-170612</id>
+    <content type="html"><![CDATA[<h2>MBProgressHUD需要在主线程调用</h2>
+
+<p>UI在主线程操作。</p>
+
+<!-- more -->
+
+
+<h2>引入库</h2>
+
+<p><code>#import &lt;&gt;</code>: global include<br/>
+<code>#import ""</code>: local include<br/>
+<code>#import</code>: only include once<br/>
+<code>#include</code>: may recursive include<br/>
+<code>@import</code>: done automatically</p>
+
+<h2>Edit Scheme</h2>
+
+<p>定义不同的宏</p>
+
+<h2>NSAssert</h2>
+
+<p>多用断言</p>
+
+<h2>打包和解包</h2>
+
+<p>打包：头 + 长度 + 内容。</p>
+
+<pre><code>- (NSData *)packageData:(NSData *)data {
+  NSAssert(data &amp;&amp; data.length &gt; 0, @"Data cannot be empty");
+
+  NSMutableData *payload = [NSMutableData data];
+  int length = (int)data.length;
+  [payload appendBytes:kMagicHeader length:4];
+  [payload appendBytes:&amp;length length:4];
+  [payload appendData:data];
+
+  return payload;
+}
+</code></pre>
+
+<p>解包：取头 + 取长度 + 取内容。</p>
+
+<pre><code>- (void)parseData:(NSData *)data {
+  @synchronized(self) {
+    [self.writeBuffer appendData:data];
+    while (self.writeBuffer.length - self.writeBufferOffset &gt; 8) {
+      // Parse header
+      char header[4];
+      [self.writeBuffer getBytes:header range:NSMakeRange(self.writeBufferOffset, 4)];
+      if (header[0] != kMagicHeader[0] || header[1] != kMagicHeader[1] || header[2] != kMagicHeader[2] ||
+          header[3] != kMagicHeader[3]) {
+        NSLog(@"Invalid magic header");
+        self.writeBufferOffset += 1;
+        continue;
+      }
+
+      // Parse length
+      int length;
+      [self.writeBuffer getBytes:&amp;length range:NSMakeRange(self.writeBufferOffset + 4, 4)];
+
+      // Parse payload
+      if (self.writeBuffer.length - self.writeBufferOffset - 8 &lt; length) {
+        break;
+      }
+      NSData *payload = [NSData dataWithBytes:[self.writeBuffer bytes] + self.writeBufferOffset + 8 length:length];
+      if (self.delegate) {
+        [self.delegate onIncomingData:payload];
+      }
+      self.writeBufferOffset = self.writeBufferOffset + 8 + length;
+      if (self.writeBufferOffset &gt;= self.writeBuffer.length) {
+        self.writeBuffer = [[NSMutableData alloc] init];
+        self.writeBufferOffset = 0;
+      }
+    }
+  }
+}
+</code></pre>
+
+<h2>NSNetServiceBrowser</h2>
+
+<p>扫描service。</p>
+
+<pre><code>-(void)start{
+  NSNetServiceBrowser *browser = [[NSNetServiceBrowser alloc] init];
+  browser.delegate = self;
+  [browser searchForServicesOfType:@"_http._tcp." inDomain:@""];
+}
+
+- (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser
+           didFindService:(NSNetService *)aNetService
+               moreComing:(BOOL)moreComing {
+  if ([self.serviceTypes containsObject:aNetService.name]) {
+    NSLog(@"Found a service: %@", aNetService);
+    aNetService.delegate = self;
+    [aNetService resolveWithTimeout:5];
+  }
+}
+
+- (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser
+         didRemoveService:(NSNetService *)aNetService
+               moreComing:(BOOL)moreComing {
+}
+
+- (void)netServiceDidResolveAddress:(NSNetService *)netService {
+  if ([self.serviceTypes containsObject:netService.name]) {
+    [self.delegate serviceAdded:netService];
+  }
+  NSURL *serviceURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@:%li", netService.hostName, (long)netService.port]];
+  NSLog(@"Resolved address for service %@: %@", netService, serviceURL);
+}
+
+- (void)netService:(NSNetService *)sender didNotResolve:(NSDictionary *)errorDict {
+  NSLog(@"Couldn't resolve address for service %@: %@", sender, errorDict);
+}
+</code></pre>
+
+<h2>Compress files and folder</h2>
+
+<p><strong>Zip</strong></p>
+
+<pre><code>zip -r -X archive_name.zip folder_to_compress
+unzip archive_name.zip
+</code></pre>
+
+<h2>Upload a file to Google Drive from the command line</h2>
+
+<p>Install <a href="https://github.com/prasmussen/gdrive">gdrive</a>, a command line utility for interacting with Google Drive.</p>
+
+<pre><code>brew install gdrive
+</code></pre>
+
+<pre><code>gdrive list
+gdrive download file_name
+gdrive upload file_name
+</code></pre>
+
+<h2>Open a certain folder in Atom</h2>
+
+<pre><code>cd folder_path
+atom .
+</code></pre>
+
+<h2>AFHTTPSessionManager</h2>
+
+<pre><code>AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+  manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+  [manager GET:kXGFeedbackURL
+      parameters:nil
+      success:^(NSURLSessionDataTask *_Nonnull task, id _Nonnull responseObject) {
+        NSError *error = nil;
+        self.dataSource = [[XGFeedbackResponse alloc] initWithData:responseObject error:&amp;error];
+        if (error) {
+          DDLogDebug(@"XG - Feedback response error %@", error.localizedDescription);
+        }
+        DDLogDebug(@"XG - Feedback response %@", self.dataSource);
+      }
+      failure:^(NSURLSessionDataTask *_Nullable task, NSError *_Nonnull error) {
+        DDLogDebug(@"XG - Feedback fail %@", error.localizedDescription);
+      }];
+</code></pre>
+
+<h2>JSONModel</h2>
+
+<pre><code>#import &lt;JSONModel/JSONModel.h&gt;
+
+@protocol XGFeedbackItem;
+@protocol XGFeedbackCategory;
+
+@interface XGFeedbackItem : JSONModel
+
+@property(nonatomic, strong) NSString *cn;
+@property(nonatomic, strong) NSString *en;
+@property(nonatomic, strong) NSString *tw;
+
+@end
+
+@interface XGFeedbackCategory : JSONModel
+
+@property(nonatomic, strong) XGFeedbackItem *title;
+@property(nonatomic, strong) NSArray&lt;XGFeedbackItem *&gt;&lt;XGFeedbackItem&gt; *detail;
+@property(nonatomic, assign) BOOL multiple;
+
+@end
+
+@interface XGFeedbackResponse : JSONModel
+
+@property(nonatomic, strong) NSString *product;
+@property(nonatomic, strong) NSArray&lt;XGFeedbackCategory *&gt;&lt;XGFeedbackCategory&gt; *content;
+
+@end
+</code></pre>
+
+<h2>获取系统语言</h2>
+
+<pre><code>NSString *language = [[NSLocale preferredLanguages] firstObject];
+  if ([language hasPrefix:@"zh-Hans"]) {
+    return self.cn;
+  } else if ([language hasPrefix:@"zh-Hant"]) {
+    return self.tw;
+  } else {
+    return self.en;
+  }
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-170605]]></title>
@@ -526,85 +737,6 @@ void CFSafeRelease(CFTypeRef cf) {
   }
 }
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-170508]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170508/"/>
-    <updated>2017-05-17T16:52:43+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170508</id>
-    <content type="html"><![CDATA[<h2>Carthage</h2>
-
-<p>安装：<code>brew install carthage</code><br/>
-添加：<code>Cartfile</code><br/>
-运行：<code>carthage update</code><br/>
-添加：<code>Carthage/Build/.framework</code></p>
-
-<!-- more -->
-
-
-<h2>防止重复push/present类型相同的controller</h2>
-
-<ol>
-<li>找到最上层view controller；</li>
-<li>判断最上层view controller与待展示view controller是否类型相同；</li>
-<li>如果类型不同，才进行操作。
-获取最底层view controller：<code>[UIApplication sharedApplication].delegate.window.rootViewController</code>。<br/>
-获取最上层view controller：</li>
-</ol>
-
-
-<pre><code>+ (UIViewController *)topViewController {
-  return [self
-      topViewControllerWithRootViewController:[UIApplication sharedApplication].delegate.window.rootViewController];
-}
-
-+ (UIViewController *)topViewControllerWithRootViewController:(UIViewController *)rootViewController {
-  NSLog(@"root to top vc:%@", NSStringFromClass([rootViewController class]));
-  if ([rootViewController isKindOfClass:[MMDrawerController class]]) {
-    MMDrawerController *mmdVc = (MMDrawerController *)rootViewController;
-    return [self topViewControllerWithRootViewController:mmdVc.centerViewController];
-  } else if ([rootViewController isKindOfClass:[UITabBarController class]]) {
-    UITabBarController *tabBarController = (UITabBarController *)rootViewController;
-    return [self topViewControllerWithRootViewController:tabBarController.selectedViewController];
-  } else if ([rootViewController isKindOfClass:[UINavigationController class]]) {
-    UINavigationController *navigationController = (UINavigationController *)rootViewController;
-    return [self topViewControllerWithRootViewController:navigationController.visibleViewController];
-  } else if (rootViewController.presentedViewController) {
-    UIViewController *presentedViewController = rootViewController.presentedViewController;
-    return [self topViewControllerWithRootViewController:presentedViewController];
-  } else {
-    return rootViewController;
-  }
-}
-</code></pre>
-
-<h2>Create Groups vs Create Folder References</h2>
-
-<p>Group：不创建文件夹，不能同名； <br/>
-Folder：创建文件夹，可以重名；</p>
-
-<h2>拉伸Image</h2>
-
-<p>代码：<code>- (UIImage *)resizableImageWithCapInsets:(UIEdgeInsets)capInsets resizingMode:(UIImageResizingMode)resizingMode NS_AVAILABLE_IOS(6_0);</code><br/>
-设置：Assets -> Attributes Inspector -> Slicing</p>
-
-<h2>隐藏文件</h2>
-
-<p>显示隐藏文件：<code>defaults write com.apple.finder AppleShowAllFiles -bool true</code><br/>
-隐藏隐藏文件：<code>defaults write com.apple.finder AppleShowAllFiles -bool false</code>
-重启finder：<code>killall Finder</code></p>
-
-<h2>NavigationBar &amp; ScrollView</h2>
-
-<p>自动：<code>contentOffset.y == -64</code><br/>
-手动：<code>self.edgesForExtendedLayout = UIRectEdgeNone;</code>，y轴0点下移64。</p>
-
-<h2>Objective-C static vs external</h2>
-
-<p>static: In C and Objective-C, a static variable or function at global scope means that that symbol has internal linkage.<br/>
-external: If you want to have a single global variable, you can&rsquo;t have it in class scope like in C++. One option is to create a global variable with external linkage: declare the variable with the extern keyword in a header file, and then in one source file, define it at global scope without the extern keyword.</p>
 ]]></content>
   </entry>
   

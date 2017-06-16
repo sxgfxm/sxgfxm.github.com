@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>iOS知识小集-170424 - Light's Blog</title>
+  <title>iOS知识小集-170612 - Light's Blog</title>
   <meta name="author" content="Light">
 
   
-  <meta name="description" content="sxgfxm,ComponentKit Tutorial,Flexbox Layout,CKStackLayoutComponent">
-  <meta name="keywords" content="sxgfxm,ComponentKit Tutorial,Flexbox Layout,CKStackLayoutComponent">
+  <meta name="description" content="sxgfxm, MBProgressHUD,NSNetServiceBrowser,Zip,gdrive,AFHTTPSessionManager">
+  <meta name="keywords" content="sxgfxm, MBProgressHUD,NSNetServiceBrowser,Zip,gdrive,AFHTTPSessionManager">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170424/">
+  <link rel="canonical" href="http://sxgfxm.github.io/blog/2017/06/16/ioszhi-shi-xiao-ji-170612/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Light's Blog" type="application/atom+xml">
@@ -102,7 +102,7 @@ $(document).bind('DOMNodeInserted', function(event) {
   
   <header>
     
-      <h1 class="entry-title">iOS知识小集-170424</h1>
+      <h1 class="entry-title">iOS知识小集-170612</h1>
     
     
       <p class="meta">
@@ -111,155 +111,220 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 
-<time class='entry-date' datetime='2017-05-17T16:38:39+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:38 pm</span></time>
+<time class='entry-date' datetime='2017-06-16T14:08:12+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>2:08 pm</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><h1>ComponentKit Tutorial - Layout</h1>
+<div class="entry-content"><h2>MBProgressHUD需要在主线程调用</h2>
 
-<h2>Flexbox Layout</h2>
-
-<p><strong>flex container</strong>：容器。<br/>
-main axis：main start， main end。<br/>
-cross axis：cross start， cross end。<br/>
-<strong>flex item</strong>：成员。<br/>
-main size。<br/>
-cross size。</p>
+<p>UI在主线程操作。</p>
 
 <!-- more -->
 
 
-<h2>Container Properties</h2>
+<h2>引入库</h2>
 
-<p>flex-direction：决定主轴方向。</p>
+<p><code>#import &lt;&gt;</code>: global include<br/>
+<code>#import ""</code>: local include<br/>
+<code>#import</code>: only include once<br/>
+<code>#include</code>: may recursive include<br/>
+<code>@import</code>: done automatically</p>
 
-<pre><code>typedef NS_ENUM(NSUInteger, CKStackLayoutDirection) {
-  //  垂直方向
-  CKStackLayoutDirectionVertical,
-  //  水平方向
-  CKStackLayoutDirectionHorizontal,
-};
-</code></pre>
+<h2>Edit Scheme</h2>
 
-<p>flex-wrap：决定如何换行。<br/>
-flex-flow：flex-direction和flex-wrap的简写形式。<br/>
-<strong>justify-content</strong>：决定items在主轴上的对齐方式。</p>
+<p>定义不同的宏</p>
 
-<pre><code>/** If no children are flexible, how should this component justify its children in the available space? */
-typedef NS_ENUM(NSUInteger, CKStackLayoutJustifyContent) {
-  /**
-   On overflow, children overflow out of this component's bounds on the right/bottom side.
-   On underflow, children are left/top-aligned within this component's bounds.
-   */
-  //  左对齐
-  CKStackLayoutJustifyContentStart,
-  /**
-   On overflow, children are centered and overflow on both sides.
-   On underflow, children are centered within this component's bounds in the stacking direction.
-   */
-  //  居中
-  CKStackLayoutJustifyContentCenter,
-  /**
-   On overflow, children overflow out of this component's bounds on the left/top side.
-   On underflow, children are right/bottom-aligned within this component's bounds.
-   */
-  //  右对齐
-  CKStackLayoutJustifyContentEnd,
-};
-</code></pre>
+<h2>NSAssert</h2>
 
-<p><strong>align-items</strong>：决定items在交叉轴上的对齐方式。</p>
+<p>多用断言</p>
 
-<pre><code>typedef NS_ENUM(NSUInteger, CKStackLayoutAlignItems) {
-  /** Align children to start of cross axis */
-  //  交叉轴起点对齐
-  CKStackLayoutAlignItemsStart,
-  /** Align children with end of cross axis */
-  CKStackLayoutAlignItemsEnd,
-  //  交叉轴终点对齐
-  /** Center children on cross axis */
-  //  交叉轴居中对齐
-  CKStackLayoutAlignItemsCenter,
-  /** Expand children to fill cross axis */
-  //  交叉轴方向拉伸
-  CKStackLayoutAlignItemsStretch,
-};
-</code></pre>
+<h2>打包和解包</h2>
 
-<h2>Item Properties</h2>
+<p>打包：头 + 长度 + 内容。</p>
 
-<p>order：决定item排列顺序，数值越小，排位越靠前。<br/>
-<strong>flex-grow</strong>：决定item主轴方向的放大比例，默认为0，即如果存在剩余空间，也不放大。<br/>
-如果所有项目的flex-grow属性都为1，则它们将等分剩余空间（如果有的话）。如果一个项目的flex-grow属性为2，其他项目都为1，则前者占据的剩余空间将比其他项多一倍。<br/>
-<strong>flex-shrink</strong>：决定item主轴方向的缩小比例，默认为1，即如果空间不足，该item将缩小。<br/>
-如果所有项目的flex-shrink属性都为1，当空间不足时，都将等比例缩小。如果一个项目的flex-shrink属性为0，其他项目都为1，则空间不足时，前者不缩小。<br/>
-<strong>flex-basis</strong>：决定了在分配多余空间之前，item的main size大小，根据该值计算主轴是否有多余空间。<br/>
-flex：flex-grow, flex-shrink 和 flex-basis的简写。<br/>
-<strong>align-self</strong>：决定item单独的对齐方式，可以覆盖 <strong>align-items</strong> 属性。<br/>
-默认值为auto，表示继承父元素的align-items属性，如果没有父元素，则等同于stretch。</p>
+<pre><code>- (NSData *)packageData:(NSData *)data {
+  NSAssert(data &amp;&amp; data.length &gt; 0, @"Data cannot be empty");
 
-<pre><code>/**
- Each child may override their parent stack's cross axis alignment.
- @see CKStackLayoutAlignItems
- */
-typedef NS_ENUM(NSUInteger, CKStackLayoutAlignSelf) {
-  /** Inherit alignment value from containing stack. */
-  CKStackLayoutAlignSelfAuto,
-  CKStackLayoutAlignSelfStart,
-  CKStackLayoutAlignSelfEnd,
-  CKStackLayoutAlignSelfCenter,
-  CKStackLayoutAlignSelfStretch,
-};
-</code></pre>
+  NSMutableData *payload = [NSMutableData data];
+  int length = (int)data.length;
+  [payload appendBytes:kMagicHeader length:4];
+  [payload appendBytes:&amp;length length:4];
+  [payload appendData:data];
 
-<h2>CKStackLayoutComponent</h2>
-
-<p>A simple layout component that stacks a list of children vertically or horizontally.<br/>
-动态创建children：</p>
-
-<pre><code>static std::vector&lt;CKStackLayoutComponentChild&gt; createChildren(NSArray* list){
-  std::vector&lt;CKStackLayoutComponentChild&gt; children;
-  for (VPANewsModel*newsModel in list) {
-    children.push_back({[VPANewsComponent newWithNewsModel:newsModel]});
-  }
-  return children;
+  return payload;
 }
 </code></pre>
 
-<h2>CKBackgroundLayoutComponent</h2>
+<p>解包：取头 + 取长度 + 取内容。</p>
 
-<p>Lays out a single child component, then lays out a background component behind it stretched to its size.</p>
+<pre><code>- (void)parseData:(NSData *)data {
+  @synchronized(self) {
+    [self.writeBuffer appendData:data];
+    while (self.writeBuffer.length - self.writeBufferOffset &gt; 8) {
+      // Parse header
+      char header[4];
+      [self.writeBuffer getBytes:header range:NSMakeRange(self.writeBufferOffset, 4)];
+      if (header[0] != kMagicHeader[0] || header[1] != kMagicHeader[1] || header[2] != kMagicHeader[2] ||
+          header[3] != kMagicHeader[3]) {
+        NSLog(@"Invalid magic header");
+        self.writeBufferOffset += 1;
+        continue;
+      }
 
-<pre><code>+ (instancetype)newWithComponent:(CKComponent *)component
-                      background:(CKComponent *)background;
+      // Parse length
+      int length;
+      [self.writeBuffer getBytes:&amp;length range:NSMakeRange(self.writeBufferOffset + 4, 4)];
+
+      // Parse payload
+      if (self.writeBuffer.length - self.writeBufferOffset - 8 &lt; length) {
+        break;
+      }
+      NSData *payload = [NSData dataWithBytes:[self.writeBuffer bytes] + self.writeBufferOffset + 8 length:length];
+      if (self.delegate) {
+        [self.delegate onIncomingData:payload];
+      }
+      self.writeBufferOffset = self.writeBufferOffset + 8 + length;
+      if (self.writeBufferOffset &gt;= self.writeBuffer.length) {
+        self.writeBuffer = [[NSMutableData alloc] init];
+        self.writeBufferOffset = 0;
+      }
+    }
+  }
+}
 </code></pre>
 
-<h2>CKStaticLayoutComponent</h2>
+<h2>NSNetServiceBrowser</h2>
 
-<p>A component that positions children at fixed positions.<br/>
-Computes a size that is the union of all childrens' frames.</p>
+<p>扫描service。</p>
 
-<h2>CKCenterLayoutComponent</h2>
+<pre><code>-(void)start{
+  NSNetServiceBrowser *browser = [[NSNetServiceBrowser alloc] init];
+  browser.delegate = self;
+  [browser searchForServicesOfType:@"_http._tcp." inDomain:@""];
+}
 
-<p>Lays out a single child component and position it so that it is centered into the layout bounds.</p>
+- (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser
+           didFindService:(NSNetService *)aNetService
+               moreComing:(BOOL)moreComing {
+  if ([self.serviceTypes containsObject:aNetService.name]) {
+    NSLog(@"Found a service: %@", aNetService);
+    aNetService.delegate = self;
+    [aNetService resolveWithTimeout:5];
+  }
+}
 
-<pre><code>+ (instancetype)newWithCenteringOptions:(CKCenterLayoutComponentCenteringOptions)centeringOptions
-                          sizingOptions:(CKCenterLayoutComponentSizingOptions)sizingOptions
-                                  child:(CKComponent *)child
-                                   size:(const CKComponentSize &amp;)size;
+- (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser
+         didRemoveService:(NSNetService *)aNetService
+               moreComing:(BOOL)moreComing {
+}
+
+- (void)netServiceDidResolveAddress:(NSNetService *)netService {
+  if ([self.serviceTypes containsObject:netService.name]) {
+    [self.delegate serviceAdded:netService];
+  }
+  NSURL *serviceURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@:%li", netService.hostName, (long)netService.port]];
+  NSLog(@"Resolved address for service %@: %@", netService, serviceURL);
+}
+
+- (void)netService:(NSNetService *)sender didNotResolve:(NSDictionary *)errorDict {
+  NSLog(@"Couldn't resolve address for service %@: %@", sender, errorDict);
+}
 </code></pre>
 
-<h2>CKRatioLayoutComponent</h2>
+<h2>Compress files and folder</h2>
 
-<p>For when the content should respect a certain inherent ratio but can be scaled (think photos or videos).
-The ratio passed is the ratio of height / width you expect.</p>
+<p><strong>Zip</strong></p>
+
+<pre><code>zip -r -X archive_name.zip folder_to_compress
+unzip archive_name.zip
+</code></pre>
+
+<h2>Upload a file to Google Drive from the command line</h2>
+
+<p>Install <a href="https://github.com/prasmussen/gdrive">gdrive</a>, a command line utility for interacting with Google Drive.</p>
+
+<pre><code>brew install gdrive
+</code></pre>
+
+<pre><code>gdrive list
+gdrive download file_name
+gdrive upload file_name
+</code></pre>
+
+<h2>Open a certain folder in Atom</h2>
+
+<pre><code>cd folder_path
+atom .
+</code></pre>
+
+<h2>AFHTTPSessionManager</h2>
+
+<pre><code>AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+  manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+  [manager GET:kXGFeedbackURL
+      parameters:nil
+      success:^(NSURLSessionDataTask *_Nonnull task, id _Nonnull responseObject) {
+        NSError *error = nil;
+        self.dataSource = [[XGFeedbackResponse alloc] initWithData:responseObject error:&amp;error];
+        if (error) {
+          DDLogDebug(@"XG - Feedback response error %@", error.localizedDescription);
+        }
+        DDLogDebug(@"XG - Feedback response %@", self.dataSource);
+      }
+      failure:^(NSURLSessionDataTask *_Nullable task, NSError *_Nonnull error) {
+        DDLogDebug(@"XG - Feedback fail %@", error.localizedDescription);
+      }];
+</code></pre>
+
+<h2>JSONModel</h2>
+
+<pre><code>#import &lt;JSONModel/JSONModel.h&gt;
+
+@protocol XGFeedbackItem;
+@protocol XGFeedbackCategory;
+
+@interface XGFeedbackItem : JSONModel
+
+@property(nonatomic, strong) NSString *cn;
+@property(nonatomic, strong) NSString *en;
+@property(nonatomic, strong) NSString *tw;
+
+@end
+
+@interface XGFeedbackCategory : JSONModel
+
+@property(nonatomic, strong) XGFeedbackItem *title;
+@property(nonatomic, strong) NSArray&lt;XGFeedbackItem *&gt;&lt;XGFeedbackItem&gt; *detail;
+@property(nonatomic, assign) BOOL multiple;
+
+@end
+
+@interface XGFeedbackResponse : JSONModel
+
+@property(nonatomic, strong) NSString *product;
+@property(nonatomic, strong) NSArray&lt;XGFeedbackCategory *&gt;&lt;XGFeedbackCategory&gt; *content;
+
+@end
+</code></pre>
+
+<h2>获取系统语言</h2>
+
+<pre><code>NSString *language = [[NSLocale preferredLanguages] firstObject];
+  if ([language hasPrefix:@"zh-Hans"]) {
+    return self.cn;
+  } else if ([language hasPrefix:@"zh-Hant"]) {
+    return self.tw;
+  } else {
+    return self.en;
+  }
+</code></pre>
 
 <p class='post-footer'>
   原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170424/'>http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170424/</a><br/>
+  <a href='http://sxgfxm.github.io/blog/2017/06/16/ioszhi-shi-xiao-ji-170612/'>http://sxgfxm.github.io/blog/2017/06/16/ioszhi-shi-xiao-ji-170612/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>
@@ -279,7 +344,7 @@ The ratio passed is the ratio of height / width you expect.</p>
 
 
 
-<time class='entry-date' datetime='2017-05-17T16:38:39+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:38 pm</span></time>
+<time class='entry-date' datetime='2017-06-16T14:08:12+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>2:08 pm</span></time>
       
 
 <span class="categories">
@@ -301,10 +366,8 @@ The ratio passed is the ratio of height / width you expect.</p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170417/" title="Previous Post: iOS知识小集-170417">&laquo; iOS知识小集-170417</a>
+        <a class="basic-alignment left" href="/blog/2017/06/13/componentkit-tutorial/" title="Previous Post: ComponentKit Tutorial">&laquo; ComponentKit Tutorial</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170501/" title="Next Post: iOS知识小集-170501">iOS知识小集-170501 &raquo;</a>
       
     </p>
   </footer>
