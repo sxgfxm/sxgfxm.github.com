@@ -105,6 +105,49 @@ $(document).bind('DOMNodeInserted', function(event) {
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170424/">iOS知识小集-170424</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-05-17T16:38:39+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:38 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>ComponentKit Tutorial - Layout</h1>
+
+<h2>Flexbox Layout</h2>
+
+<p><strong>flex container</strong>：容器。<br/>
+main axis：main start， main end。<br/>
+cross axis：cross start， cross end。<br/>
+<strong>flex item</strong>：成员。<br/>
+main size。<br/>
+cross size。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170424/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170417/">iOS知识小集-170417</a></h1>
     
     
@@ -509,67 +552,6 @@ block中无需使用weakself。<br/>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/02/25/ios-system-authorization/">iOS System Authorization</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2017-02-25T14:17:43+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>2:17 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>iOS 10开始，获取<strong>隐私</strong>敏感数据需要在<strong>plist.info</strong>文件中配置，否则app会crash。<br/>
-配置方法：添加对应权限的key和value，value不许为空。<br/>
-常用权限：</p>
-
-<ul>
-<li>Network：无需添加key</li>
-<li>Location：Privacy - Location Always Usage Description</li>
-<li>Photo：Privacy - Photo Library Usage Description</li>
-<li>Camera：Privacy - Camera Usage Description</li>
-<li>Microphone：Privacy - Microphone Usage Description</li>
-<li>Contact：Privacy - Contacts Usage Description</li>
-<li>Media：Privacy - Media Library Usage Description</li>
-</ul>
-
-
-<p>手动请求权限：当用户拒绝授权某权限时，需要手动再次请求。<br/>
-跳转至权限设置界面：</p>
-
-<pre><code>[[UIApplication sharedApplication]
-                openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]
-                options:@{}
-      completionHandler:nil];
-</code></pre>
-
-<p><a href="https://github.com/sxgfxm/AuthorizationDemo">Demo地址</a></p>
-
-<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/02/25/ios-system-authorization/'>http://sxgfxm.github.io/blog/2017/02/25/ios-system-authorization/</a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -595,7 +577,7 @@ block中无需使用weakself。<br/>
  <h1>Categories</h1>
  <ul id="categories">
   <li class='category'><a href='/blog/categories/componentkit/'>componentkit (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>ios (30)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (31)</a></li>
 <li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
 
@@ -603,6 +585,10 @@ block中无需使用weakself。<br/>
 </section><section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/07/03/ioszhi-shi-xiao-ji-170626/">iOS知识小集-170626</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2017/06/26/ioszhi-shi-xiao-ji-170619/">iOS知识小集-170619</a>
@@ -618,10 +604,6 @@ block中无需使用weakself。<br/>
     
       <li class="post">
         <a href="/blog/2017/06/12/ioszhi-shi-xiao-ji-170605/">iOS知识小集-170605</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/06/09/ioszhi-shi-xiao-ji-170529/">iOS知识小集-170529</a>
       </li>
     
   </ul>

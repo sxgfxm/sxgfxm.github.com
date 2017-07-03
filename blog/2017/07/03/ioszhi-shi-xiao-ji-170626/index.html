@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>iOS知识小集-170501 - Light's Blog</title>
+  <title>iOS知识小集-170626 - Light's Blog</title>
   <meta name="author" content="Light">
 
   
-  <meta name="description" content="sxgfxm,ComponentKit Tutorial,CKCollectionViewTransactionalDataSource">
-  <meta name="keywords" content="sxgfxm,ComponentKit Tutorial,CKCollectionViewTransactionalDataSource">
+  <meta name="description" content="sxgfxm,Light's Blog,TabBar,UIView Aniamtion">
+  <meta name="keywords" content="sxgfxm,Light's Blog,TabBar,UIView Aniamtion">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170501/">
+  <link rel="canonical" href="http://sxgfxm.github.io/blog/2017/07/03/ioszhi-shi-xiao-ji-170626/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Light's Blog" type="application/atom+xml">
@@ -102,7 +102,7 @@ $(document).bind('DOMNodeInserted', function(event) {
   
   <header>
     
-      <h1 class="entry-title">iOS知识小集-170501</h1>
+      <h1 class="entry-title">iOS知识小集-170626</h1>
     
     
       <p class="meta">
@@ -111,154 +111,24 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 
-<time class='entry-date' datetime='2017-05-17T16:42:40+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:42 pm</span></time>
+<time class='entry-date' datetime='2017-07-03T09:09:47+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2017</span></span> <span class='time'>9:09 am</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><h1>ComponentKit Tutorial - CollectionView</h1>
+<div class="entry-content"><h2>隐藏tabBar</h2>
 
-<h2>Install</h2>
+<p><code>self.tabBarController.tabBar.hidden=YES;</code></p>
 
-<p>通过 <strong>Carthage</strong> 安装，在 <strong>Cartfile</strong> 中添加<code>github "facebook/ComponentKit" ~&gt; 0.20</code>，然后运行<code>carthage update</code>，编译完成后，在 <strong>Embedded Binaries</strong> 添加<code>Carthage/Build/iOS/ComponentKit.framework</code>。所有需要使用ComponentKit的源文件需要修改后缀为 <strong>.mm</strong>。</p>
+<h2>UIView animate height from bottom to top</h2>
 
-<h2>Philosophy</h2>
-
-<p>Doing so this reverses the traditional approach for a <code>UICollectionViewDataSource</code>. Usually the controller layer will <strong>tell</strong> the <code>UICollectionView</code> to update and then the <code>UICollectionView</code> <strong>ask</strong> the datasource for the data. Here the model is  more Reactive, from an external prospective, the datasource is <strong>told</strong> what changes to apply and then <strong>tell</strong> the collection view to apply the corresponding changes.</p>
-
-<!-- more -->
-
-
-<h2>步骤</h2>
-
-<h3>CKComponentProvider Protocol</h3>
-
-<p>ViewController需要遵守<code>CKComponentProvider</code>协议，实现<code>+componentForModel: context:</code>方法，将model转换为component。<br/>
-在该方法中，通过不同类型的model返回不同类型的component。</p>
-
-<pre><code>+ (CKComponent *)componentForModel:(id&lt;NSObject&gt;)model
-                           context:(id&lt;NSObject&gt;)context {
-  if ([model isKindOfClass:[NewsModel class]]) {
-    return [NewsComponent newWithNewsModel:model context:context];
-  }
-  return nil;
-}
-</code></pre>
-
-<h3>FlowLayout</h3>
-
-<pre><code>UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-[flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
-[flowLayout setMinimumInteritemSpacing:0];
-[flowLayout setMinimumLineSpacing:0];
-</code></pre>
-
-<h3>CollectionView</h3>
-
-<pre><code>self.collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:flowLayout];
-self.collectionView.delegate = self;
-self.collectionView.backgroundColor = [UIColor blackColor];
-[self.view addSubview:self.collectionView];
-</code></pre>
-
-<h3>Item size range</h3>
-
-<p>Item size range。通过设置<code>CKComponentSizeRangeFlexibleHeight</code>使item的高度自适应。</p>
-
-<pre><code>const CKSizeRange sizeRange = [[CKComponentFlexibleSizeRangeProvider
-      providerWithFlexibility:CKComponentSizeRangeFlexibleHeight]
-     sizeRangeForBoundingSize:self.collectionView.bounds.size];
-</code></pre>
-
-<h3>Context</h3>
-
-<p>Context可以是任何不可变对象，创建component时的不可变上下文信息，比如设备类型，图片下载器。<br/>
-<code>MyContext *context = [MyContext new];</code><br/>
-预先在主线程加载图片。</p>
-
-<h3>Configuration</h3>
-
-<p>DataSource的configuration，需要 <strong>ComponentProvider</strong>，<strong>sizeRange</strong>，<strong>context</strong> 三个参数。</p>
-
-<pre><code>CKTransactionalComponentDataSourceConfiguration *configuration =
-      [[CKTransactionalComponentDataSourceConfiguration alloc]
-          initWithComponentProvider:[self class]
-                            context:context
-                          sizeRange:sizeRange];
-</code></pre>
-
-<h3>DataSource</h3>
-
-<p>需要 <strong>collectionView</strong>，<strong>supplementaryViewDataSource</strong>，<strong>configuration</strong> 三个参数。</p>
-
-<pre><code>self.dataSource = [[CKCollectionViewTransactionalDataSource alloc]
-           initWithCollectionView:self.collectionView
-      supplementaryViewDataSource:nil
-                    configuration:configuration];
-</code></pre>
-
-<h3>Initial Changeset</h3>
-
-<p>需要初始化DataSource，即向DataSource中添加Section。</p>
-
-<pre><code>CKTransactionalComponentDataSourceChangeset *initialChangeset =
-  [[[CKTransactionalComponentDataSourceChangesetBuilder
-      transactionalComponentDataSourceChangeset]
-      withInsertedSections:[NSIndexSet indexSetWithIndex:0]] build];
-[self.dataSource applyChangeset:initialChangeset
-                           mode:CKUpdateModeAsynchronous
-                       userInfo:nil];
-</code></pre>
-
-<h3>insert/update items</h3>
-
-<p>向DataSource中插入Items才能显示。</p>
-
-<pre><code>NSMutableDictionary&lt;NSIndexPath *, NewsModel *&gt; *items = [NSMutableDictionary new];
-for (NSInteger i = 0; i &lt; 50; i++) {
-  NewsModel *newsModel = [[NewsModel alloc] init];
-  newsModel.title = [NSString stringWithFormat:@"News Title: Title %ld", i];
-  newsModel.category = @"科技";
-  newsModel.updateTime = [NSDate date];
-  newsModel.source = @"网易新闻";
-  [items setObject:newsModel
-            forKey:[NSIndexPath indexPathForRow:i inSection:0]];
-}
-CKTransactionalComponentDataSourceChangeset *changeset =
-  [[[CKTransactionalComponentDataSourceChangesetBuilder
-      transactionalComponentDataSourceChangeset]
-      withInsertedItems:items] build];
-[self.dataSource applyChangeset:changeset
-                           mode:CKUpdateModeAsynchronous
-                       userInfo:nil];
-</code></pre>
-
-<h3>UICollectionView delegate</h3>
-
-<pre><code>- (CGSize)collectionView:(UICollectionView *)collectionView
-                  layout:(UICollectionViewLayout *)collectionViewLayout
-  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-  return [self.dataSource sizeForItemAtIndexPath:indexPath];
-}
-
-- (void)collectionView:(UICollectionView *)collectionView
-       willDisplayCell:(UICollectionViewCell *)cell
-    forItemAtIndexPath:(NSIndexPath *)indexPath {
-  [self.dataSource announceWillDisplayCell:cell];
-}
-
-- (void)collectionView:(UICollectionView *)collectionView
-  didEndDisplayingCell:(UICollectionViewCell *)cell
-    forItemAtIndexPath:(NSIndexPath *)indexPath {
-  [self.dataSource announceDidEndDisplayingCell:cell];
-}
-</code></pre>
+<p>Increase the height while decreasing the origin.y by the same amount.</p>
 
 <p class='post-footer'>
   原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170501/'>http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170501/</a><br/>
+  <a href='http://sxgfxm.github.io/blog/2017/07/03/ioszhi-shi-xiao-ji-170626/'>http://sxgfxm.github.io/blog/2017/07/03/ioszhi-shi-xiao-ji-170626/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>
@@ -278,7 +148,7 @@ CKTransactionalComponentDataSourceChangeset *changeset =
 
 
 
-<time class='entry-date' datetime='2017-05-17T16:42:40+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:42 pm</span></time>
+<time class='entry-date' datetime='2017-07-03T09:09:47+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2017</span></span> <span class='time'>9:09 am</span></time>
       
 
 <span class="categories">
@@ -300,10 +170,8 @@ CKTransactionalComponentDataSourceChangeset *changeset =
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170424/" title="Previous Post: iOS知识小集-170424">&laquo; iOS知识小集-170424</a>
+        <a class="basic-alignment left" href="/blog/2017/06/26/ioszhi-shi-xiao-ji-170619/" title="Previous Post: iOS知识小集-170619">&laquo; iOS知识小集-170619</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170508/" title="Next Post: iOS知识小集-170508">iOS知识小集-170508 &raquo;</a>
       
     </p>
   </footer>

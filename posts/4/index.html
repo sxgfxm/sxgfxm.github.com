@@ -105,6 +105,53 @@ $(document).bind('DOMNodeInserted', function(event) {
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2016/10/19/iospan-duan-gpszuo-biao-shi-fou-zai-zhong-guo/">iOS判断GPS坐标是否在中国</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-10-19T10:29:23+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:29 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Background</h2>
+
+<p>GPS定位已经深入生活的方方面面。现实生活中存在着多种GPS坐标系：</p>
+
+<ul>
+<li><strong>WGS-84坐标系</strong>（World Geodetic System——1984 Coordinate System），国际通用GPS坐标系。</li>
+<li><strong>GCJ-02坐标系</strong>（Guojia Cehui Ju Coordinate System），中国专用坐标系，加入随机偏差，俗称火星坐标。</li>
+<li><strong>百度坐标系</strong>，百度自己定义的坐标系。</li>
+</ul>
+
+
+<p>在iOS应用开发中，<strong>CoreLocation</strong>返回<strong>WGS坐标</strong>，当定位在中国时，如果直接用<strong>MKMapView</strong>显示位置，由于中国地图使用<strong>GCJ坐标</strong>，会使定位出现偏差，达不到预期效果。为解决这一问题，在显示位置之前，需要判断<strong>WGS坐标</strong>是否在中国，并作出相应的坐标转换。</p>
+
+<p>该问题抽象为<strong>判断点是否在多边形内部</strong>。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/10/19/iospan-duan-gpszuo-biao-shi-fou-zai-zhong-guo/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/10/18/uicollectionview-ios10-new-features/">UICollectionView iOS 10 New Features</a></h1>
     
     
@@ -417,7 +464,7 @@ $(document).bind('DOMNodeInserted', function(event) {
  <h1>Categories</h1>
  <ul id="categories">
   <li class='category'><a href='/blog/categories/componentkit/'>componentkit (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>ios (30)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (31)</a></li>
 <li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
 
@@ -425,6 +472,10 @@ $(document).bind('DOMNodeInserted', function(event) {
 </section><section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/07/03/ioszhi-shi-xiao-ji-170626/">iOS知识小集-170626</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2017/06/26/ioszhi-shi-xiao-ji-170619/">iOS知识小集-170619</a>
@@ -440,10 +491,6 @@ $(document).bind('DOMNodeInserted', function(event) {
     
       <li class="post">
         <a href="/blog/2017/06/12/ioszhi-shi-xiao-ji-170605/">iOS知识小集-170605</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/06/09/ioszhi-shi-xiao-ji-170529/">iOS知识小集-170529</a>
       </li>
     
   </ul>
