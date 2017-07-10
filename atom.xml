@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-07-03T09:10:53+08:00</updated>
+  <updated>2017-07-10T11:11:34+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,125 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-170703]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/07/10/ioszhi-shi-xiao-ji-170703/"/>
+    <updated>2017-07-10T11:09:16+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/07/10/ioszhi-shi-xiao-ji-170703</id>
+    <content type="html"><![CDATA[<h2>CAKeyFrameAnimation</h2>
+
+<pre><code>- (CAKeyframeAnimation *)circleShake {
+  if (!_circleShake) {
+    CGFloat baseX = self.circleMask.position.x;
+    _circleShake = [CAKeyframeAnimation animationWithKeyPath:@"position.x"];
+    _circleShake.keyTimes = @[
+      @0,
+      @(0.1 / 0.8),
+      @(0.2 / 0.8),
+      @(0.3 / 0.8),
+      @(0.5 / 0.8),
+      @(0.76 / 0.8)
+    ];
+    _circleShake.values = @[
+      @(baseX),
+      @(baseX - 11),
+      @(baseX + 11),
+      @(baseX - 11),
+      @(baseX + 11),
+      @(baseX)
+    ];
+    _circleShake.duration = 0.8;
+    _circleShake.removedOnCompletion = YES;
+    _circleShake.fillMode = kCAFillModeForwards;
+  }
+  return _circleShake;
+}
+</code></pre>
+
+<!-- more -->
+
+
+<h2>Identify CAAnimation within the aniamtionDidStop delegate</h2>
+
+<p>The animation is <strong>copied</strong> before being added to the layer, so any subsequent modifications to <code>anim</code> will have no affect unless it is added to another layer.<br/>
+Use <code>animationForKey:</code> to identify.<br/>
+Create one animation and add to multiple layers.</p>
+
+<h2>Apply changes when animation finished</h2>
+
+<pre><code>animation.removedOnCompletion = NO;
+animation.fillMode = kCAFillModeForwards;
+</code></pre>
+
+<h2>Resume changes when animation finished</h2>
+
+<pre><code>animation.removedOnCompletion = NO;
+animation.fillMode = kCAFillModeBackwards;
+</code></pre>
+
+<h2>Use CAAnimationGroup to run animations cocurrently</h2>
+
+<pre><code>- (CAAnimationGroup *)circleBig {
+  if (!_circleBig) {
+    _circleBig = [CAAnimationGroup animation];
+    CABasicAnimation *circleBig =
+        [CABasicAnimation animationWithKeyPath:@"path"];
+    circleBig.fromValue = (__bridge id)self.circleMask.path;
+    circleBig.toValue =
+        (__bridge id)[UIBezierPath bezierPathWithArcCenter:self.centerPoint
+                                                    radius:12.5
+                                                startAngle:0
+                                                  endAngle:M_PI * 2
+                                                 clockwise:YES]
+            .CGPath;
+    circleBig.duration = self.spreadDuration;
+    circleBig.removedOnCompletion = NO;
+    circleBig.fillMode = kCAFillModeForwards;
+    circleBig.timingFunction = [CAMediaTimingFunction
+        functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    CABasicAnimation *changeWidth =
+        [CABasicAnimation animationWithKeyPath:@"lineWidth"];
+    changeWidth.fromValue = @(self.circleMask.lineWidth);
+    changeWidth.toValue = @(5);
+    changeWidth.duration = self.spreadDuration;
+    changeWidth.removedOnCompletion = NO;
+    changeWidth.fillMode = kCAFillModeForwards;
+    _circleBig.animations = @[ circleBig, changeWidth ];
+  }
+  return _circleBig;
+}
+</code></pre>
+
+<h2>TabBar背景设为透明色</h2>
+
+<pre><code>[[UITabBar appearance] setShadowImage:[WWImageUtil imageWithColor:[UIColor clearColor]]];
+[[UITabBar appearance] setBackgroundImage:[WWImageUtil imageWithColor:[UIColor clearColor]]];
+[UITabBar appearance].translucent = YES;
+</code></pre>
+
+<h2>TabBar去除黑线</h2>
+
+<pre><code>[[UITabBar appearance] setClipsToBounds:YES];
+</code></pre>
+
+<h2>self.title</h2>
+
+<p><code>self.title</code>：同时设置导航栏和tabBar的title；<br/>
+<code>self.navigationItem.title</code>：设置导航栏title；<br/>
+<code>self.tabBarItem.title</code>：设置tabBartitle。</p>
+
+<h2>InHouse 和 Debug配置不同</h2>
+
+<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2017/07/10/ioszhi-shi-xiao-ji-170703/'>http://sxgfxm.github.io/blog/2017/07/10/ioszhi-shi-xiao-ji-170703/</a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
+  </p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-170626]]></title>
@@ -2907,187 +3026,6 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 <p class='post-footer'>
   原始地址：
   <a href='http://sxgfxm.github.io/blog/2017/03/06/ioszhi-shi-xiao-ji-170227/'>http://sxgfxm.github.io/blog/2017/03/06/ioszhi-shi-xiao-ji-170227/</a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-170220]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/03/06/ioszhi-shi-xiao-ji-170220/"/>
-    <updated>2017-03-06T16:06:34+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/03/06/ioszhi-shi-xiao-ji-170220</id>
-    <content type="html"><![CDATA[<h2>App生命周期</h2>
-
-<p><strong>main.m</strong>：app程序入口，将控制权交给UIKit framework。<br/>
-<strong>UIApplication</strong>：管理事件循环和高级行为，传递通知给代理。<br/>
-<strong>App Delegate</strong>：处理应用初始化，状态转换，等高级行为。每个应用都要有。<br/>
-<strong>Data Model</strong>：存储应用数据。<br/>
-<strong>View Controller</strong>：管理应用展示内容。<br/>
-<strong>View</strong>：展示内容。<br/>
-<strong>Main Run Loop</strong>：Main run loop由UIApplication在主线程中开启，保证用户操作串行执行。
-用户操作 -> 操作系统 -> 端口 -> 事件队列 -> Main run loop -> App object -> Core object
--> 操作系统 -> 屏幕反馈。<br/>
-<strong>执行状态</strong>：<br/>
-- 关闭状态。<br/>
-- 未激活状态：在前台运行，但未接收到事件。<br/>
-- 激活状态：在前台运行，接收到事件。<br/>
-- 后台状态：在后台，且正在执行程序，通常会接着进入挂起状态。<br/>
-- 挂起状态：在后台，且没有执行程序。当内存不足时会清理挂起应用。</p>
-
-<!--more-->
-
-
-<h2>后台执行</h2>
-
-<p><strong>限时操作</strong>：调用<code>beginBackgroundTaskWithName:expirationHandler:</code>或<code>beginBackgroundTaskWithExpirationHandler:</code>开启后台执行，在执行完成后必须调用<code>endBackgroundTask:</code>表示结束后台执行，否则程序会被终止。可以通过<code>application.backgroundTimeRemaining</code>查看剩余后台执行时间，一般为180秒。</p>
-
-<pre><code>- (void)applicationDidEnterBackground:(UIApplication *)application
-{
-    bgTask = [application beginBackgroundTaskWithName:@"MyTask" expirationHandler:^{
-        // Clean up any unfinished task business by marking where you
-        // stopped or ending the task outright.
-        [application endBackgroundTask:bgTask];
-        bgTask = UIBackgroundTaskInvalid;
-    }];
-
-    // Start the long-running task and return immediately.
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-
-        // Do the work associated with the task, preferably in chunks.
-
-        NSLog(@"begin %.f", application.backgroundTimeRemaining);
-        [NSThread sleepForTimeInterval:10];
-        NSLog(@"end %.f", application.backgroundTimeRemaining);
-
-        [application endBackgroundTask:bgTask];
-        bgTask = UIBackgroundTaskInvalid;
-    });
-}
-</code></pre>
-
-<p><strong>下载操作</strong>：必须使用<strong>NSURLSession</strong>开启下载操作，需要通过<strong>NSURLSessionConfiguration</strong>进行设置。</p>
-
-<pre><code>- (void)startDownloadTask {
-  //  Configuration
-  NSURLSessionConfiguration *config = [NSURLSessionConfiguration
-      backgroundSessionConfigurationWithIdentifier:@"DownloadTask"];
-  //  下载完成时唤醒应用
-  config.sessionSendsLaunchEvents = YES;
-  //  在前台时开启下载任务时有效
-  config.discretionary = YES;
-  //  NSURLSession
-  NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
-  //  开启下载任务
-  NSURLSessionTask *task =
-      [session dataTaskWithURL:[NSURL URLWithString:@"www.baidu.com"]
-             completionHandler:^(NSData *_Nullable data,
-                                 NSURLResponse *_Nullable response,
-                                 NSError *_Nullable error){
-
-             }];
-  //  当挂起时恢复任务
-  [task resume];
-}
-</code></pre>
-
-<p><strong>耗时操作</strong>：只有特殊的耗时操作可以在后台被执行，且必须申请权限。如后台音乐播放、录音、定位信息更新、蓝牙连接、远程通知、语音服务等。</p>
-
-<h2>ViewController生命周期</h2>
-
-<h2>权限操作</h2>
-
-<p>iOS 10开始，获取<strong>隐私</strong>敏感数据需要在<strong>plist.info</strong>文件中配置，否则app会crash。<br/>
-配置方法：添加对应权限的key和value，value不许为空。<br/>
-常用权限：</p>
-
-<ul>
-<li>Network：无需添加key</li>
-<li>Location：Privacy - Location Always Usage Description</li>
-<li>Photo：Privacy - Photo Library Usage Description</li>
-<li>Camera：Privacy - Camera Usage Description</li>
-<li>Microphone：Privacy - Microphone Usage Description</li>
-<li>Contact：Privacy - Contacts Usage Description</li>
-<li>Media：Privacy - Media Library Usage Description</li>
-</ul>
-
-
-<p>手动请求权限：当用户拒绝授权某权限时，需要手动再次请求。<br/>
-跳转至权限设置界面：</p>
-
-<pre><code>[[UIApplication sharedApplication]
-                openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]
-                options:@{}
-      completionHandler:nil];
-</code></pre>
-
-<p><a href="https://github.com/sxgfxm/AuthorizationDemo">Demo地址</a></p>
-
-<h2>文件操作</h2>
-
-<ul>
-<li>NSString I/O</li>
-<li>NSArray I/O</li>
-<li>NSDictionary I/O</li>
-<li>NSData I/O</li>
-<li>NSObject I/O</li>
-<li>NSFileManager</li>
-<li>NSFileHandle</li>
-</ul>
-
-
-<p><a href="https://github.com/sxgfxm/FileOperationDemo">Demo地址</a></p>
-
-<h2>weakself</h2>
-
-<p>作用：<strong>防止循环引用</strong>。<br/>
-声明：<code>__weak typeof(self) weakself = self;</code>。<br/>
-使用：
-1. 是不是所有的block中都需要使用weakself？<br/>
-   Masonry自动约束中无需使用weakself。
-2. 详细解释循环引用及防止方法？</p>
-
-<h2>单元测试</h2>
-
-<blockquote><p>If your code isn’t easy to test, it’s not going to be easy to maintain or debug.</p></blockquote>
-
-<p>验证某个类的某种行为在某种上下文中能得到预期结果。<br/>
-保证每个测试用例所针对的仅仅是一个基本单元，而不是一个有很多复杂依赖的综合行为。<br/>
-依赖于抽象而不是具体实现细节。<br/>
-不应关注于<strong>测试</strong>，而应关注<strong>行为</strong>。测试对象的行为方式。<br/>
-降低未来的变化所带来的成本。<br/>
-<strong>功能检测</strong><br/>
-<strong>依赖提取</strong><br/>
-<strong>依赖注入</strong><br/>
-<strong>行为方式</strong><br/>
-1. 单元测试测什么？<br/>
-   方法？行为？<br/>
-2. 如何处理依赖关系？<br/>
-   Mock？Stub？<br/>
-3. 单元测试的优缺点？<br/>
-   优点：验证模块的功能正确，行为正确，模块化编程，尽早发现问题，检验修改，重构；<br/>
-   缺点：增加代码量，写好测试不容易，不能保证不出错，考虑后期维护，尽量减少源代码耦合。<br/>
-4. 测试库？<br/>
-   <a href="https://github.com/jonreid/OCMockito">OCMockito</a><br/>
-5. 断言？<br/>
-   同步断言？异步断言（block，代理）？</p>
-
-<h2>A/B Test</h2>
-
-<h2>同步策略</h2>
-
-<h2>JavaScriptCore</h2>
-
-<p><strong>JSContext</strong>：是运行JavaScript代码的环境。<br/>
-<strong>JSValue</strong>：JSContext的运行结果封装在JSValue中。<br/>
-OC -> JavaScript：<strong>SubscriptValue</strong>、<strong>CallFunction</strong>，<strong>HandleException</strong>。<br/>
-JavaScript -> OC：<strong>Block</strong>或<strong>JSExport</strong>。</p>
-
-<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/03/06/ioszhi-shi-xiao-ji-170220/'>http://sxgfxm.github.io/blog/2017/03/06/ioszhi-shi-xiao-ji-170220/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>

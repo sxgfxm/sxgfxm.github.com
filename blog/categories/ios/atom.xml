@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-07-03T09:10:53+08:00</updated>
+  <updated>2017-07-10T11:11:34+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,117 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-170703]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/07/10/ioszhi-shi-xiao-ji-170703/"/>
+    <updated>2017-07-10T11:09:16+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/07/10/ioszhi-shi-xiao-ji-170703</id>
+    <content type="html"><![CDATA[<h2>CAKeyFrameAnimation</h2>
+
+<pre><code>- (CAKeyframeAnimation *)circleShake {
+  if (!_circleShake) {
+    CGFloat baseX = self.circleMask.position.x;
+    _circleShake = [CAKeyframeAnimation animationWithKeyPath:@"position.x"];
+    _circleShake.keyTimes = @[
+      @0,
+      @(0.1 / 0.8),
+      @(0.2 / 0.8),
+      @(0.3 / 0.8),
+      @(0.5 / 0.8),
+      @(0.76 / 0.8)
+    ];
+    _circleShake.values = @[
+      @(baseX),
+      @(baseX - 11),
+      @(baseX + 11),
+      @(baseX - 11),
+      @(baseX + 11),
+      @(baseX)
+    ];
+    _circleShake.duration = 0.8;
+    _circleShake.removedOnCompletion = YES;
+    _circleShake.fillMode = kCAFillModeForwards;
+  }
+  return _circleShake;
+}
+</code></pre>
+
+<!-- more -->
+
+
+<h2>Identify CAAnimation within the aniamtionDidStop delegate</h2>
+
+<p>The animation is <strong>copied</strong> before being added to the layer, so any subsequent modifications to <code>anim</code> will have no affect unless it is added to another layer.<br/>
+Use <code>animationForKey:</code> to identify.<br/>
+Create one animation and add to multiple layers.</p>
+
+<h2>Apply changes when animation finished</h2>
+
+<pre><code>animation.removedOnCompletion = NO;
+animation.fillMode = kCAFillModeForwards;
+</code></pre>
+
+<h2>Resume changes when animation finished</h2>
+
+<pre><code>animation.removedOnCompletion = NO;
+animation.fillMode = kCAFillModeBackwards;
+</code></pre>
+
+<h2>Use CAAnimationGroup to run animations cocurrently</h2>
+
+<pre><code>- (CAAnimationGroup *)circleBig {
+  if (!_circleBig) {
+    _circleBig = [CAAnimationGroup animation];
+    CABasicAnimation *circleBig =
+        [CABasicAnimation animationWithKeyPath:@"path"];
+    circleBig.fromValue = (__bridge id)self.circleMask.path;
+    circleBig.toValue =
+        (__bridge id)[UIBezierPath bezierPathWithArcCenter:self.centerPoint
+                                                    radius:12.5
+                                                startAngle:0
+                                                  endAngle:M_PI * 2
+                                                 clockwise:YES]
+            .CGPath;
+    circleBig.duration = self.spreadDuration;
+    circleBig.removedOnCompletion = NO;
+    circleBig.fillMode = kCAFillModeForwards;
+    circleBig.timingFunction = [CAMediaTimingFunction
+        functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    CABasicAnimation *changeWidth =
+        [CABasicAnimation animationWithKeyPath:@"lineWidth"];
+    changeWidth.fromValue = @(self.circleMask.lineWidth);
+    changeWidth.toValue = @(5);
+    changeWidth.duration = self.spreadDuration;
+    changeWidth.removedOnCompletion = NO;
+    changeWidth.fillMode = kCAFillModeForwards;
+    _circleBig.animations = @[ circleBig, changeWidth ];
+  }
+  return _circleBig;
+}
+</code></pre>
+
+<h2>TabBar背景设为透明色</h2>
+
+<pre><code>[[UITabBar appearance] setShadowImage:[WWImageUtil imageWithColor:[UIColor clearColor]]];
+[[UITabBar appearance] setBackgroundImage:[WWImageUtil imageWithColor:[UIColor clearColor]]];
+[UITabBar appearance].translucent = YES;
+</code></pre>
+
+<h2>TabBar去除黑线</h2>
+
+<pre><code>[[UITabBar appearance] setClipsToBounds:YES];
+</code></pre>
+
+<h2>self.title</h2>
+
+<p><code>self.title</code>：同时设置导航栏和tabBar的title；<br/>
+<code>self.navigationItem.title</code>：设置导航栏title；<br/>
+<code>self.tabBarItem.title</code>：设置tabBartitle。</p>
+
+<h2>InHouse 和 Debug配置不同</h2>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-170626]]></title>
@@ -345,251 +456,6 @@ atom .
   [DDLog addLogger:[DDTTYLogger sharedInstance]];  // TTY = Xcode console
   [DDLog addLogger:[DDASLLogger sharedInstance]];  // ASL = File log
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-170529]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/06/09/ioszhi-shi-xiao-ji-170529/"/>
-    <updated>2017-06-09T10:08:09+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/06/09/ioszhi-shi-xiao-ji-170529</id>
-    <content type="html"><![CDATA[<h2>Open system wifi settings</h2>
-
-<p><code>[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"App-Prefs:root=WIFI"]];</code></p>
-
-<!-- more -->
-
-
-<h2>UITextField</h2>
-
-<pre><code>-(void)setupTextField{
-  self.wifiNameTF =
-      [[UITextField alloc] initWithFrame:CGRectMake(kScaleFrom_iPhone6_Desgin(16), 0,
-                                                    self.view.bounds.size.width - kScaleFrom_iPhone6_Desgin(32),
-                                                    kScaleFrom_iPhone6_Desgin(54))];
-  self.wifiNameTF.placeholder = @"请输入Wi-Fi名称";
-  self.wifiNameTF.font = [UIFont systemFontOfSize:kScaleFrom_iPhone6_Desgin(16)];
-  self.wifiNameTF.textColor = UIColorFromRGBA(0xff16181d);
-  self.wifiNameTF.clearButtonMode = UITextFieldViewModeWhileEditing;
-  self.wifiNameTF.autocapitalizationType = UITextAutocapitalizationTypeNone;
-  self.wifiNameTF.returnKeyType = UIReturnKeyDone;
-  self.wifiNameTF.delegate = self;
-  self.wifiNameTF.secureTextEntry = YES;
-  self.wifiNameTF.rightView = secureBtn;
-  self.wifiNameTF.rightViewMode = UITextFieldViewModeAlways;
-  [self.view addSubview:self.wifiNameTF];
-}
-</code></pre>
-
-<h2>Gradient flow animation</h2>
-
-<p>两倍长度，添加左右移动动画，并添加左右两边覆盖层。</p>
-
-<pre><code>  //  progress bar
-  self.progressBar =
-      [[UIView alloc] initWithFrame:CGRectMake((self.view.bounds.size.width - kScaleFrom_iPhone6_Desgin(120)) / 2,
-                                               kScaleFrom_iPhone6_Desgin(360), kScaleFrom_iPhone6_Desgin(120),
-                                               kScaleFrom_iPhone6_Desgin(4))];
-  [self.view addSubview:self.progressBar];
-  self.gradientLayer = [CAGradientLayer layer];
-  self.gradientLayer.frame =
-      CGRectMake(-kScaleFrom_iPhone6_Desgin(120), 0, kScaleFrom_iPhone6_Desgin(240), kScaleFrom_iPhone6_Desgin(4));
-  self.gradientLayer.locations = @[ @0, @0.15, @0.3, @0.5, @0.65, @0.8, @1 ];
-  self.gradientLayer.colors = @[
-    (__bridge id)UIColorFromRGBA(0xff1af28f)
-        .CGColor,
-    (__bridge id)UIColorFromRGBA(0xff0de9c5).CGColor,
-    (__bridge id)UIColorFromRGBA(0xff3293fe).CGColor,
-    (__bridge id)UIColorFromRGBA(0xff1af28f).CGColor,
-    (__bridge id)UIColorFromRGBA(0xff0de9c5).CGColor,
-    (__bridge id)UIColorFromRGBA(0xff3293fe).CGColor,
-    (__bridge id)UIColorFromRGBA(0xff1af28f).CGColor
-  ];
-  self.gradientLayer.startPoint = CGPointMake(0, 0);
-  self.gradientLayer.endPoint = CGPointMake(1, 0);
-  [self.progressBar.layer addSublayer:self.gradientLayer];
-  CALayer *leftMask = [CALayer layer];
-  leftMask.frame =
-      CGRectMake(-kScaleFrom_iPhone6_Desgin(120), 0, kScaleFrom_iPhone6_Desgin(120), kScaleFrom_iPhone6_Desgin(4));
-  leftMask.backgroundColor = [UIColor whiteColor].CGColor;
-  [self.progressBar.layer addSublayer:leftMask];
-  CALayer *rightMask = [CALayer layer];
-  rightMask.frame =
-      CGRectMake(kScaleFrom_iPhone6_Desgin(120), 0, kScaleFrom_iPhone6_Desgin(120), kScaleFrom_iPhone6_Desgin(4));
-  rightMask.backgroundColor = [UIColor whiteColor].CGColor;
-  [self.progressBar.layer addSublayer:rightMask];
-  CABasicAnimation *moveAnimation = [CABasicAnimation animationWithKeyPath:@"position.x"];
-  moveAnimation.fromValue = @(self.gradientLayer.position.x);
-  moveAnimation.toValue = @(self.gradientLayer.position.x + kScaleFrom_iPhone6_Desgin(120));
-  moveAnimation.repeatCount = 100;
-  moveAnimation.duration = 2;
-  moveAnimation.autoreverses = NO;
-  [self.gradientLayer addAnimation:moveAnimation forKey:@"animation"];
-</code></pre>
-
-<h2>Alert with text field</h2>
-
-<pre><code>- (void)changeName {
-  // 修改昵称提示框
-  UIAlertController *alertController =
-      [UIAlertController alertControllerWithTitle:@"Title"
-                                          message:nil
-                                   preferredStyle:UIAlertControllerStyleAlert];
-  // 添加输入框
-  [alertController addTextFieldWithConfigurationHandler:^(UITextField *_Nonnull textField) {
-    textField.placeholder = @"Please input";
-  }];
-  // 添加确定按钮
-  [alertController addAction:[UIAlertAction actionWithTitle:@"Done"
-                                                      style:UIAlertActionStyleDefault
-                                                    handler:^(UIAlertAction *_Nonnull action) {
-                                                      // 获得当前输入的字符串
-                                                      NSString *name = alertController.textFields[0].text;
-                                                      self.tichomeNameLbl.text = name;
-                                                    }]];
-  // 添加取消按钮
-  [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel"
-                                                      style:UIAlertActionStyleCancel
-                                                    handler:^(UIAlertAction *_Nonnull action){
-                                                    }]];
-  [self presentViewController:alertController animated:YES completion:nil];
-}
-</code></pre>
-
-<h2>UISlider</h2>
-
-<pre><code>-(void)setupSlider{
-  self.volumeSlider = [UISlider new];
-  [self.volumeSlider addTarget:self action:@selector(changeVolumeAction) forControlEvents:UIControlEventTouchUpInside];
-  self.volumeSlider.minimumValueImage = [UIImage imageNamed:@"icVolumeDown"];
-  self.volumeSlider.maximumValueImage = [UIImage imageNamed:@"icVolumeUp"];
-  [self.volumeSlider setThumbImage:[UIImage imageNamed:@"icVolumeBtn"] forState:UIControlStateNormal];
-  [self.volumeSlider setMinimumTrackImage:[UIImage imageNamed:@"minTrackBg"] forState:UIControlStateNormal];
-  [self.volumeSlider setMaximumTrackImage:[UIImage imageNamed:@"maxTrackBg"] forState:UIControlStateNormal];
-  [self.contentView addSubview:self.volumeSlider];
-  [self.volumeSlider mas_makeConstraints:^(MASConstraintMaker *make) {
-    make.centerX.equalTo(self.contentView.mas_centerX);
-    make.bottom.equalTo(self.contentView.mas_bottom).offset(-kScaleFrom_iPhone6_Desgin(15));
-    make.width.equalTo(@(kScaleFrom_iPhone6_Desgin(270)));
-  }];
-}
-</code></pre>
-
-<h2>UITextView</h2>
-
-<pre><code>-(void)setupTextView{
-  self.textView = [UITextView new];
-  self.textView.backgroundColor = [UIColor clearColor];
-  self.textView.text = @"placeholder";
-  self.textView.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.2];
-  self.textView.font = [UIFont systemFontOfSize:14];
-  self.textView.delegate = self;
-  self.textView.autocapitalizationType = UITextAutocapitalizationTypeNone;
-  self.textView.returnKeyType = UIReturnKeyDone;
-  [self.contentView addSubview:self.textView];
-}
-
-//  实现placeholder功能
-- (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
-  if (self.isEmpty) {
-    textView.textColor = [UIColor whiteColor];
-    textView.text = @"";
-    self.isEmpty = NO;
-  }
-  return YES;
-}
-
-- (void)textViewDidEndEditing:(UITextView *)textView {
-  if (textView.text.length == 0) {
-    self.isEmpty = YES;
-    textView.text = @"placeholder";
-    textView.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.2];
-  }
-  [textView resignFirstResponder];
-}
-
-//  实现换行替换为结束编辑
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
-  if ([text isEqualToString:@"\n"]) {
-    [textView resignFirstResponder];
-    return NO;
-  }
-  return YES;
-}
-</code></pre>
-
-<h2>IQActionSheetPickerView</h2>
-
-<pre><code>-(void)setupPickerView{
-  NSArray *dataSource = @[@"item1",@"item2",@"item3"];
-  IQActionSheetPickerView *categoryPicker = [[IQActionSheetPickerView alloc] initWithTitle:@"选择" delegate:self];
-  //  tool bar
-  [categoryPicker setTitleFont:[UIFont systemFontOfSize:17]];
-  [categoryPicker setTitleColor:[UIColor whiteColor]];
-  [categoryPicker setToolbarTintColor:[UIColorFromRGBA(0xff26272e) colorWithAlphaComponent:0.6]];
-  [categoryPicker setDoneButtonAttributes:@{
-    kIQActionSheetAttributesForNormalStateKey : @{
-      NSForegroundColorAttributeName : [[UIColor whiteColor] colorWithAlphaComponent:0.5],
-      NSFontAttributeName : [UIFont systemFontOfSize:15]
-    }
-  }];
-  [categoryPicker setCancelButtonAttributes:@{
-    kIQActionSheetAttributesForNormalStateKey : @{
-      NSForegroundColorAttributeName : [[UIColor grayColor] colorWithAlphaComponent:0.5],
-      NSFontAttributeName : [UIFont systemFontOfSize:15]
-    }
-  }];
-  //  component
-  [categoryPicker setPickerViewBackgroundColor:UIColorFromRGBA(0xff1c1d24)];
-  [categoryPicker setPickerComponentsFont:[UIFont systemFontOfSize:16]];
-  [categoryPicker setPickerComponentsColor:[UIColor whiteColor]];
-  //  data source
-  [categoryPicker setTitlesForComponents:@[ dataSource ]];
-  if (self.category) {
-    [categoryPicker setSelectedTitles:@[ @"item2" ]];
-  }
-  //  show
-  [categoryPicker show];
-}
-
-- (void)actionSheetPickerView:(IQActionSheetPickerView *)pickerView didSelectTitles:(NSArray *)titles {
-  //  do something with selected item
-}
-</code></pre>
-
-<h2>NSURLSession</h2>
-
-<p>completion handler 并非在主线程回调。<br/>
-UI相关操作必须在主线程执行。</p>
-
-<h2>Protocol Buffers</h2>
-
-<p>Protocol buffers – a language-neutral, platform-neutral, extensible way of serializing structured data for use in communications protocols, data storage, and more.<br/>
-Protocol buffers have many advantages over XML for serializing structured data. Protocol buffers:<br/>
-  are simpler<br/>
-  are 3 to 10 times smaller<br/>
-  are 20 to 100 times faster<br/>
-  are less ambiguous<br/>
-  generate data access classes that are easier to use programmatically</p>
-
-<ol>
-<li>protoc</li>
-<li>build rules</li>
-<li>build phases</li>
-</ol>
-
-
-<h2>Undefined symbols for architecture arm64</h2>
-
-<p>build phases -> compile source</p>
-
-<h2>NSError</h2>
-
-<p>error.localizedDescription</p>
-
-<h2>block</h2>
-
-<p>循环引用。</p>
 ]]></content>
   </entry>
   

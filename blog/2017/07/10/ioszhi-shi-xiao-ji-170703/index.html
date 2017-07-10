@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>iOS知识小集-170417 - Light's Blog</title>
+  <title>iOS知识小集-170703 - Light's Blog</title>
   <meta name="author" content="Light">
 
   
-  <meta name="description" content="sxgfxm, ComponentKit Tutorial,CKComponent,CKLabelComponent,CKButtonComponent">
-  <meta name="keywords" content="sxgfxm, ComponentKit Tutorial,CKComponent,CKLabelComponent,CKButtonComponent">
+  <meta name="description" content="sxgfxm,Light's Blog,CAKeyFrameAnimation,aniamtionDidStop,removedOnCompletion,fillMode,CAAnimationGroup,UITabBar appearance">
+  <meta name="keywords" content="sxgfxm,Light's Blog,CAKeyFrameAnimation,aniamtionDidStop,removedOnCompletion,fillMode,CAAnimationGroup,UITabBar appearance">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170417/">
+  <link rel="canonical" href="http://sxgfxm.github.io/blog/2017/07/10/ioszhi-shi-xiao-ji-170703/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Light's Blog" type="application/atom+xml">
@@ -102,7 +102,7 @@ $(document).bind('DOMNodeInserted', function(event) {
   
   <header>
     
-      <h1 class="entry-title">iOS知识小集-170417</h1>
+      <h1 class="entry-title">iOS知识小集-170703</h1>
     
     
       <p class="meta">
@@ -111,154 +111,120 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 
-<time class='entry-date' datetime='2017-05-17T16:33:08+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:33 pm</span></time>
+<time class='entry-date' datetime='2017-07-10T11:09:16+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>11:09 am</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><h1>ComponentKit Tutorial - Component</h1>
+<div class="entry-content"><h2>CAKeyFrameAnimation</h2>
 
-<h2>CKComponent</h2>
-
-<p>A component is an immutable object that specifies how to configure a view, loosely inspired by React.</p>
-
-<pre><code>+ (instancetype)newWithView:(const CKComponentViewConfiguration &amp;)view
-                       size:(const CKComponentSize &amp;)size;
-</code></pre>
-
-<p>Example:</p>
-
-<pre><code>CKComponent *component = [CKComponent
-    newWithView:{
-        [UIView class],
-        {
-            {@selector(setBackgroundColor:),[UIColor redColor]},
-            {@selector(setUserInteractionEnabled:), @YES},
-            {CKComponentTapGestureAttribute(@selector(didTap))},
-            {CKComponentViewAttribute::LayerAttribute(@selector(setCornerRadius:)), @10.0}
-        }
-    }
-    size:{50,50}];
-
-- (void)didTap{
-  [self updateState:^(NSNumber *oldState){
-    return [oldState boolValue] ? @NO : @YES;
-  } mode:CKUpdateModeSynchronous];
+<pre><code>- (CAKeyframeAnimation *)circleShake {
+  if (!_circleShake) {
+    CGFloat baseX = self.circleMask.position.x;
+    _circleShake = [CAKeyframeAnimation animationWithKeyPath:@"position.x"];
+    _circleShake.keyTimes = @[
+      @0,
+      @(0.1 / 0.8),
+      @(0.2 / 0.8),
+      @(0.3 / 0.8),
+      @(0.5 / 0.8),
+      @(0.76 / 0.8)
+    ];
+    _circleShake.values = @[
+      @(baseX),
+      @(baseX - 11),
+      @(baseX + 11),
+      @(baseX - 11),
+      @(baseX + 11),
+      @(baseX)
+    ];
+    _circleShake.duration = 0.8;
+    _circleShake.removedOnCompletion = YES;
+    _circleShake.fillMode = kCAFillModeForwards;
+  }
+  return _circleShake;
 }
 </code></pre>
 
 <!-- more -->
 
 
-<h2>CKLabelComponent</h2>
+<h2>Identify CAAnimation within the aniamtionDidStop delegate</h2>
 
-<p>多行文字通过size.width控制。</p>
+<p>The animation is <strong>copied</strong> before being added to the layer, so any subsequent modifications to <code>anim</code> will have no affect unless it is added to another layer.<br/>
+Use <code>animationForKey:</code> to identify.<br/>
+Create one animation and add to multiple layers.</p>
 
-<pre><code>CKLabelComponent *titleComponent = [CKLabelComponent newWithLabelAttributes:{
-    .string = newsModel.title,
-    .color = [UIColor whiteColor],
-    .alignment = NSTextAlignmentLeft,
-    .font = [UIFont systemFontOfSize:20]
+<h2>Apply changes when animation finished</h2>
+
+<pre><code>animation.removedOnCompletion = NO;
+animation.fillMode = kCAFillModeForwards;
+</code></pre>
+
+<h2>Resume changes when animation finished</h2>
+
+<pre><code>animation.removedOnCompletion = NO;
+animation.fillMode = kCAFillModeBackwards;
+</code></pre>
+
+<h2>Use CAAnimationGroup to run animations cocurrently</h2>
+
+<pre><code>- (CAAnimationGroup *)circleBig {
+  if (!_circleBig) {
+    _circleBig = [CAAnimationGroup animation];
+    CABasicAnimation *circleBig =
+        [CABasicAnimation animationWithKeyPath:@"path"];
+    circleBig.fromValue = (__bridge id)self.circleMask.path;
+    circleBig.toValue =
+        (__bridge id)[UIBezierPath bezierPathWithArcCenter:self.centerPoint
+                                                    radius:12.5
+                                                startAngle:0
+                                                  endAngle:M_PI * 2
+                                                 clockwise:YES]
+            .CGPath;
+    circleBig.duration = self.spreadDuration;
+    circleBig.removedOnCompletion = NO;
+    circleBig.fillMode = kCAFillModeForwards;
+    circleBig.timingFunction = [CAMediaTimingFunction
+        functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    CABasicAnimation *changeWidth =
+        [CABasicAnimation animationWithKeyPath:@"lineWidth"];
+    changeWidth.fromValue = @(self.circleMask.lineWidth);
+    changeWidth.toValue = @(5);
+    changeWidth.duration = self.spreadDuration;
+    changeWidth.removedOnCompletion = NO;
+    changeWidth.fillMode = kCAFillModeForwards;
+    _circleBig.animations = @[ circleBig, changeWidth ];
   }
-  viewAttributes:{
-    { @selector(setBackgroundColor:), [UIColor clearColor] }
-  }
-  size:{}];
+  return _circleBig;
+}
 </code></pre>
 
-<h2>CKButtonComponent</h2>
+<h2>TabBar背景设为透明色</h2>
 
-<pre><code> CKButtonComponent *buttonComponent = [CKButtonComponent
-    newWithTitles:{
-      {UIControlStateNormal,@"button"}
-    }
-    titleColors:{
-      {UIControlStateNormal,[UIColor whiteColor]}
-    }
-    images:{}
-    backgroundImages:{}
-    titleFont:[UIFont systemFontOfSize:17]
-    selected:NO
-    enabled:YES
-    action:{@selector(tapAction)}
-    size:{}
-    attributes:{}
-    accessibilityConfiguration:{}];
+<pre><code>[[UITabBar appearance] setShadowImage:[WWImageUtil imageWithColor:[UIColor clearColor]]];
+[[UITabBar appearance] setBackgroundImage:[WWImageUtil imageWithColor:[UIColor clearColor]]];
+[UITabBar appearance].translucent = YES;
 </code></pre>
 
-<h2>CKImageComponent</h2>
+<h2>TabBar去除黑线</h2>
 
-<pre><code>CKImageComponent *image = [CKImageComponent newWithImage:
-    [UIImage imageNamed:newsModel.imageURL]
-    attributes:{
-        { @selector(setBackgroundColor:), [UIColor whiteColor] },
-        {CKComponentViewAttribute::LayerAttribute(@selector(setCornerRadius:)), @10.0}
-    }
-    size:{60, 60}];
+<pre><code>[[UITabBar appearance] setClipsToBounds:YES];
 </code></pre>
 
-<h2>CKInsetComponent</h2>
+<h2>self.title</h2>
 
-<p>A component that wraps another component, applying insets around it.</p>
+<p><code>self.title</code>：同时设置导航栏和tabBar的title；<br/>
+<code>self.navigationItem.title</code>：设置导航栏title；<br/>
+<code>self.tabBarItem.title</code>：设置tabBartitle。</p>
 
-<pre><code>+ (instancetype)newWithView:(const CKComponentViewConfiguration &amp;)view
-                     insets:(UIEdgeInsets)insets
-                  component:(CKComponent *)component;
-
-+ (instancetype)newWithInsets:(UIEdgeInsets)insets component:(CKComponent *)child;
-</code></pre>
-
-<p>Example:</p>
-
-<pre><code>CKInsetComponent *insetComponent = [CKInsetComponent
-    newWithInsets:{.top = 10,.left = 20,.right = 10,.bottom = 20}
-    component:[CKComponent
-        newWithView:{}
-        size:{}]
-    ];
-</code></pre>
-
-<h2>CKOverlayLayoutComponent</h2>
-
-<p>This component lays out a single component and then overlays a component on top of it streched to its size.</p>
-
-<pre><code>+ (instancetype)newWithComponent:(CKComponent *)component
-                         overlay:(CKComponent *)overlay;
-</code></pre>
-
-<h2>State</h2>
-
-<p>Simply ask three questions about each piece of data:<br/>
-1. Is it passed in from a parent via props? If so, it probably isn&rsquo;t state.<br/>
-2. Does it remain unchanged over time? If so, it probably isn&rsquo;t state.<br/>
-3. Can you compute it based on any other state or props in your component? If so, it isn&rsquo;t state.</p>
-
-<p>For each piece of state in your application:<br/>
-1. Identify every component that renders something based on that state.<br/>
-2. Find a common owner component (a single component above all the components that need the state in the hierarchy).<br/>
-3. Either the common owner or another component higher up in the hierarchy should own the state.<br/>
-4. If you can&rsquo;t find a component where it makes sense to own the state, create a new component simply for holding the state and add it somewhere in the hierarchy above the common owner component.</p>
-
-<h2>Scope</h2>
-
-<ol>
-<li>Components that have state must have a scope.</li>
-<li>Components that have a controller must have a scope.</li>
-<li>Components that have child components with state or controllers may need a scope, even if they don’t have state or controllers.</li>
-</ol>
-
-
-<h2>ComponentController</h2>
-
-<p>与component写在同一个文件里，系统自动创建。<br/>
-用来处理代理、事件响应等，有持续的生命周期。<br/>
-scope必须唯一，与controller一一对应。</p>
+<h2>InHouse 和 Debug配置不同</h2>
 
 <p class='post-footer'>
   原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170417/'>http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170417/</a><br/>
+  <a href='http://sxgfxm.github.io/blog/2017/07/10/ioszhi-shi-xiao-ji-170703/'>http://sxgfxm.github.io/blog/2017/07/10/ioszhi-shi-xiao-ji-170703/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>
@@ -278,7 +244,7 @@ scope必须唯一，与controller一一对应。</p>
 
 
 
-<time class='entry-date' datetime='2017-05-17T16:33:08+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:33 pm</span></time>
+<time class='entry-date' datetime='2017-07-10T11:09:16+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>11:09 am</span></time>
       
 
 <span class="categories">
@@ -300,10 +266,8 @@ scope必须唯一，与controller一一对应。</p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170410/" title="Previous Post: iOS知识小集-170410">&laquo; iOS知识小集-170410</a>
+        <a class="basic-alignment left" href="/blog/2017/07/03/ioszhi-shi-xiao-ji-170626/" title="Previous Post: iOS知识小集-170626">&laquo; iOS知识小集-170626</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170424/" title="Next Post: iOS知识小集-170424">iOS知识小集-170424 &raquo;</a>
       
     </p>
   </footer>
