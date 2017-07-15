@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-07-10T11:11:34+08:00</updated>
+  <updated>2017-07-15T15:15:23+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,163 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-170710]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/07/15/ioszhi-shi-xiao-ji-170710/"/>
+    <updated>2017-07-15T15:08:46+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/07/15/ioszhi-shi-xiao-ji-170710</id>
+    <content type="html"><![CDATA[<h2><a href="https://github.com/airbnb/lottie-ios">Lottie</a></h2>
+
+<p>Lottie is a mobile library for Android and iOS that parses Adobe After Effects animations exported as json with bodymovin and renders the vector animations natively on mobile and through React Native!<br/>
+Common Animations</p>
+
+<pre><code>LOTAnimationView *animation = [LOTAnimationView animationNamed:@"Lottie"];
+[self.view addSubview:animation];
+[animation playWithCompletion:^(BOOL animationFinished) {
+  // Do Something
+}];
+</code></pre>
+
+<!-- more -->
+
+
+<p>UIViewController Transition</p>
+
+<pre><code>- (id&lt;UIViewControllerAnimatedTransitioning&gt;)animationControllerForPresentedController:(UIViewController *)presented
+                                                                  presentingController:(UIViewController *)presenting
+                                                                      sourceController:(UIViewController *)source {
+  LOTAnimationTransitionController *animationController = [[LOTAnimationTransitionController alloc] initWithAnimationNamed:@"vcTransition1"
+                                                                                                          fromLayerNamed:@"outLayer"
+                                                                                                            toLayerNamed:@"inLayer"];
+  return animationController;
+}
+
+- (id&lt;UIViewControllerAnimatedTransitioning&gt;)animationControllerForDismissedController:(UIViewController *)dismissed {
+  LOTAnimationTransitionController *animationController = [[LOTAnimationTransitionController alloc] initWithAnimationNamed:@"vcTransition2"
+                                                                                                          fromLayerNamed:@"outLayer"
+                                                                                                            toLayerNamed:@"inLayer"];
+  return animationController;
+}
+</code></pre>
+
+<h2>导航栏设为透明</h2>
+
+<pre><code>[self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+[self.navigationController.navigationBar setShadowImage:[UIImage new]];
+</code></pre>
+
+<h2>导航栏还原</h2>
+
+<pre><code>[self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+[self.navigationController.navigationBar setShadowImage:nil];
+</code></pre>
+
+<h2>Change UITextField Placeholder Color</h2>
+
+<pre><code>  NSString *string = @"请输入Wi-Fi名称";
+  NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:string];
+  [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, string.length)];
+  self.wifiNameTF.attributedPlaceholder = attributedString;
+</code></pre>
+
+<h2>KVO NSKeyValueObservingOptions</h2>
+
+<p>NSKeyValueObservingOptionNew：获取新值<br/>
+NSKeyValueObservingOptionOld：获取旧值<br/>
+NSKeyValueObservingOptionInitial：获取初始值<br/>
+NSKeyValueObservingOptionPrior：获取新旧值</p>
+
+<h2>UITextField nil While Editing</h2>
+
+<pre><code>- (BOOL)textField:(UITextField*)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString*)string
+{
+    if (range.location == 0 &amp;&amp; string.length == 0)
+    {
+        //textField is empty
+    }
+    return YES;
+}
+</code></pre>
+
+<h2>UIKeyboardAppearance</h2>
+
+<pre><code>textField.keyboardAppearance = UIKeyboardAppearanceDark;
+</code></pre>
+
+<h2>UIView Transition Animation</h2>
+
+<pre><code>[UIView transitionFromView:view1
+                   toView:view2
+                 duration:2
+                  options:animationTransitionType
+               completion:^(BOOL finished){
+                            [view1 removeFromSuperview];
+                          }];
+[self.view addSubview:view2];
+</code></pre>
+
+<h2>UIView Fade In Fade Out</h2>
+
+<pre><code>[view setAlpha:0.f];
+[UIView animateWithDuration:2.f delay:0.f options:UIViewAnimationOptionCurveEaseIn animations:^{
+    //  fade in
+    [view setAlpha:1.f];
+} completion:^(BOOL finished) {
+    [UIView animateWithDuration:2.f delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        //  fade out
+        [view setAlpha:0.f];
+    } completion:nil];
+}];
+</code></pre>
+
+<h2>Reachability</h2>
+
+<p>ReachableViaWiFi</p>
+
+<pre><code>self.reachability = [Reachability reachabilityForInternetConnection];
+[self.reachability startNotifier];
+[self.reachability stopNotifier];
+</code></pre>
+
+<p>Wi-Fi Name</p>
+
+<pre><code>+ (NSString *)currentWifiName {
+  NSArray *ifs = (__bridge_transfer NSArray *)CNCopySupportedInterfaces();
+  NSString *ifnam = [ifs firstObject];
+  if (!ifnam) {
+    return nil;
+  }
+  NSDictionary *info = (__bridge_transfer NSDictionary *)CNCopyCurrentNetworkInfo((__bridge CFStringRef)ifnam);
+  return info[@"SSID"];
+}
+</code></pre>
+
+<h2>NetworkExtension</h2>
+
+<p>Configure VPN tunnels. Customize and extend core networking features.</p>
+
+<h3>Personal VPN</h3>
+
+<p><code>NEVPNManager</code>: is used to create and manage VPN configurations and to control the resulting VPN tunnel connections.<br/>
+Non-Personal VPN configurations take precedence over Personal VPN configurations.<br/>
+Enable the &ldquo;Personal VPN&rdquo; capability for your app in Xcode.</p>
+
+<h2>UIViewController</h2>
+
+<h2>UINavigationController</h2>
+
+<h2>UITabBarController</h2>
+
+<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2017/07/15/ioszhi-shi-xiao-ji-170710/'>http://sxgfxm.github.io/blog/2017/07/15/ioszhi-shi-xiao-ji-170710/</a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
+  </p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-170703]]></title>
@@ -2868,164 +3025,6 @@ ceil()
 <p class='post-footer'>
   原始地址：
   <a href='http://sxgfxm.github.io/blog/2017/03/10/ioszhi-shi-xiao-ji-170306/'>http://sxgfxm.github.io/blog/2017/03/10/ioszhi-shi-xiao-ji-170306/</a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-170227]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/03/06/ioszhi-shi-xiao-ji-170227/"/>
-    <updated>2017-03-06T16:15:46+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/03/06/ioszhi-shi-xiao-ji-170227</id>
-    <content type="html"><![CDATA[<h2>OC中的锁</h2>
-
-<pre><code>@implementation TestObj
-
--(void)method1{
-  NSLog(@"Method1");
-}
--(void)method2{
-  NSLog(@"Method2");
-}
-
-@end
-</code></pre>
-
-<!--more-->
-
-
-<h3>NSLock</h3>
-
-<pre><code>NSLock *lock = [[NSLock alloc] init];
-//线程1
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    [lock lock];
-    [obj method1];
-    sleep(10);
-    [lock unlock];
-});
-//线程2
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    sleep(1);//以保证让线程2的代码后执行
-    [lock lock];
-    [obj method2];
-    [lock unlock];
-});
-</code></pre>
-
-<h3>synchronized关键字。</h3>
-
-<pre><code>//主线程中
-TestObj *obj = [[TestObj alloc] init];
-//线程1
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    @synchronized(obj){
-        [obj method1];
-        sleep(10);
-    }
-});
-//线程2
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    sleep(1);
-    @synchronized(obj){
-        [obj method2];
-    }
-});
-</code></pre>
-
-<h3>phread_mutex_t。</h3>
-
-<pre><code>//主线程中
-TestObj *obj = [[TestObj alloc] init];
-__block pthread_mutex_t mutex;
-pthread_mutex_init(&amp;mutex, NULL);
-//线程1
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    pthread_mutex_lock(&amp;mutex);
-    [obj method1];
-    sleep(5);
-    pthread_mutex_unlock(&amp;mutex);
-});
-//线程2
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    sleep(1);
-    pthread_mutex_lock(&amp;mutex);
-    [obj method2];
-    pthread_mutex_unlock(&amp;mutex);
-});
-</code></pre>
-
-<h3>GCD。</h3>
-
-<pre><code>//主线程中
-TestObj *obj = [[TestObj alloc] init];
-dispatch_semaphore_t semaphore = dispatch_semaphore_create(1);
-//线程1
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
-    [obj method1];
-    sleep(10);
-    dispatch_semaphore_signal(semaphore);
-});
-//线程2
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    sleep(1);
-    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
-    [obj method2];
-    dispatch_semaphore_signal(semaphore);
-});
-</code></pre>
-
-<h2>生成圆形透明背景图片</h2>
-
-<pre><code>+ (UIImage *)circularScaleAndCropImage:(UIImage *)image {
-  // Create the bitmap graphics context
-  UIGraphicsBeginImageContextWithOptions(CGSizeMake(image.size.width, image.size.height), NO, 0.0);
-  CGContextRef context = UIGraphicsGetCurrentContext();
-
-  // Get the width and heights
-  CGFloat imageWidth = image.size.width;
-  CGFloat imageHeight = image.size.height;
-
-  // Calculate the centre of the circle
-  CGFloat imageCentreX = imageWidth / 2;
-  CGFloat imageCentreY = imageHeight / 2;
-
-  // Create and CLIP to a CIRCULAR Path
-  CGFloat radius = imageWidth / 2;
-  CGContextBeginPath(context);
-  CGContextAddArc(context, imageCentreX, imageCentreY, radius, 0, 2 * M_PI, 0);
-  CGContextClosePath(context);
-  CGContextClip(context);
-
-  // Draw the IMAGE
-  CGRect myRect = CGRectMake(0, 0, imageWidth, imageHeight);
-  [image drawInRect:myRect];
-
-  UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-  UIGraphicsEndImageContext();
-
-  return newImage;
-}
-</code></pre>
-
-<h2>RxJava</h2>
-
-<p>响应式函数编程<br/>
-订阅的思想<br/>
-多层异步回调逻辑更清晰</p>
-
-<h2>Socket</h2>
-
-<p><strong>Packet-based communication</strong><br/>
-<strong>Stream-based clients </strong></p>
-
-<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/03/06/ioszhi-shi-xiao-ji-170227/'>http://sxgfxm.github.io/blog/2017/03/06/ioszhi-shi-xiao-ji-170227/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>

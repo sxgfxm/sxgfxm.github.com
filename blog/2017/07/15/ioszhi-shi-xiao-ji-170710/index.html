@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>iOS知识小集-170619 - Light's Blog</title>
+  <title>iOS知识小集-170710 - Light's Blog</title>
   <meta name="author" content="Light">
 
   
-  <meta name="description" content="sxgfxm,Light's Blog,Image Slicing, TabBar Height, UIPageViewController">
-  <meta name="keywords" content="sxgfxm,Light's Blog,Image Slicing, TabBar Height, UIPageViewController">
+  <meta name="description" content="sxgfxm,Light's Blog, Lottie,navigationBar,NSKeyValueObservingOptions,Transition Animation,Reachability,UIKeyboardAppearance">
+  <meta name="keywords" content="sxgfxm,Light's Blog, Lottie,navigationBar,NSKeyValueObservingOptions,Transition Animation,Reachability,UIKeyboardAppearance">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://sxgfxm.github.io/blog/2017/06/26/ioszhi-shi-xiao-ji-170619/">
+  <link rel="canonical" href="http://sxgfxm.github.io/blog/2017/07/15/ioszhi-shi-xiao-ji-170710/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Light's Blog" type="application/atom+xml">
@@ -102,7 +102,7 @@ $(document).bind('DOMNodeInserted', function(event) {
   
   <header>
     
-      <h1 class="entry-title">iOS知识小集-170619</h1>
+      <h1 class="entry-title">iOS知识小集-170710</h1>
     
     
       <p class="meta">
@@ -111,75 +111,158 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 
-<time class='entry-date' datetime='2017-06-26T11:57:15+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>11:57 am</span></time>
+<time class='entry-date' datetime='2017-07-15T15:08:46+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>3:08 pm</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><h2>Enable file sharing</h2>
+<div class="entry-content"><h2><a href="https://github.com/airbnb/lottie-ios">Lottie</a></h2>
 
-<p>Application Supports iTunes file sharing = YES</p>
+<p>Lottie is a mobile library for Android and iOS that parses Adobe After Effects animations exported as json with bodymovin and renders the vector animations natively on mobile and through React Native!<br/>
+Common Animations</p>
 
-<h2>Image Slicing</h2>
-
-<p>使用Xcode Image Slicing图片需为标准的PNG图片。</p>
-
-<h2>TabBar</h2>
-
-<p>高度49</p>
+<pre><code>LOTAnimationView *animation = [LOTAnimationView animationNamed:@"Lottie"];
+[self.view addSubview:animation];
+[animation playWithCompletion:^(BOOL animationFinished) {
+  // Do Something
+}];
+</code></pre>
 
 <!-- more -->
 
 
-<h2>UIPageViewController</h2>
+<p>UIViewController Transition</p>
 
-<p>子controller并不会被缩放，而是从上到下布局，可能被截断。</p>
-
-<pre><code>-(void)setupPageController{
-  self.pageController =
-      [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll
-                                      navigationOrientation:UIPageViewControllerNavigationOrientationVertical
-                                                    options:options];
-  self.pageController.view.frame = CGRectMake(0, 64, kScreen_Width, kScreen_Height - 64 - 49);
-  self.pageController.dataSource = self;
-  self.pages = @[ self.mainVC, self.bottomVC ];
-  [self.pageController setViewControllers:@[ self.pages.firstObject ]
-                                direction:UIPageViewControllerNavigationDirectionForward
-                                 animated:YES
-                               completion:nil];
-  [self addChildViewController:self.pageController];
-  [self.view addSubview:self.pageController.view];
+<pre><code>- (id&lt;UIViewControllerAnimatedTransitioning&gt;)animationControllerForPresentedController:(UIViewController *)presented
+                                                                  presentingController:(UIViewController *)presenting
+                                                                      sourceController:(UIViewController *)source {
+  LOTAnimationTransitionController *animationController = [[LOTAnimationTransitionController alloc] initWithAnimationNamed:@"vcTransition1"
+                                                                                                          fromLayerNamed:@"outLayer"
+                                                                                                            toLayerNamed:@"inLayer"];
+  return animationController;
 }
 
-#pragma mark - UIPageViewControllerDataSource
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController
-      viewControllerBeforeViewController:(UIViewController *)viewController {
-  if ([viewController isKindOfClass:[ViewController1 class]]) {
-    return nil;
-  }
-  if ([viewController isKindOfClass:[ViewController2 class]]) {
-    return self.pages[0];
-  }
-  return nil;
-}
-
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController
-       viewControllerAfterViewController:(UIViewController *)viewController {
-  if ([viewController isKindOfClass:[ViewController1 class]]) {
-    return self.pages[1];
-  }
-  if ([viewController isKindOfClass:[ViewController2 class]]) {
-    return nil;
-  }
-  return nil;
+- (id&lt;UIViewControllerAnimatedTransitioning&gt;)animationControllerForDismissedController:(UIViewController *)dismissed {
+  LOTAnimationTransitionController *animationController = [[LOTAnimationTransitionController alloc] initWithAnimationNamed:@"vcTransition2"
+                                                                                                          fromLayerNamed:@"outLayer"
+                                                                                                            toLayerNamed:@"inLayer"];
+  return animationController;
 }
 </code></pre>
 
+<h2>导航栏设为透明</h2>
+
+<pre><code>[self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+[self.navigationController.navigationBar setShadowImage:[UIImage new]];
+</code></pre>
+
+<h2>导航栏还原</h2>
+
+<pre><code>[self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+[self.navigationController.navigationBar setShadowImage:nil];
+</code></pre>
+
+<h2>Change UITextField Placeholder Color</h2>
+
+<pre><code>  NSString *string = @"请输入Wi-Fi名称";
+  NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:string];
+  [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, string.length)];
+  self.wifiNameTF.attributedPlaceholder = attributedString;
+</code></pre>
+
+<h2>KVO NSKeyValueObservingOptions</h2>
+
+<p>NSKeyValueObservingOptionNew：获取新值<br/>
+NSKeyValueObservingOptionOld：获取旧值<br/>
+NSKeyValueObservingOptionInitial：获取初始值<br/>
+NSKeyValueObservingOptionPrior：获取新旧值</p>
+
+<h2>UITextField nil While Editing</h2>
+
+<pre><code>- (BOOL)textField:(UITextField*)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString*)string
+{
+    if (range.location == 0 &amp;&amp; string.length == 0)
+    {
+        //textField is empty
+    }
+    return YES;
+}
+</code></pre>
+
+<h2>UIKeyboardAppearance</h2>
+
+<pre><code>textField.keyboardAppearance = UIKeyboardAppearanceDark;
+</code></pre>
+
+<h2>UIView Transition Animation</h2>
+
+<pre><code>[UIView transitionFromView:view1
+                   toView:view2
+                 duration:2
+                  options:animationTransitionType
+               completion:^(BOOL finished){
+                            [view1 removeFromSuperview];
+                          }];
+[self.view addSubview:view2];
+</code></pre>
+
+<h2>UIView Fade In Fade Out</h2>
+
+<pre><code>[view setAlpha:0.f];
+[UIView animateWithDuration:2.f delay:0.f options:UIViewAnimationOptionCurveEaseIn animations:^{
+    //  fade in
+    [view setAlpha:1.f];
+} completion:^(BOOL finished) {
+    [UIView animateWithDuration:2.f delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        //  fade out
+        [view setAlpha:0.f];
+    } completion:nil];
+}];
+</code></pre>
+
+<h2>Reachability</h2>
+
+<p>ReachableViaWiFi</p>
+
+<pre><code>self.reachability = [Reachability reachabilityForInternetConnection];
+[self.reachability startNotifier];
+[self.reachability stopNotifier];
+</code></pre>
+
+<p>Wi-Fi Name</p>
+
+<pre><code>+ (NSString *)currentWifiName {
+  NSArray *ifs = (__bridge_transfer NSArray *)CNCopySupportedInterfaces();
+  NSString *ifnam = [ifs firstObject];
+  if (!ifnam) {
+    return nil;
+  }
+  NSDictionary *info = (__bridge_transfer NSDictionary *)CNCopyCurrentNetworkInfo((__bridge CFStringRef)ifnam);
+  return info[@"SSID"];
+}
+</code></pre>
+
+<h2>NetworkExtension</h2>
+
+<p>Configure VPN tunnels. Customize and extend core networking features.</p>
+
+<h3>Personal VPN</h3>
+
+<p><code>NEVPNManager</code>: is used to create and manage VPN configurations and to control the resulting VPN tunnel connections.<br/>
+Non-Personal VPN configurations take precedence over Personal VPN configurations.<br/>
+Enable the &ldquo;Personal VPN&rdquo; capability for your app in Xcode.</p>
+
+<h2>UIViewController</h2>
+
+<h2>UINavigationController</h2>
+
+<h2>UITabBarController</h2>
+
 <p class='post-footer'>
   原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/06/26/ioszhi-shi-xiao-ji-170619/'>http://sxgfxm.github.io/blog/2017/06/26/ioszhi-shi-xiao-ji-170619/</a><br/>
+  <a href='http://sxgfxm.github.io/blog/2017/07/15/ioszhi-shi-xiao-ji-170710/'>http://sxgfxm.github.io/blog/2017/07/15/ioszhi-shi-xiao-ji-170710/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>
@@ -199,7 +282,7 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 
-<time class='entry-date' datetime='2017-06-26T11:57:15+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>11:57 am</span></time>
+<time class='entry-date' datetime='2017-07-15T15:08:46+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>3:08 pm</span></time>
       
 
 <span class="categories">
@@ -221,10 +304,8 @@ $(document).bind('DOMNodeInserted', function(event) {
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2017/06/16/ioszhi-shi-xiao-ji-170612/" title="Previous Post: iOS知识小集-170612">&laquo; iOS知识小集-170612</a>
+        <a class="basic-alignment left" href="/blog/2017/07/10/ioszhi-shi-xiao-ji-170703/" title="Previous Post: iOS知识小集-170703">&laquo; iOS知识小集-170703</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2017/07/03/ioszhi-shi-xiao-ji-170626/" title="Next Post: iOS知识小集-170626">iOS知识小集-170626 &raquo;</a>
       
     </p>
   </footer>
