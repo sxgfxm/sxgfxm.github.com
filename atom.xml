@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-07-15T15:15:23+08:00</updated>
+  <updated>2017-07-24T09:37:54+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,26 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-170717]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/07/24/ioszhi-shi-xiao-ji-170717/"/>
+    <updated>2017-07-24T09:36:53+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/07/24/ioszhi-shi-xiao-ji-170717</id>
+    <content type="html"><![CDATA[<h2>Set UITableViewHeaderFooterView backgroundColor transparent</h2>
+
+<pre><code>self.backgroundView = [[UIImageView alloc] initWithImage:[UIImage new]];
+</code></pre>
+
+<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2017/07/24/ioszhi-shi-xiao-ji-170717/'>http://sxgfxm.github.io/blog/2017/07/24/ioszhi-shi-xiao-ji-170717/</a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
+  </p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-170710]]></title>
@@ -2881,150 +2901,6 @@ NSArray *dataSource = @[@"10",@"20",@"30",@"40",@"50",@"60"];
 <p class='post-footer'>
   原始地址：
   <a href='http://sxgfxm.github.io/blog/2017/03/20/ioszhi-shi-xiao-ji-170313/'>http://sxgfxm.github.io/blog/2017/03/20/ioszhi-shi-xiao-ji-170313/</a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-170306]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/03/10/ioszhi-shi-xiao-ji-170306/"/>
-    <updated>2017-03-10T17:00:41+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/03/10/ioszhi-shi-xiao-ji-170306</id>
-    <content type="html"><![CDATA[<h2>异步回调</h2>
-
-<ol>
-<li>明确知道操作执行完成；</li>
-<li>操作时间未知；</li>
-</ol>
-
-
-<!-- more -->
-
-
-<h2>Block</h2>
-
-<ol>
-<li>对block中的内容强引用；</li>
-<li>循环引用，类A的强property类B的强property block强引用self；</li>
-<li>单例不用管循环引用；</li>
-</ol>
-
-
-<h2>内存划分</h2>
-
-<ol>
-<li>全局区；</li>
-<li>静态区；</li>
-<li>堆区；</li>
-<li>栈区；</li>
-</ol>
-
-
-<h2>单例</h2>
-
-<ol>
-<li>如何创建单例？</li>
-<li>何时创建单例？</li>
-<li>单例的特性？</li>
-</ol>
-
-
-<h2>NSOperation</h2>
-
-<pre><code>-(void)start;
--(void)main;
--(void)cancel;
--(void)addDependency:(NSOperation*)op;
--(void)removeDependency:(NSOperation*)op;
-@property BOOL executing;
-@property BOOL cancelled;
-@property BOOL finished;
-@property copy void (^completionBlock)(void);
-</code></pre>
-
-<p>使用方法：<br/>
-1、继承NSOperation，通过init方法初始化，重写main方法执行任务；<br/>
-2、可以通过completionBlock设置执行完成回调；<br/>
-3、可以方便的判断任务执行状态，取消任务等；<br/>
-4、可以添加和删除依赖关系，依赖其他operation的执行；<br/>
-5、可以通过NSCondition阻塞，加锁，生产者-消费者；</p>
-
-<h2>NSOperationQueue</h2>
-
-<pre><code>@property NSInteger maxCoucurrentOperationCount;
-@property NSInteger operationCount;
--(void)addOperation:(NSOperation*)op;
--(void)cancelAllOperations;
--(void)waitUntilAllOperationsAreFinished;
-</code></pre>
-
-<p>使用方法：<br/>
-1、初始化NSOperationQueue，设置同时可并行任务数量；<br/>
-2、创建任务，并将其加入队列中，任务自动开始执行；<br/>
-3、可以通过operationCount判断还有多少任务未执行；</p>
-
-<h2>HealthKit</h2>
-
-<p>功能：存放健康数据，自动合并；<br/>
-读：读某一类别健康数据；<br/>
-写：写某一类别健康数据；<br/>
-改：改自己写的健康数据。<br/>
-锁屏时无法读数据，保护用户数据安全。</p>
-
-<h2>UIPasteboard</h2>
-
-<p>将信息写到剪切板中。</p>
-
-<pre><code>UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-[pasteboard setString:string];
-</code></pre>
-
-<h2>发送本地通知</h2>
-
-<pre><code>// 创建一个本地推送
-UILocalNotification *notification = [UILocalNotification new];
-if (notification != nil) {
-  // 推送声音
-  notification.soundName = UILocalNotificationDefaultSoundName;
-  // 推送内容
-  notification.alertBody = NSLocalizedString(@"stopWatch.timing", @"已将打点计时信息复制到剪切板");
-  // 显示在icon上的红色圈中的数子
-  notification.applicationIconBadgeNumber++;
-  // 设置userinfo 方便在之后需要撤销的时候使用
-  NSDictionary *info = [NSDictionary dictionaryWithObject:kStopWatchKey forKey:kNotificationKey];
-  notification.userInfo = info;
-  // 添加推送到UIApplication
-  UIApplication *app = [UIApplication sharedApplication];
-  [app scheduleLocalNotification:notification];
-}
-</code></pre>
-
-<h2>string label</h2>
-
-<pre><code>NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
-ceil()
-</code></pre>
-
-<h2>相册和相机</h2>
-
-<p>取消选择照片和选择没有照片是不同的回调。<br/>
-相片可以编辑，相机不可以编辑。</p>
-
-<h2>类方法、类变量、单例</h2>
-
-<h2>埋点</h2>
-
-<p>点击量；<br/>
-人次；<br/>
-存留；<br/>
-停留时间；</p>
-
-<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/03/10/ioszhi-shi-xiao-ji-170306/'>http://sxgfxm.github.io/blog/2017/03/10/ioszhi-shi-xiao-ji-170306/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>
