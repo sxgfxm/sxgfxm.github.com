@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-07-24T09:37:54+08:00</updated>
+  <updated>2017-07-31T10:18:58+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,37 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-170724]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/07/31/ioszhi-shi-xiao-ji-170724/"/>
+    <updated>2017-07-31T10:17:32+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/07/31/ioszhi-shi-xiao-ji-170724</id>
+    <content type="html"><![CDATA[<h2>JavaScriptCore</h2>
+
+<pre><code>[self.webView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('audio')[0].play()"];
+</code></pre>
+
+<!-- more -->
+
+
+<h2>调整button点击区域</h2>
+
+<pre><code>self.playBtn.contentMode = UIViewContentModeScaleAspectFit;
+self.closeBtn.contentMode = UIViewContentModeScaleAspectFit;
+[self.playBtn setImageEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
+[self.closeBtn setImageEdgeInsets:UIEdgeInsetsMake(0, -10, 0, 0)];
+</code></pre>
+
+<h2>判断网络状态</h2>
+
+<pre><code>- (BOOL)connected {
+  NetworkStatus internetStatus = [[Reachability reachabilityForInternetConnection] currentReachabilityStatus];
+  return internetStatus != NotReachable;
+}
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-170717]]></title>
@@ -297,72 +328,6 @@ animation.fillMode = kCAFillModeBackwards;
 <h2>UIView animate height from bottom to top</h2>
 
 <p>Increase the height while decreasing the origin.y by the same amount.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-170619]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/06/26/ioszhi-shi-xiao-ji-170619/"/>
-    <updated>2017-06-26T11:57:15+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/06/26/ioszhi-shi-xiao-ji-170619</id>
-    <content type="html"><![CDATA[<h2>Enable file sharing</h2>
-
-<p>Application Supports iTunes file sharing = YES</p>
-
-<h2>Image Slicing</h2>
-
-<p>使用Xcode Image Slicing图片需为标准的PNG图片。</p>
-
-<h2>TabBar</h2>
-
-<p>高度49</p>
-
-<!-- more -->
-
-
-<h2>UIPageViewController</h2>
-
-<p>子controller并不会被缩放，而是从上到下布局，可能被截断。</p>
-
-<pre><code>-(void)setupPageController{
-  self.pageController =
-      [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll
-                                      navigationOrientation:UIPageViewControllerNavigationOrientationVertical
-                                                    options:options];
-  self.pageController.view.frame = CGRectMake(0, 64, kScreen_Width, kScreen_Height - 64 - 49);
-  self.pageController.dataSource = self;
-  self.pages = @[ self.mainVC, self.bottomVC ];
-  [self.pageController setViewControllers:@[ self.pages.firstObject ]
-                                direction:UIPageViewControllerNavigationDirectionForward
-                                 animated:YES
-                               completion:nil];
-  [self addChildViewController:self.pageController];
-  [self.view addSubview:self.pageController.view];
-}
-
-#pragma mark - UIPageViewControllerDataSource
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController
-      viewControllerBeforeViewController:(UIViewController *)viewController {
-  if ([viewController isKindOfClass:[ViewController1 class]]) {
-    return nil;
-  }
-  if ([viewController isKindOfClass:[ViewController2 class]]) {
-    return self.pages[0];
-  }
-  return nil;
-}
-
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController
-       viewControllerAfterViewController:(UIViewController *)viewController {
-  if ([viewController isKindOfClass:[ViewController1 class]]) {
-    return self.pages[1];
-  }
-  if ([viewController isKindOfClass:[ViewController2 class]]) {
-    return nil;
-  }
-  return nil;
-}
-</code></pre>
 ]]></content>
   </entry>
   

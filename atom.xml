@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-07-24T09:37:54+08:00</updated>
+  <updated>2017-07-31T10:18:58+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,45 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-170724]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/07/31/ioszhi-shi-xiao-ji-170724/"/>
+    <updated>2017-07-31T10:17:32+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/07/31/ioszhi-shi-xiao-ji-170724</id>
+    <content type="html"><![CDATA[<h2>JavaScriptCore</h2>
+
+<pre><code>[self.webView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('audio')[0].play()"];
+</code></pre>
+
+<!-- more -->
+
+
+<h2>调整button点击区域</h2>
+
+<pre><code>self.playBtn.contentMode = UIViewContentModeScaleAspectFit;
+self.closeBtn.contentMode = UIViewContentModeScaleAspectFit;
+[self.playBtn setImageEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
+[self.closeBtn setImageEdgeInsets:UIEdgeInsetsMake(0, -10, 0, 0)];
+</code></pre>
+
+<h2>判断网络状态</h2>
+
+<pre><code>- (BOOL)connected {
+  NetworkStatus internetStatus = [[Reachability reachabilityForInternetConnection] currentReachabilityStatus];
+  return internetStatus != NotReachable;
+}
+</code></pre>
+
+<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2017/07/31/ioszhi-shi-xiao-ji-170724/'>http://sxgfxm.github.io/blog/2017/07/31/ioszhi-shi-xiao-ji-170724/</a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
+  </p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-170717]]></title>
@@ -2842,65 +2881,6 @@ hasProtectedAsset：是否含有被保护文件；<br/>
 <p class='post-footer'>
   原始地址：
   <a href='http://sxgfxm.github.io/blog/2017/03/27/ioszhi-shi-xiao-ji-170320/'>http://sxgfxm.github.io/blog/2017/03/27/ioszhi-shi-xiao-ji-170320/</a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-170313]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/03/20/ioszhi-shi-xiao-ji-170313/"/>
-    <updated>2017-03-20T16:50:46+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/03/20/ioszhi-shi-xiao-ji-170313</id>
-    <content type="html"><![CDATA[<h2>Masonry</h2>
-
-<p>需要先添加到父视图，再设置约束。<br/>
-block中无需使用weakself。<br/>
-添加约束：makeConstrains。<br/>
-更新约束：updateConstrains，与之相关的布局自动调整。<br/>
-重设约束：remakeConstrains，删除之前的约束重新添加。</p>
-
-<pre><code>[self.view updateConstraints:^(MASConstraintMaker *make){
-  //  updateConstraints
-}];
-[self.view updateConstraints];
-[self.view setNeedsLayout];
-[UIView animateWithDuration:3 animations:^{
-  [self.view layoutIfNeeded];
-}];
-</code></pre>
-
-<!-- more -->
-
-
-<h2>Autolayout</h2>
-
-<p><code>setNeedsLayout</code>：使当前布局失效，并在下一个更新循环中触发布局更新，遍历view的结构。<br/>
-<code>layoutIfNeeded</code>：强制立即更新布局，可以实现动画效果。<br/>
-scrollview自动布局：添加tmpview，在tmpview上添加view，最后约束tmpview和contentsize。</p>
-
-<h2>退出viewcontroller事件监听</h2>
-
-<h2>IQActionSheetPickerView</h2>
-
-<pre><code>IQActionSheetPickerView *picker = [IQActionSheetPickerView actionSheetWithTitle:@"Age" delegate:self];
-NSArray *dataSource = @[@"10",@"20",@"30",@"40",@"50",@"60"];
-[picker setTitlesForComponents:@[dataSource]];
-[picker setSelectedTitles:@[@"20"]];
-[picker show];
-</code></pre>
-
-<p>代理回调</p>
-
-<pre><code>- (void)actionSheetPickerView:(IQActionSheetPickerView *)pickerView didSelectTitles:(NSArray *)titles {
-}
-</code></pre>
-
-<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/03/20/ioszhi-shi-xiao-ji-170313/'>http://sxgfxm.github.io/blog/2017/03/20/ioszhi-shi-xiao-ji-170313/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>
