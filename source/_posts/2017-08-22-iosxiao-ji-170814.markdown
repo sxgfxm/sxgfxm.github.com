@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "iOS小集-170814"
+title: "iOS知识小集-170814"
 date: 2017-08-22 10:13:36 +0800
 comments: true
 categories: iOS
