@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://sxgfxm.github.io/blog/2017/08/22/iosxiao-ji-170814/</loc>
+<lastmod>2017-08-22T10:13:36+08:00</lastmod>
+</url>
+<url>
+<loc>http://sxgfxm.github.io/blog/2017/08/22/ioszhi-shi-xiao-ji-170807/</loc>
+<lastmod>2017-08-22T10:12:54+08:00</lastmod>
+</url>
+<url>
 <loc>http://sxgfxm.github.io/blog/2017/08/07/ioszhi-shi-xiao-ji-170731/</loc>
 <lastmod>2017-08-07T10:03:41+08:00</lastmod>
 </url>
@@ -185,17 +193,5 @@
 </url>
 <url>
 <loc>http://sxgfxm.github.io/blog/categories/componentkit/</loc>
-</url>
-<url>
-<loc>http://sxgfxm.github.io/posts/2/</loc>
-</url>
-<url>
-<loc>http://sxgfxm.github.io/posts/3/</loc>
-</url>
-<url>
-<loc>http://sxgfxm.github.io/posts/4/</loc>
-</url>
-<url>
-<loc>http://sxgfxm.github.io/posts/5/</loc>
 </url>
 </urlset>
