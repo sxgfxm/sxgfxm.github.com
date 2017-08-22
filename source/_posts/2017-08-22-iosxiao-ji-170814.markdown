@@ -1,0 +1,24 @@
+---
+layout: post
+title: "iOS小集-170814"
+date: 2017-08-22 10:13:36 +0800
+comments: true
+categories: iOS
+keywords: sxgfxm, blame and log, AVAudioSession, JSONKeyMapper, Acoustic Echo Cancellation
+description: sxgfxm, blame and log, AVAudioSession, JSONKeyMapper, Acoustic Echo Cancellation
+---
+
+## 使用Xcode查看代码作者和提交信息
+切换为“Blame”和“Log”模式即可。
+
+## AVAudioSession
+AVAudioSessionCategoryOptionDefaultToSpeaker：通过扬声器播放声音。  
+AVAudioSessionCategoryOptionMixWithOthers：不打断其他App音频播放。
+
+## JSONModel
+下划线key转驼峰key。
+`[JSONKeyMapper mapperFromUnderscoreCaseToCamelCase]`已废弃，
+现在使用`[JSONKeyMapper mapperForSnakeCase]`。
+
+## Acoustic Echo Cancellation
+Audio Unit回声消除。
