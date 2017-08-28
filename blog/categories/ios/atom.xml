@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-08-22T10:17:55+08:00</updated>
+  <updated>2017-08-28T11:43:09+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,81 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-170821]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/08/28/ioszhi-shi-xiao-ji-170821/"/>
+    <updated>2017-08-28T11:39:03+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/08/28/ioszhi-shi-xiao-ji-170821</id>
+    <content type="html"><![CDATA[<h2>ipa架构</h2>
+
+<pre><code>IPA File
+  Payload
+    {appname}.app
+      Application Binary
+      Mobile Provision File
+      Code Signature
+      Bundled Resource File
+  iTunesArtwork
+  iTunesMetadata.plist
+</code></pre>
+
+<!-- more -->
+
+
+<h2>Insecure Local Data Storage</h2>
+
+<ol>
+<li>PropertyList files</li>
+<li>NSUserDefaults class</li>
+<li>KeyChain</li>
+<li>CoreData and SQLite databases</li>
+</ol>
+
+
+<h2>Apple Data Protection API</h2>
+
+<ol>
+<li>Complete Protection (NSFileProtectionComplete)</li>
+<li>Protected Unless Open (NSFileProtectionCompleteUnlessOpen)</li>
+<li>Protected Until First User Authentication (NSFileProtectionCompleteUntilFirstUserAuthentication)</li>
+<li>No Protection (NSFileProtectionNone)</li>
+</ol>
+
+
+<h2>NSTimeZone</h2>
+
+<pre><code>NSTimeZone *timeZone = [NSTimeZone localTimeZone];
+//  Asia/Shanghai
+NSString *name = timeZone.name;
+//  GMT+8
+NSString *abbreviation = timeZone.abbreviation;
+</code></pre>
+
+<h2>Prevent Buffer Overflows</h2>
+
+<ol>
+<li>Address Space Layout Randomization (ASLR)</li>
+<li>Automatic Reference Counting (ARC)</li>
+<li>Stack Protectors</li>
+</ol>
+
+
+<h2>System Call</h2>
+
+<pre><code>-(void)makeCall:(NSString *)phone{
+  NSString *phoneNumber = [@"telprompt://" stringByAppendingString:phone];
+  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
+}
+</code></pre>
+
+<h2>NSString to NSURL</h2>
+
+<pre><code>NSString *encodeURL = [string stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+NSURL *url = [NSURL URLWithString:encodeURL];
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-170814]]></title>
@@ -142,18 +217,6 @@ self.closeBtn.contentMode = UIViewContentModeScaleAspectFit;
   NetworkStatus internetStatus = [[Reachability reachabilityForInternetConnection] currentReachabilityStatus];
   return internetStatus != NotReachable;
 }
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-170717]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/07/24/ioszhi-shi-xiao-ji-170717/"/>
-    <updated>2017-07-24T09:36:53+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/07/24/ioszhi-shi-xiao-ji-170717</id>
-    <content type="html"><![CDATA[<h2>Set UITableViewHeaderFooterView backgroundColor transparent</h2>
-
-<pre><code>self.backgroundView = [[UIImageView alloc] initWithImage:[UIImage new]];
 </code></pre>
 ]]></content>
   </entry>
