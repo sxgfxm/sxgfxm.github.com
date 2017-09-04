@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-08-28T11:43:09+08:00</updated>
+  <updated>2017-09-04T14:14:34+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,127 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-170828]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/09/04/ioszhi-shi-xiao-ji-170828/"/>
+    <updated>2017-09-04T14:12:44+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/09/04/ioszhi-shi-xiao-ji-170828</id>
+    <content type="html"><![CDATA[<h2>TableView Header / Footer Height</h2>
+
+<p>UITableView默认有section header/footer高度，设为0无效，最小可设为1。</p>
+
+<h2>CNContactPickerViewController</h2>
+
+<pre><code>-(void)pickContact{
+  CNContactPickerViewController *controller = [[CNContactPickerViewController alloc] init];
+  controller.delegate = self;
+  [self presentViewController:controller animated:YES completion:nil];
+}
+
+- (void)contactPicker:(CNContactPickerViewController *)picker
+    didSelectContactProperty:(CNContactProperty *)contactProperty {
+  CNContact *contact = contactProperty.contact;
+  NSString *name = [CNContactFormatter stringFromContact:contact style:CNContactFormatterStyleFullName];
+  CNPhoneNumber *phoneValue = contactProperty.value;
+  NSString *phoneNumber = phoneValue.stringValue;
+  NSLog(@"%@--%@", name, phoneNumber);
+}
+</code></pre>
+
+<!-- more -->
+
+
+<h2>CNContactStore</h2>
+
+<p>info.plist添加<code>Privacy - Contacts Usage Description</code>。</p>
+
+<pre><code>- (void)checkAuthorization {
+  NSLog(@"Contact - Check Authorization");
+  //  status
+  CNAuthorizationStatus status =
+      [CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts];
+  //  check authorization
+  if (status != CNAuthorizationStatusAuthorized) {
+    NSLog(@"Contact - Not Authorized");
+    //  request access
+    CNContactStore *store = [CNContactStore new];
+    NSLog(@"Contact - Request Authorization");
+    [store
+        requestAccessForEntityType:CNEntityTypeContacts
+                 completionHandler:^(BOOL granted, NSError *_Nullable error) {
+                   if (granted) {
+                     //  YES
+                     NSLog(@"Contact - Authorized");
+                     [self fetchContact];
+                   } else {
+                     //  No
+                     NSLog(@"Contact - Not Authorized");
+                   }
+                 }];
+  } else {
+    NSLog(@"Contact - Authorized");
+    [self fetchContact];
+  }
+}
+
+- (void)fetchContact {
+  NSLog(@"Contact - Fetch Contact");
+  //  keys
+  NSArray *keys = @[
+    CNContactPhoneNumbersKey,
+    CNContactGivenNameKey,
+    CNContactFamilyNameKey
+  ];
+  //  request
+  CNContactFetchRequest *request =
+      [[CNContactFetchRequest alloc] initWithKeysToFetch:keys];
+  //  store
+  NSError *error = nil;
+  CNContactStore *store = [CNContactStore new];
+  [store
+      enumerateContactsWithFetchRequest:request
+                                  error:&amp;error
+                             usingBlock:^(CNContact *_Nonnull contact,
+                                          BOOL *_Nonnull stop) {
+                               //  contact
+                               NSString *firstName = contact.familyName;
+                               NSString *lastName = contact.givenName;
+                               NSLog(@"%@ %@", firstName, lastName);
+                               //  phone number
+                               for (CNLabeledValue *labeledValue in contact
+                                        .phoneNumbers) {
+                                 CNPhoneNumber *phoneValue = labeledValue.value;
+                                 NSString *phoneNumber = phoneValue.stringValue;
+                                 NSString *label = [CNLabeledValue
+                                     localizedStringForLabel:labeledValue
+                                                                 .label];
+                                 NSLog(@"%@ : %@", label, phoneNumber);
+                               }
+                               NSLog(@"");
+                             }];
+}
+</code></pre>
+
+<h2>iOS本地化</h2>
+
+<ol>
+<li>Project -> Localizations -> Add Chinese</li>
+<li>New File -> Strings File</li>
+<li>Strings File -> Utities -> Localization -> Add Chinese</li>
+<li>Add Localized String</li>
+</ol>
+
+
+<h2>灯效说明</h2>
+
+<p>继承</p>
+
+<h2>智能家居控制</h2>
+
+<p>分解</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-170821]]></title>
@@ -187,37 +308,6 @@ NSURLSession *session =
 <h2>Logging Malloc Stack</h2>
 
 <p>如果不关闭，会导致大量无法自动清除的系统log，占用巨大磁盘空间。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-170724]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/07/31/ioszhi-shi-xiao-ji-170724/"/>
-    <updated>2017-07-31T10:17:32+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/07/31/ioszhi-shi-xiao-ji-170724</id>
-    <content type="html"><![CDATA[<h2>JavaScriptCore</h2>
-
-<pre><code>[self.webView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('audio')[0].play()"];
-</code></pre>
-
-<!-- more -->
-
-
-<h2>调整button点击区域</h2>
-
-<pre><code>self.playBtn.contentMode = UIViewContentModeScaleAspectFit;
-self.closeBtn.contentMode = UIViewContentModeScaleAspectFit;
-[self.playBtn setImageEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
-[self.closeBtn setImageEdgeInsets:UIEdgeInsetsMake(0, -10, 0, 0)];
-</code></pre>
-
-<h2>判断网络状态</h2>
-
-<pre><code>- (BOOL)connected {
-  NetworkStatus internetStatus = [[Reachability reachabilityForInternetConnection] currentReachabilityStatus];
-  return internetStatus != NotReachable;
-}
-</code></pre>
 ]]></content>
   </entry>
   
