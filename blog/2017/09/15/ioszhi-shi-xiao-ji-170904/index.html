@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>iOS知识小集-170313 - Light's Blog</title>
+  <title>iOS知识小集-170904 - Light's Blog</title>
   <meta name="author" content="Light">
 
   
-  <meta name="description" content="sxgfxm,Masonry,Autolayout,IQActionSheetPickerView">
-  <meta name="keywords" content="sxgfxm,Masonry,Autolayout,IQActionSheetPickerView">
+  <meta name="description" content="sxgfxm, git branch -d">
+  <meta name="keywords" content="sxgfxm, git branch -d">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://sxgfxm.github.io/blog/2017/03/20/ioszhi-shi-xiao-ji-170313/">
+  <link rel="canonical" href="http://sxgfxm.github.io/blog/2017/09/15/ioszhi-shi-xiao-ji-170904/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Light's Blog" type="application/atom+xml">
@@ -102,7 +102,7 @@ $(document).bind('DOMNodeInserted', function(event) {
   
   <header>
     
-      <h1 class="entry-title">iOS知识小集-170313</h1>
+      <h1 class="entry-title">iOS知识小集-170904</h1>
     
     
       <p class="meta">
@@ -111,64 +111,32 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 
-<time class='entry-date' datetime='2017-03-20T16:50:46+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:50 pm</span></time>
+<time class='entry-date' datetime='2017-09-15T17:19:17+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>5:19 pm</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><h2>Masonry</h2>
+<div class="entry-content"><h2>Git Delete Branch</h2>
 
-<p>需要先添加到父视图，再设置约束。<br/>
-block中无需使用weakself。<br/>
-添加约束：makeConstrains。<br/>
-更新约束：updateConstrains，与之相关的布局自动调整。<br/>
-重设约束：remakeConstrains，删除之前的约束重新添加。</p>
-
-<pre><code>[self.view updateConstraints:^(MASConstraintMaker *make){
-  //  updateConstraints
-}];
-[self.view updateConstraints];
-[self.view setNeedsLayout];
-[UIView animateWithDuration:3 animations:^{
-  [self.view layoutIfNeeded];
-}];
+<pre><code>git branch -a
+git branch -d &lt;branch_name&gt;
+git branch -D &lt;branch_name&gt; // force delete
 </code></pre>
 
 <!-- more -->
 
 
-<h2>Autolayout</h2>
+<h2>MVC</h2>
 
-<p><code>setNeedsLayout</code>：使当前布局失效，并在下一个更新循环中触发布局更新，遍历view的结构。<br/>
-<code>layoutIfNeeded</code>：强制立即更新布局，可以实现动画效果。<br/>
-scrollview自动布局：添加tmpview，在tmpview上添加view，最后约束tmpview和contentsize。</p>
+<h2>&lt;> &amp; &ldquo;&rdquo;<p class='post-footer'></h2>
 
-<h2>退出viewcontroller事件监听</h2>
-
-<h2>IQActionSheetPickerView</h2>
-
-<pre><code>IQActionSheetPickerView *picker = [IQActionSheetPickerView actionSheetWithTitle:@"Age" delegate:self];
-NSArray *dataSource = @[@"10",@"20",@"30",@"40",@"50",@"60"];
-[picker setTitlesForComponents:@[dataSource]];
-[picker setSelectedTitles:@[@"20"]];
-[picker show];
-</code></pre>
-
-<p>代理回调</p>
-
-<pre><code>- (void)actionSheetPickerView:(IQActionSheetPickerView *)pickerView didSelectTitles:(NSArray *)titles {
-}
-</code></pre>
-
-<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/03/20/ioszhi-shi-xiao-ji-170313/'>http://sxgfxm.github.io/blog/2017/03/20/ioszhi-shi-xiao-ji-170313/</a><br/>
+<p>  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2017/09/15/ioszhi-shi-xiao-ji-170904/'><a href="http://sxgfxm.github.io/blog/2017/09/15/ioszhi-shi-xiao-ji-170904/">http://sxgfxm.github.io/blog/2017/09/15/ioszhi-shi-xiao-ji-170904/</a></a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
-
+  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
+  </p></p>
 </div>
 
 
@@ -184,7 +152,7 @@ NSArray *dataSource = @[@"10",@"20",@"30",@"40",@"50",@"60"];
 
 
 
-<time class='entry-date' datetime='2017-03-20T16:50:46+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:50 pm</span></time>
+<time class='entry-date' datetime='2017-09-15T17:19:17+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>5:19 pm</span></time>
       
 
 <span class="categories">
@@ -206,10 +174,10 @@ NSArray *dataSource = @[@"10",@"20",@"30",@"40",@"50",@"60"];
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2017/03/10/ioszhi-shi-xiao-ji-170306/" title="Previous Post: iOS知识小集-170306">&laquo; iOS知识小集-170306</a>
+        <a class="basic-alignment left" href="/blog/2017/09/04/ioszhi-shi-xiao-ji-170828/" title="Previous Post: iOS知识小集-170828">&laquo; iOS知识小集-170828</a>
       
       
-        <a class="basic-alignment right" href="/blog/2017/03/27/ioszhi-shi-xiao-ji-170320/" title="Next Post: iOS知识小集-170320">iOS知识小集-170320 &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2017/09/15/ioszhi-shi-xiao-ji-170911/" title="Next Post: iOS知识小集-170911">iOS知识小集-170911 &raquo;</a>
       
     </p>
   </footer>

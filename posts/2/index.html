@@ -105,6 +105,111 @@ $(document).bind('DOMNodeInserted', function(event) {
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2017/07/10/ioszhi-shi-xiao-ji-170703/">iOS知识小集-170703</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-07-10T11:09:16+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>11:09 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>CAKeyFrameAnimation</h2>
+
+<pre><code>- (CAKeyframeAnimation *)circleShake {
+  if (!_circleShake) {
+    CGFloat baseX = self.circleMask.position.x;
+    _circleShake = [CAKeyframeAnimation animationWithKeyPath:@"position.x"];
+    _circleShake.keyTimes = @[
+      @0,
+      @(0.1 / 0.8),
+      @(0.2 / 0.8),
+      @(0.3 / 0.8),
+      @(0.5 / 0.8),
+      @(0.76 / 0.8)
+    ];
+    _circleShake.values = @[
+      @(baseX),
+      @(baseX - 11),
+      @(baseX + 11),
+      @(baseX - 11),
+      @(baseX + 11),
+      @(baseX)
+    ];
+    _circleShake.duration = 0.8;
+    _circleShake.removedOnCompletion = YES;
+    _circleShake.fillMode = kCAFillModeForwards;
+  }
+  return _circleShake;
+}
+</code></pre>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/07/10/ioszhi-shi-xiao-ji-170703/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/07/03/ioszhi-shi-xiao-ji-170626/">iOS知识小集-170626</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-07-03T09:09:47+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2017</span></span> <span class='time'>9:09 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>隐藏tabBar</h2>
+
+<p><code>self.tabBarController.tabBar.hidden=YES;</code></p>
+
+<h2>UIView animate height from bottom to top</h2>
+
+<p>Increase the height while decreasing the origin.y by the same amount.</p>
+
+<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2017/07/03/ioszhi-shi-xiao-ji-170626/'>http://sxgfxm.github.io/blog/2017/07/03/ioszhi-shi-xiao-ji-170626/</a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
+  </p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2017/06/26/ioszhi-shi-xiao-ji-170619/">iOS知识小集-170619</a></h1>
     
     
@@ -401,91 +506,6 @@ A component is a fixed description that can be used to paint a view but that is 
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170501/">iOS知识小集-170501</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2017-05-17T16:42:40+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:42 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>ComponentKit Tutorial - CollectionView</h1>
-
-<h2>Install</h2>
-
-<p>通过 <strong>Carthage</strong> 安装，在 <strong>Cartfile</strong> 中添加<code>github "facebook/ComponentKit" ~&gt; 0.20</code>，然后运行<code>carthage update</code>，编译完成后，在 <strong>Embedded Binaries</strong> 添加<code>Carthage/Build/iOS/ComponentKit.framework</code>。所有需要使用ComponentKit的源文件需要修改后缀为 <strong>.mm</strong>。</p>
-
-<h2>Philosophy</h2>
-
-<p>Doing so this reverses the traditional approach for a <code>UICollectionViewDataSource</code>. Usually the controller layer will <strong>tell</strong> the <code>UICollectionView</code> to update and then the <code>UICollectionView</code> <strong>ask</strong> the datasource for the data. Here the model is  more Reactive, from an external prospective, the datasource is <strong>told</strong> what changes to apply and then <strong>tell</strong> the collection view to apply the corresponding changes.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170501/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170424/">iOS知识小集-170424</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2017-05-17T16:38:39+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:38 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>ComponentKit Tutorial - Layout</h1>
-
-<h2>Flexbox Layout</h2>
-
-<p><strong>flex container</strong>：容器。<br/>
-main axis：main start， main end。<br/>
-cross axis：cross start， cross end。<br/>
-<strong>flex item</strong>：成员。<br/>
-main size。<br/>
-cross size。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170424/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -511,7 +531,7 @@ cross size。</p>
  <h1>Categories</h1>
  <ul id="categories">
   <li class='category'><a href='/blog/categories/componentkit/'>componentkit (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>ios (40)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (42)</a></li>
 <li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
 
@@ -519,6 +539,14 @@ cross size。</p>
 </section><section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/09/15/ioszhi-shi-xiao-ji-170911/">iOS知识小集-170911</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/09/15/ioszhi-shi-xiao-ji-170904/">iOS知识小集-170904</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2017/09/04/ioszhi-shi-xiao-ji-170828/">iOS知识小集-170828</a>
@@ -530,14 +558,6 @@ cross size。</p>
     
       <li class="post">
         <a href="/blog/2017/08/22/iosxiao-ji-170814/">iOS知识小集-170814</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/08/22/ioszhi-shi-xiao-ji-170807/">iOS知识小集-170807</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/08/07/ioszhi-shi-xiao-ji-170731/">iOS知识小集-170731</a>
       </li>
     
   </ul>

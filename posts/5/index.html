@@ -105,6 +105,93 @@ $(document).bind('DOMNodeInserted', function(event) {
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2016/10/19/today-extension-widget/">Today Extension - Widget</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-10-19T21:05:18+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>9:05 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Widget简介</h2>
+
+<p>从iOS 8开始，引入<strong>widget</strong>特性。可以在通知中心的<strong>Today</strong>栏中添加widget。widget可以简单理解为一个小的扩展程序，可以展示相关应用的简略信息，提供快捷访问等功能。</p>
+
+<p>widget的概念在Android中已经十分成熟，iOS widget与自由度相当高的Android widget有显著的区别。iOS widget的刷新时间为展示widget时，而不是像Android widget时刻保持在后台，消耗系统资源。iOS widget只是作为很小的配角存在，Apple的中心思想还是希望开发者关注App本身的设计和性能。</p>
+
+<p>尽管iOS widget是一种约束状态下的自由，但已经逐渐改变用户的交互行为。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/10/19/today-extension-widget/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/10/19/iospan-duan-gpszuo-biao-shi-fou-zai-zhong-guo/">iOS判断GPS坐标是否在中国</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-10-19T10:29:23+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:29 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Background</h2>
+
+<p>GPS定位已经深入生活的方方面面。现实生活中存在着多种GPS坐标系：</p>
+
+<ul>
+<li><strong>WGS-84坐标系</strong>（World Geodetic System——1984 Coordinate System），国际通用GPS坐标系。</li>
+<li><strong>GCJ-02坐标系</strong>（Guojia Cehui Ju Coordinate System），中国专用坐标系，加入随机偏差，俗称火星坐标。</li>
+<li><strong>百度坐标系</strong>，百度自己定义的坐标系。</li>
+</ul>
+
+
+<p>在iOS应用开发中，<strong>CoreLocation</strong>返回<strong>WGS坐标</strong>，当定位在中国时，如果直接用<strong>MKMapView</strong>显示位置，由于中国地图使用<strong>GCJ坐标</strong>，会使定位出现偏差，达不到预期效果。为解决这一问题，在显示位置之前，需要判断<strong>WGS坐标</strong>是否在中国，并作出相应的坐标转换。</p>
+
+<p>该问题抽象为<strong>判断点是否在多边形内部</strong>。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/10/19/iospan-duan-gpszuo-biao-shi-fou-zai-zhong-guo/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/10/18/uicollectionview-ios10-new-features/">UICollectionView iOS 10 New Features</a></h1>
     
     
@@ -417,7 +504,7 @@ $(document).bind('DOMNodeInserted', function(event) {
  <h1>Categories</h1>
  <ul id="categories">
   <li class='category'><a href='/blog/categories/componentkit/'>componentkit (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>ios (40)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (42)</a></li>
 <li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
 
@@ -425,6 +512,14 @@ $(document).bind('DOMNodeInserted', function(event) {
 </section><section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/09/15/ioszhi-shi-xiao-ji-170911/">iOS知识小集-170911</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/09/15/ioszhi-shi-xiao-ji-170904/">iOS知识小集-170904</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2017/09/04/ioszhi-shi-xiao-ji-170828/">iOS知识小集-170828</a>
@@ -436,14 +531,6 @@ $(document).bind('DOMNodeInserted', function(event) {
     
       <li class="post">
         <a href="/blog/2017/08/22/iosxiao-ji-170814/">iOS知识小集-170814</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/08/22/ioszhi-shi-xiao-ji-170807/">iOS知识小集-170807</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/08/07/ioszhi-shi-xiao-ji-170731/">iOS知识小集-170731</a>
       </li>
     
   </ul>
