@@ -121,13 +121,66 @@ $(document).bind('DOMNodeInserted', function(event) {
   </header>
 
 
-  <div class="entry-content"><p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/09/15/ioszhi-shi-xiao-ji-170911/'>http://sxgfxm.github.io/blog/2017/09/15/ioszhi-shi-xiao-ji-170911/</a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
+  <div class="entry-content"><h2>长按语音控制</h2>
 
+<p>~~~
+-(void)setupBtn{
+  //  按下按钮
+  [self.voiceBtn addTarget:self action:@selector(btnTouchBegin:) forControlEvents:UIControlEventTouchDown];
+  //  立刻松开
+  [self.voiceBtn addTarget:self action:@selector(btnTouchEnd:) forControlEvents:UIControlEventTouchUpInside];
+  //  上划取消
+  [self.voiceBtn addTarget:self action:@selector(cancelSpeak) forControlEvents:UIControlEventTouchDragExit];
+  //  外部松开
+  [self.voiceBtn addTarget:self action:@selector(btnTouchEnd:) forControlEvents:UIControlEventTouchUpOutside];
+}</p>
+
+<p>//  通过计时器区分“点击”还是“长按”
+- (void)btnTouchBegin:(UIButton *)button {
+  self.countNum = 0.0f;
+  self.timer =
+      [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(handleTimer) userInfo:nil repeats:YES];
+  [self.timer fire];
+}</p>
+
+<ul>
+<li><p>(void)btnTouchEnd:(UIButton *)button {
+[self.timer invalidate];</p>
+
+<p>if ([self isLongPressGesture]) {
+  //  执行长按操作
+} else {
+  //  执行点击操作
+}
+}</p></li>
+</ul>
+
+
+<p>// 处理时间
+- (void)handleTimer {
+  self.countNum += 0.1;</p>
+
+<p>  if ([self isLongPressGesture]) {
+    [self.timer invalidate];
+    [self longPressVoiceBegin];
+  }
+}</p>
+
+<p>// 判断是否为长按手势
+- (BOOL)isLongPressGesture {
+  return self.countNum >= 0.5;
+}</p>
+
+<p>// 上划取消语音输入
+- (void)cancelSpeak {
+  [self voiceEnd];
+}
+~~~<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2017/09/15/ioszhi-shi-xiao-ji-170911/'><a href="http://sxgfxm.github.io/blog/2017/09/15/ioszhi-shi-xiao-ji-170911/">http://sxgfxm.github.io/blog/2017/09/15/ioszhi-shi-xiao-ji-170911/</a></a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
+  </p></p>
 </div>
   
   
