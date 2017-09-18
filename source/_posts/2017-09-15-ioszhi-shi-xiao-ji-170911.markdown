@@ -9,7 +9,8 @@ description: sxgfxm
 ---
 
 ## 长按语音控制
-~~~
+
+```
 -(void)setupBtn{
   //  按下按钮
   [self.voiceBtn addTarget:self action:@selector(btnTouchBegin:) forControlEvents:UIControlEventTouchDown];
@@ -57,5 +58,7 @@ description: sxgfxm
 // 上划取消语音输入
 - (void)cancelSpeak {
   [self voiceEnd];
-}
-~~~
+}  
+
+
+```
