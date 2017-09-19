@@ -97,8 +97,8 @@ github_skip_forks: true
 #delicious_count: 3
 
 # Disqus Comments
-#disqus_short_name:
-#disqus_show_comment_count: false
+disqus_short_name: Light's Blog
+disqus_show_comment_count: true
 
 # Google Analytics
 google_analytics_tracking_id: UA-86198628-1
