@@ -10,7 +10,7 @@ description: sxgfxm
 
 ## 长按语音控制
 
-```
+```c
 -(void)setupBtn{
   //  按下按钮
   [self.voiceBtn addTarget:self action:@selector(btnTouchBegin:) forControlEvents:UIControlEventTouchDown];
@@ -59,8 +59,8 @@ description: sxgfxm
 - (void)cancelSpeak {
   [self voiceEnd];
 }  
-
 ```
+
 
 
 <!-- more -->
@@ -71,7 +71,7 @@ description: sxgfxm
 
 添加长按手势  
 
-```
+```objective-c
 - (void)addLongPressGesture{
   UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressGestureAction:)];
   [self.voiceBtn addGestureRecognizer:longPressGesture];

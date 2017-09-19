@@ -36,13 +36,13 @@ IPA File
 4. No Protection (NSFileProtectionNone)  
 
 ## NSTimeZone
-~~~
+```objective-c
 NSTimeZone *timeZone = [NSTimeZone localTimeZone];
 //  Asia/Shanghai
 NSString *name = timeZone.name;
 //  GMT+8
 NSString *abbreviation = timeZone.abbreviation;
-~~~
+```
 
 ## Prevent Buffer Overflows
 1. Address Space Layout Randomization (ASLR)  
@@ -50,15 +50,18 @@ NSString *abbreviation = timeZone.abbreviation;
 3. Stack Protectors  
 
 ## System Call
-~~~
+```objective-c
 -(void)makeCall:(NSString *)phone{
   NSString *phoneNumber = [@"telprompt://" stringByAppendingString:phone];
   [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
 }
-~~~
+```
+
+
 
 ## NSString to NSURL
-~~~
+```objective-c
 NSString *encodeURL = [string stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
 NSURL *url = [NSURL URLWithString:encodeURL];
-~~~
+```
+

@@ -9,11 +9,11 @@ description: sxgfxm, git branch -d
 ---
 
 ## Git Delete Branch
-~~~
+```shell
 git branch -a
 git branch -d <branch_name>
 git branch -D <branch_name> // force delete
-~~~
+```
 
 <!-- more -->
 

@@ -9,7 +9,7 @@ description: sxgfxm, Light's Blog, UITableViewHeaderFooterView backgroundColor
 ---
 
 ## Set UITableViewHeaderFooterView backgroundColor transparent
-~~~
+```objective-c
 self.backgroundView = [[UIImageView alloc] initWithImage:[UIImage new]];
-~~~
+```
 

@@ -14,20 +14,21 @@ Common Animations
 
 
 
-~~~
+```objective-c
 LOTAnimationView *animation = [LOTAnimationView animationNamed:@"Lottie"];
 [self.view addSubview:animation];
 [animation playWithCompletion:^(BOOL animationFinished) {
   // Do Something
 }];
-~~~
+```
+
 <!-- more -->
 
 UIViewController Transition  
 
 
 
-~~~
+```objective-c
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
                                                                   presentingController:(UIViewController *)presenting
                                                                       sourceController:(UIViewController *)source {
@@ -43,27 +44,35 @@ UIViewController Transition
                                                                                                             toLayerNamed:@"inLayer"];
   return animationController;
 }
-~~~
+```
+
+
 
 ## 导航栏设为透明
-~~~
+```objective-c
 [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
 [self.navigationController.navigationBar setShadowImage:[UIImage new]];
-~~~
+```
+
+
 
 ## 导航栏还原
-~~~
+```objective-c
 [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
 [self.navigationController.navigationBar setShadowImage:nil];
-~~~
+```
+
+
 
 ## Change UITextField Placeholder Color
-~~~
+```objective-c
   NSString *string = @"请输入Wi-Fi名称";
   NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:string];
   [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, string.length)];
   self.wifiNameTF.attributedPlaceholder = attributedString;
-~~~
+```
+
+
 
 ## KVO NSKeyValueObservingOptions
 NSKeyValueObservingOptionNew：获取新值  
@@ -72,7 +81,7 @@ NSKeyValueObservingOptionInitial：获取初始值
 NSKeyValueObservingOptionPrior：获取新旧值  
 
 ## UITextField nil While Editing
-~~~
+```objective-c
 - (BOOL)textField:(UITextField*)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString*)string
 {
     if (range.location == 0 && string.length == 0)
@@ -81,15 +90,20 @@ NSKeyValueObservingOptionPrior：获取新旧值
     }
     return YES;
 }
-~~~
+```
+
+
 
 ## UIKeyboardAppearance
-~~~
+
+```objective-c
 textField.keyboardAppearance = UIKeyboardAppearanceDark;
-~~~
+```
+
+
 
 ## UIView Transition Animation
-~~~
+```objective-c
 [UIView transitionFromView:view1
                    toView:view2
                  duration:2
@@ -98,10 +112,12 @@ textField.keyboardAppearance = UIKeyboardAppearanceDark;
                             [view1 removeFromSuperview];
                           }];
 [self.view addSubview:view2];
-~~~
+```
+
+
 
 ## UIView Fade In Fade Out
-~~~
+```objective-c
 [view setAlpha:0.f];
 [UIView animateWithDuration:2.f delay:0.f options:UIViewAnimationOptionCurveEaseIn animations:^{
     //  fade in
@@ -112,23 +128,26 @@ textField.keyboardAppearance = UIKeyboardAppearanceDark;
         [view setAlpha:0.f];
     } completion:nil];
 }];
-~~~
+```
+
+
 
 ## Reachability
 ReachableViaWiFi  
 
 
 
-~~~
+```objective-c
 self.reachability = [Reachability reachabilityForInternetConnection];
 [self.reachability startNotifier];
 [self.reachability stopNotifier];
-~~~
+```
+
 Wi-Fi Name  
 
 
 
-~~~
+```objective-c
 + (NSString *)currentWifiName {
   NSArray *ifs = (__bridge_transfer NSArray *)CNCopySupportedInterfaces();
   NSString *ifnam = [ifs firstObject];
@@ -138,7 +157,9 @@ Wi-Fi Name
   NSDictionary *info = (__bridge_transfer NSDictionary *)CNCopyCurrentNetworkInfo((__bridge CFStringRef)ifnam);
   return info[@"SSID"];
 }
-~~~
+```
+
+
 
 ## NetworkExtension
 Configure VPN tunnels. Customize and extend core networking features.

@@ -12,7 +12,7 @@ description: sxgfxm,TableView Header / Footer Height,CNContactPickerViewControll
 UITableView默认有section header/footer高度，设为0无效，最小可设为1。
 
 ## CNContactPickerViewController
-~~~
+```objective-c
 -(void)pickContact{
   CNContactPickerViewController *controller = [[CNContactPickerViewController alloc] init];
   controller.delegate = self;
@@ -27,16 +27,14 @@ UITableView默认有section header/footer高度，设为0无效，最小可设�
   NSString *phoneNumber = phoneValue.stringValue;
   NSLog(@"%@--%@", name, phoneNumber);
 }
-~~~
+```
 
 <!-- more -->
 
 ## CNContactStore
 info.plist添加`Privacy - Contacts Usage Description`。  
 
-
-
-~~~
+```objective-c
 - (void)checkAuthorization {
   NSLog(@"Contact - Check Authorization");
   //  status
@@ -102,7 +100,9 @@ info.plist添加`Privacy - Contacts Usage Description`。
                                NSLog(@"");
                              }];
 }
-~~~
+```
+
+
 
 ## iOS本地化
 1. Project -> Localizations -> Add Chinese

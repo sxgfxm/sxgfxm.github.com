@@ -9,25 +9,27 @@ description: sxgfxm, JavaScriptCore, contentMode,setImageEdgeInsets,Reachability
 ---
 
 ## JavaScriptCore
-~~~
+```objective-c
 [self.webView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('audio')[0].play()"];
-~~~
+```
 
 <!-- more -->
 
 ## 调整button点击区域
-~~~
+```objective-c
 self.playBtn.contentMode = UIViewContentModeScaleAspectFit;
 self.closeBtn.contentMode = UIViewContentModeScaleAspectFit;
 [self.playBtn setImageEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
 [self.closeBtn setImageEdgeInsets:UIEdgeInsetsMake(0, -10, 0, 0)];
-~~~
+```
+
+
 
 ## 判断网络状态
-~~~
+```objective-c
 - (BOOL)connected {
   NetworkStatus internetStatus = [[Reachability reachabilityForInternetConnection] currentReachabilityStatus];
   return internetStatus != NotReachable;
 }
-~~~
+```
 
