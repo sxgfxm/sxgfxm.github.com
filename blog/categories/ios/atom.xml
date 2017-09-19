@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-09-19T20:22:27+08:00</updated>
+  <updated>2017-09-19T20:56:04+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -20,7 +20,7 @@
     <id>http://sxgfxm.github.io/blog/2017/09/15/ioszhi-shi-xiao-ji-170911</id>
     <content type="html"><![CDATA[<h2>长按语音控制</h2>
 
-<pre><code>-(void)setupBtn{
+<pre><code class="objective-c">-(void)setupBtn{
   //  按下按钮
   [self.voiceBtn addTarget:self action:@selector(btnTouchBegin:) forControlEvents:UIControlEventTouchDown];
   //  立刻松开
@@ -77,7 +77,7 @@
 
 <p>添加长按手势</p>
 
-<pre><code>- (void)addLongPressGesture{
+<pre><code class="objective-c">- (void)addLongPressGesture{
   UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressGestureAction:)];
   [self.voiceBtn addGestureRecognizer:longPressGesture];
 }
@@ -117,7 +117,7 @@
     <id>http://sxgfxm.github.io/blog/2017/09/15/ioszhi-shi-xiao-ji-170904</id>
     <content type="html"><![CDATA[<h2>Git Delete Branch</h2>
 
-<pre><code>git branch -a
+<pre><code class="shell">git branch -a
 git branch -d &lt;branch_name&gt;
 git branch -D &lt;branch_name&gt; // force delete
 </code></pre>
@@ -142,7 +142,7 @@ git branch -D &lt;branch_name&gt; // force delete
 
 <h2>CNContactPickerViewController</h2>
 
-<pre><code>-(void)pickContact{
+<pre><code class="objective-c">-(void)pickContact{
   CNContactPickerViewController *controller = [[CNContactPickerViewController alloc] init];
   controller.delegate = self;
   [self presentViewController:controller animated:YES completion:nil];
@@ -165,7 +165,7 @@ git branch -D &lt;branch_name&gt; // force delete
 
 <p>info.plist添加<code>Privacy - Contacts Usage Description</code>。</p>
 
-<pre><code>- (void)checkAuthorization {
+<pre><code class="objective-c">- (void)checkAuthorization {
   NSLog(@"Contact - Check Authorization");
   //  status
   CNAuthorizationStatus status =
@@ -295,7 +295,7 @@ git branch -D &lt;branch_name&gt; // force delete
 
 <h2>NSTimeZone</h2>
 
-<pre><code>NSTimeZone *timeZone = [NSTimeZone localTimeZone];
+<pre><code class="objective-c">NSTimeZone *timeZone = [NSTimeZone localTimeZone];
 //  Asia/Shanghai
 NSString *name = timeZone.name;
 //  GMT+8
@@ -313,7 +313,7 @@ NSString *abbreviation = timeZone.abbreviation;
 
 <h2>System Call</h2>
 
-<pre><code>-(void)makeCall:(NSString *)phone{
+<pre><code class="objective-c">-(void)makeCall:(NSString *)phone{
   NSString *phoneNumber = [@"telprompt://" stringByAppendingString:phone];
   [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
 }
@@ -321,7 +321,7 @@ NSString *abbreviation = timeZone.abbreviation;
 
 <h2>NSString to NSURL</h2>
 
-<pre><code>NSString *encodeURL = [string stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+<pre><code class="objective-c">NSString *encodeURL = [string stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
 NSURL *url = [NSURL URLWithString:encodeURL];
 </code></pre>
 ]]></content>
