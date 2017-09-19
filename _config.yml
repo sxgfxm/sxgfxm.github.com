@@ -97,7 +97,7 @@ github_skip_forks: true
 #delicious_count: 3
 
 # Disqus Comments
-disqus_short_name: Light's Blog
+disqus_short_name: lights-blog
 disqus_show_comment_count: true
 
 # Google Analytics
