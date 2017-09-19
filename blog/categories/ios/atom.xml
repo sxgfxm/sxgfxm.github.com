@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-09-18T10:04:47+08:00</updated>
+  <updated>2017-09-19T20:03:58+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -68,6 +68,44 @@
 - (void)cancelSpeak {
   [self voiceEnd];
 }  
+</code></pre>
+
+<!-- more -->
+
+
+<h2>长按手势控制</h2>
+
+<p>添加长按手势</p>
+
+<pre><code>- (void)addLongPressGesture{
+  UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressGestureAction:)];
+  [self.voiceBtn addGestureRecognizer:longPressGesture];
+}
+</code></pre>
+
+<p>处理长按手势</p>
+
+<pre><code class="objective-c">- (void)longPressGestureAction:(UILongPressGestureRecognizer *)longPress {
+  CGPoint point = [longPress locationInView:self.voiceBtn];
+  switch (longPress.state) {
+    case UIGestureRecognizerStateBegan:
+      //  长按手势开始
+      break;
+    case UIGestureRecognizerStateChanged:
+      //  长按滑动
+      break;
+    case UIGestureRecognizerStateEnded:
+      //  长按手势结束
+      break;
+    default:
+      break;
+  }
+}
+
+//  判断触点是否在特定区域内
+- (BOOL)isInViewAreaWithTouchPoint:(CGPoint)touchPoint {
+  return touchPoint.y &gt; 0;
+}
 </code></pre>
 ]]></content>
   </entry>

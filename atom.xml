@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-09-18T10:04:47+08:00</updated>
+  <updated>2017-09-19T20:03:58+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -68,7 +68,6 @@
 <span class='line-number'>46</span>
 <span class='line-number'>47</span>
 <span class='line-number'>48</span>
-<span class='line-number'>49</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>-(void)setupBtn{
 </span><span class='line'>  //  按下按钮
 </span><span class='line'>  [self.voiceBtn addTarget:self action:@selector(btnTouchBegin:) forControlEvents:UIControlEventTouchDown];
@@ -117,8 +116,75 @@
 </span><span class='line'>- (void)cancelSpeak {
 </span><span class='line'>  [self voiceEnd];
 </span><span class='line'>}  
-</span><span class='line'>
 </span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!-- more -->
+
+
+<h2>长按手势控制</h2>
+
+<p>添加长按手势</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)addLongPressGesture{
+</span><span class='line'>  UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressGestureAction:)];
+</span><span class='line'>  [self.voiceBtn addGestureRecognizer:longPressGesture];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>处理长按手势</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">longPressGestureAction:</span><span class="p">(</span><span class="bp">UILongPressGestureRecognizer</span> <span class="o">*</span><span class="p">)</span><span class="nv">longPress</span> <span class="p">{</span>
+</span><span class='line'>  <span class="bp">CGPoint</span> <span class="n">point</span> <span class="o">=</span> <span class="p">[</span><span class="n">longPress</span> <span class="nl">locationInView</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">voiceBtn</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">switch</span> <span class="p">(</span><span class="n">longPress</span><span class="p">.</span><span class="n">state</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nl">UIGestureRecognizerStateBegan</span><span class="p">:</span>
+</span><span class='line'>      <span class="c1">//  长按手势开始</span>
+</span><span class='line'>      <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nl">UIGestureRecognizerStateChanged</span><span class="p">:</span>
+</span><span class='line'>      <span class="c1">//  长按滑动</span>
+</span><span class='line'>      <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nl">UIGestureRecognizerStateEnded</span><span class="p">:</span>
+</span><span class='line'>      <span class="c1">//  长按手势结束</span>
+</span><span class='line'>      <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">default</span><span class="o">:</span>
+</span><span class='line'>      <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//  判断触点是否在特定区域内</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">isInViewAreaWithTouchPoint:</span><span class="p">(</span><span class="bp">CGPoint</span><span class="p">)</span><span class="nv">touchPoint</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">touchPoint</span><span class="p">.</span><span class="n">y</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
 
 
 <p class='post-footer'>
