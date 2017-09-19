@@ -60,5 +60,47 @@ description: sxgfxm
   [self voiceEnd];
 }  
 
+```
+
+
+<!-- more -->
+
+
+
+## 长按手势控制
+
+添加长按手势  
 
 ```
+- (void)addLongPressGesture{
+  UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressGestureAction:)];
+  [self.voiceBtn addGestureRecognizer:longPressGesture];
+}
+```
+
+处理长按手势  
+
+```objective-c
+- (void)longPressGestureAction:(UILongPressGestureRecognizer *)longPress {
+  CGPoint point = [longPress locationInView:self.voiceBtn];
+  switch (longPress.state) {
+    case UIGestureRecognizerStateBegan:
+      //  长按手势开始
+      break;
+    case UIGestureRecognizerStateChanged:
+      //  长按滑动
+      break;
+    case UIGestureRecognizerStateEnded:
+      //  长按手势结束
+      break;
+    default:
+      break;
+  }
+}
+
+//  判断触点是否在特定区域内
+- (BOOL)isInViewAreaWithTouchPoint:(CGPoint)touchPoint {
+  return touchPoint.y > 0;
+}
+```
+
