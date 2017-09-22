@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-09-19T20:22:27+08:00</updated>
+  <updated>2017-09-22T10:57:33+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -14,13 +14,163 @@
 
   
   <entry>
+    <title type="html"><![CDATA[iOS知识小集-170918]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/09/22/ioszhi-shi-xiao-ji-170918/"/>
+    <updated>2017-09-22T10:50:20+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/09/22/ioszhi-shi-xiao-ji-170918</id>
+    <content type="html"><![CDATA[<h2>UIButton Gestures</h2>
+
+<p><code>UIControlEventTouchDown</code>：按下button；<br/>
+<code>UIControlEventTouchDragExit</code>：拖动至button范围（button四周有一定范围）外；<br/>
+<code>UIControlEventTouchDragEnter</code>：拖动至button范围（button四周有一定范围）内。<br/>
+<code>UIControlEventTouchUpInside</code>：在button内松手；<br/>
+<code>UIControlEventTouchUpOutside</code>：在button外松手；<br/>
+<code>UIControlEventTouchDragOutside</code>：在button外拖动。<br/>
+<code>UIControlEventTouchDragInside</code>：在button内拖动；<br/>
+<code>UIControlEventTouchCancel</code>：系统行为取消touch；</p>
+
+<!-- more -->
+
+
+<h2>UIGraphics Image Context</h2>
+
+<p>参考<a href="https://onevcat.com/2013/04/using-blending-in-ios/">这篇文章</a>。</p>
+
+<p>关于blend mode参数解释：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>R is the premultiplied result
+</span><span class='line'>S is the source color, and includes alpha
+</span><span class='line'>D is the destination color, and includes alpha
+</span><span class='line'>Ra, Sa, and Da are the alpha components of R, S, and D</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">//  UIImage+Tint.m</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#import &quot;UIImage+Tint.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="bp">UIImage</span> <span class="nl">(Tint)</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="p">)</span> <span class="nf">imageWithTintColor:</span><span class="p">(</span><span class="bp">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="nv">tintColor</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="nb">self</span> <span class="nl">imageWithTintColor</span><span class="p">:</span><span class="n">tintColor</span> <span class="nl">blendMode</span><span class="p">:</span><span class="n">kCGBlendModeDestinationIn</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="p">)</span> <span class="nf">imageWithGradientTintColor:</span><span class="p">(</span><span class="bp">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="nv">tintColor</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="nb">self</span> <span class="nl">imageWithTintColor</span><span class="p">:</span><span class="n">tintColor</span> <span class="nl">blendMode</span><span class="p">:</span><span class="n">kCGBlendModeOverlay</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="p">)</span> <span class="nf">imageWithTintColor:</span><span class="p">(</span><span class="bp">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="nv">tintColor</span> <span class="nf">blendMode:</span><span class="p">(</span><span class="bp">CGBlendMode</span><span class="p">)</span><span class="nv">blendMode</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="c1">//We want to keep alpha, set opaque to NO; Use 0.0f for scale to use the scale factor of the device’s main screen.</span>
+</span><span class='line'>    <span class="n">UIGraphicsBeginImageContextWithOptions</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">size</span><span class="p">,</span> <span class="nb">NO</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">tintColor</span> <span class="n">setFill</span><span class="p">];</span>
+</span><span class='line'>    <span class="bp">CGRect</span> <span class="n">bounds</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">self</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">,</span> <span class="nb">self</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">UIRectFill</span><span class="p">(</span><span class="n">bounds</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">//Draw the tinted image in context</span>
+</span><span class='line'>    <span class="p">[</span><span class="nb">self</span> <span class="nl">drawInRect</span><span class="p">:</span><span class="n">bounds</span> <span class="nl">blendMode</span><span class="p">:</span><span class="n">blendMode</span> <span class="nl">alpha</span><span class="p">:</span><span class="mf">1.0f</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">blendMode</span> <span class="o">!=</span> <span class="n">kCGBlendModeDestinationIn</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="p">[</span><span class="nb">self</span> <span class="nl">drawInRect</span><span class="p">:</span><span class="n">bounds</span> <span class="nl">blendMode</span><span class="p">:</span><span class="n">kCGBlendModeDestinationIn</span> <span class="nl">alpha</span><span class="p">:</span><span class="mf">1.0f</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="bp">UIImage</span> <span class="o">*</span><span class="n">tintedImage</span> <span class="o">=</span> <span class="n">UIGraphicsGetImageFromCurrentImageContext</span><span class="p">();</span>
+</span><span class='line'>    <span class="n">UIGraphicsEndImageContext</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="n">tintedImage</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>正五边形</h2>
+
+<p>绘制正五边形步骤：</p>
+
+<ol>
+<li>初始化数据；</li>
+<li>计算各个顶点坐标，18° + 54° = 72°，通过三角函数计算；</li>
+<li>使用UIBezierPath绘制五边形path，使用CAShapeLayer渲染五边形；</li>
+</ol>
+
+
+<p>注：可使用matrix优化缩放。</p>
+
+<h2>返回手势</h2>
+
+<ol>
+<li>如果无leftBarButtonItem，点击返回及右滑返回均系统支持；</li>
+<li>如果有leftBarButtonItem，点击返回逻辑需自己添加，右滑返回默认不支持。如果想支持右滑返回，需要设置<code>navigationController.interactivePopGestureRecognizer.delegate</code>，并实现<code>-gestureRecognizerShouldBegin</code>代理方法。注意右滑时需要判断当前栈中是否有足够的viewController以供pop。</li>
+</ol>
+
+
+<h2>View与View的参数分离</h2>
+
+<p>自定义view时，将参数与view本身分离，并用常量定义参数，节省代码量，且易于统一修改处理。</p>
+
+<h2>UIWebView</h2>
+
+<p>如果webView加载的内容被卡住，<code>[self.webView canGoBack]</code>不能立即返回，如果使用该方法判断是否可以pop页面，可能会造成卡顿。<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2017/09/22/ioszhi-shi-xiao-ji-170918/'><a href="http://sxgfxm.github.io/blog/2017/09/22/ioszhi-shi-xiao-ji-170918/">http://sxgfxm.github.io/blog/2017/09/22/ioszhi-shi-xiao-ji-170918/</a></a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
+  </p></p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[iOS知识小集-170911]]></title>
     <link href="http://sxgfxm.github.io/blog/2017/09/15/ioszhi-shi-xiao-ji-170911/"/>
     <updated>2017-09-15T17:20:49+08:00</updated>
     <id>http://sxgfxm.github.io/blog/2017/09/15/ioszhi-shi-xiao-ji-170911</id>
     <content type="html"><![CDATA[<h2>长按语音控制</h2>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -68,54 +218,54 @@
 <span class='line-number'>46</span>
 <span class='line-number'>47</span>
 <span class='line-number'>48</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>-(void)setupBtn{
-</span><span class='line'>  //  按下按钮
-</span><span class='line'>  [self.voiceBtn addTarget:self action:@selector(btnTouchBegin:) forControlEvents:UIControlEventTouchDown];
-</span><span class='line'>  //  立刻松开
-</span><span class='line'>  [self.voiceBtn addTarget:self action:@selector(btnTouchEnd:) forControlEvents:UIControlEventTouchUpInside];
-</span><span class='line'>  //  上划取消
-</span><span class='line'>  [self.voiceBtn addTarget:self action:@selector(cancelSpeak) forControlEvents:UIControlEventTouchDragExit];
-</span><span class='line'>  //  外部松开
-</span><span class='line'>  [self.voiceBtn addTarget:self action:@selector(btnTouchEnd:) forControlEvents:UIControlEventTouchUpOutside];
-</span><span class='line'>}
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="o">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">setupBtn</span><span class="p">{</span>
+</span><span class='line'>  <span class="c1">//  按下按钮</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">voiceBtn</span> <span class="nl">addTarget</span><span class="p">:</span><span class="n">self</span> <span class="nl">action</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="nl">btnTouchBegin</span><span class="p">:)</span> <span class="nl">forControlEvents</span><span class="p">:</span><span class="n">UIControlEventTouchDown</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  立刻松开</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">voiceBtn</span> <span class="nl">addTarget</span><span class="p">:</span><span class="n">self</span> <span class="nl">action</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="nl">btnTouchEnd</span><span class="p">:)</span> <span class="nl">forControlEvents</span><span class="p">:</span><span class="n">UIControlEventTouchUpInside</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  上划取消</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">voiceBtn</span> <span class="nl">addTarget</span><span class="p">:</span><span class="n">self</span> <span class="nl">action</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">cancelSpeak</span><span class="p">)</span> <span class="nl">forControlEvents</span><span class="p">:</span><span class="n">UIControlEventTouchDragExit</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  外部松开</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">voiceBtn</span> <span class="nl">addTarget</span><span class="p">:</span><span class="n">self</span> <span class="nl">action</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="nl">btnTouchEnd</span><span class="p">:)</span> <span class="nl">forControlEvents</span><span class="p">:</span><span class="n">UIControlEventTouchUpOutside</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>//  通过计时器区分“点击”还是“长按”
-</span><span class='line'>- (void)btnTouchBegin:(UIButton *)button {
-</span><span class='line'>  self.countNum = 0.0f;
-</span><span class='line'>  self.timer =
-</span><span class='line'>      [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(handleTimer) userInfo:nil repeats:YES];
-</span><span class='line'>  [self.timer fire];
-</span><span class='line'>}
+</span><span class='line'><span class="c1">//  通过计时器区分“点击”还是“长按”</span>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">btnTouchBegin</span><span class="p">:(</span><span class="n">UIButton</span> <span class="o">*</span><span class="p">)</span><span class="n">button</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">countNum</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">=</span>
+</span><span class='line'>      <span class="p">[</span><span class="n">NSTimer</span> <span class="nl">scheduledTimerWithTimeInterval</span><span class="p">:</span><span class="mf">0.1</span> <span class="nl">target</span><span class="p">:</span><span class="n">self</span> <span class="nl">selector</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">handleTimer</span><span class="p">)</span> <span class="nl">userInfo</span><span class="p">:</span><span class="n">nil</span> <span class="nl">repeats</span><span class="p">:</span><span class="n">YES</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="n">fire</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>- (void)btnTouchEnd:(UIButton *)button {
-</span><span class='line'>  [self.timer invalidate];
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">btnTouchEnd</span><span class="p">:(</span><span class="n">UIButton</span> <span class="o">*</span><span class="p">)</span><span class="n">button</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="n">invalidate</span><span class="p">];</span>
 </span><span class='line'>
-</span><span class='line'>  if ([self isLongPressGesture]) {
-</span><span class='line'>    //  执行长按操作
-</span><span class='line'>  } else {
-</span><span class='line'>    //  执行点击操作
-</span><span class='line'>  }
-</span><span class='line'>}
+</span><span class='line'>  <span class="k">if</span> <span class="p">([</span><span class="n">self</span> <span class="n">isLongPressGesture</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">//  执行长按操作</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">//  执行点击操作</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>// 处理时间
-</span><span class='line'>- (void)handleTimer {
-</span><span class='line'>  self.countNum += 0.1;
+</span><span class='line'><span class="c1">// 处理时间</span>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">handleTimer</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">countNum</span> <span class="o">+=</span> <span class="mf">0.1</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'>  if ([self isLongPressGesture]) {
-</span><span class='line'>    [self.timer invalidate];
-</span><span class='line'>    [self longPressVoiceBegin];
-</span><span class='line'>  }
-</span><span class='line'>}
+</span><span class='line'>  <span class="k">if</span> <span class="p">([</span><span class="n">self</span> <span class="n">isLongPressGesture</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="n">invalidate</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span> <span class="n">longPressVoiceBegin</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>// 判断是否为长按手势
-</span><span class='line'>- (BOOL)isLongPressGesture {
-</span><span class='line'>  return self.countNum &gt;= 0.5;
-</span><span class='line'>}
+</span><span class='line'><span class="c1">// 判断是否为长按手势</span>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">isLongPressGesture</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="n">countNum</span> <span class="o">&gt;=</span> <span class="mf">0.5</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>// 上划取消语音输入
-</span><span class='line'>- (void)cancelSpeak {
-</span><span class='line'>  [self voiceEnd];
-</span><span class='line'>}  
+</span><span class='line'><span class="c1">// 上划取消语音输入</span>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">cancelSpeak</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">self</span> <span class="n">voiceEnd</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -128,14 +278,15 @@
 
 <p>添加长按手势</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)addLongPressGesture{
-</span><span class='line'>  UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressGestureAction:)];
-</span><span class='line'>  [self.voiceBtn addGestureRecognizer:longPressGesture];
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addLongPressGesture</span><span class="p">{</span>
+</span><span class='line'>  <span class="bp">UILongPressGestureRecognizer</span> <span class="o">*</span><span class="n">longPressGesture</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UILongPressGestureRecognizer</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget</span><span class="p">:</span><span class="nb">self</span> <span class="nl">action</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">longPressGestureAction</span><span class="p">:)];</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">voiceBtn</span> <span class="nl">addGestureRecognizer</span><span class="p">:</span><span class="n">longPressGesture</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>处理长按手势</p>
@@ -204,10 +355,16 @@
     <id>http://sxgfxm.github.io/blog/2017/09/15/ioszhi-shi-xiao-ji-170904</id>
     <content type="html"><![CDATA[<h2>Git Delete Branch</h2>
 
-<pre><code>git branch -a
-git branch -d &lt;branch_name&gt;
-git branch -D &lt;branch_name&gt; // force delete
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">git</span> <span class="n">branch</span> <span class="o">-</span><span class="n">a</span>
+</span><span class='line'><span class="n">git</span> <span class="n">branch</span> <span class="o">-</span><span class="n">d</span> <span class="o">&lt;</span><span class="n">branch_name</span><span class="o">&gt;</span>
+</span><span class='line'><span class="n">git</span> <span class="n">branch</span> <span class="o">-</span><span class="n">D</span> <span class="o">&lt;</span><span class="n">branch_name</span><span class="o">&gt;</span> <span class="c1">// force delete</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
 
 <!-- more -->
 
@@ -235,21 +392,38 @@ git branch -D &lt;branch_name&gt; // force delete
 
 <h2>CNContactPickerViewController</h2>
 
-<pre><code>-(void)pickContact{
-  CNContactPickerViewController *controller = [[CNContactPickerViewController alloc] init];
-  controller.delegate = self;
-  [self presentViewController:controller animated:YES completion:nil];
-}
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">pickContact</span><span class="p">{</span>
+</span><span class='line'>  <span class="n">CNContactPickerViewController</span> <span class="o">*</span><span class="n">controller</span> <span class="o">=</span> <span class="p">[[</span><span class="n">CNContactPickerViewController</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">controller</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span> <span class="nl">presentViewController</span><span class="p">:</span><span class="n">controller</span> <span class="nl">animated</span><span class="p">:</span><span class="nb">YES</span> <span class="nl">completion</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">contactPicker:</span><span class="p">(</span><span class="n">CNContactPickerViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">picker</span>
+</span><span class='line'>    <span class="nf">didSelectContactProperty:</span><span class="p">(</span><span class="n">CNContactProperty</span> <span class="o">*</span><span class="p">)</span><span class="nv">contactProperty</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">CNContact</span> <span class="o">*</span><span class="n">contact</span> <span class="o">=</span> <span class="n">contactProperty</span><span class="p">.</span><span class="n">contact</span><span class="p">;</span>
+</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">name</span> <span class="o">=</span> <span class="p">[</span><span class="n">CNContactFormatter</span> <span class="nl">stringFromContact</span><span class="p">:</span><span class="n">contact</span> <span class="nl">style</span><span class="p">:</span><span class="n">CNContactFormatterStyleFullName</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">CNPhoneNumber</span> <span class="o">*</span><span class="n">phoneValue</span> <span class="o">=</span> <span class="n">contactProperty</span><span class="p">.</span><span class="n">value</span><span class="p">;</span>
+</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">phoneNumber</span> <span class="o">=</span> <span class="n">phoneValue</span><span class="p">.</span><span class="n">stringValue</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@--%@&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">phoneNumber</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-- (void)contactPicker:(CNContactPickerViewController *)picker
-    didSelectContactProperty:(CNContactProperty *)contactProperty {
-  CNContact *contact = contactProperty.contact;
-  NSString *name = [CNContactFormatter stringFromContact:contact style:CNContactFormatterStyleFullName];
-  CNPhoneNumber *phoneValue = contactProperty.value;
-  NSString *phoneNumber = phoneValue.stringValue;
-  NSLog(@"%@--%@", name, phoneNumber);
-}
-</code></pre>
+
+
 
 <!-- more -->
 
@@ -258,72 +432,138 @@ git branch -D &lt;branch_name&gt; // force delete
 
 <p>info.plist添加<code>Privacy - Contacts Usage Description</code>。</p>
 
-<pre><code>- (void)checkAuthorization {
-  NSLog(@"Contact - Check Authorization");
-  //  status
-  CNAuthorizationStatus status =
-      [CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts];
-  //  check authorization
-  if (status != CNAuthorizationStatusAuthorized) {
-    NSLog(@"Contact - Not Authorized");
-    //  request access
-    CNContactStore *store = [CNContactStore new];
-    NSLog(@"Contact - Request Authorization");
-    [store
-        requestAccessForEntityType:CNEntityTypeContacts
-                 completionHandler:^(BOOL granted, NSError *_Nullable error) {
-                   if (granted) {
-                     //  YES
-                     NSLog(@"Contact - Authorized");
-                     [self fetchContact];
-                   } else {
-                     //  No
-                     NSLog(@"Contact - Not Authorized");
-                   }
-                 }];
-  } else {
-    NSLog(@"Contact - Authorized");
-    [self fetchContact];
-  }
-}
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">checkAuthorization</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Contact - Check Authorization&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="c1">//  status</span>
+</span><span class='line'>  <span class="n">CNAuthorizationStatus</span> <span class="n">status</span> <span class="o">=</span>
+</span><span class='line'>      <span class="p">[</span><span class="n">CNContactStore</span> <span class="nl">authorizationStatusForEntityType</span><span class="p">:</span><span class="n">CNEntityTypeContacts</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  check authorization</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">status</span> <span class="o">!=</span> <span class="n">CNAuthorizationStatusAuthorized</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Contact - Not Authorized&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="c1">//  request access</span>
+</span><span class='line'>    <span class="n">CNContactStore</span> <span class="o">*</span><span class="n">store</span> <span class="o">=</span> <span class="p">[</span><span class="n">CNContactStore</span> <span class="n">new</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Contact - Request Authorization&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">store</span>
+</span><span class='line'>        <span class="nl">requestAccessForEntityType</span><span class="p">:</span><span class="n">CNEntityTypeContacts</span>
+</span><span class='line'>                 <span class="nl">completionHandler</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">granted</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">_Nullable</span> <span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                   <span class="k">if</span> <span class="p">(</span><span class="n">granted</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                     <span class="c1">//  YES</span>
+</span><span class='line'>                     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Contact - Authorized&quot;</span><span class="p">);</span>
+</span><span class='line'>                     <span class="p">[</span><span class="nb">self</span> <span class="n">fetchContact</span><span class="p">];</span>
+</span><span class='line'>                   <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>                     <span class="c1">//  No</span>
+</span><span class='line'>                     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Contact - Not Authorized&quot;</span><span class="p">);</span>
+</span><span class='line'>                   <span class="p">}</span>
+</span><span class='line'>                 <span class="p">}];</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Contact - Authorized&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">[</span><span class="nb">self</span> <span class="n">fetchContact</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">fetchContact</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Contact - Fetch Contact&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="c1">//  keys</span>
+</span><span class='line'>  <span class="bp">NSArray</span> <span class="o">*</span><span class="n">keys</span> <span class="o">=</span> <span class="l">@[</span>
+</span><span class='line'>    <span class="n">CNContactPhoneNumbersKey</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">CNContactGivenNameKey</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">CNContactFamilyNameKey</span>
+</span><span class='line'>  <span class="l">]</span><span class="p">;</span>
+</span><span class='line'>  <span class="c1">//  request</span>
+</span><span class='line'>  <span class="n">CNContactFetchRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span>
+</span><span class='line'>      <span class="p">[[</span><span class="n">CNContactFetchRequest</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithKeysToFetch</span><span class="p">:</span><span class="n">keys</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  store</span>
+</span><span class='line'>  <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">CNContactStore</span> <span class="o">*</span><span class="n">store</span> <span class="o">=</span> <span class="p">[</span><span class="n">CNContactStore</span> <span class="n">new</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">store</span>
+</span><span class='line'>      <span class="nl">enumerateContactsWithFetchRequest</span><span class="p">:</span><span class="n">request</span>
+</span><span class='line'>                                  <span class="nl">error</span><span class="p">:</span><span class="o">&amp;</span><span class="n">error</span>
+</span><span class='line'>                             <span class="nl">usingBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">CNContact</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">contact</span><span class="p">,</span>
+</span><span class='line'>                                          <span class="kt">BOOL</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">stop</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                               <span class="c1">//  contact</span>
+</span><span class='line'>                               <span class="bp">NSString</span> <span class="o">*</span><span class="n">firstName</span> <span class="o">=</span> <span class="n">contact</span><span class="p">.</span><span class="n">familyName</span><span class="p">;</span>
+</span><span class='line'>                               <span class="bp">NSString</span> <span class="o">*</span><span class="n">lastName</span> <span class="o">=</span> <span class="n">contact</span><span class="p">.</span><span class="n">givenName</span><span class="p">;</span>
+</span><span class='line'>                               <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@ %@&quot;</span><span class="p">,</span> <span class="n">firstName</span><span class="p">,</span> <span class="n">lastName</span><span class="p">);</span>
+</span><span class='line'>                               <span class="c1">//  phone number</span>
+</span><span class='line'>                               <span class="k">for</span> <span class="p">(</span><span class="n">CNLabeledValue</span> <span class="o">*</span><span class="n">labeledValue</span> <span class="k">in</span> <span class="n">contact</span>
+</span><span class='line'>                                        <span class="p">.</span><span class="n">phoneNumbers</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                                 <span class="n">CNPhoneNumber</span> <span class="o">*</span><span class="n">phoneValue</span> <span class="o">=</span> <span class="n">labeledValue</span><span class="p">.</span><span class="n">value</span><span class="p">;</span>
+</span><span class='line'>                                 <span class="bp">NSString</span> <span class="o">*</span><span class="n">phoneNumber</span> <span class="o">=</span> <span class="n">phoneValue</span><span class="p">.</span><span class="n">stringValue</span><span class="p">;</span>
+</span><span class='line'>                                 <span class="bp">NSString</span> <span class="o">*</span><span class="n">label</span> <span class="o">=</span> <span class="p">[</span><span class="n">CNLabeledValue</span>
+</span><span class='line'>                                     <span class="nl">localizedStringForLabel</span><span class="p">:</span><span class="n">labeledValue</span>
+</span><span class='line'>                                                                 <span class="p">.</span><span class="n">label</span><span class="p">];</span>
+</span><span class='line'>                                 <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@ : %@&quot;</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">phoneNumber</span><span class="p">);</span>
+</span><span class='line'>                               <span class="p">}</span>
+</span><span class='line'>                               <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;&quot;</span><span class="p">);</span>
+</span><span class='line'>                             <span class="p">}];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-- (void)fetchContact {
-  NSLog(@"Contact - Fetch Contact");
-  //  keys
-  NSArray *keys = @[
-    CNContactPhoneNumbersKey,
-    CNContactGivenNameKey,
-    CNContactFamilyNameKey
-  ];
-  //  request
-  CNContactFetchRequest *request =
-      [[CNContactFetchRequest alloc] initWithKeysToFetch:keys];
-  //  store
-  NSError *error = nil;
-  CNContactStore *store = [CNContactStore new];
-  [store
-      enumerateContactsWithFetchRequest:request
-                                  error:&amp;error
-                             usingBlock:^(CNContact *_Nonnull contact,
-                                          BOOL *_Nonnull stop) {
-                               //  contact
-                               NSString *firstName = contact.familyName;
-                               NSString *lastName = contact.givenName;
-                               NSLog(@"%@ %@", firstName, lastName);
-                               //  phone number
-                               for (CNLabeledValue *labeledValue in contact
-                                        .phoneNumbers) {
-                                 CNPhoneNumber *phoneValue = labeledValue.value;
-                                 NSString *phoneNumber = phoneValue.stringValue;
-                                 NSString *label = [CNLabeledValue
-                                     localizedStringForLabel:labeledValue
-                                                                 .label];
-                                 NSLog(@"%@ : %@", label, phoneNumber);
-                               }
-                               NSLog(@"");
-                             }];
-}
-</code></pre>
 
 <h2>iOS本地化</h2>
 
@@ -393,12 +633,18 @@ git branch -D &lt;branch_name&gt; // force delete
 
 <h2>NSTimeZone</h2>
 
-<pre><code>NSTimeZone *timeZone = [NSTimeZone localTimeZone];
-//  Asia/Shanghai
-NSString *name = timeZone.name;
-//  GMT+8
-NSString *abbreviation = timeZone.abbreviation;
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">NSTimeZone</span> <span class="o">*</span><span class="n">timeZone</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSTimeZone</span> <span class="n">localTimeZone</span><span class="p">];</span>
+</span><span class='line'><span class="c1">//  Asia/Shanghai</span>
+</span><span class='line'><span class="bp">NSString</span> <span class="o">*</span><span class="n">name</span> <span class="o">=</span> <span class="n">timeZone</span><span class="p">.</span><span class="n">name</span><span class="p">;</span>
+</span><span class='line'><span class="c1">//  GMT+8</span>
+</span><span class='line'><span class="bp">NSString</span> <span class="o">*</span><span class="n">abbreviation</span> <span class="o">=</span> <span class="n">timeZone</span><span class="p">.</span><span class="n">abbreviation</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>Prevent Buffer Overflows</h2>
 
@@ -411,23 +657,35 @@ NSString *abbreviation = timeZone.abbreviation;
 
 <h2>System Call</h2>
 
-<pre><code>-(void)makeCall:(NSString *)phone{
-  NSString *phoneNumber = [@"telprompt://" stringByAppendingString:phone];
-  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
-}
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">makeCall:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">phone</span><span class="p">{</span>
+</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">phoneNumber</span> <span class="o">=</span> <span class="p">[</span><span class="s">@&quot;telprompt://&quot;</span> <span class="nl">stringByAppendingString</span><span class="p">:</span><span class="n">phone</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[[</span><span class="bp">UIApplication</span> <span class="n">sharedApplication</span><span class="p">]</span> <span class="nl">openURL</span><span class="p">:[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="n">phoneNumber</span><span class="p">]];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>NSString to NSURL</h2>
 
-<p>~~~
-NSString <em>encodeURL = [string stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-NSURL </em>url = [NSURL URLWithString:encodeURL];
-~~~<p class='post-footer'>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">NSString</span> <span class="o">*</span><span class="n">encodeURL</span> <span class="o">=</span> <span class="p">[</span><span class="n">string</span> <span class="nl">stringByAddingPercentEncodingWithAllowedCharacters</span><span class="p">:[</span><span class="bp">NSCharacterSet</span> <span class="n">URLQueryAllowedCharacterSet</span><span class="p">]];</span>
+</span><span class='line'><span class="bp">NSURL</span> <span class="o">*</span><span class="n">url</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="n">encodeURL</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<p class='post-footer'>
   原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/08/28/ioszhi-shi-xiao-ji-170821/'><a href="http://sxgfxm.github.io/blog/2017/08/28/ioszhi-shi-xiao-ji-170821/">http://sxgfxm.github.io/blog/2017/08/28/ioszhi-shi-xiao-ji-170821/</a></a><br/>
+  <a href='http://sxgfxm.github.io/blog/2017/08/28/ioszhi-shi-xiao-ji-170821/'>http://sxgfxm.github.io/blog/2017/08/28/ioszhi-shi-xiao-ji-170821/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
-  </p></p>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
+  </p>
+
 ]]></content>
   </entry>
   
@@ -484,20 +742,30 @@ AVAudioSessionCategoryOptionMixWithOthers：不打断其他App音频播放。</p
     <id>http://sxgfxm.github.io/blog/2017/08/07/ioszhi-shi-xiao-ji-170731</id>
     <content type="html"><![CDATA[<h2>UIImage Tint Color</h2>
 
-<pre><code>[cell.icon sd_setImageWithURL:[NSURL URLWithString:myURL] placeholderImage:[UIImage imageNamed:imageName] options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {           
-    cell.icon.image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];            
-}];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">cell</span><span class="p">.</span><span class="n">icon</span> <span class="nl">sd_setImageWithURL</span><span class="p">:[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="n">myURL</span><span class="p">]</span> <span class="nl">placeholderImage</span><span class="p">:[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:</span><span class="n">imageName</span><span class="p">]</span> <span class="nl">options</span><span class="p">:</span><span class="n">SDWebImageRefreshCached</span> <span class="nl">completed</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="n">image</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">,</span> <span class="n">SDImageCacheType</span> <span class="n">cacheType</span><span class="p">,</span> <span class="bp">NSURL</span> <span class="o">*</span><span class="n">imageURL</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">cell</span><span class="p">.</span><span class="n">icon</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="p">[</span><span class="n">image</span> <span class="nl">imageWithRenderingMode</span><span class="p">:</span><span class="n">UIImageRenderingModeAlwaysTemplate</span><span class="p">];</span>
+</span><span class='line'><span class="p">}];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>调整屏幕亮度</h2>
 
-<pre><code>[[UIScreen mainScreen] setBrightness:0.5];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[[</span><span class="bp">UIScreen</span> <span class="n">mainScreen</span><span class="p">]</span> <span class="nl">setBrightness</span><span class="p">:</span><span class="mf">0.5</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>保持屏幕常亮</h2>
 
-<pre><code>[UIApplication sharedApplication].idleTimerDisabled = YES;
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="bp">UIApplication</span> <span class="n">sharedApplication</span><span class="p">].</span><span class="n">idleTimerDisabled</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
 
 <!-- more -->
 
@@ -508,19 +776,32 @@ AVAudioSessionCategoryOptionMixWithOthers：不打断其他App音频播放。</p
 
 <h2>NSURLSession</h2>
 
-<pre><code>NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-NSURLSession *session =
-      [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:[NSOperationQueue mainQueue]];
-[session dataTaskWithRequest:request];
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">NSURLSessionConfiguration</span> <span class="o">*</span><span class="n">config</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURLSessionConfiguration</span> <span class="n">defaultSessionConfiguration</span><span class="p">];</span>
+</span><span class='line'><span class="bp">NSURLSession</span> <span class="o">*</span><span class="n">session</span> <span class="o">=</span>
+</span><span class='line'>      <span class="p">[</span><span class="bp">NSURLSession</span> <span class="nl">sessionWithConfiguration</span><span class="p">:</span><span class="n">config</span> <span class="nl">delegate</span><span class="p">:</span><span class="nb">self</span> <span class="nl">delegateQueue</span><span class="p">:[</span><span class="bp">NSOperationQueue</span> <span class="n">mainQueue</span><span class="p">]];</span>
+</span><span class='line'><span class="p">[</span><span class="n">session</span> <span class="nl">dataTaskWithRequest</span><span class="p">:</span><span class="n">request</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">URLSession:</span><span class="p">(</span><span class="bp">NSURLSession</span> <span class="o">*</span><span class="p">)</span><span class="nv">session</span>
+</span><span class='line'>                          <span class="nf">task:</span><span class="p">(</span><span class="bp">NSURLSessionTask</span> <span class="o">*</span><span class="p">)</span><span class="nv">task</span>
+</span><span class='line'>    <span class="nf">willPerformHTTPRedirection:</span><span class="p">(</span><span class="bp">NSHTTPURLResponse</span> <span class="o">*</span><span class="p">)</span><span class="nv">response</span>
+</span><span class='line'>                    <span class="nf">newRequest:</span><span class="p">(</span><span class="bp">NSURLRequest</span> <span class="o">*</span><span class="p">)</span><span class="nv">request</span>
+</span><span class='line'>             <span class="nf">completionHandler:</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="bp">NSURLRequest</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">))</span><span class="nv">completionHandler</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;urlsession request %@&quot;</span><span class="p">,</span> <span class="n">request</span><span class="p">.</span><span class="n">URL</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-- (void)URLSession:(NSURLSession *)session
-                          task:(NSURLSessionTask *)task
-    willPerformHTTPRedirection:(NSHTTPURLResponse *)response
-                    newRequest:(NSURLRequest *)request
-             completionHandler:(void (^)(NSURLRequest *_Nullable))completionHandler {
-  NSLog(@"urlsession request %@", request.URL);
-}
-</code></pre>
 
 <h2>后台运行</h2>
 
@@ -530,13 +811,20 @@ NSURLSession *session =
 
 <h2>应用进入前台或后台通知</h2>
 
-<pre><code>// app启动或者app从后台进入前台都会调用这个方法
-[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
-// app从后台进入前台都会调用这个方法
-[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationBecomeActive) name:UIApplicationWillEnterForegroundNotification object:nil];
-// 添加检测app进入后台的观察者
-[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationEnterBackground) name: UIApplicationDidEnterBackgroundNotification object:nil];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// app启动或者app从后台进入前台都会调用这个方法</span>
+</span><span class='line'><span class="p">[[</span><span class="bp">NSNotificationCenter</span> <span class="n">defaultCenter</span><span class="p">]</span> <span class="nl">addObserver</span><span class="p">:</span><span class="nb">self</span> <span class="nl">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">applicationBecomeActive</span><span class="p">)</span> <span class="nl">name</span><span class="p">:</span><span class="n">UIApplicationDidBecomeActiveNotification</span> <span class="nl">object</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'><span class="c1">// app从后台进入前台都会调用这个方法</span>
+</span><span class='line'><span class="p">[[</span><span class="bp">NSNotificationCenter</span> <span class="n">defaultCenter</span><span class="p">]</span> <span class="nl">addObserver</span><span class="p">:</span><span class="nb">self</span> <span class="nl">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">applicationBecomeActive</span><span class="p">)</span> <span class="nl">name</span><span class="p">:</span><span class="n">UIApplicationWillEnterForegroundNotification</span> <span class="nl">object</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'><span class="c1">// 添加检测app进入后台的观察者</span>
+</span><span class='line'><span class="p">[[</span><span class="bp">NSNotificationCenter</span> <span class="n">defaultCenter</span><span class="p">]</span> <span class="nl">addObserver</span><span class="p">:</span><span class="nb">self</span> <span class="nl">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">applicationEnterBackground</span><span class="p">)</span> <span class="nl">name</span><span class="p">:</span> <span class="n">UIApplicationDidEnterBackgroundNotification</span> <span class="nl">object</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>Logging Malloc Stack</h2>
 
@@ -556,27 +844,43 @@ NSURLSession *session =
     <id>http://sxgfxm.github.io/blog/2017/07/31/ioszhi-shi-xiao-ji-170724</id>
     <content type="html"><![CDATA[<h2>JavaScriptCore</h2>
 
-<pre><code>[self.webView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('audio')[0].play()"];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString</span><span class="p">:</span><span class="s">@&quot;document.getElementsByTagName(&#39;audio&#39;)[0].play()&quot;</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
 
 <!-- more -->
 
 
 <h2>调整button点击区域</h2>
 
-<pre><code>self.playBtn.contentMode = UIViewContentModeScaleAspectFit;
-self.closeBtn.contentMode = UIViewContentModeScaleAspectFit;
-[self.playBtn setImageEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
-[self.closeBtn setImageEdgeInsets:UIEdgeInsetsMake(0, -10, 0, 0)];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="nb">self</span><span class="p">.</span><span class="n">playBtn</span><span class="p">.</span><span class="n">contentMode</span> <span class="o">=</span> <span class="n">UIViewContentModeScaleAspectFit</span><span class="p">;</span>
+</span><span class='line'><span class="nb">self</span><span class="p">.</span><span class="n">closeBtn</span><span class="p">.</span><span class="n">contentMode</span> <span class="o">=</span> <span class="n">UIViewContentModeScaleAspectFit</span><span class="p">;</span>
+</span><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">playBtn</span> <span class="nl">setImageEdgeInsets</span><span class="p">:</span><span class="n">UIEdgeInsetsMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)];</span>
+</span><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">closeBtn</span> <span class="nl">setImageEdgeInsets</span><span class="p">:</span><span class="n">UIEdgeInsetsMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>判断网络状态</h2>
 
-<pre><code>- (BOOL)connected {
-  NetworkStatus internetStatus = [[Reachability reachabilityForInternetConnection] currentReachabilityStatus];
-  return internetStatus != NotReachable;
-}
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">connected</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">NetworkStatus</span> <span class="n">internetStatus</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Reachability</span> <span class="n">reachabilityForInternetConnection</span><span class="p">]</span> <span class="n">currentReachabilityStatus</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">internetStatus</span> <span class="o">!=</span> <span class="n">NotReachable</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
 
 <p class='post-footer'>
   原始地址：
@@ -595,8 +899,12 @@ self.closeBtn.contentMode = UIViewContentModeScaleAspectFit;
     <id>http://sxgfxm.github.io/blog/2017/07/24/ioszhi-shi-xiao-ji-170717</id>
     <content type="html"><![CDATA[<h2>Set UITableViewHeaderFooterView backgroundColor transparent</h2>
 
-<pre><code>self.backgroundView = [[UIImageView alloc] initWithImage:[UIImage new]];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="nb">self</span><span class="p">.</span><span class="n">backgroundView</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UIImageView</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithImage</span><span class="p">:[</span><span class="bp">UIImage</span> <span class="n">new</span><span class="p">]];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
 
 <p class='post-footer'>
   原始地址：
@@ -618,54 +926,89 @@ self.closeBtn.contentMode = UIViewContentModeScaleAspectFit;
 <p>Lottie is a mobile library for Android and iOS that parses Adobe After Effects animations exported as json with bodymovin and renders the vector animations natively on mobile and through React Native!<br/>
 Common Animations</p>
 
-<pre><code>LOTAnimationView *animation = [LOTAnimationView animationNamed:@"Lottie"];
-[self.view addSubview:animation];
-[animation playWithCompletion:^(BOOL animationFinished) {
-  // Do Something
-}];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">LOTAnimationView</span> <span class="o">*</span><span class="n">animation</span> <span class="o">=</span> <span class="p">[</span><span class="n">LOTAnimationView</span> <span class="nl">animationNamed</span><span class="p">:</span><span class="s">@&quot;Lottie&quot;</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="n">animation</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">animation</span> <span class="nl">playWithCompletion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">animationFinished</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">// Do Something</span>
+</span><span class='line'><span class="p">}];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
 
 <!-- more -->
 
 
 <p>UIViewController Transition</p>
 
-<pre><code>- (id&lt;UIViewControllerAnimatedTransitioning&gt;)animationControllerForPresentedController:(UIViewController *)presented
-                                                                  presentingController:(UIViewController *)presenting
-                                                                      sourceController:(UIViewController *)source {
-  LOTAnimationTransitionController *animationController = [[LOTAnimationTransitionController alloc] initWithAnimationNamed:@"vcTransition1"
-                                                                                                          fromLayerNamed:@"outLayer"
-                                                                                                            toLayerNamed:@"inLayer"];
-  return animationController;
-}
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="bp">UIViewControllerAnimatedTransitioning</span><span class="o">&gt;</span><span class="p">)</span><span class="nf">animationControllerForPresentedController:</span><span class="p">(</span><span class="bp">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">presented</span>
+</span><span class='line'>                                                                  <span class="nf">presentingController:</span><span class="p">(</span><span class="bp">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">presenting</span>
+</span><span class='line'>                                                                      <span class="nf">sourceController:</span><span class="p">(</span><span class="bp">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">source</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">LOTAnimationTransitionController</span> <span class="o">*</span><span class="n">animationController</span> <span class="o">=</span> <span class="p">[[</span><span class="n">LOTAnimationTransitionController</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithAnimationNamed</span><span class="p">:</span><span class="s">@&quot;vcTransition1&quot;</span>
+</span><span class='line'>                                                                                                          <span class="nl">fromLayerNamed</span><span class="p">:</span><span class="s">@&quot;outLayer&quot;</span>
+</span><span class='line'>                                                                                                            <span class="nl">toLayerNamed</span><span class="p">:</span><span class="s">@&quot;inLayer&quot;</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">animationController</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="bp">UIViewControllerAnimatedTransitioning</span><span class="o">&gt;</span><span class="p">)</span><span class="nf">animationControllerForDismissedController:</span><span class="p">(</span><span class="bp">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">dismissed</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">LOTAnimationTransitionController</span> <span class="o">*</span><span class="n">animationController</span> <span class="o">=</span> <span class="p">[[</span><span class="n">LOTAnimationTransitionController</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithAnimationNamed</span><span class="p">:</span><span class="s">@&quot;vcTransition2&quot;</span>
+</span><span class='line'>                                                                                                          <span class="nl">fromLayerNamed</span><span class="p">:</span><span class="s">@&quot;outLayer&quot;</span>
+</span><span class='line'>                                                                                                            <span class="nl">toLayerNamed</span><span class="p">:</span><span class="s">@&quot;inLayer&quot;</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">animationController</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-- (id&lt;UIViewControllerAnimatedTransitioning&gt;)animationControllerForDismissedController:(UIViewController *)dismissed {
-  LOTAnimationTransitionController *animationController = [[LOTAnimationTransitionController alloc] initWithAnimationNamed:@"vcTransition2"
-                                                                                                          fromLayerNamed:@"outLayer"
-                                                                                                            toLayerNamed:@"inLayer"];
-  return animationController;
-}
-</code></pre>
 
 <h2>导航栏设为透明</h2>
 
-<pre><code>[self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-[self.navigationController.navigationBar setShadowImage:[UIImage new]];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">navigationController</span><span class="p">.</span><span class="n">navigationBar</span> <span class="nl">setBackgroundImage</span><span class="p">:[</span><span class="bp">UIImage</span> <span class="n">new</span><span class="p">]</span> <span class="nl">forBarMetrics</span><span class="p">:</span><span class="n">UIBarMetricsDefault</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">navigationController</span><span class="p">.</span><span class="n">navigationBar</span> <span class="nl">setShadowImage</span><span class="p">:[</span><span class="bp">UIImage</span> <span class="n">new</span><span class="p">]];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>导航栏还原</h2>
 
-<pre><code>[self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
-[self.navigationController.navigationBar setShadowImage:nil];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">navigationController</span><span class="p">.</span><span class="n">navigationBar</span> <span class="nl">setBackgroundImage</span><span class="p">:</span><span class="nb">nil</span> <span class="nl">forBarMetrics</span><span class="p">:</span><span class="n">UIBarMetricsDefault</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">navigationController</span><span class="p">.</span><span class="n">navigationBar</span> <span class="nl">setShadowImage</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>Change UITextField Placeholder Color</h2>
 
-<pre><code>  NSString *string = @"请输入Wi-Fi名称";
-  NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:string];
-  [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, string.length)];
-  self.wifiNameTF.attributedPlaceholder = attributedString;
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">string</span> <span class="o">=</span> <span class="s">@&quot;请输入Wi-Fi名称&quot;</span><span class="p">;</span>
+</span><span class='line'>  <span class="bp">NSMutableAttributedString</span> <span class="o">*</span><span class="n">attributedString</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSMutableAttributedString</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithString</span><span class="p">:</span><span class="n">string</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">attributedString</span> <span class="nl">addAttribute</span><span class="p">:</span><span class="n">NSForegroundColorAttributeName</span> <span class="nl">value</span><span class="p">:[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">]</span> <span class="nl">range</span><span class="p">:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">string</span><span class="p">.</span><span class="n">length</span><span class="p">)];</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">wifiNameTF</span><span class="p">.</span><span class="n">attributedPlaceholder</span> <span class="o">=</span> <span class="n">attributedString</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>KVO NSKeyValueObservingOptions</h2>
 
@@ -676,68 +1019,113 @@ NSKeyValueObservingOptionPrior：获取新旧值</p>
 
 <h2>UITextField nil While Editing</h2>
 
-<pre><code>- (BOOL)textField:(UITextField*)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString*)string
-{
-    if (range.location == 0 &amp;&amp; string.length == 0)
-    {
-        //textField is empty
-    }
-    return YES;
-}
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">textField:</span><span class="p">(</span><span class="bp">UITextField</span><span class="o">*</span><span class="p">)</span><span class="nv">textField</span> <span class="nf">shouldChangeCharactersInRange:</span><span class="p">(</span><span class="n">NSRange</span><span class="p">)</span><span class="nv">range</span> <span class="nf">replacementString:</span><span class="p">(</span><span class="bp">NSString</span><span class="o">*</span><span class="p">)</span><span class="nv">string</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">range</span><span class="p">.</span><span class="n">location</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">string</span><span class="p">.</span><span class="n">length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="c1">//textField is empty</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>UIKeyboardAppearance</h2>
 
-<pre><code>textField.keyboardAppearance = UIKeyboardAppearanceDark;
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">textField</span><span class="p">.</span><span class="n">keyboardAppearance</span> <span class="o">=</span> <span class="n">UIKeyboardAppearanceDark</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>UIView Transition Animation</h2>
 
-<pre><code>[UIView transitionFromView:view1
-                   toView:view2
-                 duration:2
-                  options:animationTransitionType
-               completion:^(BOOL finished){
-                            [view1 removeFromSuperview];
-                          }];
-[self.view addSubview:view2];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="bp">UIView</span> <span class="nl">transitionFromView</span><span class="p">:</span><span class="n">view1</span>
+</span><span class='line'>                   <span class="nl">toView</span><span class="p">:</span><span class="n">view2</span>
+</span><span class='line'>                 <span class="nl">duration</span><span class="p">:</span><span class="mi">2</span>
+</span><span class='line'>                  <span class="nl">options</span><span class="p">:</span><span class="n">animationTransitionType</span>
+</span><span class='line'>               <span class="nl">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">finished</span><span class="p">){</span>
+</span><span class='line'>                            <span class="p">[</span><span class="n">view1</span> <span class="n">removeFromSuperview</span><span class="p">];</span>
+</span><span class='line'>                          <span class="p">}];</span>
+</span><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="n">view2</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>UIView Fade In Fade Out</h2>
 
-<pre><code>[view setAlpha:0.f];
-[UIView animateWithDuration:2.f delay:0.f options:UIViewAnimationOptionCurveEaseIn animations:^{
-    //  fade in
-    [view setAlpha:1.f];
-} completion:^(BOOL finished) {
-    [UIView animateWithDuration:2.f delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        //  fade out
-        [view setAlpha:0.f];
-    } completion:nil];
-}];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">view</span> <span class="nl">setAlpha</span><span class="p">:</span><span class="mf">0.f</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mf">2.f</span> <span class="nl">delay</span><span class="p">:</span><span class="mf">0.f</span> <span class="nl">options</span><span class="p">:</span><span class="n">UIViewAnimationOptionCurveEaseIn</span> <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+</span><span class='line'>    <span class="c1">//  fade in</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">view</span> <span class="nl">setAlpha</span><span class="p">:</span><span class="mf">1.f</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span> <span class="nl">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">finished</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mf">2.f</span> <span class="nl">delay</span><span class="p">:</span><span class="mf">0.f</span> <span class="nl">options</span><span class="p">:</span><span class="n">UIViewAnimationOptionCurveEaseInOut</span> <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+</span><span class='line'>        <span class="c1">//  fade out</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">view</span> <span class="nl">setAlpha</span><span class="p">:</span><span class="mf">0.f</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span> <span class="nl">completion</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'><span class="p">}];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>Reachability</h2>
 
 <p>ReachableViaWiFi</p>
 
-<pre><code>self.reachability = [Reachability reachabilityForInternetConnection];
-[self.reachability startNotifier];
-[self.reachability stopNotifier];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="nb">self</span><span class="p">.</span><span class="n">reachability</span> <span class="o">=</span> <span class="p">[</span><span class="n">Reachability</span> <span class="n">reachabilityForInternetConnection</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">reachability</span> <span class="n">startNotifier</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">reachability</span> <span class="n">stopNotifier</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Wi-Fi Name</p>
 
-<pre><code>+ (NSString *)currentWifiName {
-  NSArray *ifs = (__bridge_transfer NSArray *)CNCopySupportedInterfaces();
-  NSString *ifnam = [ifs firstObject];
-  if (!ifnam) {
-    return nil;
-  }
-  NSDictionary *info = (__bridge_transfer NSDictionary *)CNCopyCurrentNetworkInfo((__bridge CFStringRef)ifnam);
-  return info[@"SSID"];
-}
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">+</span> <span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nf">currentWifiName</span> <span class="p">{</span>
+</span><span class='line'>  <span class="bp">NSArray</span> <span class="o">*</span><span class="n">ifs</span> <span class="o">=</span> <span class="p">(</span><span class="k">__bridge_transfer</span> <span class="bp">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="n">CNCopySupportedInterfaces</span><span class="p">();</span>
+</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">ifnam</span> <span class="o">=</span> <span class="p">[</span><span class="n">ifs</span> <span class="n">firstObject</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ifnam</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="bp">NSDictionary</span> <span class="o">*</span><span class="n">info</span> <span class="o">=</span> <span class="p">(</span><span class="k">__bridge_transfer</span> <span class="bp">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="n">CNCopyCurrentNetworkInfo</span><span class="p">((</span><span class="k">__bridge</span> <span class="n">CFStringRef</span><span class="p">)</span><span class="n">ifnam</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">info</span><span class="p">[</span><span class="s">@&quot;SSID&quot;</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>NetworkExtension</h2>
 
@@ -2435,93 +2823,6 @@ void CFSafeRelease(CFTypeRef cf) {
 <p class='post-footer'>
   原始地址：
   <a href='http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170515/'>http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170515/</a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-170508]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170508/"/>
-    <updated>2017-05-17T16:52:43+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170508</id>
-    <content type="html"><![CDATA[<h2>Carthage</h2>
-
-<p>安装：<code>brew install carthage</code><br/>
-添加：<code>Cartfile</code><br/>
-运行：<code>carthage update</code><br/>
-添加：<code>Carthage/Build/.framework</code></p>
-
-<!-- more -->
-
-
-<h2>防止重复push/present类型相同的controller</h2>
-
-<ol>
-<li>找到最上层view controller；</li>
-<li>判断最上层view controller与待展示view controller是否类型相同；</li>
-<li>如果类型不同，才进行操作。
-获取最底层view controller：<code>[UIApplication sharedApplication].delegate.window.rootViewController</code>。<br/>
-获取最上层view controller：</li>
-</ol>
-
-
-<pre><code>+ (UIViewController *)topViewController {
-  return [self
-      topViewControllerWithRootViewController:[UIApplication sharedApplication].delegate.window.rootViewController];
-}
-
-+ (UIViewController *)topViewControllerWithRootViewController:(UIViewController *)rootViewController {
-  NSLog(@"root to top vc:%@", NSStringFromClass([rootViewController class]));
-  if ([rootViewController isKindOfClass:[MMDrawerController class]]) {
-    MMDrawerController *mmdVc = (MMDrawerController *)rootViewController;
-    return [self topViewControllerWithRootViewController:mmdVc.centerViewController];
-  } else if ([rootViewController isKindOfClass:[UITabBarController class]]) {
-    UITabBarController *tabBarController = (UITabBarController *)rootViewController;
-    return [self topViewControllerWithRootViewController:tabBarController.selectedViewController];
-  } else if ([rootViewController isKindOfClass:[UINavigationController class]]) {
-    UINavigationController *navigationController = (UINavigationController *)rootViewController;
-    return [self topViewControllerWithRootViewController:navigationController.visibleViewController];
-  } else if (rootViewController.presentedViewController) {
-    UIViewController *presentedViewController = rootViewController.presentedViewController;
-    return [self topViewControllerWithRootViewController:presentedViewController];
-  } else {
-    return rootViewController;
-  }
-}
-</code></pre>
-
-<h2>Create Groups vs Create Folder References</h2>
-
-<p>Group：不创建文件夹，不能同名； <br/>
-Folder：创建文件夹，可以重名；</p>
-
-<h2>拉伸Image</h2>
-
-<p>代码：<code>- (UIImage *)resizableImageWithCapInsets:(UIEdgeInsets)capInsets resizingMode:(UIImageResizingMode)resizingMode NS_AVAILABLE_IOS(6_0);</code><br/>
-设置：Assets -> Attributes Inspector -> Slicing</p>
-
-<h2>隐藏文件</h2>
-
-<p>显示隐藏文件：<code>defaults write com.apple.finder AppleShowAllFiles -bool true</code><br/>
-隐藏隐藏文件：<code>defaults write com.apple.finder AppleShowAllFiles -bool false</code>
-重启finder：<code>killall Finder</code></p>
-
-<h2>NavigationBar &amp; ScrollView</h2>
-
-<p>自动：<code>contentOffset.y == -64</code><br/>
-手动：<code>self.edgesForExtendedLayout = UIRectEdgeNone;</code>，y轴0点下移64。</p>
-
-<h2>Objective-C static vs external</h2>
-
-<p>static: In C and Objective-C, a static variable or function at global scope means that that symbol has internal linkage.<br/>
-external: If you want to have a single global variable, you can&rsquo;t have it in class scope like in C++. One option is to create a global variable with external linkage: declare the variable with the extern keyword in a header file, and then in one source file, define it at global scope without the extern keyword.</p>
-
-<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170508/'>http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170508/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>

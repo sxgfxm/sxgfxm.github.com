@@ -123,27 +123,43 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 <div class="entry-content"><h2>JavaScriptCore</h2>
 
-<pre><code>[self.webView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('audio')[0].play()"];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString</span><span class="p">:</span><span class="s">@&quot;document.getElementsByTagName(&#39;audio&#39;)[0].play()&quot;</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
 
 <!-- more -->
 
 
 <h2>调整button点击区域</h2>
 
-<pre><code>self.playBtn.contentMode = UIViewContentModeScaleAspectFit;
-self.closeBtn.contentMode = UIViewContentModeScaleAspectFit;
-[self.playBtn setImageEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
-[self.closeBtn setImageEdgeInsets:UIEdgeInsetsMake(0, -10, 0, 0)];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="nb">self</span><span class="p">.</span><span class="n">playBtn</span><span class="p">.</span><span class="n">contentMode</span> <span class="o">=</span> <span class="n">UIViewContentModeScaleAspectFit</span><span class="p">;</span>
+</span><span class='line'><span class="nb">self</span><span class="p">.</span><span class="n">closeBtn</span><span class="p">.</span><span class="n">contentMode</span> <span class="o">=</span> <span class="n">UIViewContentModeScaleAspectFit</span><span class="p">;</span>
+</span><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">playBtn</span> <span class="nl">setImageEdgeInsets</span><span class="p">:</span><span class="n">UIEdgeInsetsMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)];</span>
+</span><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">closeBtn</span> <span class="nl">setImageEdgeInsets</span><span class="p">:</span><span class="n">UIEdgeInsetsMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>判断网络状态</h2>
 
-<pre><code>- (BOOL)connected {
-  NetworkStatus internetStatus = [[Reachability reachabilityForInternetConnection] currentReachabilityStatus];
-  return internetStatus != NotReachable;
-}
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">connected</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">NetworkStatus</span> <span class="n">internetStatus</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Reachability</span> <span class="n">reachabilityForInternetConnection</span><span class="p">]</span> <span class="n">currentReachabilityStatus</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">internetStatus</span> <span class="o">!=</span> <span class="n">NotReachable</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
 
 <p class='post-footer'>
   原始地址：
@@ -221,7 +237,7 @@ self.closeBtn.contentMode = UIViewContentModeScaleAspectFit;
  <h1>Categories</h1>
  <ul id="categories">
   <li class='category'><a href='/blog/categories/componentkit/'>componentkit (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>ios (42)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (43)</a></li>
 <li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
 
@@ -229,6 +245,10 @@ self.closeBtn.contentMode = UIViewContentModeScaleAspectFit;
 </section><section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/09/22/ioszhi-shi-xiao-ji-170918/">iOS知识小集-170918</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2017/09/15/ioszhi-shi-xiao-ji-170911/">iOS知识小集-170911</a>
@@ -244,10 +264,6 @@ self.closeBtn.contentMode = UIViewContentModeScaleAspectFit;
     
       <li class="post">
         <a href="/blog/2017/08/28/ioszhi-shi-xiao-ji-170821/">iOS知识小集-170821</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/08/22/iosxiao-ji-170814/">iOS知识小集-170814</a>
       </li>
     
   </ul>

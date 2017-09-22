@@ -127,21 +127,38 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 <h2>CNContactPickerViewController</h2>
 
-<pre><code>-(void)pickContact{
-  CNContactPickerViewController *controller = [[CNContactPickerViewController alloc] init];
-  controller.delegate = self;
-  [self presentViewController:controller animated:YES completion:nil];
-}
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">pickContact</span><span class="p">{</span>
+</span><span class='line'>  <span class="n">CNContactPickerViewController</span> <span class="o">*</span><span class="n">controller</span> <span class="o">=</span> <span class="p">[[</span><span class="n">CNContactPickerViewController</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">controller</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span> <span class="nl">presentViewController</span><span class="p">:</span><span class="n">controller</span> <span class="nl">animated</span><span class="p">:</span><span class="nb">YES</span> <span class="nl">completion</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">contactPicker:</span><span class="p">(</span><span class="n">CNContactPickerViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">picker</span>
+</span><span class='line'>    <span class="nf">didSelectContactProperty:</span><span class="p">(</span><span class="n">CNContactProperty</span> <span class="o">*</span><span class="p">)</span><span class="nv">contactProperty</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">CNContact</span> <span class="o">*</span><span class="n">contact</span> <span class="o">=</span> <span class="n">contactProperty</span><span class="p">.</span><span class="n">contact</span><span class="p">;</span>
+</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">name</span> <span class="o">=</span> <span class="p">[</span><span class="n">CNContactFormatter</span> <span class="nl">stringFromContact</span><span class="p">:</span><span class="n">contact</span> <span class="nl">style</span><span class="p">:</span><span class="n">CNContactFormatterStyleFullName</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">CNPhoneNumber</span> <span class="o">*</span><span class="n">phoneValue</span> <span class="o">=</span> <span class="n">contactProperty</span><span class="p">.</span><span class="n">value</span><span class="p">;</span>
+</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">phoneNumber</span> <span class="o">=</span> <span class="n">phoneValue</span><span class="p">.</span><span class="n">stringValue</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@--%@&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">phoneNumber</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-- (void)contactPicker:(CNContactPickerViewController *)picker
-    didSelectContactProperty:(CNContactProperty *)contactProperty {
-  CNContact *contact = contactProperty.contact;
-  NSString *name = [CNContactFormatter stringFromContact:contact style:CNContactFormatterStyleFullName];
-  CNPhoneNumber *phoneValue = contactProperty.value;
-  NSString *phoneNumber = phoneValue.stringValue;
-  NSLog(@"%@--%@", name, phoneNumber);
-}
-</code></pre>
+
+
 
 <!-- more -->
 
@@ -150,72 +167,138 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 <p>info.plist添加<code>Privacy - Contacts Usage Description</code>。</p>
 
-<pre><code>- (void)checkAuthorization {
-  NSLog(@"Contact - Check Authorization");
-  //  status
-  CNAuthorizationStatus status =
-      [CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts];
-  //  check authorization
-  if (status != CNAuthorizationStatusAuthorized) {
-    NSLog(@"Contact - Not Authorized");
-    //  request access
-    CNContactStore *store = [CNContactStore new];
-    NSLog(@"Contact - Request Authorization");
-    [store
-        requestAccessForEntityType:CNEntityTypeContacts
-                 completionHandler:^(BOOL granted, NSError *_Nullable error) {
-                   if (granted) {
-                     //  YES
-                     NSLog(@"Contact - Authorized");
-                     [self fetchContact];
-                   } else {
-                     //  No
-                     NSLog(@"Contact - Not Authorized");
-                   }
-                 }];
-  } else {
-    NSLog(@"Contact - Authorized");
-    [self fetchContact];
-  }
-}
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">checkAuthorization</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Contact - Check Authorization&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="c1">//  status</span>
+</span><span class='line'>  <span class="n">CNAuthorizationStatus</span> <span class="n">status</span> <span class="o">=</span>
+</span><span class='line'>      <span class="p">[</span><span class="n">CNContactStore</span> <span class="nl">authorizationStatusForEntityType</span><span class="p">:</span><span class="n">CNEntityTypeContacts</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  check authorization</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">status</span> <span class="o">!=</span> <span class="n">CNAuthorizationStatusAuthorized</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Contact - Not Authorized&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="c1">//  request access</span>
+</span><span class='line'>    <span class="n">CNContactStore</span> <span class="o">*</span><span class="n">store</span> <span class="o">=</span> <span class="p">[</span><span class="n">CNContactStore</span> <span class="n">new</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Contact - Request Authorization&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">store</span>
+</span><span class='line'>        <span class="nl">requestAccessForEntityType</span><span class="p">:</span><span class="n">CNEntityTypeContacts</span>
+</span><span class='line'>                 <span class="nl">completionHandler</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">granted</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">_Nullable</span> <span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                   <span class="k">if</span> <span class="p">(</span><span class="n">granted</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                     <span class="c1">//  YES</span>
+</span><span class='line'>                     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Contact - Authorized&quot;</span><span class="p">);</span>
+</span><span class='line'>                     <span class="p">[</span><span class="nb">self</span> <span class="n">fetchContact</span><span class="p">];</span>
+</span><span class='line'>                   <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>                     <span class="c1">//  No</span>
+</span><span class='line'>                     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Contact - Not Authorized&quot;</span><span class="p">);</span>
+</span><span class='line'>                   <span class="p">}</span>
+</span><span class='line'>                 <span class="p">}];</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Contact - Authorized&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">[</span><span class="nb">self</span> <span class="n">fetchContact</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">fetchContact</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Contact - Fetch Contact&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="c1">//  keys</span>
+</span><span class='line'>  <span class="bp">NSArray</span> <span class="o">*</span><span class="n">keys</span> <span class="o">=</span> <span class="l">@[</span>
+</span><span class='line'>    <span class="n">CNContactPhoneNumbersKey</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">CNContactGivenNameKey</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">CNContactFamilyNameKey</span>
+</span><span class='line'>  <span class="l">]</span><span class="p">;</span>
+</span><span class='line'>  <span class="c1">//  request</span>
+</span><span class='line'>  <span class="n">CNContactFetchRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span>
+</span><span class='line'>      <span class="p">[[</span><span class="n">CNContactFetchRequest</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithKeysToFetch</span><span class="p">:</span><span class="n">keys</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  store</span>
+</span><span class='line'>  <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">CNContactStore</span> <span class="o">*</span><span class="n">store</span> <span class="o">=</span> <span class="p">[</span><span class="n">CNContactStore</span> <span class="n">new</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">store</span>
+</span><span class='line'>      <span class="nl">enumerateContactsWithFetchRequest</span><span class="p">:</span><span class="n">request</span>
+</span><span class='line'>                                  <span class="nl">error</span><span class="p">:</span><span class="o">&amp;</span><span class="n">error</span>
+</span><span class='line'>                             <span class="nl">usingBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">CNContact</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">contact</span><span class="p">,</span>
+</span><span class='line'>                                          <span class="kt">BOOL</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">stop</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                               <span class="c1">//  contact</span>
+</span><span class='line'>                               <span class="bp">NSString</span> <span class="o">*</span><span class="n">firstName</span> <span class="o">=</span> <span class="n">contact</span><span class="p">.</span><span class="n">familyName</span><span class="p">;</span>
+</span><span class='line'>                               <span class="bp">NSString</span> <span class="o">*</span><span class="n">lastName</span> <span class="o">=</span> <span class="n">contact</span><span class="p">.</span><span class="n">givenName</span><span class="p">;</span>
+</span><span class='line'>                               <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@ %@&quot;</span><span class="p">,</span> <span class="n">firstName</span><span class="p">,</span> <span class="n">lastName</span><span class="p">);</span>
+</span><span class='line'>                               <span class="c1">//  phone number</span>
+</span><span class='line'>                               <span class="k">for</span> <span class="p">(</span><span class="n">CNLabeledValue</span> <span class="o">*</span><span class="n">labeledValue</span> <span class="k">in</span> <span class="n">contact</span>
+</span><span class='line'>                                        <span class="p">.</span><span class="n">phoneNumbers</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                                 <span class="n">CNPhoneNumber</span> <span class="o">*</span><span class="n">phoneValue</span> <span class="o">=</span> <span class="n">labeledValue</span><span class="p">.</span><span class="n">value</span><span class="p">;</span>
+</span><span class='line'>                                 <span class="bp">NSString</span> <span class="o">*</span><span class="n">phoneNumber</span> <span class="o">=</span> <span class="n">phoneValue</span><span class="p">.</span><span class="n">stringValue</span><span class="p">;</span>
+</span><span class='line'>                                 <span class="bp">NSString</span> <span class="o">*</span><span class="n">label</span> <span class="o">=</span> <span class="p">[</span><span class="n">CNLabeledValue</span>
+</span><span class='line'>                                     <span class="nl">localizedStringForLabel</span><span class="p">:</span><span class="n">labeledValue</span>
+</span><span class='line'>                                                                 <span class="p">.</span><span class="n">label</span><span class="p">];</span>
+</span><span class='line'>                                 <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@ : %@&quot;</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">phoneNumber</span><span class="p">);</span>
+</span><span class='line'>                               <span class="p">}</span>
+</span><span class='line'>                               <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;&quot;</span><span class="p">);</span>
+</span><span class='line'>                             <span class="p">}];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-- (void)fetchContact {
-  NSLog(@"Contact - Fetch Contact");
-  //  keys
-  NSArray *keys = @[
-    CNContactPhoneNumbersKey,
-    CNContactGivenNameKey,
-    CNContactFamilyNameKey
-  ];
-  //  request
-  CNContactFetchRequest *request =
-      [[CNContactFetchRequest alloc] initWithKeysToFetch:keys];
-  //  store
-  NSError *error = nil;
-  CNContactStore *store = [CNContactStore new];
-  [store
-      enumerateContactsWithFetchRequest:request
-                                  error:&amp;error
-                             usingBlock:^(CNContact *_Nonnull contact,
-                                          BOOL *_Nonnull stop) {
-                               //  contact
-                               NSString *firstName = contact.familyName;
-                               NSString *lastName = contact.givenName;
-                               NSLog(@"%@ %@", firstName, lastName);
-                               //  phone number
-                               for (CNLabeledValue *labeledValue in contact
-                                        .phoneNumbers) {
-                                 CNPhoneNumber *phoneValue = labeledValue.value;
-                                 NSString *phoneNumber = phoneValue.stringValue;
-                                 NSString *label = [CNLabeledValue
-                                     localizedStringForLabel:labeledValue
-                                                                 .label];
-                                 NSLog(@"%@ : %@", label, phoneNumber);
-                               }
-                               NSLog(@"");
-                             }];
-}
-</code></pre>
 
 <h2>iOS本地化</h2>
 
@@ -308,7 +391,7 @@ $(document).bind('DOMNodeInserted', function(event) {
  <h1>Categories</h1>
  <ul id="categories">
   <li class='category'><a href='/blog/categories/componentkit/'>componentkit (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>ios (42)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (43)</a></li>
 <li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
 
@@ -316,6 +399,10 @@ $(document).bind('DOMNodeInserted', function(event) {
 </section><section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/09/22/ioszhi-shi-xiao-ji-170918/">iOS知识小集-170918</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2017/09/15/ioszhi-shi-xiao-ji-170911/">iOS知识小集-170911</a>
@@ -331,10 +418,6 @@ $(document).bind('DOMNodeInserted', function(event) {
     
       <li class="post">
         <a href="/blog/2017/08/28/ioszhi-shi-xiao-ji-170821/">iOS知识小集-170821</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/08/22/iosxiao-ji-170814/">iOS知识小集-170814</a>
       </li>
     
   </ul>
