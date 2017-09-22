@@ -138,23 +138,42 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 <p>设置option</p>
 
-<pre><code>- (BOOL)startServer {
-  for (int i = 0; i &lt; 10; i++) {
-    //  随机端口号
-    NSInteger port = arc4random_uniform(64510) + 1025;
-    NSDictionary *options = @{
-      GCDWebServerOption_ConnectedStateCoalescingInterval : @(20),
-      GCDWebServerOption_Port : @(port)
-    };
-    NSError *error = nil;
-    if ([self.webServer startWithOptions:options error:&amp;error]) {
-      DDLogDebug(@"Start local server: %@", self.webServer.serverURL);
-      return YES;
-    }
-  }
-  return NO;
-}
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">startServer</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">//  随机端口号</span>
+</span><span class='line'>    <span class="bp">NSInteger</span> <span class="n">port</span> <span class="o">=</span> <span class="n">arc4random_uniform</span><span class="p">(</span><span class="mi">64510</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1025</span><span class="p">;</span>
+</span><span class='line'>    <span class="bp">NSDictionary</span> <span class="o">*</span><span class="n">options</span> <span class="o">=</span> <span class="l">@{</span>
+</span><span class='line'>      <span class="nl">GCDWebServerOption_ConnectedStateCoalescingInterval</span> <span class="p">:</span> <span class="l">@(</span><span class="mi">20</span><span class="l">)</span><span class="p">,</span>
+</span><span class='line'>      <span class="nl">GCDWebServerOption_Port</span> <span class="p">:</span> <span class="l">@(</span><span class="n">port</span><span class="l">)</span>
+</span><span class='line'>    <span class="l">}</span><span class="p">;</span>
+</span><span class='line'>    <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">([</span><span class="nb">self</span><span class="p">.</span><span class="n">webServer</span> <span class="nl">startWithOptions</span><span class="p">:</span><span class="n">options</span> <span class="nl">error</span><span class="p">:</span><span class="o">&amp;</span><span class="n">error</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">DDLogDebug</span><span class="p">(</span><span class="s">@&quot;Start local server: %@&quot;</span><span class="p">,</span> <span class="nb">self</span><span class="p">.</span><span class="n">webServer</span><span class="p">.</span><span class="n">serverURL</span><span class="p">);</span>
+</span><span class='line'>      <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nb">NO</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
 
 <p class='post-footer'>
   原始地址：

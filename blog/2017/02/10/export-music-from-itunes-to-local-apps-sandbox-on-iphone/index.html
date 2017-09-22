@@ -132,80 +132,124 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 <p>导入所需的头文件。</p>
 
-<pre><code class="c">#import &lt;AVFoundation/AVAssetExportSession.h&gt;
-#import &lt;MediaPlayer/MediaPlayer.h&gt;
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &lt;AVFoundation/AVAssetExportSession.h&gt;</span>
+</span><span class='line'><span class="cp">#import &lt;MediaPlayer/MediaPlayer.h&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>注册通知</h2>
 
 <p>注册<strong>MPMediaLibraryDidChangeNotification</strong>通知，当iTunes音乐库文件发生变化时，做出响应。</p>
 
-<pre><code class="c">[[NSNotificationCenter defaultCenter]
-    addObserver:self
-    selector:@selector(mediaLibraryDidChange:)
-    name:MPMediaLibraryDidChangeNotification
-    object:nil];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[[</span><span class="bp">NSNotificationCenter</span> <span class="n">defaultCenter</span><span class="p">]</span>
+</span><span class='line'>    <span class="nl">addObserver</span><span class="p">:</span><span class="nb">self</span>
+</span><span class='line'>    <span class="nl">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">mediaLibraryDidChange</span><span class="p">:)</span>
+</span><span class='line'>    <span class="nl">name</span><span class="p">:</span><span class="n">MPMediaLibraryDidChangeNotification</span>
+</span><span class='line'>    <span class="nl">object</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>开启通知</h2>
 
 <p>开启<strong>MPMediaLibrary</strong>通知。</p>
 
-<pre><code class="c">[[MPMediaLibrary defaultMediaLibrary] beginGeneratingLibraryChangeNotifications];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[[</span><span class="bp">MPMediaLibrary</span> <span class="n">defaultMediaLibrary</span><span class="p">]</span> <span class="n">beginGeneratingLibraryChangeNotifications</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>关闭通知</h2>
 
 <p>关闭<strong>MPMediaLibrary</strong>通知。</p>
 
-<pre><code class="c">[[MPMediaLibrary defaultMediaLibrary] endGeneratingLibraryChangeNotifications];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[[</span><span class="bp">MPMediaLibrary</span> <span class="n">defaultMediaLibrary</span><span class="p">]</span> <span class="n">endGeneratingLibraryChangeNotifications</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>MPMediaQuery</h2>
 
 <p>通过<strong>MPMediaQuery</strong>获取iTunes中音乐列表，可以自定义列表类型，调用<code>-collection</code>方法，返回对应列表的数组。数组中元素为<strong>MPMediaItemCollection</strong>类型。</p>
 
-<pre><code class="c">//  create
-MPMediaQuery *mediaQuery = [MPMediaQuery playlistQuery];
-//  groupType
-mediaQuery.groupingType = MPMediaGroupingAlbumArtist;
-//  query
-NSArray&lt;MPMediaItemCollection *&gt; *mediaCollections = [mediaQuery collections];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">//  create</span>
+</span><span class='line'><span class="bp">MPMediaQuery</span> <span class="o">*</span><span class="n">mediaQuery</span> <span class="o">=</span> <span class="p">[</span><span class="bp">MPMediaQuery</span> <span class="n">playlistQuery</span><span class="p">];</span>
+</span><span class='line'><span class="c1">//  groupType</span>
+</span><span class='line'><span class="n">mediaQuery</span><span class="p">.</span><span class="n">groupingType</span> <span class="o">=</span> <span class="n">MPMediaGroupingAlbumArtist</span><span class="p">;</span>
+</span><span class='line'><span class="c1">//  query</span>
+</span><span class='line'><span class="bp">NSArray</span><span class="o">&lt;</span><span class="bp">MPMediaItemCollection</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">mediaCollections</span> <span class="o">=</span> <span class="p">[</span><span class="n">mediaQuery</span> <span class="n">collections</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>MPMediaItem</h2>
 
 <p>通过<strong>MPMediaItemCollection</strong>获取对应的<strong>MPMediaItem</strong>，对应多媒体文件。通过<strong>MPMediaItem</strong>获取文件相关信息。导出时需要文件地址<strong>assetURL</strong>。</p>
 
-<pre><code class="c">NSMutableArray&lt;MPMediaItem *&gt; mediaItems = [NSMutableArray array];
-for (MPMediaItemCollection *collection in mediaCollections) {
-  //  mediaItem
-  MPMediaItem *mediaItem = [collection representativeItem];
-  //  歌曲名称
-  NSString *title = [mediaItem valueForProperty:MPMediaItemPropertyTitle];
-  //  演唱者
-  NSString *artist = [mediaItem valueForProperty:MPMediaItemPropertyArtist];
-  //  歌曲封面
-  MPMediaItemArtwork *artwork = [mediaItem valueForProperty:MPMediaItemPropertyArtwork];
-  //  歌曲格式
-  NSString *form = self.assetURL.pathExtension;
-  //  歌曲地址，本地iTunes中地址，可用于导出歌曲
-  NSURL *assetURL = [mediaItem valueForProperty:MPMediaItemPropertyAssetURL];
-  //  add
-  [mediaItems addObject:mediaItem];
-}
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">NSMutableArray</span><span class="o">&lt;</span><span class="bp">MPMediaItem</span> <span class="o">*&gt;</span> <span class="n">mediaItems</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableArray</span> <span class="n">array</span><span class="p">];</span>
+</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="bp">MPMediaItemCollection</span> <span class="o">*</span><span class="n">collection</span> <span class="k">in</span> <span class="n">mediaCollections</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">//  mediaItem</span>
+</span><span class='line'>  <span class="bp">MPMediaItem</span> <span class="o">*</span><span class="n">mediaItem</span> <span class="o">=</span> <span class="p">[</span><span class="n">collection</span> <span class="n">representativeItem</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  歌曲名称</span>
+</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">title</span> <span class="o">=</span> <span class="p">[</span><span class="n">mediaItem</span> <span class="nl">valueForProperty</span><span class="p">:</span><span class="n">MPMediaItemPropertyTitle</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  演唱者</span>
+</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">artist</span> <span class="o">=</span> <span class="p">[</span><span class="n">mediaItem</span> <span class="nl">valueForProperty</span><span class="p">:</span><span class="n">MPMediaItemPropertyArtist</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  歌曲封面</span>
+</span><span class='line'>  <span class="bp">MPMediaItemArtwork</span> <span class="o">*</span><span class="n">artwork</span> <span class="o">=</span> <span class="p">[</span><span class="n">mediaItem</span> <span class="nl">valueForProperty</span><span class="p">:</span><span class="n">MPMediaItemPropertyArtwork</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  歌曲格式</span>
+</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">form</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">assetURL</span><span class="p">.</span><span class="n">pathExtension</span><span class="p">;</span>
+</span><span class='line'>  <span class="c1">//  歌曲地址，本地iTunes中地址，可用于导出歌曲</span>
+</span><span class='line'>  <span class="bp">NSURL</span> <span class="o">*</span><span class="n">assetURL</span> <span class="o">=</span> <span class="p">[</span><span class="n">mediaItem</span> <span class="nl">valueForProperty</span><span class="p">:</span><span class="n">MPMediaItemPropertyAssetURL</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  add</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">mediaItems</span> <span class="nl">addObject</span><span class="p">:</span><span class="n">mediaItem</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>Play</h2>
 
 <p>获取到<strong>MPMediaItemCollection</strong>后，可以选择使用iTunes直接播放该文件。</p>
 
-<pre><code class="c">MPMediaItemCollection *mediaItemCollection = [mediaCollections firstObject];
-MPMediaItem *selectedItem = [collection representativeItem];
-[[MPMusicPlayerController iPodMusicPlayer] setQueueWithItemCollection:mediaItemCollection];
-[[MPMusicPlayerController iPodMusicPlayer] setNowPlayingItem:selectedItem];
-[[MPMusicPlayerController iPodMusicPlayer] play];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">MPMediaItemCollection</span> <span class="o">*</span><span class="n">mediaItemCollection</span> <span class="o">=</span> <span class="p">[</span><span class="n">mediaCollections</span> <span class="n">firstObject</span><span class="p">];</span>
+</span><span class='line'><span class="bp">MPMediaItem</span> <span class="o">*</span><span class="n">selectedItem</span> <span class="o">=</span> <span class="p">[</span><span class="n">collection</span> <span class="n">representativeItem</span><span class="p">];</span>
+</span><span class='line'><span class="p">[[</span><span class="bp">MPMusicPlayerController</span> <span class="n">iPodMusicPlayer</span><span class="p">]</span> <span class="nl">setQueueWithItemCollection</span><span class="p">:</span><span class="n">mediaItemCollection</span><span class="p">];</span>
+</span><span class='line'><span class="p">[[</span><span class="bp">MPMusicPlayerController</span> <span class="n">iPodMusicPlayer</span><span class="p">]</span> <span class="nl">setNowPlayingItem</span><span class="p">:</span><span class="n">selectedItem</span><span class="p">];</span>
+</span><span class='line'><span class="p">[[</span><span class="bp">MPMusicPlayerController</span> <span class="n">iPodMusicPlayer</span><span class="p">]</span> <span class="n">play</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>Export Music to Local Sandbox</h2>
 
@@ -219,85 +263,167 @@ MPMediaItem *selectedItem = [collection representativeItem];
 
 <p>4、使用<strong>AVAssetExportSession</strong>导出AVURLAsset。</p>
 
-<pre><code class="c">for (MPMediaItem *musicItem in musicItems) {
-    //  获取文件名及地址
-    NSString *title = [mediaItem valueForProperty:MPMediaItemPropertyTitle];
-    NSURL *assetURL = [mediaItem valueForProperty:MPMediaItemPropertyAssetURL];
-    if (assetURL &amp;&amp; [self validIpodLibraryURL:assetURL]) {
-      //  创建 output URL，存入沙盒目录下，以文件名为标识
-      NSString *pathExtension = assetURL.pathExtension;
-      NSArray *paths = NSSearchPathForDirectoriesInDomains(
-          NSDocumentDirectory, NSUserDomainMask, YES);
-      NSString *documentsDirectory = [paths firstObject];
-      NSURL *outputURL =
-          [[NSURL fileURLWithPath:[documentsDirectory
-                                      stringByAppendingPathComponent:title]]
-              URLByAppendingPathExtension:pathExtension];
-      //  保证无重复路径
-      [[NSFileManager defaultManager] removeItemAtURL:outputURL error:nil];
-      //  获取Asset
-      NSDictionary *options = [[NSDictionary alloc] init];
-      AVURLAsset *asset = [AVURLAsset URLAssetWithURL:assetURL options:options];
-      if (asset) {
-        //  创建export session
-        AVAssetExportSession *exportSession = [[AVAssetExportSession alloc]
-            initWithAsset:asset
-               presetName:AVAssetExportPresetPassthrough];
-        if (exportSession) {
-            //  导出类型
-            if ([pathExtension compare:@"m4a"] == NSOrderedSame) {
-              exportSession.outputFileType = AVFileTypeAppleM4A;
-            } else if ([pathExtension compare:@"wav"] == NSOrderedSame) {
-              exportSession.outputFileType = AVFileTypeWAVE;
-            } else if ([pathExtension compare:@"aif"] == NSOrderedSame) {
-              exportSession.outputFileType = AVFileTypeAIFF;
-            } else if ([pathExtension compare:@"m4v"] == NSOrderedSame) {
-              exportSession.outputFileType = AVFileTypeAppleM4V;
-            }
-            //  导出地址
-            exportSession.outputURL = outputURL;
-            //  导出
-            [exportSession exportAsynchronouslyWithCompletionHandler:^{
-              //  状态回调
-              if (completion) {
-                switch (exportSession.status) {
-                case AVAssetExportSessionStatusFailed:
-                  NSLog(@"Failed");
-                  break;
-                case AVAssetExportSessionStatusCancelled:
-                  NSLog(@"Cancelled");
-                  break;
-                case AVAssetExportSessionStatusCompleted:
-                  NSLog(@"Completed");
-                  break;
-                default:
-                  break;
-                }
-              }
-            }];
-        }
-      }
-    }
-  }
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">for</span> <span class="p">(</span><span class="bp">MPMediaItem</span> <span class="o">*</span><span class="n">musicItem</span> <span class="k">in</span> <span class="n">musicItems</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">//  获取文件名及地址</span>
+</span><span class='line'>    <span class="bp">NSString</span> <span class="o">*</span><span class="n">title</span> <span class="o">=</span> <span class="p">[</span><span class="n">mediaItem</span> <span class="nl">valueForProperty</span><span class="p">:</span><span class="n">MPMediaItemPropertyTitle</span><span class="p">];</span>
+</span><span class='line'>    <span class="bp">NSURL</span> <span class="o">*</span><span class="n">assetURL</span> <span class="o">=</span> <span class="p">[</span><span class="n">mediaItem</span> <span class="nl">valueForProperty</span><span class="p">:</span><span class="n">MPMediaItemPropertyAssetURL</span><span class="p">];</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">assetURL</span> <span class="o">&amp;&amp;</span> <span class="p">[</span><span class="nb">self</span> <span class="nl">validIpodLibraryURL</span><span class="p">:</span><span class="n">assetURL</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>      <span class="c1">//  创建 output URL，存入沙盒目录下，以文件名为标识</span>
+</span><span class='line'>      <span class="bp">NSString</span> <span class="o">*</span><span class="n">pathExtension</span> <span class="o">=</span> <span class="n">assetURL</span><span class="p">.</span><span class="n">pathExtension</span><span class="p">;</span>
+</span><span class='line'>      <span class="bp">NSArray</span> <span class="o">*</span><span class="n">paths</span> <span class="o">=</span> <span class="n">NSSearchPathForDirectoriesInDomains</span><span class="p">(</span>
+</span><span class='line'>          <span class="n">NSDocumentDirectory</span><span class="p">,</span> <span class="n">NSUserDomainMask</span><span class="p">,</span> <span class="nb">YES</span><span class="p">);</span>
+</span><span class='line'>      <span class="bp">NSString</span> <span class="o">*</span><span class="n">documentsDirectory</span> <span class="o">=</span> <span class="p">[</span><span class="n">paths</span> <span class="n">firstObject</span><span class="p">];</span>
+</span><span class='line'>      <span class="bp">NSURL</span> <span class="o">*</span><span class="n">outputURL</span> <span class="o">=</span>
+</span><span class='line'>          <span class="p">[[</span><span class="bp">NSURL</span> <span class="nl">fileURLWithPath</span><span class="p">:[</span><span class="n">documentsDirectory</span>
+</span><span class='line'>                                      <span class="nl">stringByAppendingPathComponent</span><span class="p">:</span><span class="n">title</span><span class="p">]]</span>
+</span><span class='line'>              <span class="nl">URLByAppendingPathExtension</span><span class="p">:</span><span class="n">pathExtension</span><span class="p">];</span>
+</span><span class='line'>      <span class="c1">//  保证无重复路径</span>
+</span><span class='line'>      <span class="p">[[</span><span class="bp">NSFileManager</span> <span class="n">defaultManager</span><span class="p">]</span> <span class="nl">removeItemAtURL</span><span class="p">:</span><span class="n">outputURL</span> <span class="nl">error</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>      <span class="c1">//  获取Asset</span>
+</span><span class='line'>      <span class="bp">NSDictionary</span> <span class="o">*</span><span class="n">options</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSDictionary</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>      <span class="bp">AVURLAsset</span> <span class="o">*</span><span class="n">asset</span> <span class="o">=</span> <span class="p">[</span><span class="bp">AVURLAsset</span> <span class="nl">URLAssetWithURL</span><span class="p">:</span><span class="n">assetURL</span> <span class="nl">options</span><span class="p">:</span><span class="n">options</span><span class="p">];</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="n">asset</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">//  创建export session</span>
+</span><span class='line'>        <span class="bp">AVAssetExportSession</span> <span class="o">*</span><span class="n">exportSession</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">AVAssetExportSession</span> <span class="n">alloc</span><span class="p">]</span>
+</span><span class='line'>            <span class="nl">initWithAsset</span><span class="p">:</span><span class="n">asset</span>
+</span><span class='line'>               <span class="nl">presetName</span><span class="p">:</span><span class="n">AVAssetExportPresetPassthrough</span><span class="p">];</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">exportSession</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="c1">//  导出类型</span>
+</span><span class='line'>            <span class="k">if</span> <span class="p">([</span><span class="n">pathExtension</span> <span class="nl">compare</span><span class="p">:</span><span class="s">@&quot;m4a&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">NSOrderedSame</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>              <span class="n">exportSession</span><span class="p">.</span><span class="n">outputFileType</span> <span class="o">=</span> <span class="n">AVFileTypeAppleM4A</span><span class="p">;</span>
+</span><span class='line'>            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">([</span><span class="n">pathExtension</span> <span class="nl">compare</span><span class="p">:</span><span class="s">@&quot;wav&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">NSOrderedSame</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>              <span class="n">exportSession</span><span class="p">.</span><span class="n">outputFileType</span> <span class="o">=</span> <span class="n">AVFileTypeWAVE</span><span class="p">;</span>
+</span><span class='line'>            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">([</span><span class="n">pathExtension</span> <span class="nl">compare</span><span class="p">:</span><span class="s">@&quot;aif&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">NSOrderedSame</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>              <span class="n">exportSession</span><span class="p">.</span><span class="n">outputFileType</span> <span class="o">=</span> <span class="n">AVFileTypeAIFF</span><span class="p">;</span>
+</span><span class='line'>            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">([</span><span class="n">pathExtension</span> <span class="nl">compare</span><span class="p">:</span><span class="s">@&quot;m4v&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">NSOrderedSame</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>              <span class="n">exportSession</span><span class="p">.</span><span class="n">outputFileType</span> <span class="o">=</span> <span class="n">AVFileTypeAppleM4V</span><span class="p">;</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="c1">//  导出地址</span>
+</span><span class='line'>            <span class="n">exportSession</span><span class="p">.</span><span class="n">outputURL</span> <span class="o">=</span> <span class="n">outputURL</span><span class="p">;</span>
+</span><span class='line'>            <span class="c1">//  导出</span>
+</span><span class='line'>            <span class="p">[</span><span class="n">exportSession</span> <span class="nl">exportAsynchronouslyWithCompletionHandler</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+</span><span class='line'>              <span class="c1">//  状态回调</span>
+</span><span class='line'>              <span class="k">if</span> <span class="p">(</span><span class="n">completion</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">switch</span> <span class="p">(</span><span class="n">exportSession</span><span class="p">.</span><span class="n">status</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">case</span> <span class="nl">AVAssetExportSessionStatusFailed</span><span class="p">:</span>
+</span><span class='line'>                  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Failed&quot;</span><span class="p">);</span>
+</span><span class='line'>                  <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>                <span class="k">case</span> <span class="nl">AVAssetExportSessionStatusCancelled</span><span class="p">:</span>
+</span><span class='line'>                  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Cancelled&quot;</span><span class="p">);</span>
+</span><span class='line'>                  <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>                <span class="k">case</span> <span class="nl">AVAssetExportSessionStatusCompleted</span><span class="p">:</span>
+</span><span class='line'>                  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Completed&quot;</span><span class="p">);</span>
+</span><span class='line'>                  <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>                <span class="k">default</span><span class="o">:</span>
+</span><span class='line'>                  <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>              <span class="p">}</span>
+</span><span class='line'>            <span class="p">}];</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<pre><code class="c">- (BOOL)validIpodLibraryURL:(NSURL *)url {
-  NSString *IPOD_SCHEME = @"ipod-library";
-  if (nil == url)
-    return NO;
-  if (nil == url.scheme)
-    return NO;
-  if ([url.scheme compare:IPOD_SCHEME] != NSOrderedSame)
-    return NO;
-  if ([url.pathExtension compare:@"aif"] != NSOrderedSame &amp;&amp;
-      [url.pathExtension compare:@"m4a"] != NSOrderedSame &amp;&amp;
-      [url.pathExtension compare:@"wav"] != NSOrderedSame &amp;&amp;
-      [url.pathExtension compare:@"m4v"] != NSOrderedSame) {
-    return NO;
-  }
-  return YES;
-}
-</code></pre>
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">validIpodLibraryURL:</span><span class="p">(</span><span class="bp">NSURL</span> <span class="o">*</span><span class="p">)</span><span class="nv">url</span> <span class="p">{</span>
+</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">IPOD_SCHEME</span> <span class="o">=</span> <span class="s">@&quot;ipod-library&quot;</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nb">nil</span> <span class="o">==</span> <span class="n">url</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">NO</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nb">nil</span> <span class="o">==</span> <span class="n">url</span><span class="p">.</span><span class="n">scheme</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">NO</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">([</span><span class="n">url</span><span class="p">.</span><span class="n">scheme</span> <span class="nl">compare</span><span class="p">:</span><span class="n">IPOD_SCHEME</span><span class="p">]</span> <span class="o">!=</span> <span class="n">NSOrderedSame</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">NO</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">([</span><span class="n">url</span><span class="p">.</span><span class="n">pathExtension</span> <span class="nl">compare</span><span class="p">:</span><span class="s">@&quot;aif&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">NSOrderedSame</span> <span class="o">&amp;&amp;</span>
+</span><span class='line'>      <span class="p">[</span><span class="n">url</span><span class="p">.</span><span class="n">pathExtension</span> <span class="nl">compare</span><span class="p">:</span><span class="s">@&quot;m4a&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">NSOrderedSame</span> <span class="o">&amp;&amp;</span>
+</span><span class='line'>      <span class="p">[</span><span class="n">url</span><span class="p">.</span><span class="n">pathExtension</span> <span class="nl">compare</span><span class="p">:</span><span class="s">@&quot;wav&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">NSOrderedSame</span> <span class="o">&amp;&amp;</span>
+</span><span class='line'>      <span class="p">[</span><span class="n">url</span><span class="p">.</span><span class="n">pathExtension</span> <span class="nl">compare</span><span class="p">:</span><span class="s">@&quot;m4v&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">NSOrderedSame</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">NO</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
 
 <p class='post-footer'>
   原始地址：

@@ -140,45 +140,86 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 <p>子controller并不会被缩放，而是从上到下布局，可能被截断。</p>
 
-<pre><code>-(void)setupPageController{
-  self.pageController =
-      [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll
-                                      navigationOrientation:UIPageViewControllerNavigationOrientationVertical
-                                                    options:options];
-  self.pageController.view.frame = CGRectMake(0, 64, kScreen_Width, kScreen_Height - 64 - 49);
-  self.pageController.dataSource = self;
-  self.pages = @[ self.mainVC, self.bottomVC ];
-  [self.pageController setViewControllers:@[ self.pages.firstObject ]
-                                direction:UIPageViewControllerNavigationDirectionForward
-                                 animated:YES
-                               completion:nil];
-  [self addChildViewController:self.pageController];
-  [self.view addSubview:self.pageController.view];
-}
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setupPageController</span><span class="p">{</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">pageController</span> <span class="o">=</span>
+</span><span class='line'>      <span class="p">[[</span><span class="bp">UIPageViewController</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTransitionStyle</span><span class="p">:</span><span class="n">UIPageViewControllerTransitionStyleScroll</span>
+</span><span class='line'>                                      <span class="nl">navigationOrientation</span><span class="p">:</span><span class="n">UIPageViewControllerNavigationOrientationVertical</span>
+</span><span class='line'>                                                    <span class="nl">options</span><span class="p">:</span><span class="n">options</span><span class="p">];</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">pageController</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kScreen_Width</span><span class="p">,</span> <span class="n">kScreen_Height</span> <span class="o">-</span> <span class="mi">64</span> <span class="o">-</span> <span class="mi">49</span><span class="p">);</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">pageController</span><span class="p">.</span><span class="n">dataSource</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">pages</span> <span class="o">=</span> <span class="l">@[</span> <span class="nb">self</span><span class="p">.</span><span class="n">mainVC</span><span class="p">,</span> <span class="nb">self</span><span class="p">.</span><span class="n">bottomVC</span> <span class="l">]</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">pageController</span> <span class="nl">setViewControllers</span><span class="p">:</span><span class="l">@[</span> <span class="nb">self</span><span class="p">.</span><span class="n">pages</span><span class="p">.</span><span class="n">firstObject</span> <span class="l">]</span>
+</span><span class='line'>                                <span class="nl">direction</span><span class="p">:</span><span class="n">UIPageViewControllerNavigationDirectionForward</span>
+</span><span class='line'>                                 <span class="nl">animated</span><span class="p">:</span><span class="nb">YES</span>
+</span><span class='line'>                               <span class="nl">completion</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span> <span class="nl">addChildViewController</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">pageController</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">pageController</span><span class="p">.</span><span class="n">view</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#pragma mark - UIPageViewControllerDataSource</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nf">pageViewController:</span><span class="p">(</span><span class="bp">UIPageViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">pageViewController</span>
+</span><span class='line'>      <span class="nf">viewControllerBeforeViewController:</span><span class="p">(</span><span class="bp">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">viewController</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">([</span><span class="n">viewController</span> <span class="nl">isKindOfClass</span><span class="p">:[</span><span class="n">ViewController1</span> <span class="k">class</span><span class="p">]])</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">([</span><span class="n">viewController</span> <span class="nl">isKindOfClass</span><span class="p">:[</span><span class="n">ViewController2</span> <span class="k">class</span><span class="p">]])</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">self</span><span class="p">.</span><span class="n">pages</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nf">pageViewController:</span><span class="p">(</span><span class="bp">UIPageViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">pageViewController</span>
+</span><span class='line'>       <span class="nf">viewControllerAfterViewController:</span><span class="p">(</span><span class="bp">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">viewController</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">([</span><span class="n">viewController</span> <span class="nl">isKindOfClass</span><span class="p">:[</span><span class="n">ViewController1</span> <span class="k">class</span><span class="p">]])</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">self</span><span class="p">.</span><span class="n">pages</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">([</span><span class="n">viewController</span> <span class="nl">isKindOfClass</span><span class="p">:[</span><span class="n">ViewController2</span> <span class="k">class</span><span class="p">]])</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-#pragma mark - UIPageViewControllerDataSource
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController
-      viewControllerBeforeViewController:(UIViewController *)viewController {
-  if ([viewController isKindOfClass:[ViewController1 class]]) {
-    return nil;
-  }
-  if ([viewController isKindOfClass:[ViewController2 class]]) {
-    return self.pages[0];
-  }
-  return nil;
-}
 
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController
-       viewControllerAfterViewController:(UIViewController *)viewController {
-  if ([viewController isKindOfClass:[ViewController1 class]]) {
-    return self.pages[1];
-  }
-  if ([viewController isKindOfClass:[ViewController2 class]]) {
-    return nil;
-  }
-  return nil;
-}
-</code></pre>
+
 
 <p class='post-footer'>
   原始地址：

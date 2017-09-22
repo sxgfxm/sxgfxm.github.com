@@ -142,30 +142,54 @@ $(document).bind('DOMNodeInserted', function(event) {
 </ol>
 
 
-<pre><code>+ (UIViewController *)topViewController {
-  return [self
-      topViewControllerWithRootViewController:[UIApplication sharedApplication].delegate.window.rootViewController];
-}
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">+</span> <span class="p">(</span><span class="bp">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nf">topViewController</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="p">[</span><span class="nb">self</span>
+</span><span class='line'>      <span class="nl">topViewControllerWithRootViewController</span><span class="p">:[</span><span class="bp">UIApplication</span> <span class="n">sharedApplication</span><span class="p">].</span><span class="n">delegate</span><span class="p">.</span><span class="n">window</span><span class="p">.</span><span class="n">rootViewController</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="bp">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nf">topViewControllerWithRootViewController:</span><span class="p">(</span><span class="bp">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">rootViewController</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;root to top vc:%@&quot;</span><span class="p">,</span> <span class="n">NSStringFromClass</span><span class="p">([</span><span class="n">rootViewController</span> <span class="k">class</span><span class="p">]));</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">([</span><span class="n">rootViewController</span> <span class="nl">isKindOfClass</span><span class="p">:[</span><span class="n">MMDrawerController</span> <span class="k">class</span><span class="p">]])</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">MMDrawerController</span> <span class="o">*</span><span class="n">mmdVc</span> <span class="o">=</span> <span class="p">(</span><span class="n">MMDrawerController</span> <span class="o">*</span><span class="p">)</span><span class="n">rootViewController</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="nb">self</span> <span class="nl">topViewControllerWithRootViewController</span><span class="p">:</span><span class="n">mmdVc</span><span class="p">.</span><span class="n">centerViewController</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">([</span><span class="n">rootViewController</span> <span class="nl">isKindOfClass</span><span class="p">:[</span><span class="bp">UITabBarController</span> <span class="k">class</span><span class="p">]])</span> <span class="p">{</span>
+</span><span class='line'>    <span class="bp">UITabBarController</span> <span class="o">*</span><span class="n">tabBarController</span> <span class="o">=</span> <span class="p">(</span><span class="bp">UITabBarController</span> <span class="o">*</span><span class="p">)</span><span class="n">rootViewController</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="nb">self</span> <span class="nl">topViewControllerWithRootViewController</span><span class="p">:</span><span class="n">tabBarController</span><span class="p">.</span><span class="n">selectedViewController</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">([</span><span class="n">rootViewController</span> <span class="nl">isKindOfClass</span><span class="p">:[</span><span class="bp">UINavigationController</span> <span class="k">class</span><span class="p">]])</span> <span class="p">{</span>
+</span><span class='line'>    <span class="bp">UINavigationController</span> <span class="o">*</span><span class="n">navigationController</span> <span class="o">=</span> <span class="p">(</span><span class="bp">UINavigationController</span> <span class="o">*</span><span class="p">)</span><span class="n">rootViewController</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="nb">self</span> <span class="nl">topViewControllerWithRootViewController</span><span class="p">:</span><span class="n">navigationController</span><span class="p">.</span><span class="n">visibleViewController</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">rootViewController</span><span class="p">.</span><span class="n">presentedViewController</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="bp">UIViewController</span> <span class="o">*</span><span class="n">presentedViewController</span> <span class="o">=</span> <span class="n">rootViewController</span><span class="p">.</span><span class="n">presentedViewController</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="nb">self</span> <span class="nl">topViewControllerWithRootViewController</span><span class="p">:</span><span class="n">presentedViewController</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">rootViewController</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-+ (UIViewController *)topViewControllerWithRootViewController:(UIViewController *)rootViewController {
-  NSLog(@"root to top vc:%@", NSStringFromClass([rootViewController class]));
-  if ([rootViewController isKindOfClass:[MMDrawerController class]]) {
-    MMDrawerController *mmdVc = (MMDrawerController *)rootViewController;
-    return [self topViewControllerWithRootViewController:mmdVc.centerViewController];
-  } else if ([rootViewController isKindOfClass:[UITabBarController class]]) {
-    UITabBarController *tabBarController = (UITabBarController *)rootViewController;
-    return [self topViewControllerWithRootViewController:tabBarController.selectedViewController];
-  } else if ([rootViewController isKindOfClass:[UINavigationController class]]) {
-    UINavigationController *navigationController = (UINavigationController *)rootViewController;
-    return [self topViewControllerWithRootViewController:navigationController.visibleViewController];
-  } else if (rootViewController.presentedViewController) {
-    UIViewController *presentedViewController = rootViewController.presentedViewController;
-    return [self topViewControllerWithRootViewController:presentedViewController];
-  } else {
-    return rootViewController;
-  }
-}
-</code></pre>
 
 <h2>Create Groups vs Create Folder References</h2>
 

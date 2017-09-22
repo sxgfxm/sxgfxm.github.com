@@ -127,30 +127,53 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 <p>A component is an immutable object that specifies how to configure a view, loosely inspired by React.</p>
 
-<pre><code>+ (instancetype)newWithView:(const CKComponentViewConfiguration &amp;)view
-                       size:(const CKComponentSize &amp;)size;
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">newWithView:</span><span class="p">(</span><span class="k">const</span> <span class="n">CKComponentViewConfiguration</span> <span class="o">&amp;</span><span class="p">)</span><span class="nv">view</span>
+</span><span class='line'>                       <span class="nf">size:</span><span class="p">(</span><span class="k">const</span> <span class="n">CKComponentSize</span> <span class="o">&amp;</span><span class="p">)</span><span class="nv">size</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Example:</p>
 
-<pre><code>CKComponent *component = [CKComponent
-    newWithView:{
-        [UIView class],
-        {
-            {@selector(setBackgroundColor:),[UIColor redColor]},
-            {@selector(setUserInteractionEnabled:), @YES},
-            {CKComponentTapGestureAttribute(@selector(didTap))},
-            {CKComponentViewAttribute::LayerAttribute(@selector(setCornerRadius:)), @10.0}
-        }
-    }
-    size:{50,50}];
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">CKComponent</span> <span class="o">*</span><span class="n">component</span> <span class="o">=</span> <span class="p">[</span><span class="n">CKComponent</span>
+</span><span class='line'>    <span class="nl">newWithView</span><span class="p">:{</span>
+</span><span class='line'>        <span class="p">[</span><span class="bp">UIView</span> <span class="k">class</span><span class="p">],</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="p">{</span><span class="k">@selector</span><span class="p">(</span><span class="nl">setBackgroundColor</span><span class="p">:),[</span><span class="bp">UIColor</span> <span class="n">redColor</span><span class="p">]},</span>
+</span><span class='line'>            <span class="p">{</span><span class="k">@selector</span><span class="p">(</span><span class="nl">setUserInteractionEnabled</span><span class="p">:),</span> <span class="m">@YES</span><span class="p">},</span>
+</span><span class='line'>            <span class="p">{</span><span class="n">CKComponentTapGestureAttribute</span><span class="p">(</span><span class="k">@selector</span><span class="p">(</span><span class="n">didTap</span><span class="p">))},</span>
+</span><span class='line'>            <span class="p">{</span><span class="n">CKComponentViewAttribute</span><span class="o">::</span><span class="n">LayerAttribute</span><span class="p">(</span><span class="k">@selector</span><span class="p">(</span><span class="nl">setCornerRadius</span><span class="p">:)),</span> <span class="mf">@10.0</span><span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="nl">size</span><span class="p">:{</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">}];</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">didTap</span><span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span> <span class="nl">updateState</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSNumber</span> <span class="o">*</span><span class="n">oldState</span><span class="p">){</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="n">oldState</span> <span class="n">boolValue</span><span class="p">]</span> <span class="o">?</span> <span class="m">@NO</span> <span class="o">:</span> <span class="m">@YES</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span> <span class="nl">mode</span><span class="p">:</span><span class="n">CKUpdateModeSynchronous</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-- (void)didTap{
-  [self updateState:^(NSNumber *oldState){
-    return [oldState boolValue] ? @NO : @YES;
-  } mode:CKUpdateModeSynchronous];
-}
-</code></pre>
+
+
 
 <!-- more -->
 
@@ -159,77 +182,129 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 <p>多行文字通过size.width控制。</p>
 
-<pre><code>CKLabelComponent *titleComponent = [CKLabelComponent newWithLabelAttributes:{
-    .string = newsModel.title,
-    .color = [UIColor whiteColor],
-    .alignment = NSTextAlignmentLeft,
-    .font = [UIFont systemFontOfSize:20]
-  }
-  viewAttributes:{
-    { @selector(setBackgroundColor:), [UIColor clearColor] }
-  }
-  size:{}];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">CKLabelComponent</span> <span class="o">*</span><span class="n">titleComponent</span> <span class="o">=</span> <span class="p">[</span><span class="n">CKLabelComponent</span> <span class="nl">newWithLabelAttributes</span><span class="p">:{</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">string</span> <span class="o">=</span> <span class="n">newsModel</span><span class="p">.</span><span class="n">title</span><span class="p">,</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">color</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">],</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">alignment</span> <span class="o">=</span> <span class="n">NSTextAlignmentLeft</span><span class="p">,</span>
+</span><span class='line'>    <span class="p">.</span><span class="n">font</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIFont</span> <span class="nl">systemFontOfSize</span><span class="p">:</span><span class="mi">20</span><span class="p">]</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="nl">viewAttributes</span><span class="p">:{</span>
+</span><span class='line'>    <span class="p">{</span> <span class="k">@selector</span><span class="p">(</span><span class="nl">setBackgroundColor</span><span class="p">:),</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">clearColor</span><span class="p">]</span> <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="nl">size</span><span class="p">:{}];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>CKButtonComponent</h2>
 
-<pre><code> CKButtonComponent *buttonComponent = [CKButtonComponent
-    newWithTitles:{
-      {UIControlStateNormal,@"button"}
-    }
-    titleColors:{
-      {UIControlStateNormal,[UIColor whiteColor]}
-    }
-    images:{}
-    backgroundImages:{}
-    titleFont:[UIFont systemFontOfSize:17]
-    selected:NO
-    enabled:YES
-    action:{@selector(tapAction)}
-    size:{}
-    attributes:{}
-    accessibilityConfiguration:{}];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'> <span class="n">CKButtonComponent</span> <span class="o">*</span><span class="n">buttonComponent</span> <span class="o">=</span> <span class="p">[</span><span class="n">CKButtonComponent</span>
+</span><span class='line'>    <span class="nl">newWithTitles</span><span class="p">:{</span>
+</span><span class='line'>      <span class="p">{</span><span class="n">UIControlStateNormal</span><span class="p">,</span><span class="s">@&quot;button&quot;</span><span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="nl">titleColors</span><span class="p">:{</span>
+</span><span class='line'>      <span class="p">{</span><span class="n">UIControlStateNormal</span><span class="p">,[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">]}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="nl">images</span><span class="p">:{}</span>
+</span><span class='line'>    <span class="nl">backgroundImages</span><span class="p">:{}</span>
+</span><span class='line'>    <span class="nl">titleFont</span><span class="p">:[</span><span class="bp">UIFont</span> <span class="nl">systemFontOfSize</span><span class="p">:</span><span class="mi">17</span><span class="p">]</span>
+</span><span class='line'>    <span class="nl">selected</span><span class="p">:</span><span class="nb">NO</span>
+</span><span class='line'>    <span class="nl">enabled</span><span class="p">:</span><span class="nb">YES</span>
+</span><span class='line'>    <span class="nl">action</span><span class="p">:{</span><span class="k">@selector</span><span class="p">(</span><span class="n">tapAction</span><span class="p">)}</span>
+</span><span class='line'>    <span class="nl">size</span><span class="p">:{}</span>
+</span><span class='line'>    <span class="nl">attributes</span><span class="p">:{}</span>
+</span><span class='line'>    <span class="nl">accessibilityConfiguration</span><span class="p">:{}];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>CKImageComponent</h2>
 
-<pre><code>CKImageComponent *image = [CKImageComponent newWithImage:
-    [UIImage imageNamed:newsModel.imageURL]
-    attributes:{
-        { @selector(setBackgroundColor:), [UIColor whiteColor] },
-        {CKComponentViewAttribute::LayerAttribute(@selector(setCornerRadius:)), @10.0}
-    }
-    size:{60, 60}];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">CKImageComponent</span> <span class="o">*</span><span class="n">image</span> <span class="o">=</span> <span class="p">[</span><span class="n">CKImageComponent</span> <span class="nl">newWithImage</span><span class="p">:</span>
+</span><span class='line'>    <span class="p">[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:</span><span class="n">newsModel</span><span class="p">.</span><span class="n">imageURL</span><span class="p">]</span>
+</span><span class='line'>    <span class="nl">attributes</span><span class="p">:{</span>
+</span><span class='line'>        <span class="p">{</span> <span class="k">@selector</span><span class="p">(</span><span class="nl">setBackgroundColor</span><span class="p">:),</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">]</span> <span class="p">},</span>
+</span><span class='line'>        <span class="p">{</span><span class="n">CKComponentViewAttribute</span><span class="o">::</span><span class="n">LayerAttribute</span><span class="p">(</span><span class="k">@selector</span><span class="p">(</span><span class="nl">setCornerRadius</span><span class="p">:)),</span> <span class="mf">@10.0</span><span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="nl">size</span><span class="p">:{</span><span class="mi">60</span><span class="p">,</span> <span class="mi">60</span><span class="p">}];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>CKInsetComponent</h2>
 
 <p>A component that wraps another component, applying insets around it.</p>
 
-<pre><code>+ (instancetype)newWithView:(const CKComponentViewConfiguration &amp;)view
-                     insets:(UIEdgeInsets)insets
-                  component:(CKComponent *)component;
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">newWithView:</span><span class="p">(</span><span class="k">const</span> <span class="n">CKComponentViewConfiguration</span> <span class="o">&amp;</span><span class="p">)</span><span class="nv">view</span>
+</span><span class='line'>                     <span class="nf">insets:</span><span class="p">(</span><span class="bp">UIEdgeInsets</span><span class="p">)</span><span class="nv">insets</span>
+</span><span class='line'>                  <span class="nf">component:</span><span class="p">(</span><span class="n">CKComponent</span> <span class="o">*</span><span class="p">)</span><span class="nv">component</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">newWithInsets:</span><span class="p">(</span><span class="bp">UIEdgeInsets</span><span class="p">)</span><span class="nv">insets</span> <span class="nf">component:</span><span class="p">(</span><span class="n">CKComponent</span> <span class="o">*</span><span class="p">)</span><span class="nv">child</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
 
-+ (instancetype)newWithInsets:(UIEdgeInsets)insets component:(CKComponent *)child;
-</code></pre>
 
 <p>Example:</p>
 
-<pre><code>CKInsetComponent *insetComponent = [CKInsetComponent
-    newWithInsets:{.top = 10,.left = 20,.right = 10,.bottom = 20}
-    component:[CKComponent
-        newWithView:{}
-        size:{}]
-    ];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">CKInsetComponent</span> <span class="o">*</span><span class="n">insetComponent</span> <span class="o">=</span> <span class="p">[</span><span class="n">CKInsetComponent</span>
+</span><span class='line'>    <span class="nl">newWithInsets</span><span class="p">:{.</span><span class="n">top</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,.</span><span class="n">left</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,.</span><span class="n">right</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,.</span><span class="n">bottom</span> <span class="o">=</span> <span class="mi">20</span><span class="p">}</span>
+</span><span class='line'>    <span class="nl">component</span><span class="p">:[</span><span class="n">CKComponent</span>
+</span><span class='line'>        <span class="nl">newWithView</span><span class="p">:{}</span>
+</span><span class='line'>        <span class="nl">size</span><span class="p">:{}]</span>
+</span><span class='line'>    <span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>CKOverlayLayoutComponent</h2>
 
 <p>This component lays out a single component and then overlays a component on top of it streched to its size.</p>
 
-<pre><code>+ (instancetype)newWithComponent:(CKComponent *)component
-                         overlay:(CKComponent *)overlay;
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">newWithComponent:</span><span class="p">(</span><span class="n">CKComponent</span> <span class="o">*</span><span class="p">)</span><span class="nv">component</span>
+</span><span class='line'>                         <span class="nf">overlay:</span><span class="p">(</span><span class="n">CKComponent</span> <span class="o">*</span><span class="p">)</span><span class="nv">overlay</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>State</h2>
 

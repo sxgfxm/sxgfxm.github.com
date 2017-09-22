@@ -133,29 +133,52 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 <p>通过<code>frameworkName</code>和<code>bundleName</code>获取对应bundle。</p>
 
-<pre><code class="c">+ (NSBundle *)getBundleWithFrameworkName:(NSString *)frameworkName bundleName:(NSString *)bundleName {
-  NSString *tmpBundleName = [bundleName copy];
-  if (![bundleName hasSuffix:@".bundle"]) {
-    tmpBundleName = [NSString stringWithFormat:@"%@.bundle", tmpBundleName];
-  }
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">+</span> <span class="p">(</span><span class="bp">NSBundle</span> <span class="o">*</span><span class="p">)</span><span class="nf">getBundleWithFrameworkName:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">frameworkName</span> <span class="nf">bundleName:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">bundleName</span> <span class="p">{</span>
+</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">tmpBundleName</span> <span class="o">=</span> <span class="p">[</span><span class="n">bundleName</span> <span class="k">copy</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">[</span><span class="n">bundleName</span> <span class="nl">hasSuffix</span><span class="p">:</span><span class="s">@&quot;.bundle&quot;</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">tmpBundleName</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;%@.bundle&quot;</span><span class="p">,</span> <span class="n">tmpBundleName</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">mainBundlePath</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSBundle</span> <span class="n">mainBundle</span><span class="p">]</span> <span class="n">resourcePath</span><span class="p">];</span>
+</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">bundlePath</span> <span class="o">=</span> <span class="p">[</span><span class="n">mainBundlePath</span> <span class="nl">stringByAppendingPathComponent</span><span class="p">:</span><span class="n">tmpBundleName</span><span class="p">];</span>
+</span><span class='line'>  <span class="bp">NSBundle</span> <span class="o">*</span><span class="n">bundle</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSBundle</span> <span class="nl">bundleWithPath</span><span class="p">:</span><span class="n">bundlePath</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">bundle</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">bundle</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">tempFramework</span> <span class="o">=</span> <span class="p">[</span><span class="n">frameworkName</span> <span class="k">copy</span><span class="p">];</span>
+</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">frameExtension</span> <span class="o">=</span> <span class="s">@&quot;.framework&quot;</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">[</span><span class="n">tempFramework</span> <span class="nl">hasSuffix</span><span class="p">:</span><span class="n">frameExtension</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">tempFramework</span> <span class="o">=</span> <span class="p">[</span><span class="n">tempFramework</span> <span class="nl">stringByAppendingString</span><span class="p">:</span><span class="n">frameExtension</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">path</span> <span class="o">=</span> <span class="p">[[[</span><span class="bp">NSBundle</span> <span class="n">mainBundle</span><span class="p">]</span> <span class="n">privateFrameworksPath</span><span class="p">]</span> <span class="nl">stringByAppendingPathComponent</span><span class="p">:</span><span class="n">tempFramework</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">return</span> <span class="p">[</span><span class="bp">NSBundle</span> <span class="nl">bundleWithPath</span><span class="p">:[</span><span class="n">path</span> <span class="nl">stringByAppendingPathComponent</span><span class="p">:</span><span class="n">tmpBundleName</span><span class="p">]];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-  NSString *mainBundlePath = [[NSBundle mainBundle] resourcePath];
-  NSString *bundlePath = [mainBundlePath stringByAppendingPathComponent:tmpBundleName];
-  NSBundle *bundle = [NSBundle bundleWithPath:bundlePath];
-  if (bundle) {
-    return bundle;
-  }
-
-  NSString *tempFramework = [frameworkName copy];
-  NSString *frameExtension = @".framework";
-  if (![tempFramework hasSuffix:frameExtension]) {
-    tempFramework = [tempFramework stringByAppendingString:frameExtension];
-  }
-
-  NSString *path = [[[NSBundle mainBundle] privateFrameworksPath] stringByAppendingPathComponent:tempFramework];
-  return [NSBundle bundleWithPath:[path stringByAppendingPathComponent:tmpBundleName]];
-}
-</code></pre>
 
 <h2>Localized string in cocoapods</h2>
 
@@ -164,40 +187,74 @@ $(document).bind('DOMNodeInserted', function(event) {
 2. 在<code>MyPod.podspec</code>文件中添加语言bundle：<code>s.resource_bundles = {'LanguageBundle' =&gt; ['MyPod/Languages/**/*']}</code>；<br/>
 3. 添加简便调用方法：</p>
 
-<pre><code class="c">NSString *XGLocalizedString(NSString *key, NSString *comment) {
-  return [XGFitnessLocalize localizedString:key];
-}
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">NSString</span> <span class="o">*</span><span class="nf">XGLocalizedString</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="n">key</span><span class="p">,</span> <span class="bp">NSString</span> <span class="o">*</span><span class="n">comment</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="p">[</span><span class="n">XGFitnessLocalize</span> <span class="nl">localizedString</span><span class="p">:</span><span class="n">key</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nf">localizedString:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">key</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">//  key == nil, return nil;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">key</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">key</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="c1">//  system language</span>
+</span><span class='line'>  <span class="bp">NSUserDefaults</span> <span class="o">*</span><span class="n">defaults</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSUserDefaults</span> <span class="n">standardUserDefaults</span><span class="p">];</span>
+</span><span class='line'>  <span class="bp">NSArray</span> <span class="o">*</span><span class="n">languages</span> <span class="o">=</span> <span class="p">[</span><span class="n">defaults</span> <span class="nl">objectForKey</span><span class="p">:</span><span class="n">kAppleLanguageKey</span><span class="p">];</span>
+</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">language</span> <span class="o">=</span> <span class="p">[</span><span class="n">languages</span> <span class="n">firstObject</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  set default language</span>
+</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">fileNamePrefix</span> <span class="o">=</span> <span class="n">language</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">([</span><span class="n">fileNamePrefix</span> <span class="nl">isEqualToString</span><span class="p">:</span><span class="n">kLanguageEnglish</span><span class="p">]</span> <span class="o">||</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">fileNamePrefix</span> <span class="nl">isEqualToString</span><span class="p">:</span><span class="n">kLanguageSimplifiedChinese</span><span class="p">]</span> <span class="o">||</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">fileNamePrefix</span> <span class="nl">isEqualToString</span><span class="p">:</span><span class="n">kLanguageTraditionalChinese</span><span class="p">]))</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">fileNamePrefix</span> <span class="o">=</span> <span class="n">kDefaultLanguage</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="c1">//  language bundle</span>
+</span><span class='line'>  <span class="bp">NSBundle</span> <span class="o">*</span><span class="n">languageBundle</span> <span class="o">=</span>
+</span><span class='line'>      <span class="p">[</span><span class="n">WWFitnessBundleUtil</span> <span class="nl">getBundleWithFrameworkName</span><span class="p">:</span><span class="n">kFrameworkName</span> <span class="nl">bundleName</span><span class="p">:</span><span class="n">kLanguageBundleName</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  lproj bundle</span>
+</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">path</span> <span class="o">=</span> <span class="p">[</span><span class="n">languageBundle</span> <span class="nl">pathForResource</span><span class="p">:</span><span class="n">fileNamePrefix</span> <span class="nl">ofType</span><span class="p">:</span><span class="s">@&quot;lproj&quot;</span><span class="p">];</span>
+</span><span class='line'>  <span class="bp">NSBundle</span> <span class="o">*</span><span class="n">lprojBundle</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSBundle</span> <span class="nl">bundleWithPath</span><span class="p">:</span><span class="n">path</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  localized string</span>
+</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">localizedString</span> <span class="o">=</span> <span class="p">[</span><span class="n">lprojBundle</span> <span class="nl">localizedStringForKey</span><span class="p">:</span><span class="n">key</span> <span class="nl">value</span><span class="p">:</span><span class="s">@&quot;&quot;</span> <span class="nl">table</span><span class="p">:</span><span class="s">@&quot;Localizable&quot;</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">localizedString</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">localizedString</span> <span class="o">=</span> <span class="n">key</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">localizedString</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-+ (NSString *)localizedString:(NSString *)key {
-  //  key == nil, return nil;
-  if (!key) {
-    return key;
-  }
-  //  system language
-  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-  NSArray *languages = [defaults objectForKey:kAppleLanguageKey];
-  NSString *language = [languages firstObject];
-  //  set default language
-  NSString *fileNamePrefix = language;
-  if (!([fileNamePrefix isEqualToString:kLanguageEnglish] ||
-        [fileNamePrefix isEqualToString:kLanguageSimplifiedChinese] ||
-        [fileNamePrefix isEqualToString:kLanguageTraditionalChinese])) {
-    fileNamePrefix = kDefaultLanguage;
-  }
-  //  language bundle
-  NSBundle *languageBundle =
-      [WWFitnessBundleUtil getBundleWithFrameworkName:kFrameworkName bundleName:kLanguageBundleName];
-  //  lproj bundle
-  NSString *path = [languageBundle pathForResource:fileNamePrefix ofType:@"lproj"];
-  NSBundle *lprojBundle = [NSBundle bundleWithPath:path];
-  //  localized string
-  NSString *localizedString = [lprojBundle localizedStringForKey:key value:@"" table:@"Localizable"];
-  if (!localizedString) {
-    localizedString = key;
-  }
-  return localizedString;
-}
-</code></pre>
 
 <h2>Image in cocoapods</h2>
 
@@ -206,15 +263,24 @@ $(document).bind('DOMNodeInserted', function(event) {
 2. 在<code>MyPod.podspec</code>文件中添加图片bundle：<code>s.resource_bundles = {'ImageBundle' =&gt; ['MyPod/Assets/Images/**/*']}</code>；<br/>
 3. 为<code>UIImage</code>添加类别方法<code>bundleImageNamed:</code></p>
 
-<pre><code class="objective-c">@implementation UIImage (BundleImage)
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@implementation</span> <span class="bp">UIImage</span> <span class="nl">(BundleImage)</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nf">bundleImageNamed:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span> <span class="p">{</span>
+</span><span class='line'>  <span class="bp">NSBundle</span> <span class="o">*</span><span class="n">imageBundle</span> <span class="o">=</span> <span class="p">[</span><span class="n">WWFitnessBundleUtil</span> <span class="nl">getBundleWithFrameworkName</span><span class="p">:</span><span class="s">@&quot;MyPod&quot;</span> <span class="nl">bundleName</span><span class="p">:</span><span class="s">@&quot;ImageBundle&quot;</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">return</span> <span class="p">[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:</span><span class="n">name</span> <span class="nl">inBundle</span><span class="p">:</span><span class="n">imageBundle</span> <span class="nl">compatibleWithTraitCollection</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-+ (UIImage *)bundleImageNamed:(NSString *)name {
-  NSBundle *imageBundle = [WWFitnessBundleUtil getBundleWithFrameworkName:@"MyPod" bundleName:@"ImageBundle"];
-  return [UIImage imageNamed:name inBundle:imageBundle compatibleWithTraitCollection:nil];
-}
-
-@end
-</code></pre>
 
 <h2>Font in cocoapods</h2>
 
@@ -223,36 +289,66 @@ $(document).bind('DOMNodeInserted', function(event) {
 2. 在<code>MyPod.podspec</code>文件中添加字体bundle：<code>s.resource_bundles = {'FontBundle' =&gt; ['MyPod/Fonts/*']}</code>；<br/>
 3. 创建注册字体方法，并在使用前仅调用一次。</p>
 
-<pre><code class="objective-c">#import &lt;CoreText/CTFontManager.h&gt;
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &lt;CoreText/CTFontManager.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">registerFitnessFont</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span> <span class="nl">registerFitnessFont</span><span class="p">:</span><span class="s">@&quot;DIN-Regular&quot;</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span> <span class="nl">registerFitnessFont</span><span class="p">:</span><span class="s">@&quot;DIN-Medium&quot;</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span> <span class="nl">registerFitnessFont</span><span class="p">:</span><span class="s">@&quot;DIN-Bold&quot;</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">registerFitnessFont:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">fontName</span> <span class="p">{</span>
+</span><span class='line'>  <span class="bp">NSBundle</span> <span class="o">*</span><span class="n">fontBundle</span> <span class="o">=</span> <span class="p">[</span><span class="n">WWFitnessBundleUtil</span> <span class="nl">getBundleWithFrameworkName</span><span class="p">:</span><span class="s">@&quot;MyPod&quot;</span> <span class="nl">bundleName</span><span class="p">:</span><span class="s">@&quot;FontBundle&quot;</span><span class="p">];</span>
+</span><span class='line'>  <span class="bp">NSURL</span> <span class="o">*</span><span class="n">fontURL</span> <span class="o">=</span> <span class="p">[</span><span class="n">fontBundle</span> <span class="nl">URLForResource</span><span class="p">:</span><span class="n">fontName</span> <span class="nl">withExtension</span><span class="p">:</span><span class="s">@&quot;otf&quot;</span> <span class="cm">/*or TTF*/</span><span class="p">];</span>
+</span><span class='line'>  <span class="bp">NSData</span> <span class="o">*</span><span class="n">inData</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSData</span> <span class="nl">dataWithContentsOfURL</span><span class="p">:</span><span class="n">fontURL</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">CFErrorRef</span> <span class="n">error</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">CGDataProviderRef</span> <span class="n">provider</span> <span class="o">=</span> <span class="n">CGDataProviderCreateWithCFData</span><span class="p">((</span><span class="n">CFDataRef</span><span class="p">)</span><span class="n">inData</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">CGFontRef</span> <span class="n">font</span> <span class="o">=</span> <span class="n">CGFontCreateWithDataProvider</span><span class="p">(</span><span class="n">provider</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">CTFontManagerRegisterGraphicsFont</span><span class="p">(</span><span class="n">font</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">error</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">CFStringRef</span> <span class="n">errorDescription</span> <span class="o">=</span> <span class="n">CFErrorCopyDescription</span><span class="p">(</span><span class="n">error</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Failed to load font: %@&quot;</span><span class="p">,</span> <span class="n">errorDescription</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">CFRelease</span><span class="p">(</span><span class="n">errorDescription</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="n">CFSafeRelease</span><span class="p">(</span><span class="n">font</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">CFSafeRelease</span><span class="p">(</span><span class="n">provider</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">void</span> <span class="nf">CFSafeRelease</span><span class="p">(</span><span class="n">CFTypeRef</span> <span class="n">cf</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">cf</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">CFRelease</span><span class="p">(</span><span class="n">cf</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-+ (void)registerFitnessFont {
-  [self registerFitnessFont:@"DIN-Regular"];
-  [self registerFitnessFont:@"DIN-Medium"];
-  [self registerFitnessFont:@"DIN-Bold"];
-}
-
-+ (void)registerFitnessFont:(NSString *)fontName {
-  NSBundle *fontBundle = [WWFitnessBundleUtil getBundleWithFrameworkName:@"MyPod" bundleName:@"FontBundle"];
-  NSURL *fontURL = [fontBundle URLForResource:fontName withExtension:@"otf" /*or TTF*/];
-  NSData *inData = [NSData dataWithContentsOfURL:fontURL];
-  CFErrorRef error;
-  CGDataProviderRef provider = CGDataProviderCreateWithCFData((CFDataRef)inData);
-  CGFontRef font = CGFontCreateWithDataProvider(provider);
-  if (!CTFontManagerRegisterGraphicsFont(font, &amp;error)) {
-    CFStringRef errorDescription = CFErrorCopyDescription(error);
-    NSLog(@"Failed to load font: %@", errorDescription);
-    CFRelease(errorDescription);
-  }
-  CFSafeRelease(font);
-  CFSafeRelease(provider);
-}
-
-void CFSafeRelease(CFTypeRef cf) {
-  if (cf != NULL) {
-    CFRelease(cf);
-  }
-}
-</code></pre>
 
 <p class='post-footer'>
   原始地址：

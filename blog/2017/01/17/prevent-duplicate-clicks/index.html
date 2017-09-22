@@ -161,95 +161,183 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 <p>.h</p>
 
-<pre><code>#import &lt;UIKit/UIKit.h&gt;
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &lt;UIKit/UIKit.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="bp">UIButton</span> <span class="nl">(WXD)</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm">*  为按钮添加点击间隔 eventTimeInterval秒</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">assign</span><span class="p">)</span> <span class="n">NSTimeInterval</span> <span class="n">eventTimeInterval</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-@interface UIButton (WXD)
-
-/**
-*  为按钮添加点击间隔 eventTimeInterval秒
-*/
-@property (nonatomic, assign) NSTimeInterval eventTimeInterval;
-
-@end
-</code></pre>
 
 <p>.m</p>
 
-<pre><code class="objective-c">#import "UIButton+WXD.h"
-#import &lt;objc/runtime.h&gt;
-#define defaultInterval 1  //默认时间间隔
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &quot;UIButton+WXD.h&quot;</span>
+</span><span class='line'><span class="cp">#import &lt;objc/runtime.h&gt;</span>
+</span><span class='line'><span class="cp">#define defaultInterval 1  </span><span class="c1">//默认时间间隔</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="bp">UIButton</span> <span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm">*  bool YES 忽略点击事件   NO 允许点击事件</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">assign</span><span class="p">)</span> <span class="kt">BOOL</span> <span class="n">isIgnoreEvent</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="bp">UIButton</span> <span class="nl">(WXD)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">static</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">UIControl_eventTimeInterval</span> <span class="o">=</span> <span class="s">&quot;UIControl_eventTimeInterval&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="k">static</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">UIControl_enventIsIgnoreEvent</span> <span class="o">=</span> <span class="s">&quot;UIControl_enventIsIgnoreEvent&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// runtime 动态绑定 属性</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setIsIgnoreEvent:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">isIgnoreEvent</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">objc_setAssociatedObject</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">UIControl_enventIsIgnoreEvent</span><span class="p">,</span> <span class="l">@(</span><span class="n">isIgnoreEvent</span><span class="l">)</span><span class="p">,</span> <span class="n">OBJC_ASSOCIATION_RETAIN_NONATOMIC</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">isIgnoreEvent</span><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="n">objc_getAssociatedObject</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">UIControl_enventIsIgnoreEvent</span><span class="p">)</span> <span class="n">boolValue</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="n">NSTimeInterval</span><span class="p">)</span><span class="nf">eventTimeInterval</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="p">[</span><span class="n">objc_getAssociatedObject</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">UIControl_eventTimeInterval</span><span class="p">)</span> <span class="n">doubleValue</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setEventTimeInterval:</span><span class="p">(</span><span class="n">NSTimeInterval</span><span class="p">)</span><span class="nv">eventTimeInterval</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'> <span class="n">objc_setAssociatedObject</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">UIControl_eventTimeInterval</span><span class="p">,</span> <span class="l">@(</span><span class="n">eventTimeInterval</span><span class="l">)</span><span class="p">,</span> <span class="n">OBJC_ASSOCIATION_RETAIN_NONATOMIC</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">load</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="c1">// Method Swizzling</span>
+</span><span class='line'> <span class="k">static</span> <span class="kt">dispatch_once_t</span> <span class="n">onceToken</span><span class="p">;</span>
+</span><span class='line'> <span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>       <span class="kt">SEL</span> <span class="n">selA</span> <span class="o">=</span> <span class="k">@selector</span><span class="p">(</span><span class="nl">sendAction</span><span class="p">:</span><span class="nl">to</span><span class="p">:</span><span class="nl">forEvent</span><span class="p">:);</span>
+</span><span class='line'>       <span class="kt">SEL</span> <span class="n">selB</span> <span class="o">=</span> <span class="k">@selector</span><span class="p">(</span><span class="nl">_wxd_sendAction</span><span class="p">:</span><span class="nl">to</span><span class="p">:</span><span class="nl">forEvent</span><span class="p">:);</span>
+</span><span class='line'>       <span class="n">Method</span> <span class="n">methodA</span> <span class="o">=</span> <span class="n">class_getInstanceMethod</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span><span class="n">selA</span><span class="p">);</span>
+</span><span class='line'>       <span class="n">Method</span> <span class="n">methodB</span> <span class="o">=</span> <span class="n">class_getInstanceMethod</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">selB</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>       <span class="kt">BOOL</span> <span class="n">isAdd</span> <span class="o">=</span> <span class="n">class_addMethod</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">selA</span><span class="p">,</span> <span class="n">method_getImplementation</span><span class="p">(</span><span class="n">methodB</span><span class="p">),</span> <span class="n">method_getTypeEncoding</span><span class="p">(</span><span class="n">methodB</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'>       <span class="k">if</span> <span class="p">(</span><span class="n">isAdd</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>           <span class="n">class_replaceMethod</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">selB</span><span class="p">,</span> <span class="n">method_getImplementation</span><span class="p">(</span><span class="n">methodA</span><span class="p">),</span> <span class="n">method_getTypeEncoding</span><span class="p">(</span><span class="n">methodA</span><span class="p">));</span>
+</span><span class='line'>       <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>           <span class="c1">//添加失败了 说明本类中有methodB的实现，此时只需要将methodA和methodB的IMP互换一下即可。</span>
+</span><span class='line'>          <span class="n">method_exchangeImplementations</span><span class="p">(</span><span class="n">methodA</span><span class="p">,</span> <span class="n">methodB</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'> <span class="p">});</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">_wxd_sendAction:</span><span class="p">(</span><span class="kt">SEL</span><span class="p">)</span><span class="nv">action</span> <span class="nf">to:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">target</span> <span class="nf">forEvent:</span><span class="p">(</span><span class="bp">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="nv">event</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">eventTimeInterval</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">eventTimeInterval</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">?</span> <span class="nl">defaultInterval</span> <span class="p">:</span> <span class="nb">self</span><span class="p">.</span><span class="n">eventTimeInterval</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">isIgnoreEvent</span><span class="p">){</span>
+</span><span class='line'>      <span class="k">return</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span><span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">eventTimeInterval</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">){</span>
+</span><span class='line'>      <span class="n">dispatch_after</span><span class="p">(</span><span class="n">dispatch_time</span><span class="p">(</span><span class="n">DISPATCH_TIME_NOW</span><span class="p">,</span> <span class="p">(</span><span class="kt">int64_t</span><span class="p">)(</span><span class="nb">self</span><span class="p">.</span><span class="n">eventTimeInterval</span> <span class="o">*</span> <span class="n">NSEC_PER_SEC</span><span class="p">)),</span> <span class="n">dispatch_get_main_queue</span><span class="p">(),</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>       <span class="p">[</span><span class="nb">self</span> <span class="nl">setIsIgnoreEvent</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
+</span><span class='line'>       <span class="p">});</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">isIgnoreEvent</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+</span><span class='line'>  <span class="c1">// 这里看上去会陷入递归调用死循环，但在运行期此方法是和sendAction:to:forEvent:互换的，相当于执行sendAction:to:forEvent:方法，所以并不会陷入死循环。</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span> <span class="nl">_wxd_sendAction</span><span class="p">:</span><span class="n">action</span> <span class="nl">to</span><span class="p">:</span><span class="n">target</span> <span class="nl">forEvent</span><span class="p">:</span><span class="n">event</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-@interface UIButton ()
-
-/**
-*  bool YES 忽略点击事件   NO 允许点击事件
-*/
-@property (nonatomic, assign) BOOL isIgnoreEvent;
-
-@end
-
-@implementation UIButton (WXD)
-
-static const char *UIControl_eventTimeInterval = "UIControl_eventTimeInterval";
-static const char *UIControl_enventIsIgnoreEvent = "UIControl_enventIsIgnoreEvent";
 
 
-// runtime 动态绑定 属性
-- (void)setIsIgnoreEvent:(BOOL)isIgnoreEvent
-{
-    objc_setAssociatedObject(self, UIControl_enventIsIgnoreEvent, @(isIgnoreEvent), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-- (BOOL)isIgnoreEvent{
-    return [objc_getAssociatedObject(self, UIControl_enventIsIgnoreEvent) boolValue];
-}
-
-- (NSTimeInterval)eventTimeInterval
-{
-  return [objc_getAssociatedObject(self, UIControl_eventTimeInterval) doubleValue];
-}
-
-- (void)setEventTimeInterval:(NSTimeInterval)eventTimeInterval
-{
- objc_setAssociatedObject(self, UIControl_eventTimeInterval, @(eventTimeInterval), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-+ (void)load
-{
-  // Method Swizzling
- static dispatch_once_t onceToken;
- dispatch_once(&amp;onceToken, ^{
-       SEL selA = @selector(sendAction:to:forEvent:);
-       SEL selB = @selector(_wxd_sendAction:to:forEvent:);
-       Method methodA = class_getInstanceMethod(self,selA);
-       Method methodB = class_getInstanceMethod(self, selB);
-
-       BOOL isAdd = class_addMethod(self, selA, method_getImplementation(methodB), method_getTypeEncoding(methodB));
-
-       if (isAdd) {
-           class_replaceMethod(self, selB, method_getImplementation(methodA), method_getTypeEncoding(methodA));
-       }else{
-           //添加失败了 说明本类中有methodB的实现，此时只需要将methodA和methodB的IMP互换一下即可。
-          method_exchangeImplementations(methodA, methodB);
-      }
- });
-}
-
-- (void)_wxd_sendAction:(SEL)action to:(id)target forEvent:(UIEvent *)event
-{
-  self.eventTimeInterval = self.eventTimeInterval == 0 ? defaultInterval : self.eventTimeInterval;
-  if (self.isIgnoreEvent){
-      return;
-  }else if (self.eventTimeInterval &gt; 0){
-      dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.eventTimeInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-       [self setIsIgnoreEvent:NO];
-       });
-  }
-
-  self.isIgnoreEvent = YES;
-  // 这里看上去会陷入递归调用死循环，但在运行期此方法是和sendAction:to:forEvent:互换的，相当于执行sendAction:to:forEvent:方法，所以并不会陷入死循环。
-  [self _wxd_sendAction:action to:target forEvent:event];
-}  
-</code></pre>
 
 <p class='post-footer'>
   原始地址：

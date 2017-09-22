@@ -132,30 +132,53 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 <p>居然因为是字体原因</p>
 
-<pre><code>      CGFloat width = kScaleFrom_iPhone6_Desgin(5);
-      CAShapeLayer *shapeLayer = [CAShapeLayer layer];
-      shapeLayer.frame = CGRectMake(CGRectGetMinX(textLayer.frame) - kScaleFrom_iPhone6_Desgin(9), 0, width, width);
-      shapeLayer.position = CGPointMake(shapeLayer.position.x, point.y);
-      UIBezierPath *path = [UIBezierPath bezierPath];
-      [path moveToPoint:CGPointMake(0, width / 2)];
-      [path addLineToPoint:CGPointMake(width, 0)];
-      [path moveToPoint:CGPointMake(0, width / 2)];
-      [path addLineToPoint:CGPointMake(width, width)];
-      shapeLayer.path = path.CGPath;
-      shapeLayer.strokeColor = UIColorFromRGBA(0xff959595).CGColor;
-      shapeLayer.fillColor = [UIColor clearColor].CGColor;
-      shapeLayer.lineWidth = 1;
-      shapeLayer.lineCap = kCALineCapButt;
-      shapeLayer.lineJoin = kCALineJoinMiter;
-      [self.yAxisLayer addSublayer:shapeLayer];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="n">CGFloat</span> <span class="n">width</span> <span class="o">=</span> <span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+</span><span class='line'>  <span class="bp">CAShapeLayer</span> <span class="o">*</span><span class="n">shapeLayer</span> <span class="o">=</span> <span class="p">[</span><span class="bp">CAShapeLayer</span> <span class="n">layer</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">shapeLayer</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="n">CGRectGetMinX</span><span class="p">(</span><span class="n">textLayer</span><span class="p">.</span><span class="n">frame</span><span class="p">)</span> <span class="o">-</span> <span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">9</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">width</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">shapeLayer</span><span class="p">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="n">shapeLayer</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">point</span><span class="p">.</span><span class="n">y</span><span class="p">);</span>
+</span><span class='line'>  <span class="bp">UIBezierPath</span> <span class="o">*</span><span class="n">path</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIBezierPath</span> <span class="n">bezierPath</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">path</span> <span class="nl">moveToPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">path</span> <span class="nl">addLineToPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="mi">0</span><span class="p">)];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">path</span> <span class="nl">moveToPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">path</span> <span class="nl">addLineToPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">width</span><span class="p">)];</span>
+</span><span class='line'>  <span class="n">shapeLayer</span><span class="p">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span><span class="p">.</span><span class="bp">CGPath</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">shapeLayer</span><span class="p">.</span><span class="n">strokeColor</span> <span class="o">=</span> <span class="n">UIColorFromRGBA</span><span class="p">(</span><span class="mh">0xff959595</span><span class="p">).</span><span class="bp">CGColor</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">shapeLayer</span><span class="p">.</span><span class="n">fillColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">clearColor</span><span class="p">].</span><span class="bp">CGColor</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">shapeLayer</span><span class="p">.</span><span class="n">lineWidth</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">shapeLayer</span><span class="p">.</span><span class="n">lineCap</span> <span class="o">=</span> <span class="n">kCALineCapButt</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">shapeLayer</span><span class="p">.</span><span class="n">lineJoin</span> <span class="o">=</span> <span class="n">kCALineJoinMiter</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">yAxisLayer</span> <span class="nl">addSublayer</span><span class="p">:</span><span class="n">shapeLayer</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>Register DDLog</h2>
 
-<pre><code>  // Register DDLog
-  [DDLog addLogger:[DDTTYLogger sharedInstance]];  // TTY = Xcode console
-  [DDLog addLogger:[DDASLLogger sharedInstance]];  // ASL = File log
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="c1">// Register DDLog</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">DDLog</span> <span class="nl">addLogger</span><span class="p">:[</span><span class="n">DDTTYLogger</span> <span class="n">sharedInstance</span><span class="p">]];</span>  <span class="c1">// TTY = Xcode console</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">DDLog</span> <span class="nl">addLogger</span><span class="p">:[</span><span class="n">DDASLLogger</span> <span class="n">sharedInstance</span><span class="p">]];</span>  <span class="c1">// ASL = File log</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
 
 <p class='post-footer'>
   原始地址：

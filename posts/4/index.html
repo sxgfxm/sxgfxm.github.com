@@ -126,17 +126,30 @@ $(document).bind('DOMNodeInserted', function(event) {
 
   <div class="entry-content"><h2>OC中的锁</h2>
 
-<pre><code>@implementation TestObj
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@implementation</span> <span class="nc">TestObj</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">method1</span><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Method1&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">method2</span><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Method2&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
 
--(void)method1{
-  NSLog(@"Method1");
-}
--(void)method2{
-  NSLog(@"Method2");
-}
 
-@end
-</code></pre>
+
 
 </div>
   
@@ -244,11 +257,16 @@ $(document).bind('DOMNodeInserted', function(event) {
 <p>手动请求权限：当用户拒绝授权某权限时，需要手动再次请求。<br/>
 跳转至权限设置界面：</p>
 
-<pre><code>[[UIApplication sharedApplication]
-                openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]
-                options:@{}
-      completionHandler:nil];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[[</span><span class="bp">UIApplication</span> <span class="n">sharedApplication</span><span class="p">]</span>
+</span><span class='line'>                <span class="nl">openURL</span><span class="p">:[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="n">UIApplicationOpenSettingsURLString</span><span class="p">]</span>
+</span><span class='line'>                <span class="nl">options</span><span class="p">:</span><span class="l">@{}</span>
+</span><span class='line'>      <span class="nl">completionHandler</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p><a href="https://github.com/sxgfxm/AuthorizationDemo">Demo地址</a></p>
 

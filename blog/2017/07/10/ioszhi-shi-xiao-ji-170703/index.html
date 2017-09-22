@@ -123,33 +123,62 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 <div class="entry-content"><h2>CAKeyFrameAnimation</h2>
 
-<pre><code>- (CAKeyframeAnimation *)circleShake {
-  if (!_circleShake) {
-    CGFloat baseX = self.circleMask.position.x;
-    _circleShake = [CAKeyframeAnimation animationWithKeyPath:@"position.x"];
-    _circleShake.keyTimes = @[
-      @0,
-      @(0.1 / 0.8),
-      @(0.2 / 0.8),
-      @(0.3 / 0.8),
-      @(0.5 / 0.8),
-      @(0.76 / 0.8)
-    ];
-    _circleShake.values = @[
-      @(baseX),
-      @(baseX - 11),
-      @(baseX + 11),
-      @(baseX - 11),
-      @(baseX + 11),
-      @(baseX)
-    ];
-    _circleShake.duration = 0.8;
-    _circleShake.removedOnCompletion = YES;
-    _circleShake.fillMode = kCAFillModeForwards;
-  }
-  return _circleShake;
-}
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">CAKeyframeAnimation</span> <span class="o">*</span><span class="p">)</span><span class="nf">circleShake</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">_circleShake</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">CGFloat</span> <span class="n">baseX</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">circleMask</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">_circleShake</span> <span class="o">=</span> <span class="p">[</span><span class="bp">CAKeyframeAnimation</span> <span class="nl">animationWithKeyPath</span><span class="p">:</span><span class="s">@&quot;position.x&quot;</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">_circleShake</span><span class="p">.</span><span class="n">keyTimes</span> <span class="o">=</span> <span class="l">@[</span>
+</span><span class='line'>      <span class="mi">@0</span><span class="p">,</span>
+</span><span class='line'>      <span class="l">@(</span><span class="mf">0.1</span> <span class="o">/</span> <span class="mf">0.8</span><span class="l">)</span><span class="p">,</span>
+</span><span class='line'>      <span class="l">@(</span><span class="mf">0.2</span> <span class="o">/</span> <span class="mf">0.8</span><span class="l">)</span><span class="p">,</span>
+</span><span class='line'>      <span class="l">@(</span><span class="mf">0.3</span> <span class="o">/</span> <span class="mf">0.8</span><span class="l">)</span><span class="p">,</span>
+</span><span class='line'>      <span class="l">@(</span><span class="mf">0.5</span> <span class="o">/</span> <span class="mf">0.8</span><span class="l">)</span><span class="p">,</span>
+</span><span class='line'>      <span class="l">@(</span><span class="mf">0.76</span> <span class="o">/</span> <span class="mf">0.8</span><span class="l">)</span>
+</span><span class='line'>    <span class="l">]</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">_circleShake</span><span class="p">.</span><span class="n">values</span> <span class="o">=</span> <span class="l">@[</span>
+</span><span class='line'>      <span class="l">@(</span><span class="n">baseX</span><span class="l">)</span><span class="p">,</span>
+</span><span class='line'>      <span class="l">@(</span><span class="n">baseX</span> <span class="o">-</span> <span class="mi">11</span><span class="l">)</span><span class="p">,</span>
+</span><span class='line'>      <span class="l">@(</span><span class="n">baseX</span> <span class="o">+</span> <span class="mi">11</span><span class="l">)</span><span class="p">,</span>
+</span><span class='line'>      <span class="l">@(</span><span class="n">baseX</span> <span class="o">-</span> <span class="mi">11</span><span class="l">)</span><span class="p">,</span>
+</span><span class='line'>      <span class="l">@(</span><span class="n">baseX</span> <span class="o">+</span> <span class="mi">11</span><span class="l">)</span><span class="p">,</span>
+</span><span class='line'>      <span class="l">@(</span><span class="n">baseX</span><span class="l">)</span>
+</span><span class='line'>    <span class="l">]</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">_circleShake</span><span class="p">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">_circleShake</span><span class="p">.</span><span class="n">removedOnCompletion</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">_circleShake</span><span class="p">.</span><span class="n">fillMode</span> <span class="o">=</span> <span class="n">kCAFillModeForwards</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">_circleShake</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
 
 <!-- more -->
 
@@ -162,60 +191,102 @@ Create one animation and add to multiple layers.</p>
 
 <h2>Apply changes when animation finished</h2>
 
-<pre><code>animation.removedOnCompletion = NO;
-animation.fillMode = kCAFillModeForwards;
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">animation</span><span class="p">.</span><span class="n">removedOnCompletion</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+</span><span class='line'><span class="n">animation</span><span class="p">.</span><span class="n">fillMode</span> <span class="o">=</span> <span class="n">kCAFillModeForwards</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>Resume changes when animation finished</h2>
 
-<pre><code>animation.removedOnCompletion = NO;
-animation.fillMode = kCAFillModeBackwards;
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">animation</span><span class="p">.</span><span class="n">removedOnCompletion</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+</span><span class='line'><span class="n">animation</span><span class="p">.</span><span class="n">fillMode</span> <span class="o">=</span> <span class="n">kCAFillModeBackwards</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>Use CAAnimationGroup to run animations cocurrently</h2>
 
-<pre><code>- (CAAnimationGroup *)circleBig {
-  if (!_circleBig) {
-    _circleBig = [CAAnimationGroup animation];
-    CABasicAnimation *circleBig =
-        [CABasicAnimation animationWithKeyPath:@"path"];
-    circleBig.fromValue = (__bridge id)self.circleMask.path;
-    circleBig.toValue =
-        (__bridge id)[UIBezierPath bezierPathWithArcCenter:self.centerPoint
-                                                    radius:12.5
-                                                startAngle:0
-                                                  endAngle:M_PI * 2
-                                                 clockwise:YES]
-            .CGPath;
-    circleBig.duration = self.spreadDuration;
-    circleBig.removedOnCompletion = NO;
-    circleBig.fillMode = kCAFillModeForwards;
-    circleBig.timingFunction = [CAMediaTimingFunction
-        functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    CABasicAnimation *changeWidth =
-        [CABasicAnimation animationWithKeyPath:@"lineWidth"];
-    changeWidth.fromValue = @(self.circleMask.lineWidth);
-    changeWidth.toValue = @(5);
-    changeWidth.duration = self.spreadDuration;
-    changeWidth.removedOnCompletion = NO;
-    changeWidth.fillMode = kCAFillModeForwards;
-    _circleBig.animations = @[ circleBig, changeWidth ];
-  }
-  return _circleBig;
-}
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">CAAnimationGroup</span> <span class="o">*</span><span class="p">)</span><span class="nf">circleBig</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">_circleBig</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">_circleBig</span> <span class="o">=</span> <span class="p">[</span><span class="bp">CAAnimationGroup</span> <span class="n">animation</span><span class="p">];</span>
+</span><span class='line'>    <span class="bp">CABasicAnimation</span> <span class="o">*</span><span class="n">circleBig</span> <span class="o">=</span>
+</span><span class='line'>        <span class="p">[</span><span class="bp">CABasicAnimation</span> <span class="nl">animationWithKeyPath</span><span class="p">:</span><span class="s">@&quot;path&quot;</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">circleBig</span><span class="p">.</span><span class="n">fromValue</span> <span class="o">=</span> <span class="p">(</span><span class="k">__bridge</span> <span class="kt">id</span><span class="p">)</span><span class="nb">self</span><span class="p">.</span><span class="n">circleMask</span><span class="p">.</span><span class="n">path</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">circleBig</span><span class="p">.</span><span class="n">toValue</span> <span class="o">=</span>
+</span><span class='line'>        <span class="p">(</span><span class="k">__bridge</span> <span class="kt">id</span><span class="p">)[</span><span class="bp">UIBezierPath</span> <span class="nl">bezierPathWithArcCenter</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">centerPoint</span>
+</span><span class='line'>                                                    <span class="nl">radius</span><span class="p">:</span><span class="mf">12.5</span>
+</span><span class='line'>                                                <span class="nl">startAngle</span><span class="p">:</span><span class="mi">0</span>
+</span><span class='line'>                                                  <span class="nl">endAngle</span><span class="p">:</span><span class="n">M_PI</span> <span class="o">*</span> <span class="mi">2</span>
+</span><span class='line'>                                                 <span class="nl">clockwise</span><span class="p">:</span><span class="nb">YES</span><span class="p">]</span>
+</span><span class='line'>            <span class="p">.</span><span class="bp">CGPath</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">circleBig</span><span class="p">.</span><span class="n">duration</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">spreadDuration</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">circleBig</span><span class="p">.</span><span class="n">removedOnCompletion</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">circleBig</span><span class="p">.</span><span class="n">fillMode</span> <span class="o">=</span> <span class="n">kCAFillModeForwards</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">circleBig</span><span class="p">.</span><span class="n">timingFunction</span> <span class="o">=</span> <span class="p">[</span><span class="bp">CAMediaTimingFunction</span>
+</span><span class='line'>        <span class="nl">functionWithName</span><span class="p">:</span><span class="n">kCAMediaTimingFunctionEaseInEaseOut</span><span class="p">];</span>
+</span><span class='line'>    <span class="bp">CABasicAnimation</span> <span class="o">*</span><span class="n">changeWidth</span> <span class="o">=</span>
+</span><span class='line'>        <span class="p">[</span><span class="bp">CABasicAnimation</span> <span class="nl">animationWithKeyPath</span><span class="p">:</span><span class="s">@&quot;lineWidth&quot;</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">changeWidth</span><span class="p">.</span><span class="n">fromValue</span> <span class="o">=</span> <span class="l">@(</span><span class="nb">self</span><span class="p">.</span><span class="n">circleMask</span><span class="p">.</span><span class="n">lineWidth</span><span class="l">)</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">changeWidth</span><span class="p">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="l">@(</span><span class="mi">5</span><span class="l">)</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">changeWidth</span><span class="p">.</span><span class="n">duration</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">spreadDuration</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">changeWidth</span><span class="p">.</span><span class="n">removedOnCompletion</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">changeWidth</span><span class="p">.</span><span class="n">fillMode</span> <span class="o">=</span> <span class="n">kCAFillModeForwards</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">_circleBig</span><span class="p">.</span><span class="n">animations</span> <span class="o">=</span> <span class="l">@[</span> <span class="n">circleBig</span><span class="p">,</span> <span class="n">changeWidth</span> <span class="l">]</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">_circleBig</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>TabBar背景设为透明色</h2>
 
-<pre><code>[[UITabBar appearance] setShadowImage:[WWImageUtil imageWithColor:[UIColor clearColor]]];
-[[UITabBar appearance] setBackgroundImage:[WWImageUtil imageWithColor:[UIColor clearColor]]];
-[UITabBar appearance].translucent = YES;
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[[</span><span class="bp">UITabBar</span> <span class="n">appearance</span><span class="p">]</span> <span class="nl">setShadowImage</span><span class="p">:[</span><span class="n">WWImageUtil</span> <span class="nl">imageWithColor</span><span class="p">:[</span><span class="bp">UIColor</span> <span class="n">clearColor</span><span class="p">]]];</span>
+</span><span class='line'><span class="p">[[</span><span class="bp">UITabBar</span> <span class="n">appearance</span><span class="p">]</span> <span class="nl">setBackgroundImage</span><span class="p">:[</span><span class="n">WWImageUtil</span> <span class="nl">imageWithColor</span><span class="p">:[</span><span class="bp">UIColor</span> <span class="n">clearColor</span><span class="p">]]];</span>
+</span><span class='line'><span class="p">[</span><span class="bp">UITabBar</span> <span class="n">appearance</span><span class="p">].</span><span class="n">translucent</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>TabBar去除黑线</h2>
 
-<pre><code>[[UITabBar appearance] setClipsToBounds:YES];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[[</span><span class="bp">UITabBar</span> <span class="n">appearance</span><span class="p">]</span> <span class="nl">setClipsToBounds</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>self.title</h2>
 

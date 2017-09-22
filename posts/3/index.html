@@ -263,30 +263,53 @@ cross size。</p>
 
 <p>A component is an immutable object that specifies how to configure a view, loosely inspired by React.</p>
 
-<pre><code>+ (instancetype)newWithView:(const CKComponentViewConfiguration &amp;)view
-                       size:(const CKComponentSize &amp;)size;
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">newWithView:</span><span class="p">(</span><span class="k">const</span> <span class="n">CKComponentViewConfiguration</span> <span class="o">&amp;</span><span class="p">)</span><span class="nv">view</span>
+</span><span class='line'>                       <span class="nf">size:</span><span class="p">(</span><span class="k">const</span> <span class="n">CKComponentSize</span> <span class="o">&amp;</span><span class="p">)</span><span class="nv">size</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Example:</p>
 
-<pre><code>CKComponent *component = [CKComponent
-    newWithView:{
-        [UIView class],
-        {
-            {@selector(setBackgroundColor:),[UIColor redColor]},
-            {@selector(setUserInteractionEnabled:), @YES},
-            {CKComponentTapGestureAttribute(@selector(didTap))},
-            {CKComponentViewAttribute::LayerAttribute(@selector(setCornerRadius:)), @10.0}
-        }
-    }
-    size:{50,50}];
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">CKComponent</span> <span class="o">*</span><span class="n">component</span> <span class="o">=</span> <span class="p">[</span><span class="n">CKComponent</span>
+</span><span class='line'>    <span class="nl">newWithView</span><span class="p">:{</span>
+</span><span class='line'>        <span class="p">[</span><span class="bp">UIView</span> <span class="k">class</span><span class="p">],</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="p">{</span><span class="k">@selector</span><span class="p">(</span><span class="nl">setBackgroundColor</span><span class="p">:),[</span><span class="bp">UIColor</span> <span class="n">redColor</span><span class="p">]},</span>
+</span><span class='line'>            <span class="p">{</span><span class="k">@selector</span><span class="p">(</span><span class="nl">setUserInteractionEnabled</span><span class="p">:),</span> <span class="m">@YES</span><span class="p">},</span>
+</span><span class='line'>            <span class="p">{</span><span class="n">CKComponentTapGestureAttribute</span><span class="p">(</span><span class="k">@selector</span><span class="p">(</span><span class="n">didTap</span><span class="p">))},</span>
+</span><span class='line'>            <span class="p">{</span><span class="n">CKComponentViewAttribute</span><span class="o">::</span><span class="n">LayerAttribute</span><span class="p">(</span><span class="k">@selector</span><span class="p">(</span><span class="nl">setCornerRadius</span><span class="p">:)),</span> <span class="mf">@10.0</span><span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="nl">size</span><span class="p">:{</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">}];</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">didTap</span><span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span> <span class="nl">updateState</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSNumber</span> <span class="o">*</span><span class="n">oldState</span><span class="p">){</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="n">oldState</span> <span class="n">boolValue</span><span class="p">]</span> <span class="o">?</span> <span class="m">@NO</span> <span class="o">:</span> <span class="m">@YES</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span> <span class="nl">mode</span><span class="p">:</span><span class="n">CKUpdateModeSynchronous</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-- (void)didTap{
-  [self updateState:^(NSNumber *oldState){
-    return [oldState boolValue] ? @NO : @YES;
-  } mode:CKUpdateModeSynchronous];
-}
-</code></pre>
+
+
 
 </div>
   

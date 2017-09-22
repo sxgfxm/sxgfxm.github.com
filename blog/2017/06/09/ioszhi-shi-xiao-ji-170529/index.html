@@ -130,200 +130,377 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 <h2>UITextField</h2>
 
-<pre><code>-(void)setupTextField{
-  self.wifiNameTF =
-      [[UITextField alloc] initWithFrame:CGRectMake(kScaleFrom_iPhone6_Desgin(16), 0,
-                                                    self.view.bounds.size.width - kScaleFrom_iPhone6_Desgin(32),
-                                                    kScaleFrom_iPhone6_Desgin(54))];
-  self.wifiNameTF.placeholder = @"请输入Wi-Fi名称";
-  self.wifiNameTF.font = [UIFont systemFontOfSize:kScaleFrom_iPhone6_Desgin(16)];
-  self.wifiNameTF.textColor = UIColorFromRGBA(0xff16181d);
-  self.wifiNameTF.clearButtonMode = UITextFieldViewModeWhileEditing;
-  self.wifiNameTF.autocapitalizationType = UITextAutocapitalizationTypeNone;
-  self.wifiNameTF.returnKeyType = UIReturnKeyDone;
-  self.wifiNameTF.delegate = self;
-  self.wifiNameTF.secureTextEntry = YES;
-  self.wifiNameTF.rightView = secureBtn;
-  self.wifiNameTF.rightViewMode = UITextFieldViewModeAlways;
-  [self.view addSubview:self.wifiNameTF];
-}
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setupTextField</span><span class="p">{</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">wifiNameTF</span> <span class="o">=</span>
+</span><span class='line'>      <span class="p">[[</span><span class="bp">UITextField</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">16</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span>
+</span><span class='line'>                                                    <span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">32</span><span class="p">),</span>
+</span><span class='line'>                                                    <span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">54</span><span class="p">))];</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">wifiNameTF</span><span class="p">.</span><span class="n">placeholder</span> <span class="o">=</span> <span class="s">@&quot;请输入Wi-Fi名称&quot;</span><span class="p">;</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">wifiNameTF</span><span class="p">.</span><span class="n">font</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIFont</span> <span class="nl">systemFontOfSize</span><span class="p">:</span><span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">16</span><span class="p">)];</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">wifiNameTF</span><span class="p">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="n">UIColorFromRGBA</span><span class="p">(</span><span class="mh">0xff16181d</span><span class="p">);</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">wifiNameTF</span><span class="p">.</span><span class="n">clearButtonMode</span> <span class="o">=</span> <span class="n">UITextFieldViewModeWhileEditing</span><span class="p">;</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">wifiNameTF</span><span class="p">.</span><span class="n">autocapitalizationType</span> <span class="o">=</span> <span class="n">UITextAutocapitalizationTypeNone</span><span class="p">;</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">wifiNameTF</span><span class="p">.</span><span class="n">returnKeyType</span> <span class="o">=</span> <span class="n">UIReturnKeyDone</span><span class="p">;</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">wifiNameTF</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">wifiNameTF</span><span class="p">.</span><span class="n">secureTextEntry</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">wifiNameTF</span><span class="p">.</span><span class="n">rightView</span> <span class="o">=</span> <span class="n">secureBtn</span><span class="p">;</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">wifiNameTF</span><span class="p">.</span><span class="n">rightViewMode</span> <span class="o">=</span> <span class="n">UITextFieldViewModeAlways</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">wifiNameTF</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>Gradient flow animation</h2>
 
 <p>两倍长度，添加左右移动动画，并添加左右两边覆盖层。</p>
 
-<pre><code>  //  progress bar
-  self.progressBar =
-      [[UIView alloc] initWithFrame:CGRectMake((self.view.bounds.size.width - kScaleFrom_iPhone6_Desgin(120)) / 2,
-                                               kScaleFrom_iPhone6_Desgin(360), kScaleFrom_iPhone6_Desgin(120),
-                                               kScaleFrom_iPhone6_Desgin(4))];
-  [self.view addSubview:self.progressBar];
-  self.gradientLayer = [CAGradientLayer layer];
-  self.gradientLayer.frame =
-      CGRectMake(-kScaleFrom_iPhone6_Desgin(120), 0, kScaleFrom_iPhone6_Desgin(240), kScaleFrom_iPhone6_Desgin(4));
-  self.gradientLayer.locations = @[ @0, @0.15, @0.3, @0.5, @0.65, @0.8, @1 ];
-  self.gradientLayer.colors = @[
-    (__bridge id)UIColorFromRGBA(0xff1af28f)
-        .CGColor,
-    (__bridge id)UIColorFromRGBA(0xff0de9c5).CGColor,
-    (__bridge id)UIColorFromRGBA(0xff3293fe).CGColor,
-    (__bridge id)UIColorFromRGBA(0xff1af28f).CGColor,
-    (__bridge id)UIColorFromRGBA(0xff0de9c5).CGColor,
-    (__bridge id)UIColorFromRGBA(0xff3293fe).CGColor,
-    (__bridge id)UIColorFromRGBA(0xff1af28f).CGColor
-  ];
-  self.gradientLayer.startPoint = CGPointMake(0, 0);
-  self.gradientLayer.endPoint = CGPointMake(1, 0);
-  [self.progressBar.layer addSublayer:self.gradientLayer];
-  CALayer *leftMask = [CALayer layer];
-  leftMask.frame =
-      CGRectMake(-kScaleFrom_iPhone6_Desgin(120), 0, kScaleFrom_iPhone6_Desgin(120), kScaleFrom_iPhone6_Desgin(4));
-  leftMask.backgroundColor = [UIColor whiteColor].CGColor;
-  [self.progressBar.layer addSublayer:leftMask];
-  CALayer *rightMask = [CALayer layer];
-  rightMask.frame =
-      CGRectMake(kScaleFrom_iPhone6_Desgin(120), 0, kScaleFrom_iPhone6_Desgin(120), kScaleFrom_iPhone6_Desgin(4));
-  rightMask.backgroundColor = [UIColor whiteColor].CGColor;
-  [self.progressBar.layer addSublayer:rightMask];
-  CABasicAnimation *moveAnimation = [CABasicAnimation animationWithKeyPath:@"position.x"];
-  moveAnimation.fromValue = @(self.gradientLayer.position.x);
-  moveAnimation.toValue = @(self.gradientLayer.position.x + kScaleFrom_iPhone6_Desgin(120));
-  moveAnimation.repeatCount = 100;
-  moveAnimation.duration = 2;
-  moveAnimation.autoreverses = NO;
-  [self.gradientLayer addAnimation:moveAnimation forKey:@"animation"];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="c1">//  progress bar</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">progressBar</span> <span class="o">=</span>
+</span><span class='line'>      <span class="p">[[</span><span class="bp">UIView</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">((</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">120</span><span class="p">))</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+</span><span class='line'>                                               <span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">360</span><span class="p">),</span> <span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">120</span><span class="p">),</span>
+</span><span class='line'>                                               <span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">4</span><span class="p">))];</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">progressBar</span><span class="p">];</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">gradientLayer</span> <span class="o">=</span> <span class="p">[</span><span class="bp">CAGradientLayer</span> <span class="n">layer</span><span class="p">];</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">gradientLayer</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span>
+</span><span class='line'>      <span class="n">CGRectMake</span><span class="p">(</span><span class="o">-</span><span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">120</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">240</span><span class="p">),</span> <span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">4</span><span class="p">));</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">gradientLayer</span><span class="p">.</span><span class="n">locations</span> <span class="o">=</span> <span class="l">@[</span> <span class="mi">@0</span><span class="p">,</span> <span class="mf">@0.15</span><span class="p">,</span> <span class="mf">@0.3</span><span class="p">,</span> <span class="mf">@0.5</span><span class="p">,</span> <span class="mf">@0.65</span><span class="p">,</span> <span class="mf">@0.8</span><span class="p">,</span> <span class="mi">@1</span> <span class="l">]</span><span class="p">;</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">gradientLayer</span><span class="p">.</span><span class="n">colors</span> <span class="o">=</span> <span class="l">@[</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">__bridge</span> <span class="kt">id</span><span class="p">)</span><span class="n">UIColorFromRGBA</span><span class="p">(</span><span class="mh">0xff1af28f</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">.</span><span class="bp">CGColor</span><span class="p">,</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">__bridge</span> <span class="kt">id</span><span class="p">)</span><span class="n">UIColorFromRGBA</span><span class="p">(</span><span class="mh">0xff0de9c5</span><span class="p">).</span><span class="bp">CGColor</span><span class="p">,</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">__bridge</span> <span class="kt">id</span><span class="p">)</span><span class="n">UIColorFromRGBA</span><span class="p">(</span><span class="mh">0xff3293fe</span><span class="p">).</span><span class="bp">CGColor</span><span class="p">,</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">__bridge</span> <span class="kt">id</span><span class="p">)</span><span class="n">UIColorFromRGBA</span><span class="p">(</span><span class="mh">0xff1af28f</span><span class="p">).</span><span class="bp">CGColor</span><span class="p">,</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">__bridge</span> <span class="kt">id</span><span class="p">)</span><span class="n">UIColorFromRGBA</span><span class="p">(</span><span class="mh">0xff0de9c5</span><span class="p">).</span><span class="bp">CGColor</span><span class="p">,</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">__bridge</span> <span class="kt">id</span><span class="p">)</span><span class="n">UIColorFromRGBA</span><span class="p">(</span><span class="mh">0xff3293fe</span><span class="p">).</span><span class="bp">CGColor</span><span class="p">,</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">__bridge</span> <span class="kt">id</span><span class="p">)</span><span class="n">UIColorFromRGBA</span><span class="p">(</span><span class="mh">0xff1af28f</span><span class="p">).</span><span class="bp">CGColor</span>
+</span><span class='line'>  <span class="l">]</span><span class="p">;</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">gradientLayer</span><span class="p">.</span><span class="n">startPoint</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">gradientLayer</span><span class="p">.</span><span class="n">endPoint</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">progressBar</span><span class="p">.</span><span class="n">layer</span> <span class="nl">addSublayer</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">gradientLayer</span><span class="p">];</span>
+</span><span class='line'>  <span class="bp">CALayer</span> <span class="o">*</span><span class="n">leftMask</span> <span class="o">=</span> <span class="p">[</span><span class="bp">CALayer</span> <span class="n">layer</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">leftMask</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span>
+</span><span class='line'>      <span class="n">CGRectMake</span><span class="p">(</span><span class="o">-</span><span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">120</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">120</span><span class="p">),</span> <span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">4</span><span class="p">));</span>
+</span><span class='line'>  <span class="n">leftMask</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">].</span><span class="bp">CGColor</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">progressBar</span><span class="p">.</span><span class="n">layer</span> <span class="nl">addSublayer</span><span class="p">:</span><span class="n">leftMask</span><span class="p">];</span>
+</span><span class='line'>  <span class="bp">CALayer</span> <span class="o">*</span><span class="n">rightMask</span> <span class="o">=</span> <span class="p">[</span><span class="bp">CALayer</span> <span class="n">layer</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">rightMask</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span>
+</span><span class='line'>      <span class="n">CGRectMake</span><span class="p">(</span><span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">120</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">120</span><span class="p">),</span> <span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">4</span><span class="p">));</span>
+</span><span class='line'>  <span class="n">rightMask</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">].</span><span class="bp">CGColor</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">progressBar</span><span class="p">.</span><span class="n">layer</span> <span class="nl">addSublayer</span><span class="p">:</span><span class="n">rightMask</span><span class="p">];</span>
+</span><span class='line'>  <span class="bp">CABasicAnimation</span> <span class="o">*</span><span class="n">moveAnimation</span> <span class="o">=</span> <span class="p">[</span><span class="bp">CABasicAnimation</span> <span class="nl">animationWithKeyPath</span><span class="p">:</span><span class="s">@&quot;position.x&quot;</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">moveAnimation</span><span class="p">.</span><span class="n">fromValue</span> <span class="o">=</span> <span class="l">@(</span><span class="nb">self</span><span class="p">.</span><span class="n">gradientLayer</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="l">)</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">moveAnimation</span><span class="p">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="l">@(</span><span class="nb">self</span><span class="p">.</span><span class="n">gradientLayer</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">120</span><span class="p">)</span><span class="l">)</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">moveAnimation</span><span class="p">.</span><span class="n">repeatCount</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">moveAnimation</span><span class="p">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">moveAnimation</span><span class="p">.</span><span class="n">autoreverses</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">gradientLayer</span> <span class="nl">addAnimation</span><span class="p">:</span><span class="n">moveAnimation</span> <span class="nl">forKey</span><span class="p">:</span><span class="s">@&quot;animation&quot;</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>Alert with text field</h2>
 
-<pre><code>- (void)changeName {
-  // 修改昵称提示框
-  UIAlertController *alertController =
-      [UIAlertController alertControllerWithTitle:@"Title"
-                                          message:nil
-                                   preferredStyle:UIAlertControllerStyleAlert];
-  // 添加输入框
-  [alertController addTextFieldWithConfigurationHandler:^(UITextField *_Nonnull textField) {
-    textField.placeholder = @"Please input";
-  }];
-  // 添加确定按钮
-  [alertController addAction:[UIAlertAction actionWithTitle:@"Done"
-                                                      style:UIAlertActionStyleDefault
-                                                    handler:^(UIAlertAction *_Nonnull action) {
-                                                      // 获得当前输入的字符串
-                                                      NSString *name = alertController.textFields[0].text;
-                                                      self.tichomeNameLbl.text = name;
-                                                    }]];
-  // 添加取消按钮
-  [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel"
-                                                      style:UIAlertActionStyleCancel
-                                                    handler:^(UIAlertAction *_Nonnull action){
-                                                    }]];
-  [self presentViewController:alertController animated:YES completion:nil];
-}
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">changeName</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">// 修改昵称提示框</span>
+</span><span class='line'>  <span class="n">UIAlertController</span> <span class="o">*</span><span class="n">alertController</span> <span class="o">=</span>
+</span><span class='line'>      <span class="p">[</span><span class="n">UIAlertController</span> <span class="nl">alertControllerWithTitle</span><span class="p">:</span><span class="s">@&quot;Title&quot;</span>
+</span><span class='line'>                                          <span class="nl">message</span><span class="p">:</span><span class="nb">nil</span>
+</span><span class='line'>                                   <span class="nl">preferredStyle</span><span class="p">:</span><span class="n">UIAlertControllerStyleAlert</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">// 添加输入框</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">alertController</span> <span class="nl">addTextFieldWithConfigurationHandler</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">UITextField</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">textField</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">textField</span><span class="p">.</span><span class="n">placeholder</span> <span class="o">=</span> <span class="s">@&quot;Please input&quot;</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}];</span>
+</span><span class='line'>  <span class="c1">// 添加确定按钮</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">alertController</span> <span class="nl">addAction</span><span class="p">:[</span><span class="n">UIAlertAction</span> <span class="nl">actionWithTitle</span><span class="p">:</span><span class="s">@&quot;Done&quot;</span>
+</span><span class='line'>                                                      <span class="nl">style</span><span class="p">:</span><span class="n">UIAlertActionStyleDefault</span>
+</span><span class='line'>                                                    <span class="nl">handler</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">UIAlertAction</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">action</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                                                      <span class="c1">// 获得当前输入的字符串</span>
+</span><span class='line'>                                                      <span class="bp">NSString</span> <span class="o">*</span><span class="n">name</span> <span class="o">=</span> <span class="n">alertController</span><span class="p">.</span><span class="n">textFields</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">text</span><span class="p">;</span>
+</span><span class='line'>                                                      <span class="nb">self</span><span class="p">.</span><span class="n">tichomeNameLbl</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">name</span><span class="p">;</span>
+</span><span class='line'>                                                    <span class="p">}]];</span>
+</span><span class='line'>  <span class="c1">// 添加取消按钮</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">alertController</span> <span class="nl">addAction</span><span class="p">:[</span><span class="n">UIAlertAction</span> <span class="nl">actionWithTitle</span><span class="p">:</span><span class="s">@&quot;Cancel&quot;</span>
+</span><span class='line'>                                                      <span class="nl">style</span><span class="p">:</span><span class="n">UIAlertActionStyleCancel</span>
+</span><span class='line'>                                                    <span class="nl">handler</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">UIAlertAction</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">action</span><span class="p">){</span>
+</span><span class='line'>                                                    <span class="p">}]];</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span> <span class="nl">presentViewController</span><span class="p">:</span><span class="n">alertController</span> <span class="nl">animated</span><span class="p">:</span><span class="nb">YES</span> <span class="nl">completion</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>UISlider</h2>
 
-<pre><code>-(void)setupSlider{
-  self.volumeSlider = [UISlider new];
-  [self.volumeSlider addTarget:self action:@selector(changeVolumeAction) forControlEvents:UIControlEventTouchUpInside];
-  self.volumeSlider.minimumValueImage = [UIImage imageNamed:@"icVolumeDown"];
-  self.volumeSlider.maximumValueImage = [UIImage imageNamed:@"icVolumeUp"];
-  [self.volumeSlider setThumbImage:[UIImage imageNamed:@"icVolumeBtn"] forState:UIControlStateNormal];
-  [self.volumeSlider setMinimumTrackImage:[UIImage imageNamed:@"minTrackBg"] forState:UIControlStateNormal];
-  [self.volumeSlider setMaximumTrackImage:[UIImage imageNamed:@"maxTrackBg"] forState:UIControlStateNormal];
-  [self.contentView addSubview:self.volumeSlider];
-  [self.volumeSlider mas_makeConstraints:^(MASConstraintMaker *make) {
-    make.centerX.equalTo(self.contentView.mas_centerX);
-    make.bottom.equalTo(self.contentView.mas_bottom).offset(-kScaleFrom_iPhone6_Desgin(15));
-    make.width.equalTo(@(kScaleFrom_iPhone6_Desgin(270)));
-  }];
-}
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setupSlider</span><span class="p">{</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">volumeSlider</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UISlider</span> <span class="n">new</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">volumeSlider</span> <span class="nl">addTarget</span><span class="p">:</span><span class="nb">self</span> <span class="nl">action</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">changeVolumeAction</span><span class="p">)</span> <span class="nl">forControlEvents</span><span class="p">:</span><span class="n">UIControlEventTouchUpInside</span><span class="p">];</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">volumeSlider</span><span class="p">.</span><span class="n">minimumValueImage</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:</span><span class="s">@&quot;icVolumeDown&quot;</span><span class="p">];</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">volumeSlider</span><span class="p">.</span><span class="n">maximumValueImage</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:</span><span class="s">@&quot;icVolumeUp&quot;</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">volumeSlider</span> <span class="nl">setThumbImage</span><span class="p">:[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:</span><span class="s">@&quot;icVolumeBtn&quot;</span><span class="p">]</span> <span class="nl">forState</span><span class="p">:</span><span class="n">UIControlStateNormal</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">volumeSlider</span> <span class="nl">setMinimumTrackImage</span><span class="p">:[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:</span><span class="s">@&quot;minTrackBg&quot;</span><span class="p">]</span> <span class="nl">forState</span><span class="p">:</span><span class="n">UIControlStateNormal</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">volumeSlider</span> <span class="nl">setMaximumTrackImage</span><span class="p">:[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:</span><span class="s">@&quot;maxTrackBg&quot;</span><span class="p">]</span> <span class="nl">forState</span><span class="p">:</span><span class="n">UIControlStateNormal</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">contentView</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">volumeSlider</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">volumeSlider</span> <span class="nl">mas_makeConstraints</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">MASConstraintMaker</span> <span class="o">*</span><span class="n">make</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">make</span><span class="p">.</span><span class="n">centerX</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">contentView</span><span class="p">.</span><span class="n">mas_centerX</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">make</span><span class="p">.</span><span class="n">bottom</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">contentView</span><span class="p">.</span><span class="n">mas_bottom</span><span class="p">).</span><span class="n">offset</span><span class="p">(</span><span class="o">-</span><span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">15</span><span class="p">));</span>
+</span><span class='line'>    <span class="n">make</span><span class="p">.</span><span class="n">width</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="l">@(</span><span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">270</span><span class="p">)</span><span class="l">)</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>UITextView</h2>
 
-<pre><code>-(void)setupTextView{
-  self.textView = [UITextView new];
-  self.textView.backgroundColor = [UIColor clearColor];
-  self.textView.text = @"placeholder";
-  self.textView.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.2];
-  self.textView.font = [UIFont systemFontOfSize:14];
-  self.textView.delegate = self;
-  self.textView.autocapitalizationType = UITextAutocapitalizationTypeNone;
-  self.textView.returnKeyType = UIReturnKeyDone;
-  [self.contentView addSubview:self.textView];
-}
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setupTextView</span><span class="p">{</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">textView</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UITextView</span> <span class="n">new</span><span class="p">];</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">textView</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">clearColor</span><span class="p">];</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">textView</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">@&quot;placeholder&quot;</span><span class="p">;</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">textView</span><span class="p">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">]</span> <span class="nl">colorWithAlphaComponent</span><span class="p">:</span><span class="mf">0.2</span><span class="p">];</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">textView</span><span class="p">.</span><span class="n">font</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIFont</span> <span class="nl">systemFontOfSize</span><span class="p">:</span><span class="mi">14</span><span class="p">];</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">textView</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">textView</span><span class="p">.</span><span class="n">autocapitalizationType</span> <span class="o">=</span> <span class="n">UITextAutocapitalizationTypeNone</span><span class="p">;</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">textView</span><span class="p">.</span><span class="n">returnKeyType</span> <span class="o">=</span> <span class="n">UIReturnKeyDone</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">contentView</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">textView</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//  实现placeholder功能</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">textViewShouldBeginEditing:</span><span class="p">(</span><span class="bp">UITextView</span> <span class="o">*</span><span class="p">)</span><span class="nv">textView</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">isEmpty</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">textView</span><span class="p">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">textView</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">@&quot;&quot;</span><span class="p">;</span>
+</span><span class='line'>    <span class="nb">self</span><span class="p">.</span><span class="n">isEmpty</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">textViewDidEndEditing:</span><span class="p">(</span><span class="bp">UITextView</span> <span class="o">*</span><span class="p">)</span><span class="nv">textView</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">textView</span><span class="p">.</span><span class="n">text</span><span class="p">.</span><span class="n">length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nb">self</span><span class="p">.</span><span class="n">isEmpty</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">textView</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">@&quot;placeholder&quot;</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">textView</span><span class="p">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">]</span> <span class="nl">colorWithAlphaComponent</span><span class="p">:</span><span class="mf">0.2</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">textView</span> <span class="n">resignFirstResponder</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//  实现换行替换为结束编辑</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">textView:</span><span class="p">(</span><span class="bp">UITextView</span> <span class="o">*</span><span class="p">)</span><span class="nv">textView</span> <span class="nf">shouldChangeTextInRange:</span><span class="p">(</span><span class="n">NSRange</span><span class="p">)</span><span class="nv">range</span> <span class="nf">replacementText:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">text</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">([</span><span class="n">text</span> <span class="nl">isEqualToString</span><span class="p">:</span><span class="s">@&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">textView</span> <span class="n">resignFirstResponder</span><span class="p">];</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">NO</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-//  实现placeholder功能
-- (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
-  if (self.isEmpty) {
-    textView.textColor = [UIColor whiteColor];
-    textView.text = @"";
-    self.isEmpty = NO;
-  }
-  return YES;
-}
-
-- (void)textViewDidEndEditing:(UITextView *)textView {
-  if (textView.text.length == 0) {
-    self.isEmpty = YES;
-    textView.text = @"placeholder";
-    textView.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.2];
-  }
-  [textView resignFirstResponder];
-}
-
-//  实现换行替换为结束编辑
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
-  if ([text isEqualToString:@"\n"]) {
-    [textView resignFirstResponder];
-    return NO;
-  }
-  return YES;
-}
-</code></pre>
 
 <h2>IQActionSheetPickerView</h2>
 
-<pre><code>-(void)setupPickerView{
-  NSArray *dataSource = @[@"item1",@"item2",@"item3"];
-  IQActionSheetPickerView *categoryPicker = [[IQActionSheetPickerView alloc] initWithTitle:@"选择" delegate:self];
-  //  tool bar
-  [categoryPicker setTitleFont:[UIFont systemFontOfSize:17]];
-  [categoryPicker setTitleColor:[UIColor whiteColor]];
-  [categoryPicker setToolbarTintColor:[UIColorFromRGBA(0xff26272e) colorWithAlphaComponent:0.6]];
-  [categoryPicker setDoneButtonAttributes:@{
-    kIQActionSheetAttributesForNormalStateKey : @{
-      NSForegroundColorAttributeName : [[UIColor whiteColor] colorWithAlphaComponent:0.5],
-      NSFontAttributeName : [UIFont systemFontOfSize:15]
-    }
-  }];
-  [categoryPicker setCancelButtonAttributes:@{
-    kIQActionSheetAttributesForNormalStateKey : @{
-      NSForegroundColorAttributeName : [[UIColor grayColor] colorWithAlphaComponent:0.5],
-      NSFontAttributeName : [UIFont systemFontOfSize:15]
-    }
-  }];
-  //  component
-  [categoryPicker setPickerViewBackgroundColor:UIColorFromRGBA(0xff1c1d24)];
-  [categoryPicker setPickerComponentsFont:[UIFont systemFontOfSize:16]];
-  [categoryPicker setPickerComponentsColor:[UIColor whiteColor]];
-  //  data source
-  [categoryPicker setTitlesForComponents:@[ dataSource ]];
-  if (self.category) {
-    [categoryPicker setSelectedTitles:@[ @"item2" ]];
-  }
-  //  show
-  [categoryPicker show];
-}
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setupPickerView</span><span class="p">{</span>
+</span><span class='line'>  <span class="bp">NSArray</span> <span class="o">*</span><span class="n">dataSource</span> <span class="o">=</span> <span class="l">@[</span><span class="s">@&quot;item1&quot;</span><span class="p">,</span><span class="s">@&quot;item2&quot;</span><span class="p">,</span><span class="s">@&quot;item3&quot;</span><span class="l">]</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">IQActionSheetPickerView</span> <span class="o">*</span><span class="n">categoryPicker</span> <span class="o">=</span> <span class="p">[[</span><span class="n">IQActionSheetPickerView</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTitle</span><span class="p">:</span><span class="s">@&quot;选择&quot;</span> <span class="nl">delegate</span><span class="p">:</span><span class="nb">self</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  tool bar</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">categoryPicker</span> <span class="nl">setTitleFont</span><span class="p">:[</span><span class="bp">UIFont</span> <span class="nl">systemFontOfSize</span><span class="p">:</span><span class="mi">17</span><span class="p">]];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">categoryPicker</span> <span class="nl">setTitleColor</span><span class="p">:[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">]];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">categoryPicker</span> <span class="nl">setToolbarTintColor</span><span class="p">:[</span><span class="n">UIColorFromRGBA</span><span class="p">(</span><span class="mh">0xff26272e</span><span class="p">)</span> <span class="nl">colorWithAlphaComponent</span><span class="p">:</span><span class="mf">0.6</span><span class="p">]];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">categoryPicker</span> <span class="nl">setDoneButtonAttributes</span><span class="p">:</span><span class="l">@{</span>
+</span><span class='line'>    <span class="nl">kIQActionSheetAttributesForNormalStateKey</span> <span class="p">:</span> <span class="l">@{</span>
+</span><span class='line'>      <span class="nl">NSForegroundColorAttributeName</span> <span class="p">:</span> <span class="p">[[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">]</span> <span class="nl">colorWithAlphaComponent</span><span class="p">:</span><span class="mf">0.5</span><span class="p">],</span>
+</span><span class='line'>      <span class="nl">NSFontAttributeName</span> <span class="p">:</span> <span class="p">[</span><span class="bp">UIFont</span> <span class="nl">systemFontOfSize</span><span class="p">:</span><span class="mi">15</span><span class="p">]</span>
+</span><span class='line'>    <span class="l">}</span>
+</span><span class='line'>  <span class="l">}</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">categoryPicker</span> <span class="nl">setCancelButtonAttributes</span><span class="p">:</span><span class="l">@{</span>
+</span><span class='line'>    <span class="nl">kIQActionSheetAttributesForNormalStateKey</span> <span class="p">:</span> <span class="l">@{</span>
+</span><span class='line'>      <span class="nl">NSForegroundColorAttributeName</span> <span class="p">:</span> <span class="p">[[</span><span class="bp">UIColor</span> <span class="n">grayColor</span><span class="p">]</span> <span class="nl">colorWithAlphaComponent</span><span class="p">:</span><span class="mf">0.5</span><span class="p">],</span>
+</span><span class='line'>      <span class="nl">NSFontAttributeName</span> <span class="p">:</span> <span class="p">[</span><span class="bp">UIFont</span> <span class="nl">systemFontOfSize</span><span class="p">:</span><span class="mi">15</span><span class="p">]</span>
+</span><span class='line'>    <span class="l">}</span>
+</span><span class='line'>  <span class="l">}</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  component</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">categoryPicker</span> <span class="nl">setPickerViewBackgroundColor</span><span class="p">:</span><span class="n">UIColorFromRGBA</span><span class="p">(</span><span class="mh">0xff1c1d24</span><span class="p">)];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">categoryPicker</span> <span class="nl">setPickerComponentsFont</span><span class="p">:[</span><span class="bp">UIFont</span> <span class="nl">systemFontOfSize</span><span class="p">:</span><span class="mi">16</span><span class="p">]];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">categoryPicker</span> <span class="nl">setPickerComponentsColor</span><span class="p">:[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">]];</span>
+</span><span class='line'>  <span class="c1">//  data source</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">categoryPicker</span> <span class="nl">setTitlesForComponents</span><span class="p">:</span><span class="l">@[</span> <span class="n">dataSource</span> <span class="l">]</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">category</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">categoryPicker</span> <span class="nl">setSelectedTitles</span><span class="p">:</span><span class="l">@[</span> <span class="s">@&quot;item2&quot;</span> <span class="l">]</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="c1">//  show</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">categoryPicker</span> <span class="n">show</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">actionSheetPickerView:</span><span class="p">(</span><span class="n">IQActionSheetPickerView</span> <span class="o">*</span><span class="p">)</span><span class="nv">pickerView</span> <span class="nf">didSelectTitles:</span><span class="p">(</span><span class="bp">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nv">titles</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">//  do something with selected item</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-- (void)actionSheetPickerView:(IQActionSheetPickerView *)pickerView didSelectTitles:(NSArray *)titles {
-  //  do something with selected item
-}
-</code></pre>
 
 <h2>NSURLSession</h2>
 

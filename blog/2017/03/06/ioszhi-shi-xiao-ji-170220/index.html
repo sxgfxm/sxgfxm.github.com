@@ -146,54 +146,99 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 <p><strong>限时操作</strong>：调用<code>beginBackgroundTaskWithName:expirationHandler:</code>或<code>beginBackgroundTaskWithExpirationHandler:</code>开启后台执行，在执行完成后必须调用<code>endBackgroundTask:</code>表示结束后台执行，否则程序会被终止。可以通过<code>application.backgroundTimeRemaining</code>查看剩余后台执行时间，一般为180秒。</p>
 
-<pre><code>- (void)applicationDidEnterBackground:(UIApplication *)application
-{
-    bgTask = [application beginBackgroundTaskWithName:@"MyTask" expirationHandler:^{
-        // Clean up any unfinished task business by marking where you
-        // stopped or ending the task outright.
-        [application endBackgroundTask:bgTask];
-        bgTask = UIBackgroundTaskInvalid;
-    }];
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">applicationDidEnterBackground:</span><span class="p">(</span><span class="bp">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="nv">application</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">bgTask</span> <span class="o">=</span> <span class="p">[</span><span class="n">application</span> <span class="nl">beginBackgroundTaskWithName</span><span class="p">:</span><span class="s">@&quot;MyTask&quot;</span> <span class="nl">expirationHandler</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+</span><span class='line'>        <span class="c1">// Clean up any unfinished task business by marking where you</span>
+</span><span class='line'>        <span class="c1">// stopped or ending the task outright.</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">application</span> <span class="nl">endBackgroundTask</span><span class="p">:</span><span class="n">bgTask</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">bgTask</span> <span class="o">=</span> <span class="n">UIBackgroundTaskInvalid</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// Start the long-running task and return immediately.</span>
+</span><span class='line'>    <span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// Do the work associated with the task, preferably in chunks.</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;begin %.f&quot;</span><span class="p">,</span> <span class="n">application</span><span class="p">.</span><span class="n">backgroundTimeRemaining</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mi">10</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;end %.f&quot;</span><span class="p">,</span> <span class="n">application</span><span class="p">.</span><span class="n">backgroundTimeRemaining</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">[</span><span class="n">application</span> <span class="nl">endBackgroundTask</span><span class="p">:</span><span class="n">bgTask</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">bgTask</span> <span class="o">=</span> <span class="n">UIBackgroundTaskInvalid</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-    // Start the long-running task and return immediately.
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-
-        // Do the work associated with the task, preferably in chunks.
-
-        NSLog(@"begin %.f", application.backgroundTimeRemaining);
-        [NSThread sleepForTimeInterval:10];
-        NSLog(@"end %.f", application.backgroundTimeRemaining);
-
-        [application endBackgroundTask:bgTask];
-        bgTask = UIBackgroundTaskInvalid;
-    });
-}
-</code></pre>
 
 <p><strong>下载操作</strong>：必须使用<strong>NSURLSession</strong>开启下载操作，需要通过<strong>NSURLSessionConfiguration</strong>进行设置。</p>
 
-<pre><code>- (void)startDownloadTask {
-  //  Configuration
-  NSURLSessionConfiguration *config = [NSURLSessionConfiguration
-      backgroundSessionConfigurationWithIdentifier:@"DownloadTask"];
-  //  下载完成时唤醒应用
-  config.sessionSendsLaunchEvents = YES;
-  //  在前台时开启下载任务时有效
-  config.discretionary = YES;
-  //  NSURLSession
-  NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
-  //  开启下载任务
-  NSURLSessionTask *task =
-      [session dataTaskWithURL:[NSURL URLWithString:@"www.baidu.com"]
-             completionHandler:^(NSData *_Nullable data,
-                                 NSURLResponse *_Nullable response,
-                                 NSError *_Nullable error){
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">startDownloadTask</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">//  Configuration</span>
+</span><span class='line'>  <span class="bp">NSURLSessionConfiguration</span> <span class="o">*</span><span class="n">config</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURLSessionConfiguration</span>
+</span><span class='line'>      <span class="nl">backgroundSessionConfigurationWithIdentifier</span><span class="p">:</span><span class="s">@&quot;DownloadTask&quot;</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  下载完成时唤醒应用</span>
+</span><span class='line'>  <span class="n">config</span><span class="p">.</span><span class="n">sessionSendsLaunchEvents</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+</span><span class='line'>  <span class="c1">//  在前台时开启下载任务时有效</span>
+</span><span class='line'>  <span class="n">config</span><span class="p">.</span><span class="n">discretionary</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+</span><span class='line'>  <span class="c1">//  NSURLSession</span>
+</span><span class='line'>  <span class="bp">NSURLSession</span> <span class="o">*</span><span class="n">session</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURLSession</span> <span class="nl">sessionWithConfiguration</span><span class="p">:</span><span class="n">config</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  开启下载任务</span>
+</span><span class='line'>  <span class="bp">NSURLSessionTask</span> <span class="o">*</span><span class="n">task</span> <span class="o">=</span>
+</span><span class='line'>      <span class="p">[</span><span class="n">session</span> <span class="nl">dataTaskWithURL</span><span class="p">:[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="s">@&quot;www.baidu.com&quot;</span><span class="p">]</span>
+</span><span class='line'>             <span class="nl">completionHandler</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSData</span> <span class="o">*</span><span class="n">_Nullable</span> <span class="n">data</span><span class="p">,</span>
+</span><span class='line'>                                 <span class="bp">NSURLResponse</span> <span class="o">*</span><span class="n">_Nullable</span> <span class="n">response</span><span class="p">,</span>
+</span><span class='line'>                                 <span class="bp">NSError</span> <span class="o">*</span><span class="n">_Nullable</span> <span class="n">error</span><span class="p">){</span>
+</span><span class='line'>
+</span><span class='line'>             <span class="p">}];</span>
+</span><span class='line'>  <span class="c1">//  当挂起时恢复任务</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">task</span> <span class="n">resume</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-             }];
-  //  当挂起时恢复任务
-  [task resume];
-}
-</code></pre>
 
 <p><strong>耗时操作</strong>：只有特殊的耗时操作可以在后台被执行，且必须申请权限。如后台音乐播放、录音、定位信息更新、蓝牙连接、远程通知、语音服务等。</p>
 
@@ -219,11 +264,16 @@ $(document).bind('DOMNodeInserted', function(event) {
 <p>手动请求权限：当用户拒绝授权某权限时，需要手动再次请求。<br/>
 跳转至权限设置界面：</p>
 
-<pre><code>[[UIApplication sharedApplication]
-                openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]
-                options:@{}
-      completionHandler:nil];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[[</span><span class="bp">UIApplication</span> <span class="n">sharedApplication</span><span class="p">]</span>
+</span><span class='line'>                <span class="nl">openURL</span><span class="p">:[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="n">UIApplicationOpenSettingsURLString</span><span class="p">]</span>
+</span><span class='line'>                <span class="nl">options</span><span class="p">:</span><span class="l">@{}</span>
+</span><span class='line'>      <span class="nl">completionHandler</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p><a href="https://github.com/sxgfxm/AuthorizationDemo">Demo地址</a></p>
 

@@ -152,18 +152,29 @@ scrollview自动布局：添加tmpview，在tmpview上添加view，最后约束t
 
 <h2>IQActionSheetPickerView</h2>
 
-<pre><code>IQActionSheetPickerView *picker = [IQActionSheetPickerView actionSheetWithTitle:@"Age" delegate:self];
-NSArray *dataSource = @[@"10",@"20",@"30",@"40",@"50",@"60"];
-[picker setTitlesForComponents:@[dataSource]];
-[picker setSelectedTitles:@[@"20"]];
-[picker show];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">IQActionSheetPickerView</span> <span class="o">*</span><span class="n">picker</span> <span class="o">=</span> <span class="p">[</span><span class="n">IQActionSheetPickerView</span> <span class="nl">actionSheetWithTitle</span><span class="p">:</span><span class="s">@&quot;Age&quot;</span> <span class="nl">delegate</span><span class="p">:</span><span class="nb">self</span><span class="p">];</span>
+</span><span class='line'><span class="bp">NSArray</span> <span class="o">*</span><span class="n">dataSource</span> <span class="o">=</span> <span class="l">@[</span><span class="s">@&quot;10&quot;</span><span class="p">,</span><span class="s">@&quot;20&quot;</span><span class="p">,</span><span class="s">@&quot;30&quot;</span><span class="p">,</span><span class="s">@&quot;40&quot;</span><span class="p">,</span><span class="s">@&quot;50&quot;</span><span class="p">,</span><span class="s">@&quot;60&quot;</span><span class="l">]</span><span class="p">;</span>
+</span><span class='line'><span class="p">[</span><span class="n">picker</span> <span class="nl">setTitlesForComponents</span><span class="p">:</span><span class="l">@[</span><span class="n">dataSource</span><span class="l">]</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">picker</span> <span class="nl">setSelectedTitles</span><span class="p">:</span><span class="l">@[</span><span class="s">@&quot;20&quot;</span><span class="l">]</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">picker</span> <span class="n">show</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>代理回调</p>
 
-<pre><code>- (void)actionSheetPickerView:(IQActionSheetPickerView *)pickerView didSelectTitles:(NSArray *)titles {
-}
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">actionSheetPickerView:</span><span class="p">(</span><span class="n">IQActionSheetPickerView</span> <span class="o">*</span><span class="p">)</span><span class="nv">pickerView</span> <span class="nf">didSelectTitles:</span><span class="p">(</span><span class="bp">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nv">titles</span> <span class="p">{</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
 
 <p class='post-footer'>
   原始地址：

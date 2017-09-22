@@ -141,39 +141,61 @@ $(document).bind('DOMNodeInserted', function(event) {
 <p>ViewController需要遵守<code>CKComponentProvider</code>协议，实现<code>+componentForModel: context:</code>方法，将model转换为component。<br/>
 在该方法中，通过不同类型的model返回不同类型的component。</p>
 
-<pre><code>+ (CKComponent *)componentForModel:(id&lt;NSObject&gt;)model
-                           context:(id&lt;NSObject&gt;)context {
-  if ([model isKindOfClass:[NewsModel class]]) {
-    return [NewsComponent newWithNewsModel:model context:context];
-  }
-  return nil;
-}
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">+</span> <span class="p">(</span><span class="n">CKComponent</span> <span class="o">*</span><span class="p">)</span><span class="nf">componentForModel:</span><span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="bp">NSObject</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">model</span>
+</span><span class='line'>                           <span class="nf">context:</span><span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="bp">NSObject</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">context</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">([</span><span class="n">model</span> <span class="nl">isKindOfClass</span><span class="p">:[</span><span class="n">NewsModel</span> <span class="k">class</span><span class="p">]])</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="n">NewsComponent</span> <span class="nl">newWithNewsModel</span><span class="p">:</span><span class="n">model</span> <span class="nl">context</span><span class="p">:</span><span class="n">context</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h3>FlowLayout</h3>
 
-<pre><code>UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-[flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
-[flowLayout setMinimumInteritemSpacing:0];
-[flowLayout setMinimumLineSpacing:0];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">UICollectionViewFlowLayout</span> <span class="o">*</span><span class="n">flowLayout</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UICollectionViewFlowLayout</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">flowLayout</span> <span class="nl">setScrollDirection</span><span class="p">:</span><span class="n">UICollectionViewScrollDirectionVertical</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">flowLayout</span> <span class="nl">setMinimumInteritemSpacing</span><span class="p">:</span><span class="mi">0</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">flowLayout</span> <span class="nl">setMinimumLineSpacing</span><span class="p">:</span><span class="mi">0</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h3>CollectionView</h3>
 
-<pre><code>self.collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:flowLayout];
-self.collectionView.delegate = self;
-self.collectionView.backgroundColor = [UIColor blackColor];
-[self.view addSubview:self.collectionView];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="nb">self</span><span class="p">.</span><span class="n">collectionView</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UICollectionView</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span> <span class="nl">collectionViewLayout</span><span class="p">:</span><span class="n">flowLayout</span><span class="p">];</span>
+</span><span class='line'><span class="nb">self</span><span class="p">.</span><span class="n">collectionView</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
+</span><span class='line'><span class="nb">self</span><span class="p">.</span><span class="n">collectionView</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">blackColor</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">collectionView</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h3>Item size range</h3>
 
 <p>Item size range。通过设置<code>CKComponentSizeRangeFlexibleHeight</code>使item的高度自适应。</p>
 
-<pre><code>const CKSizeRange sizeRange = [[CKComponentFlexibleSizeRangeProvider
-      providerWithFlexibility:CKComponentSizeRangeFlexibleHeight]
-     sizeRangeForBoundingSize:self.collectionView.bounds.size];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">const</span> <span class="n">CKSizeRange</span> <span class="n">sizeRange</span> <span class="o">=</span> <span class="p">[[</span><span class="n">CKComponentFlexibleSizeRangeProvider</span>
+</span><span class='line'>      <span class="nl">providerWithFlexibility</span><span class="p">:</span><span class="n">CKComponentSizeRangeFlexibleHeight</span><span class="p">]</span>
+</span><span class='line'>     <span class="nl">sizeRangeForBoundingSize</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">collectionView</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h3>Context</h3>
 
@@ -185,79 +207,136 @@ self.collectionView.backgroundColor = [UIColor blackColor];
 
 <p>DataSource的configuration，需要 <strong>ComponentProvider</strong>，<strong>sizeRange</strong>，<strong>context</strong> 三个参数。</p>
 
-<pre><code>CKTransactionalComponentDataSourceConfiguration *configuration =
-      [[CKTransactionalComponentDataSourceConfiguration alloc]
-          initWithComponentProvider:[self class]
-                            context:context
-                          sizeRange:sizeRange];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">CKTransactionalComponentDataSourceConfiguration</span> <span class="o">*</span><span class="n">configuration</span> <span class="o">=</span>
+</span><span class='line'>      <span class="p">[[</span><span class="n">CKTransactionalComponentDataSourceConfiguration</span> <span class="n">alloc</span><span class="p">]</span>
+</span><span class='line'>          <span class="nl">initWithComponentProvider</span><span class="p">:[</span><span class="nb">self</span> <span class="k">class</span><span class="p">]</span>
+</span><span class='line'>                            <span class="nl">context</span><span class="p">:</span><span class="n">context</span>
+</span><span class='line'>                          <span class="nl">sizeRange</span><span class="p">:</span><span class="n">sizeRange</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h3>DataSource</h3>
 
 <p>需要 <strong>collectionView</strong>，<strong>supplementaryViewDataSource</strong>，<strong>configuration</strong> 三个参数。</p>
 
-<pre><code>self.dataSource = [[CKCollectionViewTransactionalDataSource alloc]
-           initWithCollectionView:self.collectionView
-      supplementaryViewDataSource:nil
-                    configuration:configuration];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="nb">self</span><span class="p">.</span><span class="n">dataSource</span> <span class="o">=</span> <span class="p">[[</span><span class="n">CKCollectionViewTransactionalDataSource</span> <span class="n">alloc</span><span class="p">]</span>
+</span><span class='line'>           <span class="nl">initWithCollectionView</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">collectionView</span>
+</span><span class='line'>      <span class="nl">supplementaryViewDataSource</span><span class="p">:</span><span class="nb">nil</span>
+</span><span class='line'>                    <span class="nl">configuration</span><span class="p">:</span><span class="n">configuration</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h3>Initial Changeset</h3>
 
 <p>需要初始化DataSource，即向DataSource中添加Section。</p>
 
-<pre><code>CKTransactionalComponentDataSourceChangeset *initialChangeset =
-  [[[CKTransactionalComponentDataSourceChangesetBuilder
-      transactionalComponentDataSourceChangeset]
-      withInsertedSections:[NSIndexSet indexSetWithIndex:0]] build];
-[self.dataSource applyChangeset:initialChangeset
-                           mode:CKUpdateModeAsynchronous
-                       userInfo:nil];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">CKTransactionalComponentDataSourceChangeset</span> <span class="o">*</span><span class="n">initialChangeset</span> <span class="o">=</span>
+</span><span class='line'>  <span class="p">[[[</span><span class="n">CKTransactionalComponentDataSourceChangesetBuilder</span>
+</span><span class='line'>      <span class="n">transactionalComponentDataSourceChangeset</span><span class="p">]</span>
+</span><span class='line'>      <span class="nl">withInsertedSections</span><span class="p">:[</span><span class="bp">NSIndexSet</span> <span class="nl">indexSetWithIndex</span><span class="p">:</span><span class="mi">0</span><span class="p">]]</span> <span class="n">build</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">dataSource</span> <span class="nl">applyChangeset</span><span class="p">:</span><span class="n">initialChangeset</span>
+</span><span class='line'>                           <span class="nl">mode</span><span class="p">:</span><span class="n">CKUpdateModeAsynchronous</span>
+</span><span class='line'>                       <span class="nl">userInfo</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h3>insert/update items</h3>
 
 <p>向DataSource中插入Items才能显示。</p>
 
-<pre><code>NSMutableDictionary&lt;NSIndexPath *, NewsModel *&gt; *items = [NSMutableDictionary new];
-for (NSInteger i = 0; i &lt; 50; i++) {
-  NewsModel *newsModel = [[NewsModel alloc] init];
-  newsModel.title = [NSString stringWithFormat:@"News Title: Title %ld", i];
-  newsModel.category = @"科技";
-  newsModel.updateTime = [NSDate date];
-  newsModel.source = @"网易新闻";
-  [items setObject:newsModel
-            forKey:[NSIndexPath indexPathForRow:i inSection:0]];
-}
-CKTransactionalComponentDataSourceChangeset *changeset =
-  [[[CKTransactionalComponentDataSourceChangesetBuilder
-      transactionalComponentDataSourceChangeset]
-      withInsertedItems:items] build];
-[self.dataSource applyChangeset:changeset
-                           mode:CKUpdateModeAsynchronous
-                       userInfo:nil];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">NSMutableDictionary</span><span class="o">&lt;</span><span class="bp">NSIndexPath</span> <span class="o">*</span><span class="p">,</span> <span class="n">NewsModel</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableDictionary</span> <span class="n">new</span><span class="p">];</span>
+</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="bp">NSInteger</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">50</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">NewsModel</span> <span class="o">*</span><span class="n">newsModel</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NewsModel</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">newsModel</span><span class="p">.</span><span class="n">title</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;News Title: Title %ld&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">newsModel</span><span class="p">.</span><span class="n">category</span> <span class="o">=</span> <span class="s">@&quot;科技&quot;</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">newsModel</span><span class="p">.</span><span class="n">updateTime</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSDate</span> <span class="n">date</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">newsModel</span><span class="p">.</span><span class="n">source</span> <span class="o">=</span> <span class="s">@&quot;网易新闻&quot;</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">items</span> <span class="nl">setObject</span><span class="p">:</span><span class="n">newsModel</span>
+</span><span class='line'>            <span class="nl">forKey</span><span class="p">:[</span><span class="bp">NSIndexPath</span> <span class="nl">indexPathForRow</span><span class="p">:</span><span class="n">i</span> <span class="nl">inSection</span><span class="p">:</span><span class="mi">0</span><span class="p">]];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">CKTransactionalComponentDataSourceChangeset</span> <span class="o">*</span><span class="n">changeset</span> <span class="o">=</span>
+</span><span class='line'>  <span class="p">[[[</span><span class="n">CKTransactionalComponentDataSourceChangesetBuilder</span>
+</span><span class='line'>      <span class="n">transactionalComponentDataSourceChangeset</span><span class="p">]</span>
+</span><span class='line'>      <span class="nl">withInsertedItems</span><span class="p">:</span><span class="n">items</span><span class="p">]</span> <span class="n">build</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">dataSource</span> <span class="nl">applyChangeset</span><span class="p">:</span><span class="n">changeset</span>
+</span><span class='line'>                           <span class="nl">mode</span><span class="p">:</span><span class="n">CKUpdateModeAsynchronous</span>
+</span><span class='line'>                       <span class="nl">userInfo</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h3>UICollectionView delegate</h3>
 
-<pre><code>- (CGSize)collectionView:(UICollectionView *)collectionView
-                  layout:(UICollectionViewLayout *)collectionViewLayout
-  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-  return [self.dataSource sizeForItemAtIndexPath:indexPath];
-}
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">CGSize</span><span class="p">)</span><span class="nf">collectionView:</span><span class="p">(</span><span class="bp">UICollectionView</span> <span class="o">*</span><span class="p">)</span><span class="nv">collectionView</span>
+</span><span class='line'>                  <span class="nf">layout:</span><span class="p">(</span><span class="bp">UICollectionViewLayout</span> <span class="o">*</span><span class="p">)</span><span class="nv">collectionViewLayout</span>
+</span><span class='line'>  <span class="nf">sizeForItemAtIndexPath:</span><span class="p">(</span><span class="bp">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">indexPath</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">dataSource</span> <span class="nl">sizeForItemAtIndexPath</span><span class="p">:</span><span class="n">indexPath</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">collectionView:</span><span class="p">(</span><span class="bp">UICollectionView</span> <span class="o">*</span><span class="p">)</span><span class="nv">collectionView</span>
+</span><span class='line'>       <span class="nf">willDisplayCell:</span><span class="p">(</span><span class="bp">UICollectionViewCell</span> <span class="o">*</span><span class="p">)</span><span class="nv">cell</span>
+</span><span class='line'>    <span class="nf">forItemAtIndexPath:</span><span class="p">(</span><span class="bp">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">indexPath</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">dataSource</span> <span class="nl">announceWillDisplayCell</span><span class="p">:</span><span class="n">cell</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">collectionView:</span><span class="p">(</span><span class="bp">UICollectionView</span> <span class="o">*</span><span class="p">)</span><span class="nv">collectionView</span>
+</span><span class='line'>  <span class="nf">didEndDisplayingCell:</span><span class="p">(</span><span class="bp">UICollectionViewCell</span> <span class="o">*</span><span class="p">)</span><span class="nv">cell</span>
+</span><span class='line'>    <span class="nf">forItemAtIndexPath:</span><span class="p">(</span><span class="bp">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">indexPath</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">dataSource</span> <span class="nl">announceDidEndDisplayingCell</span><span class="p">:</span><span class="n">cell</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-- (void)collectionView:(UICollectionView *)collectionView
-       willDisplayCell:(UICollectionViewCell *)cell
-    forItemAtIndexPath:(NSIndexPath *)indexPath {
-  [self.dataSource announceWillDisplayCell:cell];
-}
 
-- (void)collectionView:(UICollectionView *)collectionView
-  didEndDisplayingCell:(UICollectionViewCell *)cell
-    forItemAtIndexPath:(NSIndexPath *)indexPath {
-  [self.dataSource announceDidEndDisplayingCell:cell];
-}
-</code></pre>
+
 
 <p class='post-footer'>
   原始地址：

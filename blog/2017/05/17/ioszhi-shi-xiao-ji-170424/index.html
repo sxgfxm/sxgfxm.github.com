@@ -139,58 +139,102 @@ cross size。</p>
 
 <p>flex-direction：决定主轴方向。</p>
 
-<pre><code>typedef NS_ENUM(NSUInteger, CKStackLayoutDirection) {
-  //  垂直方向
-  CKStackLayoutDirectionVertical,
-  //  水平方向
-  CKStackLayoutDirectionHorizontal,
-};
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">typedef</span> <span class="nf">NS_ENUM</span><span class="p">(</span><span class="bp">NSUInteger</span><span class="p">,</span> <span class="n">CKStackLayoutDirection</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">//  垂直方向</span>
+</span><span class='line'>  <span class="n">CKStackLayoutDirectionVertical</span><span class="p">,</span>
+</span><span class='line'>  <span class="c1">//  水平方向</span>
+</span><span class='line'>  <span class="n">CKStackLayoutDirectionHorizontal</span><span class="p">,</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>flex-wrap：决定如何换行。<br/>
 flex-flow：flex-direction和flex-wrap的简写形式。<br/>
 <strong>justify-content</strong>：决定items在主轴上的对齐方式。</p>
 
-<pre><code>/** If no children are flexible, how should this component justify its children in the available space? */
-typedef NS_ENUM(NSUInteger, CKStackLayoutJustifyContent) {
-  /**
-   On overflow, children overflow out of this component's bounds on the right/bottom side.
-   On underflow, children are left/top-aligned within this component's bounds.
-   */
-  //  左对齐
-  CKStackLayoutJustifyContentStart,
-  /**
-   On overflow, children are centered and overflow on both sides.
-   On underflow, children are centered within this component's bounds in the stacking direction.
-   */
-  //  居中
-  CKStackLayoutJustifyContentCenter,
-  /**
-   On overflow, children overflow out of this component's bounds on the left/top side.
-   On underflow, children are right/bottom-aligned within this component's bounds.
-   */
-  //  右对齐
-  CKStackLayoutJustifyContentEnd,
-};
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cm">/** If no children are flexible, how should this component justify its children in the available space? */</span>
+</span><span class='line'><span class="k">typedef</span> <span class="nf">NS_ENUM</span><span class="p">(</span><span class="bp">NSUInteger</span><span class="p">,</span> <span class="n">CKStackLayoutJustifyContent</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="cm">/**</span>
+</span><span class='line'><span class="cm">   On overflow, children overflow out of this component&#39;s bounds on the right/bottom side.</span>
+</span><span class='line'><span class="cm">   On underflow, children are left/top-aligned within this component&#39;s bounds.</span>
+</span><span class='line'><span class="cm">   */</span>
+</span><span class='line'>  <span class="c1">//  左对齐</span>
+</span><span class='line'>  <span class="n">CKStackLayoutJustifyContentStart</span><span class="p">,</span>
+</span><span class='line'>  <span class="cm">/**</span>
+</span><span class='line'><span class="cm">   On overflow, children are centered and overflow on both sides.</span>
+</span><span class='line'><span class="cm">   On underflow, children are centered within this component&#39;s bounds in the stacking direction.</span>
+</span><span class='line'><span class="cm">   */</span>
+</span><span class='line'>  <span class="c1">//  居中</span>
+</span><span class='line'>  <span class="n">CKStackLayoutJustifyContentCenter</span><span class="p">,</span>
+</span><span class='line'>  <span class="cm">/**</span>
+</span><span class='line'><span class="cm">   On overflow, children overflow out of this component&#39;s bounds on the left/top side.</span>
+</span><span class='line'><span class="cm">   On underflow, children are right/bottom-aligned within this component&#39;s bounds.</span>
+</span><span class='line'><span class="cm">   */</span>
+</span><span class='line'>  <span class="c1">//  右对齐</span>
+</span><span class='line'>  <span class="n">CKStackLayoutJustifyContentEnd</span><span class="p">,</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p><strong>align-items</strong>：决定items在交叉轴上的对齐方式。</p>
 
-<pre><code>typedef NS_ENUM(NSUInteger, CKStackLayoutAlignItems) {
-  /** Align children to start of cross axis */
-  //  交叉轴起点对齐
-  CKStackLayoutAlignItemsStart,
-  /** Align children with end of cross axis */
-  CKStackLayoutAlignItemsEnd,
-  //  交叉轴终点对齐
-  /** Center children on cross axis */
-  //  交叉轴居中对齐
-  CKStackLayoutAlignItemsCenter,
-  /** Expand children to fill cross axis */
-  //  交叉轴方向拉伸
-  CKStackLayoutAlignItemsStretch,
-};
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">typedef</span> <span class="nf">NS_ENUM</span><span class="p">(</span><span class="bp">NSUInteger</span><span class="p">,</span> <span class="n">CKStackLayoutAlignItems</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="cm">/** Align children to start of cross axis */</span>
+</span><span class='line'>  <span class="c1">//  交叉轴起点对齐</span>
+</span><span class='line'>  <span class="n">CKStackLayoutAlignItemsStart</span><span class="p">,</span>
+</span><span class='line'>  <span class="cm">/** Align children with end of cross axis */</span>
+</span><span class='line'>  <span class="n">CKStackLayoutAlignItemsEnd</span><span class="p">,</span>
+</span><span class='line'>  <span class="c1">//  交叉轴终点对齐</span>
+</span><span class='line'>  <span class="cm">/** Center children on cross axis */</span>
+</span><span class='line'>  <span class="c1">//  交叉轴居中对齐</span>
+</span><span class='line'>  <span class="n">CKStackLayoutAlignItemsCenter</span><span class="p">,</span>
+</span><span class='line'>  <span class="cm">/** Expand children to fill cross axis */</span>
+</span><span class='line'>  <span class="c1">//  交叉轴方向拉伸</span>
+</span><span class='line'>  <span class="n">CKStackLayoutAlignItemsStretch</span><span class="p">,</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>Item Properties</h2>
 
@@ -204,41 +248,65 @@ flex：flex-grow, flex-shrink 和 flex-basis的简写。<br/>
 <strong>align-self</strong>：决定item单独的对齐方式，可以覆盖 <strong>align-items</strong> 属性。<br/>
 默认值为auto，表示继承父元素的align-items属性，如果没有父元素，则等同于stretch。</p>
 
-<pre><code>/**
- Each child may override their parent stack's cross axis alignment.
- @see CKStackLayoutAlignItems
- */
-typedef NS_ENUM(NSUInteger, CKStackLayoutAlignSelf) {
-  /** Inherit alignment value from containing stack. */
-  CKStackLayoutAlignSelfAuto,
-  CKStackLayoutAlignSelfStart,
-  CKStackLayoutAlignSelfEnd,
-  CKStackLayoutAlignSelfCenter,
-  CKStackLayoutAlignSelfStretch,
-};
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> Each child may override their parent stack&#39;s cross axis alignment.</span>
+</span><span class='line'><span class="cm"> @see CKStackLayoutAlignItems</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'><span class="k">typedef</span> <span class="nf">NS_ENUM</span><span class="p">(</span><span class="bp">NSUInteger</span><span class="p">,</span> <span class="n">CKStackLayoutAlignSelf</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="cm">/** Inherit alignment value from containing stack. */</span>
+</span><span class='line'>  <span class="n">CKStackLayoutAlignSelfAuto</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">CKStackLayoutAlignSelfStart</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">CKStackLayoutAlignSelfEnd</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">CKStackLayoutAlignSelfCenter</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">CKStackLayoutAlignSelfStretch</span><span class="p">,</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>CKStackLayoutComponent</h2>
 
 <p>A simple layout component that stacks a list of children vertically or horizontally.<br/>
 动态创建children：</p>
 
-<pre><code>static std::vector&lt;CKStackLayoutComponentChild&gt; createChildren(NSArray* list){
-  std::vector&lt;CKStackLayoutComponentChild&gt; children;
-  for (VPANewsModel*newsModel in list) {
-    children.push_back({[VPANewsComponent newWithNewsModel:newsModel]});
-  }
-  return children;
-}
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">static</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">CKStackLayoutComponentChild</span><span class="o">&gt;</span> <span class="n">createChildren</span><span class="p">(</span><span class="bp">NSArray</span><span class="o">*</span> <span class="n">list</span><span class="p">){</span>
+</span><span class='line'>  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">CKStackLayoutComponentChild</span><span class="o">&gt;</span> <span class="n">children</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">for</span> <span class="p">(</span><span class="n">VPANewsModel</span><span class="o">*</span><span class="n">newsModel</span> <span class="k">in</span> <span class="n">list</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">children</span><span class="p">.</span><span class="n">push_back</span><span class="p">({[</span><span class="n">VPANewsComponent</span> <span class="nl">newWithNewsModel</span><span class="p">:</span><span class="n">newsModel</span><span class="p">]});</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">children</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>CKBackgroundLayoutComponent</h2>
 
 <p>Lays out a single child component, then lays out a background component behind it stretched to its size.</p>
 
-<pre><code>+ (instancetype)newWithComponent:(CKComponent *)component
-                      background:(CKComponent *)background;
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">newWithComponent:</span><span class="p">(</span><span class="n">CKComponent</span> <span class="o">*</span><span class="p">)</span><span class="nv">component</span>
+</span><span class='line'>                      <span class="nf">background:</span><span class="p">(</span><span class="n">CKComponent</span> <span class="o">*</span><span class="p">)</span><span class="nv">background</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>CKStaticLayoutComponent</h2>
 
@@ -249,11 +317,16 @@ Computes a size that is the union of all childrens' frames.</p>
 
 <p>Lays out a single child component and position it so that it is centered into the layout bounds.</p>
 
-<pre><code>+ (instancetype)newWithCenteringOptions:(CKCenterLayoutComponentCenteringOptions)centeringOptions
-                          sizingOptions:(CKCenterLayoutComponentSizingOptions)sizingOptions
-                                  child:(CKComponent *)child
-                                   size:(const CKComponentSize &amp;)size;
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">newWithCenteringOptions:</span><span class="p">(</span><span class="n">CKCenterLayoutComponentCenteringOptions</span><span class="p">)</span><span class="nv">centeringOptions</span>
+</span><span class='line'>                          <span class="nf">sizingOptions:</span><span class="p">(</span><span class="n">CKCenterLayoutComponentSizingOptions</span><span class="p">)</span><span class="nv">sizingOptions</span>
+</span><span class='line'>                                  <span class="nf">child:</span><span class="p">(</span><span class="n">CKComponent</span> <span class="o">*</span><span class="p">)</span><span class="nv">child</span>
+</span><span class='line'>                                   <span class="nf">size:</span><span class="p">(</span><span class="k">const</span> <span class="n">CKComponentSize</span> <span class="o">&amp;</span><span class="p">)</span><span class="nv">size</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>CKRatioLayoutComponent</h2>
 

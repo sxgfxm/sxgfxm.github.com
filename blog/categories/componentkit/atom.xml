@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Componentkit | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/componentkit/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-09-22T10:57:33+08:00</updated>
+  <updated>2017-09-22T11:43:42+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -52,7 +52,7 @@ Steps to define a component:  <br/>
 
 <p>An example to implement a custom VPADateComponent.</p>
 
-<pre><code>@implementation VPADateComponent
+<pre><code class="objective-c">@implementation VPADateComponent
 
 //  Data flows in one direction. Component is immutable.
 +(instancetype)newWithDateModel:(VPADateModel *)dateModel{
@@ -96,7 +96,7 @@ static NSString* formatDate(NSDate* date){
 <p>The base class of all Components. You can never directly subclass <code>CKComponent</code>.<br/>
 Constructor:</p>
 
-<pre><code>/**
+<pre><code class="objective-c">/**
  @param view A struct describing the view for this component. Pass {} to specify that no view should be created.
  @param size A size constraint that should apply to this component. Pass {} to specify no size constraint.
  */
@@ -106,7 +106,7 @@ Constructor:</p>
 
 <p>Exmaple:</p>
 
-<pre><code>CKComponent *component = [CKComponent
+<pre><code class="objective-c">CKComponent *component = [CKComponent
   newWithView:{
     [UIView class],
     {
@@ -136,7 +136,7 @@ Constructor:</p>
 <p>CKLabelComponent is a simplified text component that just displays NSStrings.<br/>
 Constructor:</p>
 
-<pre><code>/**
+<pre><code class="objective-c">/**
  @param attributes The content and styling information for the text component.
  @param viewAttributes These are passed directly to CKTextComponent and its backing view.
  @param size The component size or {} for the default which is for the layout to take the maximum space available.
@@ -148,7 +148,7 @@ Constructor:</p>
 
 <p>Example:</p>
 
-<pre><code>CKLabelComponent *labelComponent = [CKLabelComponent
+<pre><code class="objective-c">CKLabelComponent *labelComponent = [CKLabelComponent
   newWithLabelAttributes:{
     .string = @"Lable Component",
     .color = [UIColor blackColor],
@@ -167,7 +167,7 @@ Constructor:</p>
 <p>A component that creates a UIButton.<br/>
 Constructor:</p>
 
-<pre><code>/**
+<pre><code class="objective-c">/**
  This component chooses the smallest size within its SizeRange that will fit its content. If its max size is smaller
  than the size required to fit its content, it will be truncated.
  */
@@ -185,7 +185,7 @@ Constructor:</p>
 
 <p>Example:</p>
 
-<pre><code>CKButtonComponent *buttonComponent = [CKButtonComponent
+<pre><code class="objective-c">CKButtonComponent *buttonComponent = [CKButtonComponent
   newWithTitles:{
     {UIControlStateNormal,@"button"}
   }
@@ -214,7 +214,7 @@ Constructor:</p>
 <p>A component that displays an image using UIImageView.<br/>
 Constructor:</p>
 
-<pre><code>/**
+<pre><code class="objective-c">/**
  Uses a static layout with the given image size and applies additional attributes.
  */
 + (instancetype)newWithImage:(UIImage *)image
@@ -224,7 +224,7 @@ Constructor:</p>
 
 <p>Example:</p>
 
-<pre><code>CKImageComponent *imageComponent = [CKImageComponent
+<pre><code class="objective-c">CKImageComponent *imageComponent = [CKImageComponent
   newWithImage:[UIImage imageNamed:imageName]
   attributes:{
     {@selector(setUserInteractionEnabled:), @NO}
@@ -242,21 +242,13 @@ Constructor:</p>
 
 <p>Constructor:</p>
 
-<pre><code>/**
- @param view A view configuration, or {} for no view.
- @param size A size, or {} for the default size.
- @param style Specifies how children are laid out.
- @param children A vector of children components.
- */
-+ (instancetype)newWithView:(const CKComponentViewConfiguration &amp;)view
-                       size:(const CKComponentSize &amp;)size
-                      style:(const CKStackLayoutComponentStyle &amp;)style
-                   children:(CKContainerWrapper&lt;std::vector&lt;CKStackLayoutComponentChild&gt;&gt; &amp;&amp;)children;
+<pre><code class="objective-c">  /** @param view A view configuration, or {} for no view. @param size A size, or {} for the default size. @param style Specifies how children are laid out. @param children A vector of children components. */
++ (instancetype)newWithView:(const CKComponentViewConfiguration &amp;)view                       size:(const CKComponentSize &amp;)size                      style:(const CKStackLayoutComponentStyle &amp;)style                   children:(CKContainerWrapper&lt;std::vector&lt;CKStackLayoutComponentChild&gt;&gt; &amp;&amp;)children;
 </code></pre>
 
 <p>Exmaple:</p>
 
-<pre><code>CKStackLayoutComponent *stackComponent = [CKStackLayoutComponent
+<pre><code class="objective-c">CKStackLayoutComponent *stackComponent = [CKStackLayoutComponent
   newWithView:{}
   size:{}
   style:{.direction = CKStackLayoutDirectionVertical, .alignItems = CKStackLayoutAlignItemsStretch}
@@ -274,7 +266,7 @@ If the child component has a size specified as a percentage, the percentage is r
 CKInsetComponent&rsquo;s child behaves similarly to &ldquo;box-sizing: border-box&rdquo;. <br/>
 Constructor:</p>
 
-<pre><code>/**
+<pre><code class="objective-c">/**
  @param view Passed to CKComponent +newWithView:size:. The view, if any, will extend outside the insets.
  @param insets The amount of space to inset on each side.
  @param component The wrapped child component to inset. If nil, this method returns nil.
@@ -286,7 +278,7 @@ Constructor:</p>
 
 <p>Example:</p>
 
-<pre><code>CKInsetComponent *insetComponent = [CKInsetComponent
+<pre><code class="objective-c">CKInsetComponent *insetComponent = [CKInsetComponent
   newWithView:{}
   insets:{.left = 10, .top = 10, .right = 10, .bottom = 10}
   component: labelComponent];
@@ -297,7 +289,7 @@ Constructor:</p>
 <p>Lays out a single child component and position it so that it is centered into the layout bounds.<br/>
 Constructor:</p>
 
-<pre><code>/**
+<pre><code class="objective-c">/**
  @param centeringOptions, see CKCenterLayoutComponentCenteringOptions.
  @param sizingOptions, see CKCenterLayoutComponentSizingOptions.
  @param child The child to center.
@@ -311,7 +303,7 @@ Constructor:</p>
 
 <p>Exmaple:</p>
 
-<pre><code>CKCenterLayoutComponent * centerComponent = [CKCenterLayoutComponent
+<pre><code class="objective-c">CKCenterLayoutComponent * centerComponent = [CKCenterLayoutComponent
   newWithCenteringOptions:CKCenterLayoutComponentCenteringXY
   sizingOptions:CKCenterLayoutComponentSizingOptionDefault
   child:labelComponent
@@ -323,13 +315,13 @@ Constructor:</p>
 <p>This component lays out a single component and then overlays a component on top of it streched to its size.<br/>
 Constructor:</p>
 
-<pre><code>+ (instancetype)newWithComponent:(CKComponent *)component
+<pre><code class="objective-c">+ (instancetype)newWithComponent:(CKComponent *)component
                          overlay:(CKComponent *)overlay;
 </code></pre>
 
 <p>Exmaple:</p>
 
-<pre><code>CKOverlayLayoutComponent *overlayComponent = [CKOverlayLayoutComponent
+<pre><code class="objective-c">CKOverlayLayoutComponent *overlayComponent = [CKOverlayLayoutComponent
   newWithComponent: imageComponent
   overlay: labelComponent];
 </code></pre>
@@ -339,7 +331,7 @@ Constructor:</p>
 <p>Lays out a single child component, then lays out a background component behind it stretched to its size.<br/>
 Constructor:</p>
 
-<pre><code>/**
+<pre><code class="objective-c">/**
  @param component A child that is laid out to determine the size of this component. If this is nil, then this method
         returns nil.
  @param background A child that is laid out behind it. May be nil, in which case the background is omitted.
@@ -350,7 +342,7 @@ Constructor:</p>
 
 <p>Exmaple:</p>
 
-<pre><code>CKBackgroundLayoutComponent *backgroundComponent = [CKBackgroundLayoutComponent
+<pre><code class="objective-c">CKBackgroundLayoutComponent *backgroundComponent = [CKBackgroundLayoutComponent
   newWithComponent: labelComponent
   background: imageComponent];
 </code></pre>
@@ -361,7 +353,7 @@ Constructor:</p>
 Computes a size that is the union of all childrens' frames.<br/>
 Constructor:</p>
 
-<pre><code>@param view Passed to the super class initializer.
+<pre><code class="objective-c">@param view Passed to the super class initializer.
 @param children Children to be positioned at fixed positions.
 */
 + (instancetype)newWithView:(const CKComponentViewConfiguration &amp;)view
@@ -371,7 +363,7 @@ Constructor:</p>
 
 <p>Exmaple:</p>
 
-<pre><code>CKStaticLayoutComponent *staticComponent = [CKStaticLayoutComponent
+<pre><code class="objective-c">CKStaticLayoutComponent *staticComponent = [CKStaticLayoutComponent
   newWithView:{}
   size:{}
   children:{
@@ -387,14 +379,14 @@ Constructor:</p>
 The ratio passed is the ratio of height / width you expect.<br/>
 Constructor:</p>
 
-<pre><code>+ (instancetype)newWithRatio:(CGFloat)ratio
+<pre><code class="objective-c">+ (instancetype)newWithRatio:(CGFloat)ratio
                         size:(const CKComponentSize &amp;)size
                    component:(CKComponent *)component;
 </code></pre>
 
 <p>Exmaple:</p>
 
-<pre><code>CKRatioLayoutComponent *ratioComponent = [CKRatioLayoutComponent
+<pre><code class="objective-c">CKRatioLayoutComponent *ratioComponent = [CKRatioLayoutComponent
   newWithRatio:0.5
   size:{}
   component:imageComponent];
@@ -427,7 +419,7 @@ Constructor:</p>
 ViewController需要遵守<code>CKComponentProvider</code>协议，实现<code>+componentForModel: context:</code>方法，将model转换为component。<br/>
 在该方法中，通过不同类型的model返回不同类型的component。</p>
 
-<pre><code>+ (CKComponent *)componentForModel:(id&lt;NSObject&gt;)model
+<pre><code class="objective-c">+ (CKComponent *)componentForModel:(id&lt;NSObject&gt;)model
                            context:(id&lt;NSObject&gt;)context {
   if ([model isKindOfClass:[NewsModel class]]) {
     return [NewsComponent newWithNewsModel:model context:context];
@@ -439,7 +431,7 @@ ViewController需要遵守<code>CKComponentProvider</code>协议，实现<code>+
 <p>2、FlowLayout
 创建<code>UICollectionViewFlowLayout</code>对象，设置滑动方向、间距参数等。</p>
 
-<pre><code>UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+<pre><code class="objective-c">UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
 [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
 [flowLayout setMinimumInteritemSpacing:0];
 [flowLayout setMinimumLineSpacing:0];
@@ -448,7 +440,7 @@ ViewController需要遵守<code>CKComponentProvider</code>协议，实现<code>+
 <p>3、CollectionView
 创建<code>UICollectionView</code>。</p>
 
-<pre><code>self.collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:flowLayout];
+<pre><code class="objective-c">self.collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:flowLayout];
 self.collectionView.delegate = self;
 self.collectionView.backgroundColor = [UIColor blackColor];
 [self.view addSubview:self.collectionView];
@@ -457,7 +449,7 @@ self.collectionView.backgroundColor = [UIColor blackColor];
 <p>4、Item size range
 Item size range。通过设置<code>CKComponentSizeRangeFlexibleHeight</code>使item的高度自适应。</p>
 
-<pre><code>const CKSizeRange sizeRange = [[CKComponentFlexibleSizeRangeProvider
+<pre><code class="objective-c">const CKSizeRange sizeRange = [[CKComponentFlexibleSizeRangeProvider
       providerWithFlexibility:CKComponentSizeRangeFlexibleHeight]
      sizeRangeForBoundingSize:self.collectionView.bounds.size];
 </code></pre>
@@ -470,7 +462,7 @@ Context可以是任何不可变对象，创建component时的不可变上下文�
 <p>6、Configuration
 <code>CKTransactionalComponentDataSourceConfiguration</code>，需要 <strong>ComponentProvider</strong>，<strong>sizeRange</strong>，<strong>context</strong> 三个参数。</p>
 
-<pre><code>CKTransactionalComponentDataSourceConfiguration *configuration =
+<pre><code class="objective-c">CKTransactionalComponentDataSourceConfiguration *configuration =
       [[CKTransactionalComponentDataSourceConfiguration alloc]
           initWithComponentProvider:[self class]
                             context:context
@@ -480,7 +472,7 @@ Context可以是任何不可变对象，创建component时的不可变上下文�
 <p>7、DataSource
 <code>CKCollectionViewTransactionalDataSource</code>,需要 <strong>collectionView</strong>，<strong>supplementaryViewDataSource</strong>，<strong>configuration</strong> 三个参数。</p>
 
-<pre><code>self.dataSource = [[CKCollectionViewTransactionalDataSource alloc]
+<pre><code class="objective-c">self.dataSource = [[CKCollectionViewTransactionalDataSource alloc]
            initWithCollectionView:self.collectionView
       supplementaryViewDataSource:nil
                     configuration:configuration];
@@ -489,7 +481,7 @@ Context可以是任何不可变对象，创建component时的不可变上下文�
 <p>8、Initial changeset
 需要初始化DataSource，即向DataSource中添加Section。</p>
 
-<pre><code>CKTransactionalComponentDataSourceChangeset *initialChangeset =
+<pre><code class="objective-c">CKTransactionalComponentDataSourceChangeset *initialChangeset =
   [[[CKTransactionalComponentDataSourceChangesetBuilder
       transactionalComponentDataSourceChangeset]
       withInsertedSections:[NSIndexSet indexSetWithIndex:0]] build];
@@ -501,7 +493,7 @@ Context可以是任何不可变对象，创建component时的不可变上下文�
 <p>9、Insert/Update items
 向DataSource中插入Items才能显示。</p>
 
-<pre><code>NSMutableDictionary&lt;NSIndexPath *, NewsModel *&gt; *items = [NSMutableDictionary new];
+<pre><code class="objective-c">NSMutableDictionary&lt;NSIndexPath *, NewsModel *&gt; *items = [NSMutableDictionary new];
 for (NSInteger i = 0; i &lt; 50; i++) {
   NewsModel *newsModel = [[NewsModel alloc] init];
   newsModel.title = [NSString stringWithFormat:@"News Title: Title %ld", i];
@@ -522,7 +514,7 @@ CKTransactionalComponentDataSourceChangeset *changeset =
 
 <p>10、ViewController()&lt;UICollectionViewDelegate, UICollectionViewDelegateFlowLayout></p>
 
-<pre><code>- (CGSize)collectionView:(UICollectionView *)collectionView
+<pre><code class="objective-c">- (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
   return [self.dataSource sizeForItemAtIndexPath:indexPath];
@@ -554,7 +546,7 @@ cross size。</p>
 
 <p>flex-direction：决定主轴方向。</p>
 
-<pre><code>typedef NS_ENUM(NSUInteger, CKStackLayoutDirection) {
+<pre><code class="objective-c">typedef NS_ENUM(NSUInteger, CKStackLayoutDirection) {
   //  垂直方向
   CKStackLayoutDirectionVertical,
   //  水平方向
@@ -566,7 +558,7 @@ cross size。</p>
 flex-flow：flex-direction和flex-wrap的简写形式。<br/>
 <strong>justify-content</strong>：决定items在主轴上的对齐方式。</p>
 
-<pre><code>/** If no children are flexible, how should this component justify its children in the available space? */
+<pre><code class="objective-c">/** If no children are flexible, how should this component justify its children in the available space? */
 typedef NS_ENUM(NSUInteger, CKStackLayoutJustifyContent) {
   /**
    On overflow, children overflow out of this component's bounds on the right/bottom side.
@@ -591,7 +583,7 @@ typedef NS_ENUM(NSUInteger, CKStackLayoutJustifyContent) {
 
 <p><strong>align-items</strong>：决定items在交叉轴上的对齐方式。</p>
 
-<pre><code>typedef NS_ENUM(NSUInteger, CKStackLayoutAlignItems) {
+<pre><code class="objective-c">typedef NS_ENUM(NSUInteger, CKStackLayoutAlignItems) {
   /** Align children to start of cross axis */
   //  交叉轴起点对齐
   CKStackLayoutAlignItemsStart,
@@ -619,7 +611,7 @@ flex：flex-grow, flex-shrink 和 flex-basis的简写。<br/>
 <strong>align-self</strong>：决定item单独的对齐方式，可以覆盖 <strong>align-items</strong> 属性。<br/>
 默认值为auto，表示继承父元素的align-items属性，如果没有父元素，则等同于stretch。</p>
 
-<pre><code>/**
+<pre><code class="objective-c">/**
  Each child may override their parent stack's cross axis alignment.
  @see CKStackLayoutAlignItems
  */

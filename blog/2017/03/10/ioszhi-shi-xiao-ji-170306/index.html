@@ -162,16 +162,26 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 <h2>NSOperation</h2>
 
-<pre><code>-(void)start;
--(void)main;
--(void)cancel;
--(void)addDependency:(NSOperation*)op;
--(void)removeDependency:(NSOperation*)op;
-@property BOOL executing;
-@property BOOL cancelled;
-@property BOOL finished;
-@property copy void (^completionBlock)(void);
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">start</span><span class="p">;</span>
+</span><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">main</span><span class="p">;</span>
+</span><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">cancel</span><span class="p">;</span>
+</span><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addDependency:</span><span class="p">(</span><span class="bp">NSOperation</span><span class="o">*</span><span class="p">)</span><span class="nv">op</span><span class="p">;</span>
+</span><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeDependency:</span><span class="p">(</span><span class="bp">NSOperation</span><span class="o">*</span><span class="p">)</span><span class="nv">op</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="kt">BOOL</span> <span class="n">executing</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="kt">BOOL</span> <span class="n">cancelled</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="kt">BOOL</span> <span class="n">finished</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="k">copy</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">completionBlock</span><span class="p">)(</span><span class="kt">void</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>使用方法：<br/>
 1、继承NSOperation，通过init方法初始化，重写main方法执行任务；<br/>
@@ -182,12 +192,18 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 <h2>NSOperationQueue</h2>
 
-<pre><code>@property NSInteger maxCoucurrentOperationCount;
-@property NSInteger operationCount;
--(void)addOperation:(NSOperation*)op;
--(void)cancelAllOperations;
--(void)waitUntilAllOperationsAreFinished;
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@property</span> <span class="bp">NSInteger</span> <span class="n">maxCoucurrentOperationCount</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="bp">NSInteger</span> <span class="n">operationCount</span><span class="p">;</span>
+</span><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addOperation:</span><span class="p">(</span><span class="bp">NSOperation</span><span class="o">*</span><span class="p">)</span><span class="nv">op</span><span class="p">;</span>
+</span><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">cancelAllOperations</span><span class="p">;</span>
+</span><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">waitUntilAllOperationsAreFinished</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>使用方法：<br/>
 1、初始化NSOperationQueue，设置同时可并行任务数量；<br/>
@@ -206,35 +222,58 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 <p>将信息写到剪切板中。</p>
 
-<pre><code>UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-[pasteboard setString:string];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">UIPasteboard</span> <span class="o">*</span><span class="n">pasteboard</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIPasteboard</span> <span class="n">generalPasteboard</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">pasteboard</span> <span class="nl">setString</span><span class="p">:</span><span class="n">string</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>发送本地通知</h2>
 
-<pre><code>// 创建一个本地推送
-UILocalNotification *notification = [UILocalNotification new];
-if (notification != nil) {
-  // 推送声音
-  notification.soundName = UILocalNotificationDefaultSoundName;
-  // 推送内容
-  notification.alertBody = NSLocalizedString(@"stopWatch.timing", @"已将打点计时信息复制到剪切板");
-  // 显示在icon上的红色圈中的数子
-  notification.applicationIconBadgeNumber++;
-  // 设置userinfo 方便在之后需要撤销的时候使用
-  NSDictionary *info = [NSDictionary dictionaryWithObject:kStopWatchKey forKey:kNotificationKey];
-  notification.userInfo = info;
-  // 添加推送到UIApplication
-  UIApplication *app = [UIApplication sharedApplication];
-  [app scheduleLocalNotification:notification];
-}
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// 创建一个本地推送</span>
+</span><span class='line'><span class="bp">UILocalNotification</span> <span class="o">*</span><span class="n">notification</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UILocalNotification</span> <span class="n">new</span><span class="p">];</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">notification</span> <span class="o">!=</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">// 推送声音</span>
+</span><span class='line'>  <span class="n">notification</span><span class="p">.</span><span class="n">soundName</span> <span class="o">=</span> <span class="n">UILocalNotificationDefaultSoundName</span><span class="p">;</span>
+</span><span class='line'>  <span class="c1">// 推送内容</span>
+</span><span class='line'>  <span class="n">notification</span><span class="p">.</span><span class="n">alertBody</span> <span class="o">=</span> <span class="n">NSLocalizedString</span><span class="p">(</span><span class="s">@&quot;stopWatch.timing&quot;</span><span class="p">,</span> <span class="s">@&quot;已将打点计时信息复制到剪切板&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="c1">// 显示在icon上的红色圈中的数子</span>
+</span><span class='line'>  <span class="n">notification</span><span class="p">.</span><span class="n">applicationIconBadgeNumber</span><span class="o">++</span><span class="p">;</span>
+</span><span class='line'>  <span class="c1">// 设置userinfo 方便在之后需要撤销的时候使用</span>
+</span><span class='line'>  <span class="bp">NSDictionary</span> <span class="o">*</span><span class="n">info</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSDictionary</span> <span class="nl">dictionaryWithObject</span><span class="p">:</span><span class="n">kStopWatchKey</span> <span class="nl">forKey</span><span class="p">:</span><span class="n">kNotificationKey</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">notification</span><span class="p">.</span><span class="n">userInfo</span> <span class="o">=</span> <span class="n">info</span><span class="p">;</span>
+</span><span class='line'>  <span class="c1">// 添加推送到UIApplication</span>
+</span><span class='line'>  <span class="bp">UIApplication</span> <span class="o">*</span><span class="n">app</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIApplication</span> <span class="n">sharedApplication</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">app</span> <span class="nl">scheduleLocalNotification</span><span class="p">:</span><span class="n">notification</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>string label</h2>
 
-<pre><code>NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
-ceil()
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">NSStringDrawingUsesLineFragmentOrigin</span> <span class="o">|</span> <span class="n">NSStringDrawingUsesFontLeading</span>
+</span><span class='line'><span class="n">ceil</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>相册和相机</h2>
 

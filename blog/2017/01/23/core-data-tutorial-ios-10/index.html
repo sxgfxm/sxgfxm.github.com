@@ -147,84 +147,142 @@ Entity相当于表，其中Attributes相当于表中的记录，对应需要存�
 NSPersistentContainer是新添加的类，从此大部分情况下无需再和NSManagedObjectContext、NSPersistentStoreCoordinator打交道。<br/>
 获取NSPersistentContainer</p>
 
-<pre><code class="objective-c">#import 'AppDelegate.h'
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &#39;AppDelegate.h&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="n">NSPersistentContainer</span> <span class="o">*</span><span class="n">container</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">ViewController</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span><span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">container</span> <span class="o">=</span> <span class="p">((</span><span class="n">AppDelegate</span> <span class="o">*</span><span class="p">)[</span><span class="bp">UIApplication</span> <span class="n">sharedApplication</span><span class="p">].</span><span class="n">delegate</span><span class="p">).</span><span class="n">persistentContainer</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-@interface ViewController ()
-
-@property(nonatomic, strong) NSPersistentContainer *container;
-
-@end
-
-@implementation ViewController
-
--(void)viewDidLoad{
-  [super viewDidLoad];
-  self.container = ((AppDelegate *)[UIApplication sharedApplication].delegate).persistentContainer;
-}
-
-@end
-</code></pre>
 
 <h2>Add Record</h2>
 
 <p>导入通过系统创建的Create NSManagedObject Subclass，通过NSEntityDescription增添记录。</p>
 
-<pre><code class="objective-c">#import "People+CoreDataProperties.h"
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &quot;People+CoreDataProperties.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#define kEntityName @&quot;People&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addRecord</span><span class="p">{</span>
+</span><span class='line'>  <span class="n">People</span> <span class="o">*</span><span class="n">people</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSEntityDescription</span> <span class="nl">insertNewObjectForEntityForName</span><span class="p">:</span><span class="n">kEntityName</span> <span class="nl">inManagedObjectContext</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">container</span><span class="p">.</span><span class="n">viewContext</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">people</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">@&quot;Tom&quot;</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">people</span><span class="p">.</span><span class="n">sex</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">people</span><span class="p">.</span><span class="n">age</span> <span class="o">=</span> <span class="mi">23</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-#define kEntityName @"People"
-
--(void)addRecord{
-  People *people = [NSEntityDescription insertNewObjectForEntityForName:kEntityName inManagedObjectContext:self.container.viewContext];
-  people.name = @"Tom";
-  people.sex = YES;
-  people.age = 23;
-}
-</code></pre>
 
 <h2>Fetch Record</h2>
 
 <p>通过NSFetchRequest查询记录。</p>
 
-<pre><code class="objective-c">-(void)fetchRecord{
-  NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:kEntityName];
-  NSArray&lt;People *&gt; *results = [self.container.viewContext executeFetchRequest:fetchRequest error:nil];
-  for (People *people in results) {
-    NSLog(@"name %@", people.name);
-    NSLog(@"sex  %@", people.sex);
-    NSLog(@"age  %@", people.age);
-  }
-}
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">fetchRecord</span><span class="p">{</span>
+</span><span class='line'>  <span class="bp">NSFetchRequest</span> <span class="o">*</span><span class="n">fetchRequest</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSFetchRequest</span> <span class="nl">fetchRequestWithEntityName</span><span class="p">:</span><span class="n">kEntityName</span><span class="p">];</span>
+</span><span class='line'>  <span class="bp">NSArray</span><span class="o">&lt;</span><span class="n">People</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">container</span><span class="p">.</span><span class="n">viewContext</span> <span class="nl">executeFetchRequest</span><span class="p">:</span><span class="n">fetchRequest</span> <span class="nl">error</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">for</span> <span class="p">(</span><span class="n">People</span> <span class="o">*</span><span class="n">people</span> <span class="k">in</span> <span class="n">results</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;name %@&quot;</span><span class="p">,</span> <span class="n">people</span><span class="p">.</span><span class="n">name</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;sex  %@&quot;</span><span class="p">,</span> <span class="n">people</span><span class="p">.</span><span class="n">sex</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;age  %@&quot;</span><span class="p">,</span> <span class="n">people</span><span class="p">.</span><span class="n">age</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>Update Record</h2>
 
 <p>先fetch需要修改的记录，然后直接修改即可。</p>
 
-<pre><code class="objective-c">-(void)updateRecord{
-  NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:kEntityName];
-  NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", @"Tom"];
-  fetchRequest.predicate = predicate;
-  NSArray&lt;People *&gt; *results = [self.container.viewContext executeFetchRequest:fetchRequest error:nil];
-  for (People *people in results) {
-    people.name = @"Lily";
-  }
-}
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">updateRecord</span><span class="p">{</span>
+</span><span class='line'>  <span class="bp">NSFetchRequest</span> <span class="o">*</span><span class="n">fetchRequest</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSFetchRequest</span> <span class="nl">fetchRequestWithEntityName</span><span class="p">:</span><span class="n">kEntityName</span><span class="p">];</span>
+</span><span class='line'>  <span class="bp">NSPredicate</span> <span class="o">*</span><span class="n">predicate</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSPredicate</span> <span class="nl">predicateWithFormat</span><span class="p">:</span><span class="s">@&quot;name == %@&quot;</span><span class="p">,</span> <span class="s">@&quot;Tom&quot;</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">fetchRequest</span><span class="p">.</span><span class="n">predicate</span> <span class="o">=</span> <span class="n">predicate</span><span class="p">;</span>
+</span><span class='line'>  <span class="bp">NSArray</span><span class="o">&lt;</span><span class="n">People</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">container</span><span class="p">.</span><span class="n">viewContext</span> <span class="nl">executeFetchRequest</span><span class="p">:</span><span class="n">fetchRequest</span> <span class="nl">error</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">for</span> <span class="p">(</span><span class="n">People</span> <span class="o">*</span><span class="n">people</span> <span class="k">in</span> <span class="n">results</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">people</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">@&quot;Lily&quot;</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>Delete Record</h2>
 
 <p>先fetch需要删除的记录，然后通过NSManagedObjectContext删除即可。</p>
 
-<pre><code class="objective-c">-(void)deleteRecord{
-  NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:kEntityName];
-  NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", @"Lily"];
-  fetchRequest.predicate = predicate;
-  NSArray&lt;People *&gt; *results = [self.container.viewContext executeFetchRequest:fetchRequest error:nil];
-  for (People *people in results) {
-    [self.container.viewContext deleteObject:people];
-  }
-}
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">deleteRecord</span><span class="p">{</span>
+</span><span class='line'>  <span class="bp">NSFetchRequest</span> <span class="o">*</span><span class="n">fetchRequest</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSFetchRequest</span> <span class="nl">fetchRequestWithEntityName</span><span class="p">:</span><span class="n">kEntityName</span><span class="p">];</span>
+</span><span class='line'>  <span class="bp">NSPredicate</span> <span class="o">*</span><span class="n">predicate</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSPredicate</span> <span class="nl">predicateWithFormat</span><span class="p">:</span><span class="s">@&quot;name == %@&quot;</span><span class="p">,</span> <span class="s">@&quot;Lily&quot;</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">fetchRequest</span><span class="p">.</span><span class="n">predicate</span> <span class="o">=</span> <span class="n">predicate</span><span class="p">;</span>
+</span><span class='line'>  <span class="bp">NSArray</span><span class="o">&lt;</span><span class="n">People</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">container</span><span class="p">.</span><span class="n">viewContext</span> <span class="nl">executeFetchRequest</span><span class="p">:</span><span class="n">fetchRequest</span> <span class="nl">error</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">for</span> <span class="p">(</span><span class="n">People</span> <span class="o">*</span><span class="n">people</span> <span class="k">in</span> <span class="n">results</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">container</span><span class="p">.</span><span class="n">viewContext</span> <span class="nl">deleteObject</span><span class="p">:</span><span class="n">people</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>GitHub源码</h2>
 

@@ -135,29 +135,52 @@ NSData -> UIImage：<code>UIImage *image = [UIImage imageWithData:data];</code><
 
 <p>导入第三方库<a href="https://github.com/larsbs/id3v2lib">id3v2lib</a>。</p>
 
-<pre><code>  //  文件路径
-  const char *cPath = [[url path] cStringUsingEncoding:NSUTF8StringEncoding];
-  //  创建tag
-  ID3v2_tag *tag = load_tag(cPath);
-  if (tag == NULL) {
-    tag = new_tag();
-  }
-  //  设置tag
-  char *title = (char *)[item.title cStringUsingEncoding:NSUTF8StringEncoding];
-  tag_set_title(title, 0, tag);
-  char *artist = (char *)[item.artist cStringUsingEncoding:NSUTF8StringEncoding];
-  tag_set_artist(artist, 0, tag);
-  UIImage *image = [item.artwork imageWithSize:CGSizeMake(400, 400)];
-  NSData *data = UIImagePNGRepresentation(image);
-  NSString *coverPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]
-      stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", item.title]];
-  [[NSFileManager defaultManager] removeItemAtPath:coverPath error:nil];
-  [[NSFileManager defaultManager] createFileAtPath:coverPath contents:data attributes:nil];
-  tag_set_album_cover([coverPath cStringUsingEncoding:NSUTF8StringEncoding], tag);
-  [[NSFileManager defaultManager] removeItemAtPath:coverPath error:nil];
-  //  写入tag
-  set_tag(cPath, tag);
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'>  <span class="c1">//  文件路径</span>
+</span><span class='line'>  <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">cPath</span> <span class="o">=</span> <span class="p">[[</span><span class="n">url</span> <span class="n">path</span><span class="p">]</span> <span class="nl">cStringUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  创建tag</span>
+</span><span class='line'>  <span class="n">ID3v2_tag</span> <span class="o">*</span><span class="n">tag</span> <span class="o">=</span> <span class="n">load_tag</span><span class="p">(</span><span class="n">cPath</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">tag</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">tag</span> <span class="o">=</span> <span class="n">new_tag</span><span class="p">();</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="c1">//  设置tag</span>
+</span><span class='line'>  <span class="kt">char</span> <span class="o">*</span><span class="n">title</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="p">)[</span><span class="n">item</span><span class="p">.</span><span class="n">title</span> <span class="nl">cStringUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">tag_set_title</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tag</span><span class="p">);</span>
+</span><span class='line'>  <span class="kt">char</span> <span class="o">*</span><span class="n">artist</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="p">)[</span><span class="n">item</span><span class="p">.</span><span class="n">artist</span> <span class="nl">cStringUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">tag_set_artist</span><span class="p">(</span><span class="n">artist</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tag</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">UIImage</span> <span class="o">*</span><span class="n">image</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="p">.</span><span class="n">artwork</span> <span class="nl">imageWithSize</span><span class="p">:</span><span class="n">CGSizeMake</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">400</span><span class="p">)];</span>
+</span><span class='line'>  <span class="n">NSData</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="n">UIImagePNGRepresentation</span><span class="p">(</span><span class="n">image</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">NSString</span> <span class="o">*</span><span class="n">coverPath</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSSearchPathForDirectoriesInDomains</span><span class="p">(</span><span class="n">NSDocumentDirectory</span><span class="p">,</span> <span class="n">NSUserDomainMask</span><span class="p">,</span> <span class="n">YES</span><span class="p">)</span> <span class="n">firstObject</span><span class="p">]</span>
+</span><span class='line'>      <span class="nl">stringByAppendingPathComponent</span><span class="p">:[</span><span class="n">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="err">@</span><span class="s">&quot;%@.png&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">.</span><span class="n">title</span><span class="p">]];</span>
+</span><span class='line'>  <span class="p">[[</span><span class="n">NSFileManager</span> <span class="n">defaultManager</span><span class="p">]</span> <span class="nl">removeItemAtPath</span><span class="p">:</span><span class="n">coverPath</span> <span class="nl">error</span><span class="p">:</span><span class="n">nil</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[[</span><span class="n">NSFileManager</span> <span class="n">defaultManager</span><span class="p">]</span> <span class="nl">createFileAtPath</span><span class="p">:</span><span class="n">coverPath</span> <span class="nl">contents</span><span class="p">:</span><span class="n">data</span> <span class="nl">attributes</span><span class="p">:</span><span class="n">nil</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">tag_set_album_cover</span><span class="p">([</span><span class="n">coverPath</span> <span class="nl">cStringUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">],</span> <span class="n">tag</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">[[</span><span class="n">NSFileManager</span> <span class="n">defaultManager</span><span class="p">]</span> <span class="nl">removeItemAtPath</span><span class="p">:</span><span class="n">coverPath</span> <span class="nl">error</span><span class="p">:</span><span class="n">nil</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  写入tag</span>
+</span><span class='line'>  <span class="n">set_tag</span><span class="p">(</span><span class="n">cPath</span><span class="p">,</span> <span class="n">tag</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>MPMediaItem</h2>
 

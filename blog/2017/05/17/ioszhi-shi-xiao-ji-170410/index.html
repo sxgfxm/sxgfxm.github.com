@@ -157,14 +157,22 @@ ComponentKit is built on Objective-C++. There is no easy way to interoperate wit
 
 <h2>Component API</h2>
 
-<pre><code>@interface CKComponent : NSObject
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@interface</span> <span class="nc">CKComponent</span> : <span class="bp">NSObject</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/** Returns a new component. */</span>
+</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">newWithView:</span><span class="p">(</span><span class="k">const</span> <span class="n">CKComponentViewConfiguration</span> <span class="o">&amp;</span><span class="p">)</span><span class="nv">view</span>
+</span><span class='line'>                       <span class="nf">size:</span><span class="p">(</span><span class="k">const</span> <span class="n">CKComponentSize</span> <span class="o">&amp;</span><span class="p">)</span><span class="nv">size</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-/** Returns a new component. */
-+ (instancetype)newWithView:(const CKComponentViewConfiguration &amp;)view
-                       size:(const CKComponentSize &amp;)size;
-
-@end
-</code></pre>
 
 <p>Notes:<br/>
 A component is totally immutable. For example, there is no <code>addSubcomponent:</code> method.<br/>
@@ -176,45 +184,77 @@ The Objective-C idiom <code>+newWith...</code> is used for instantiation instead
 <p>Avoid subclassing <code>CKComponent directly</code>. Instead, subclass <code>CKCompositeComponent</code>.<br/>
 A “composite component” simply wraps another component, hiding its implementation details from the outside world.</p>
 
-<pre><code>@implementation ShareButtonComponent
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@implementation</span> <span class="nc">ShareButtonComponent</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">newWithArticle:</span><span class="p">(</span><span class="n">ArticleModel</span> <span class="o">*</span><span class="p">)</span><span class="nv">article</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="p">[</span><span class="nb">super</span> <span class="nl">newWithComponent</span><span class="p">:</span>
+</span><span class='line'>          <span class="p">[</span><span class="n">CKButtonComponent</span>
+</span><span class='line'>           <span class="nl">newWithTitles</span><span class="p">:...</span>
+</span><span class='line'>           <span class="nl">titleColors</span><span class="p">:...]];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">shareTapped</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="c1">// Share the article</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-+ (instancetype)newWithArticle:(ArticleModel *)article
-{
-  return [super newWithComponent:
-          [CKButtonComponent
-           newWithTitles:...
-           titleColors:...]];
-}
-
-- (void)shareTapped
-{
-  // Share the article
-}
-
-@end
-</code></pre>
 
 <h2>Views</h2>
 
-<pre><code>struct CKComponentViewConfiguration {
-  CKComponentViewClass viewClass;
-  std::unordered_map&lt;CKComponentViewAttribute, id&gt; attributes;
-};
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">struct</span> <span class="n">CKComponentViewConfiguration</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">CKComponentViewClass</span> <span class="n">viewClass</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">std</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">CKComponentViewAttribute</span><span class="p">,</span> <span class="kt">id</span><span class="o">&gt;</span> <span class="n">attributes</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>The first field is a view class. Ignore <code>CKComponentViewClass</code> for now — in most cases you just pass a class like <code>[UIImageView class]</code> or <code>[UIButton class]</code>.<br/>
 The second field holds a map of attributes to values: font, color, background image, and so forth. Again, ignore <code>CKComponentViewAttribute</code> for now; you can usually use a <code>SEL</code> as the attribute.</p>
 
-<pre><code>[CKComponent
- newWithView:{
-   [UIImageView class],
-   {
-     {@selector(setImage:), image},
-     {@selector(setContentMode:), @(UIViewContentModeCenter)} // Wrapping into an NSNumber
-   }
- }
- size:{image.size.width, image.size.height}];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">CKComponent</span>
+</span><span class='line'> <span class="nl">newWithView</span><span class="p">:{</span>
+</span><span class='line'>   <span class="p">[</span><span class="bp">UIImageView</span> <span class="k">class</span><span class="p">],</span>
+</span><span class='line'>   <span class="p">{</span>
+</span><span class='line'>     <span class="p">{</span><span class="k">@selector</span><span class="p">(</span><span class="nl">setImage</span><span class="p">:),</span> <span class="n">image</span><span class="p">},</span>
+</span><span class='line'>     <span class="p">{</span><span class="k">@selector</span><span class="p">(</span><span class="nl">setContentMode</span><span class="p">:),</span> <span class="l">@(</span><span class="n">UIViewContentModeCenter</span><span class="l">)</span><span class="p">}</span> <span class="c1">// Wrapping into an NSNumber</span>
+</span><span class='line'>   <span class="p">}</span>
+</span><span class='line'> <span class="p">}</span>
+</span><span class='line'> <span class="nl">size</span><span class="p">:{</span><span class="n">image</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">,</span> <span class="n">image</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">}];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>In such situations, just pass {} for the view configuration and no view is created.</p>
 
@@ -222,17 +262,28 @@ The second field holds a map of attributes to values: font, color, background im
 
 <p><code>CKComponent</code> instances do not have any size or position information. Instead, ComponentKit calls the <code>layoutThatFits:</code> method with a given size constraint and the component must return a structure describing both its size, and the position and sizes of its children.</p>
 
-<pre><code>struct CKComponentLayout {
-  CKComponent *component;
-  CGSize size;
-  std::vector&lt;CKComponentLayoutChild&gt; children;
-};
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">struct</span> <span class="n">CKComponentLayout</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">CKComponent</span> <span class="o">*</span><span class="n">component</span><span class="p">;</span>
+</span><span class='line'>  <span class="bp">CGSize</span> <span class="n">size</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">CKComponentLayoutChild</span><span class="o">&gt;</span> <span class="n">children</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">struct</span> <span class="n">CKComponentLayoutChild</span> <span class="p">{</span>
+</span><span class='line'>  <span class="bp">CGPoint</span> <span class="n">position</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">CKComponentLayout</span> <span class="n">layout</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
 
-struct CKComponentLayoutChild {
-  CGPoint position;
-  CKComponentLayout layout;
-};
-</code></pre>
 
 <p><strong>Layout Components</strong>:<br/>
 <code>CKStackLayoutComponent</code>: It allows you to stack components vertically or horizontally and specify how they should be flexed and aligned to fit in the available space.<br/>
@@ -249,23 +300,40 @@ If the components above aren’t powerful enough, you can implement <code>comput
 <p>The ComponentKit responder chain is separate from UIView’s responder chain, so you must manually bridge over to the component responder chain if desired.<br/>
 The easiest way to handle taps on UIControl views is to use <code>CKComponentActionAttribute</code>.</p>
 
-<pre><code>@implementation SomeComponent
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@implementation</span> <span class="nc">SomeComponent</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">new</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="p">[</span><span class="nb">self</span> <span class="nl">newWithView</span><span class="p">:{</span>
+</span><span class='line'>    <span class="p">[</span><span class="bp">UIButton</span> <span class="k">class</span><span class="p">],</span>
+</span><span class='line'>    <span class="p">{</span><span class="n">CKComponentActionAttribute</span><span class="p">(</span><span class="k">@selector</span><span class="p">(</span><span class="n">didTapButton</span><span class="p">))}</span>
+</span><span class='line'>  <span class="p">}];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">didTapButton</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="c1">// Aha! The button has been tapped.</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-+ (instancetype)new
-{
-  return [self newWithView:{
-    [UIButton class],
-    {CKComponentActionAttribute(@selector(didTapButton))}
-  }];
-}
-
-- (void)didTapButton
-{
-  // Aha! The button has been tapped.
-}
-
-@end
-</code></pre>
 
 <h2>Component Actions</h2>
 
@@ -273,35 +341,64 @@ The easiest way to handle taps on UIControl views is to use <code>CKComponentAct
 
 <p><code>State</code>: Internal to the component, this holds implementation details that the parent should not have to know about.</p>
 
-<pre><code>#import "CKComponentSubclass.h" // import to expose updateState:
-@implementation MessageComponent
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &quot;CKComponentSubclass.h&quot; </span><span class="c1">// import to expose updateState:</span>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">MessageComponent</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initialState</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="m">@NO</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">newWithMessage:</span><span class="p">(</span><span class="bp">NSAttributedString</span> <span class="o">*</span><span class="p">)</span><span class="nv">message</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">CKComponentScope</span> <span class="n">scope</span><span class="p">(</span><span class="nb">self</span><span class="p">);</span>
+</span><span class='line'>  <span class="bp">NSNumber</span> <span class="o">*</span><span class="n">state</span> <span class="o">=</span> <span class="n">scope</span><span class="p">.</span><span class="n">state</span><span class="p">();</span>
+</span><span class='line'>  <span class="k">return</span> <span class="p">[</span><span class="nb">super</span> <span class="nl">newWithComponent</span><span class="p">:</span>
+</span><span class='line'>          <span class="p">[</span><span class="n">CKTextComponent</span>
+</span><span class='line'>           <span class="nl">newWithAttributes</span><span class="p">:{</span>
+</span><span class='line'>             <span class="p">.</span><span class="n">attributedString</span> <span class="o">=</span> <span class="n">message</span><span class="p">,</span>
+</span><span class='line'>             <span class="p">.</span><span class="n">maximumNumberOfLines</span> <span class="o">=</span> <span class="p">[</span><span class="n">state</span> <span class="n">boolValue</span><span class="p">]</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="mi">5</span><span class="p">,</span>
+</span><span class='line'>           <span class="p">}</span>
+</span><span class='line'>           <span class="nl">viewAttributes</span><span class="p">:{}</span>
+</span><span class='line'>           <span class="nl">accessibilityContext</span><span class="p">:{}]];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">didTapContinueReading</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span> <span class="nl">updateState</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">id</span> <span class="n">oldState</span><span class="p">){</span> <span class="k">return</span> <span class="m">@YES</span><span class="p">;</span> <span class="p">}</span> <span class="nl">mode</span><span class="p">:</span><span class="n">CKUpdateModeAsynchronous</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-+ (id)initialState
-{
-  return @NO;
-}
-
-+ (instancetype)newWithMessage:(NSAttributedString *)message
-{
-  CKComponentScope scope(self);
-  NSNumber *state = scope.state();
-  return [super newWithComponent:
-          [CKTextComponent
-           newWithAttributes:{
-             .attributedString = message,
-             .maximumNumberOfLines = [state boolValue] ? 0 : 5,
-           }
-           viewAttributes:{}
-           accessibilityContext:{}]];
-}
-
-- (void)didTapContinueReading
-{
-  [self updateState:^(id oldState){ return @YES; } mode:CKUpdateModeAsynchronous];
-}
-
-@end
-</code></pre>
 
 <h2>Scopes</h2>
 
@@ -311,18 +408,27 @@ Components that have a <code>controller</code> must have a scope.<br/>
 Components that have child components with state or controllers may need a scope, even if they don’t have state or controllers.<br/>
 Use the <code>CKComponentScope</code> type to define a component scope at the top of a component’s <code>+new</code> method.</p>
 
-<pre><code>+ (instancetype)newWithModel:(Model *)model
-{
-  CKComponentScope scope(self, model.uniqueID);
-  ...
-  return [super newWithComponent:...];
-}
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">newWithModel:</span><span class="p">(</span><span class="n">Model</span> <span class="o">*</span><span class="p">)</span><span class="nv">model</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">CKComponentScope</span> <span class="n">scope</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">model</span><span class="p">.</span><span class="n">uniqueID</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">...</span>
+</span><span class='line'>  <span class="k">return</span> <span class="p">[</span><span class="nb">super</span> <span class="nl">newWithComponent</span><span class="p">:...];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>If your component doesn’t have a model object with a unique identifier, you can omit that parameter as long as there won’t be multiple siblings of the same type.</p>
 
-<pre><code>CKComponentScope scope(self);
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">CKComponentScope</span> <span class="nf">scope</span><span class="p">(</span><span class="nb">self</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>Component Controllers</h2>
 
