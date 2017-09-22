@@ -19,9 +19,7 @@ NSData -> UIImage：`UIImage *image = [UIImage imageWithData:data];`
 ## 向歌曲中写入metadata信息
 导入第三方库[id3v2lib](https://github.com/larsbs/id3v2lib)。   
 
-
-
-~~~
+```c
   //  文件路径
   const char *cPath = [[url path] cStringUsingEncoding:NSUTF8StringEncoding];
   //  创建tag
@@ -44,7 +42,7 @@ NSData -> UIImage：`UIImage *image = [UIImage imageWithData:data];`
   [[NSFileManager defaultManager] removeItemAtPath:coverPath error:nil];
   //  写入tag
   set_tag(cPath, tag);
-~~~
+```
 
 ## MPMediaItem
 isCloudItem：是否为云端文件；  

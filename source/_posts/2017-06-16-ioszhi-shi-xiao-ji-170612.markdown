@@ -29,9 +29,7 @@ UI在主线程操作。
 
 打包：头 + 长度 + 内容。  
 
-
-
-~~~
+```objective-c
 - (NSData *)packageData:(NSData *)data {
   NSAssert(data && data.length > 0, @"Data cannot be empty");
 
@@ -43,13 +41,11 @@ UI在主线程操作。
 
   return payload;
 }
-~~~
+```
 
 解包：取头 + 取长度 + 取内容。  
 
-
-
-~~~
+```objective-c
 - (void)parseData:(NSData *)data {
   @synchronized(self) {
     [self.writeBuffer appendData:data];
@@ -84,14 +80,12 @@ UI在主线程操作。
     }
   }
 }
-~~~
+```
 
 ## NSNetServiceBrowser
 扫描service。  
 
-
-
-~~~
+```objective-c
 -(void)start{
   NSNetServiceBrowser *browser = [[NSNetServiceBrowser alloc] init];
   browser.delegate = self;
@@ -124,42 +118,37 @@ UI在主线程操作。
 - (void)netService:(NSNetService *)sender didNotResolve:(NSDictionary *)errorDict {
   NSLog(@"Couldn't resolve address for service %@: %@", sender, errorDict);
 }
-~~~
+```
 
 ## Compress files and folder
 **Zip**  
 
-
-
-~~~
+```c
 zip -r -X archive_name.zip folder_to_compress
 unzip archive_name.zip
-~~~
+```
 
 ## Upload a file to Google Drive from the command line
 Install [gdrive](https://github.com/prasmussen/gdrive), a command line utility for interacting with Google Drive.    
 
-
-
-~~~
+```c
 brew install gdrive
-~~~
+```
 
-
-~~~
+```c
 gdrive list
 gdrive download file_name
 gdrive upload file_name
-~~~
+```
 
 ## Open a certain folder in Atom
-~~~
+```objective-c
 cd folder_path
 atom .
-~~~
+```
 
 ## AFHTTPSessionManager
-~~~
+```objective-c
 AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
   manager.responseSerializer = [AFHTTPResponseSerializer serializer];
   [manager GET:kXGFeedbackURL
@@ -175,10 +164,10 @@ AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
       failure:^(NSURLSessionDataTask *_Nullable task, NSError *_Nonnull error) {
         DDLogDebug(@"XG - Feedback fail %@", error.localizedDescription);
       }];
-~~~
+```
 
 ## JSONModel
-~~~
+```objective-c
 #import <JSONModel/JSONModel.h>
 
 @protocol XGFeedbackItem;
@@ -206,10 +195,10 @@ AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
 @property(nonatomic, strong) NSArray<XGFeedbackCategory *><XGFeedbackCategory> *content;
 
 @end
-~~~
+```
 
 ## 获取系统语言
-~~~
+```objective-c
 NSString *language = [[NSLocale preferredLanguages] firstObject];
   if ([language hasPrefix:@"zh-Hans"]) {
     return self.cn;
@@ -218,4 +207,5 @@ NSString *language = [[NSLocale preferredLanguages] firstObject];
   } else {
     return self.en;
   }
-~~~
+```
+

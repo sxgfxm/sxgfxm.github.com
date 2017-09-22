@@ -30,9 +30,7 @@ description: app life circle, background execution,system authorization
 ## 后台执行
 **限时操作**：调用`beginBackgroundTaskWithName:expirationHandler:`或`beginBackgroundTaskWithExpirationHandler: `开启后台执行，在执行完成后必须调用`endBackgroundTask:`表示结束后台执行，否则程序会被终止。可以通过`application.backgroundTimeRemaining`查看剩余后台执行时间，一般为180秒。  
 
-
-
-~~~
+```objective-c
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
     bgTask = [application beginBackgroundTaskWithName:@"MyTask" expirationHandler:^{
@@ -55,12 +53,11 @@ description: app life circle, background execution,system authorization
         bgTask = UIBackgroundTaskInvalid;
     });
 }
-~~~
+```
+
 **下载操作**：必须使用**NSURLSession**开启下载操作，需要通过**NSURLSessionConfiguration**进行设置。  
 
-
-
-~~~
+```objective-c
 - (void)startDownloadTask {
   //  Configuration
   NSURLSessionConfiguration *config = [NSURLSessionConfiguration
@@ -82,7 +79,8 @@ description: app life circle, background execution,system authorization
   //  当挂起时恢复任务
   [task resume];
 }
-~~~
+```
+
 **耗时操作**：只有特殊的耗时操作可以在后台被执行，且必须申请权限。如后台音乐播放、录音、定位信息更新、蓝牙连接、远程通知、语音服务等。
 
 ## ViewController生命周期
@@ -103,14 +101,12 @@ iOS 10开始，获取**隐私**敏感数据需要在**plist.info**文件中配�
 手动请求权限：当用户拒绝授权某权限时，需要手动再次请求。  
 跳转至权限设置界面：  
 
-
-
-~~~
+```objective-c
 [[UIApplication sharedApplication]
                 openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]
                 options:@{}
       completionHandler:nil];
-~~~
+```
 
 [Demo地址](https://github.com/sxgfxm/AuthorizationDemo)
 

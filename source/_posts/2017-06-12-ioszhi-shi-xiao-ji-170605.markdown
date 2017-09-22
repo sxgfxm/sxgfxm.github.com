@@ -16,9 +16,7 @@ description: sxgfxm, fopen, font, DDLog
 ## 显示 < 号
 居然因为是字体原因    
 
-
-
-~~~
+```objective-c
       CGFloat width = kScaleFrom_iPhone6_Desgin(5);
       CAShapeLayer *shapeLayer = [CAShapeLayer layer];
       shapeLayer.frame = CGRectMake(CGRectGetMinX(textLayer.frame) - kScaleFrom_iPhone6_Desgin(9), 0, width, width);
@@ -35,11 +33,14 @@ description: sxgfxm, fopen, font, DDLog
       shapeLayer.lineCap = kCALineCapButt;
       shapeLayer.lineJoin = kCALineJoinMiter;
       [self.yAxisLayer addSublayer:shapeLayer];
-~~~
+```
+
+
 
 ## Register DDLog
-~~~
+```objective-c
   // Register DDLog
   [DDLog addLogger:[DDTTYLogger sharedInstance]];  // TTY = Xcode console
   [DDLog addLogger:[DDASLLogger sharedInstance]];  // ASL = File log
-~~~
+```
+

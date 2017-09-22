@@ -39,7 +39,7 @@ Dynamic gesture-driven UIs are currently hard to implement in ComponentKit; cons
 ComponentKit is built on Objective-C++. There is no easy way to interoperate with Swift since Swift cannot bridge to C++.  
 
 ## Component API
-~~~
+```objective-c
 @interface CKComponent : NSObject
 
 /** Returns a new component. */
@@ -47,7 +47,8 @@ ComponentKit is built on Objective-C++. There is no easy way to interoperate wit
                        size:(const CKComponentSize &)size;
 
 @end
-~~~
+```
+
 Notes:  
 A component is totally immutable. For example, there is no `addSubcomponent:` method.  
 A component can be created on any thread. This helps keep all sizing and construction operations off the main thread.  
@@ -57,9 +58,7 @@ The Objective-C idiom `+newWith...` is used for instantiation instead of the mor
 Avoid subclassing `CKComponent directly`. Instead, subclass `CKCompositeComponent`.  
 A “composite component” simply wraps another component, hiding its implementation details from the outside world.   
 
-
-
-~~~
+```objective-c
 @implementation ShareButtonComponent
 
 + (instancetype)newWithArticle:(ArticleModel *)article
@@ -76,21 +75,20 @@ A “composite component” simply wraps another component, hiding its implement
 }
 
 @end
-~~~
+```
 
 ## Views
-~~~
+```objective-c
 struct CKComponentViewConfiguration {
   CKComponentViewClass viewClass;
   std::unordered_map<CKComponentViewAttribute, id> attributes;
 };
-~~~
+```
+
 The first field is a view class. Ignore `CKComponentViewClass` for now — in most cases you just pass a class like `[UIImageView class]` or `[UIButton class]`.  
 The second field holds a map of attributes to values: font, color, background image, and so forth. Again, ignore `CKComponentViewAttribute` for now; you can usually use a `SEL` as the attribute.    
 
-
-
-~~~
+```objective-c
 [CKComponent
  newWithView:{
    [UIImageView class],
@@ -100,15 +98,14 @@ The second field holds a map of attributes to values: font, color, background im
    }
  }
  size:{image.size.width, image.size.height}];
-~~~
+```
+
 In such situations, just pass {} for the view configuration and no view is created.
 
 ## Layout
 `CKComponent` instances do not have any size or position information. Instead, ComponentKit calls the `layoutThatFits:` method with a given size constraint and the component must return a structure describing both its size, and the position and sizes of its children.  
 
-
-
-~~~
+```objective-c
 struct CKComponentLayout {
   CKComponent *component;
   CGSize size;
@@ -119,7 +116,8 @@ struct CKComponentLayoutChild {
   CGPoint position;
   CKComponentLayout layout;
 };
-~~~
+```
+
 **Layout Components**:  
 `CKStackLayoutComponent`: It allows you to stack components vertically or horizontally and specify how they should be flexed and aligned to fit in the available space.  
 `CKInsetComponent`: Applies an inset margin around a component.  
@@ -134,9 +132,7 @@ If the components above aren’t powerful enough, you can implement `computeLayo
 The ComponentKit responder chain is separate from UIView’s responder chain, so you must manually bridge over to the component responder chain if desired.  
 The easiest way to handle taps on UIControl views is to use `CKComponentActionAttribute`.  
 
-
-
-~~~
+```objective-c
 @implementation SomeComponent
 
 + (instancetype)new
@@ -153,16 +149,14 @@ The easiest way to handle taps on UIControl views is to use `CKComponentActionAt
 }
 
 @end
-~~~
+```
 
 ## Component Actions
 
 ## State
 `State`: Internal to the component, this holds implementation details that the parent should not have to know about.  
 
-
-
-~~~
+```objective-c
 #import "CKComponentSubclass.h" // import to expose updateState:
 @implementation MessageComponent
 
@@ -191,7 +185,7 @@ The easiest way to handle taps on UIControl views is to use `CKComponentActionAt
 }
 
 @end
-~~~
+```
 
 ## Scopes
 `Scopes` give components a persistent, unique identity. They’re needed in three cases:  
@@ -200,23 +194,20 @@ Components that have a `controller` must have a scope.
 Components that have child components with state or controllers may need a scope, even if they don’t have state or controllers.  
 Use the `CKComponentScope` type to define a component scope at the top of a component’s `+new` method.  
 
-
-
-~~~
+```
 + (instancetype)newWithModel:(Model *)model
 {
   CKComponentScope scope(self, model.uniqueID);
   ...
   return [super newWithComponent:...];
 }
-~~~
+```
+
 If your component doesn’t have a model object with a unique identifier, you can omit that parameter as long as there won’t be multiple siblings of the same type.  
 
-
-
-~~~
+```objective-c
 CKComponentScope scope(self);
-~~~
+```
 
 ## Component Controllers
 Every time something changes, an entirely new component is created and the old one is thrown away.  

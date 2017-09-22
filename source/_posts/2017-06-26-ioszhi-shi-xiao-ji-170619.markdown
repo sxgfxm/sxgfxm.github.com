@@ -22,9 +22,7 @@ Application Supports iTunes file sharing = YES
 ## UIPageViewController
 子controller并不会被缩放，而是从上到下布局，可能被截断。  
 
-
-
-~~~
+```objective-c
 -(void)setupPageController{
   self.pageController =
       [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll
@@ -63,4 +61,5 @@ Application Supports iTunes file sharing = YES
   }
   return nil;
 }
-~~~
+```
+

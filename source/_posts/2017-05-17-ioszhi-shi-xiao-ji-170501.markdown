@@ -24,7 +24,7 @@ Doing so this reverses the traditional approach for a `UICollectionViewDataSourc
 ViewController需要遵守`CKComponentProvider`协议，实现`+componentForModel: context:`方法，将model转换为component。  
 在该方法中，通过不同类型的model返回不同类型的component。  
 
-~~~
+```objective-c
 + (CKComponent *)componentForModel:(id<NSObject>)model
                            context:(id<NSObject>)context {
   if ([model isKindOfClass:[NewsModel class]]) {
@@ -32,39 +32,36 @@ ViewController需要遵守`CKComponentProvider`协议，实现`+componentForMode
   }
   return nil;
 }
-~~~
+```
 
 ### FlowLayout  
 
-~~~
+```objective-c
 UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
 [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
 [flowLayout setMinimumInteritemSpacing:0];
 [flowLayout setMinimumLineSpacing:0];
-~~~
+```
 
 ### CollectionView  
 
-
-
-~~~
+```objective-c
 self.collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:flowLayout];
 self.collectionView.delegate = self;
 self.collectionView.backgroundColor = [UIColor blackColor];
 [self.view addSubview:self.collectionView];
-~~~
+```
 
 ### Item size range  
 
 Item size range。通过设置`CKComponentSizeRangeFlexibleHeight`使item的高度自适应。  
 
-
-
-~~~
+```objective-c
 const CKSizeRange sizeRange = [[CKComponentFlexibleSizeRangeProvider
       providerWithFlexibility:CKComponentSizeRangeFlexibleHeight]
      sizeRangeForBoundingSize:self.collectionView.bounds.size];
-~~~
+```
+
 ### Context  
 
 Context可以是任何不可变对象，创建component时的不可变上下文信息，比如设备类型，图片下载器。  
@@ -75,36 +72,30 @@ Context可以是任何不可变对象，创建component时的不可变上下文�
 
 DataSource的configuration，需要 **ComponentProvider**，**sizeRange**，**context** 三个参数。  
 
-
-
-~~~
+```objective-c
 CKTransactionalComponentDataSourceConfiguration *configuration =
       [[CKTransactionalComponentDataSourceConfiguration alloc]
           initWithComponentProvider:[self class]
                             context:context
                           sizeRange:sizeRange];
-~~~
+```
 
 ### DataSource  
 
 需要 **collectionView**，**supplementaryViewDataSource**，**configuration** 三个参数。  
 
-
-
-~~~
+```objective-c
 self.dataSource = [[CKCollectionViewTransactionalDataSource alloc]
            initWithCollectionView:self.collectionView
       supplementaryViewDataSource:nil
                     configuration:configuration];
-~~~
+```
 
 ### Initial Changeset  
 
 需要初始化DataSource，即向DataSource中添加Section。  
 
-
-
-~~~
+```objective-c
 CKTransactionalComponentDataSourceChangeset *initialChangeset =
   [[[CKTransactionalComponentDataSourceChangesetBuilder
       transactionalComponentDataSourceChangeset]
@@ -112,15 +103,13 @@ CKTransactionalComponentDataSourceChangeset *initialChangeset =
 [self.dataSource applyChangeset:initialChangeset
                            mode:CKUpdateModeAsynchronous
                        userInfo:nil];
-~~~
+```
 
 ### insert/update items  
 
 向DataSource中插入Items才能显示。  
 
-
-
-~~~
+```objective-c
 NSMutableDictionary<NSIndexPath *, NewsModel *> *items = [NSMutableDictionary new];
 for (NSInteger i = 0; i < 50; i++) {
   NewsModel *newsModel = [[NewsModel alloc] init];
@@ -138,13 +127,11 @@ CKTransactionalComponentDataSourceChangeset *changeset =
 [self.dataSource applyChangeset:changeset
                            mode:CKUpdateModeAsynchronous
                        userInfo:nil];
-~~~
+```
 
 ### UICollectionView delegate  
 
-
-
-~~~
+```objective-c
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -162,4 +149,5 @@ CKTransactionalComponentDataSourceChangeset *changeset =
     forItemAtIndexPath:(NSIndexPath *)indexPath {
   [self.dataSource announceDidEndDisplayingCell:cell];
 }
-~~~
+```
+

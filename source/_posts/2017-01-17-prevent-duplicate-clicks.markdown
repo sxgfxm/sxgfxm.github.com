@@ -43,7 +43,7 @@ if ([self.navigationController.topViewController isKindOfClass:[MyViewController
 
 .h
 
-~~~
+```objective-c
 #import <UIKit/UIKit.h>
 
 @interface UIButton (WXD)
@@ -54,13 +54,11 @@ if ([self.navigationController.topViewController isKindOfClass:[MyViewController
 @property (nonatomic, assign) NSTimeInterval eventTimeInterval;
 
 @end
-~~~
+```
 
 .m   
 
-
-
-~~~objective-c
+```objective-c
 #import "UIButton+WXD.h"
 #import <objc/runtime.h>
 #define defaultInterval 1  //默认时间间隔
@@ -135,4 +133,6 @@ static const char *UIControl_enventIsIgnoreEvent = "UIControl_enventIsIgnoreEven
   // 这里看上去会陷入递归调用死循环，但在运行期此方法是和sendAction:to:forEvent:互换的，相当于执行sendAction:to:forEvent:方法，所以并不会陷入死循环。
   [self _wxd_sendAction:action to:target forEvent:event];
 }  
-~~~
+```
+
+

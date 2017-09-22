@@ -61,14 +61,13 @@ center对应view；position对应layer。
 frame是由bounds，position和transform计算而来的。  
 4、坐标转换？  
 
-
-
-```
+```objective-c
 - (CGPoint)convertPoint:(CGPoint)point fromLayer:(CALayer *)layer;
 - (CGPoint)convertPoint:(CGPoint)point toLayer:(CALayer *)layer;
 - (CGRect)convertRect:(CGRect)rect fromLayer:(CALayer *)layer;
 - (CGRect)convertRect:(CGRect)rect toLayer:(CALayer *)layer;
 ```
+
 5、坐标翻转          
 
 `layer.geometryFlipped = YES;`  
@@ -86,31 +85,28 @@ zAnchorPoint?
 ###Visual Effects
 1、如何实现圆角？曲率不同的圆角？  
 
-
-
-```
+```objective-c
 layer.cornerRadius = 5.0f;
 layer.maskToBounds = YES;
 ```
+
 2、如何实现彩色边框？  
 
-
-
-```
+```objective-c
 layer.borderWidth = 1;
 layer.borderColor = [UIColor redColor].CGColor;
 ```
+
 border只与bounds相关。  
 3、如何添加阴影？  
 
-
-
-```
+```objective-c
 layer.shadowOpacity = 1;
 layer.shadowColor = [UIColor redColor].CGColor;
 layer.shadowOffset = CGSizeMake(0,1);
 layer.shadowRadius = 5;
 ```
+
 shadow与形状有关。  
 如何添加maskToBounds = YES时的阴影？  
 两层。  
@@ -135,55 +131,50 @@ CGAffineTransform，用来表示二维旋转，缩放和变换。对一个2D点�
 变换前平行的线，变换后依然平行。  
 2、创建仿射变换  
 
-
-
-```
+```objective-c
 CGAffineTransformMakeRotation(CGFloat angle);
 CGAffineTransformMakeScale(CGFloat sx, CGFloat sy);
 CGAffineTransformMakeTranslation(CGFloat tx, CGFloat ty);
 ```
+
 角度弧度转换  
 
-
-
-```
+```objective-c
 #define RADIANS_TO_DEGREES(x) ((x)/M_PI*180.0)
 #define DEGREES_TO_RADIANS(x) ((x)/180.0*M_PI)
 ```
+
 3、连续变换  
 
-
-
-```
+```objective-c
 CGAffineTransformRotate(CGAffineTransform t, CGFloat angle);
 CGAffineTransformScale(CGAffineTransform t, CGFloat sx, CGFloat sy);
 CGAffineTransformTranslate(CGAffineTransform t, CGFloat tx, CGFloat ty);
 或
 CGAffineTransformConcat(CGAffineTransform t1, CGAffineTransform t2);
 ```
+
 单位矩阵，CGAffineTransformIdentity。  
 变换顺序不同，结果不同。因为矩阵运算不符合交换律。  
 4、shear变换  
 
-
-
-```
+```objective-c
 CGAffineTransform CGAffineTransformMakeShear(CGFloat x, CGFloat y) {
   CGAffineTransform transform = CGAffineTransformIdentity; transform.c = -x;
   transform.b = y;
   return transform;
 }
 ```
+
 5、3D Transform，3D变换  
 CATransform3D，是一个4行4列的矩阵。对一个3D点做3D变换。  
 
-
-
-```
+```objective-c
 CATransform3DMakeRotation(CGFloat angle, CGFloat x, CGFloat y, CGFloat z);
 CATransform3DMakeScale(CGFloat sx, CGFloat sy, CGFloat sz);
 CATransform3DMakeTranslation(Gloat tx, CGFloat ty, CGFloat tz);
 ```
+
 6、Perspective Projection，透视  
 矩阵中m34的值用来设置透视，值越小透视约明显，值越大透视越不明显。  
 7、The Vanishing Point，消失点  
@@ -201,7 +192,7 @@ CAShapeLayer节省内存空间，不会创建backing image；
 CAShapeLayer不会受bounds限制，Core Graphics不行；  
 CAShapeLayer不会变换后不会像素化。  
 基本使用方法：  
-```
+```objective-c
 CAShapeLayer *shapeLayer = [CAShapeLayer layer];
 shapeLayer.strokeColor = [UIColor redColor].CGColor;
 shapeLayer.fillColor = [UIColor clearColor].CGColor;
@@ -215,7 +206,7 @@ shapeLayer.path = path.CGPath;
 UILabel，通过layer代理方法使用CG绘制string。  
 CATextLayer，用于显示文字，特效，效率比UILabel高。  
 基本使用方法：  
-```
+```objective-c
 //set text attributes
 textLayer.foregroundColor = [UIColor blackColor].CGColor;
 textLayer.alignmentMode = kCAAlignmentJustified;
@@ -237,6 +228,7 @@ textLayer.string = @"Text";
 //scale
 textLayer.contentsScale = [UIScreen mainScreen].scale;
 ```
+
 富文本：  
 ```
 //create attributed string
@@ -537,7 +529,7 @@ toValue
 byValue  
 
 Animations只作用于presentation，而不作用于model。  
-```
+```objective-c
 - (void)applyBasicAnimation:(CABasicAnimation *)animation toLayer:(CALayer *)layer{
   //set the from value (using presentation layer if available)  
   animation.fromValue = [layer.presentationLayer ?: layer valueForKeyPath:animation.keyPath];
@@ -616,33 +608,33 @@ IO操作耗时严重；
 2、保持稳定的帧率；  
 3、instrument：
 
-
-
-    Time Profiler：查看CPU时间开销；
-        Separate by Thread：按线程将方法分组；
-        Hide System Libraries：隐藏系统库；
-        Show Obj-C Only：只显示OC方法调用；
-    Core Animation：查看Core Animation性能；
-        Color Blended Layers：标记出混合的图层，从绿到红表示严重程度，最好没有；
-        Color Hits Green and Misses Red：标记出重复缓存的图层；
-        Color Copied Images：标记出backing image，最好没有；
-        Color Immediately：随时反馈；
-        Color Misaligned Images：标记非正确缩放的图片；
-        Color Offscreen-Rendered Yellow：标记出需要离屏绘制的layer，通过栅格化优化；
-        Color OpenGL Fast Path Blue：标记出OpenGL绘图；
-        Flash Updated Regions：标记出重绘的layer，最好没有；
-    OpenGL ES Driver：查看GPU性能；
-        Tiler Utilization
-        Renderer Utilization
-    组合使用效果更佳。
+```objective-c
+Time Profiler：查看CPU时间开销；
+    Separate by Thread：按线程将方法分组；
+    Hide System Libraries：隐藏系统库；
+    Show Obj-C Only：只显示OC方法调用；
+Core Animation：查看Core Animation性能；
+    Color Blended Layers：标记出混合的图层，从绿到红表示严重程度，最好没有；
+    Color Hits Green and Misses Red：标记出重复缓存的图层；
+    Color Copied Images：标记出backing image，最好没有；
+    Color Immediately：随时反馈；
+    Color Misaligned Images：标记非正确缩放的图片；
+    Color Offscreen-Rendered Yellow：标记出需要离屏绘制的layer，通过栅格化优化；
+    Color OpenGL Fast Path Blue：标记出OpenGL绘图；
+    Flash Updated Regions：标记出重绘的layer，最好没有；
+OpenGL ES Driver：查看GPU性能；
+    Tiler Utilization
+    Renderer Utilization
+组合使用效果更佳。
+```
 
 优化方法：  
 cache offscreen render layer：
 
-
-
-    layer.shouldRasterize = YES;
-    layer.rasterizationScale = [UIScreen mainScreen].scale;
+```objective-c
+layer.shouldRasterize = YES;
+layer.rasterizationScale = [UIScreen mainScreen].scale;
+```
 
 ##Efficient Drawing
 
@@ -668,23 +660,22 @@ CATiledLayer。
 drawsAsynchronously属性。  
 
 ##Image IO
-~~~
+```objective-c
 //  通过tag防止重复创建
 UIImageView *imageView = (UIImageView *)[cell viewWithTag:imageTag];
 if (!imageView){
   imageView = [UIImageView alloc] init];
   [cell.contentView addSubview:imageView];
 }
-~~~
+```
+
 ###Loading and Latency
 button的响应时间要保持在0.2秒以下。  
 
 ###Threaded Loading
 gcd  
 
-
-
-~~~
+```objective-c
 //  标记cell
 cell.tag = indexPath.row;
 imageView.image = nil;
@@ -702,7 +693,7 @@ dispatch_aysnc(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW),0),^{
     }
   });
 });
-~~~
+```
 
 ###Deferred Decompression
 PNG图片大，但解压快；  
@@ -712,9 +703,7 @@ JPEG图片小，但解压慢。
 layer的contents或UIImageView的image。  
 ImageIO.framework  
 
-
-
-~~~
+```objective-c
 NSInteger index = indexPath.row;
 NSURL *imageURL = [NSURL fileURLWithPath:self.imagePaths[index]];
 NSDictionary *options = @{(__bridge id)kCGImageSourceShouldCache:@YES};
@@ -723,7 +712,7 @@ CGImageRef imageRef = CGImageSourceCreateImageAtIndex(source,0,(__bridge CFDicti
 UIImage *image = [UIImage imageWithCGImage:imageRef];
 CGImageRelease(imageRef);
 CFRelease(source);
-~~~
+```
 
 NSCache  
 

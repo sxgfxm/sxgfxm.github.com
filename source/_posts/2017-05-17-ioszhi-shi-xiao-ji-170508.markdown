@@ -24,7 +24,7 @@ description: sxgfxm,Carthage,Objective-C static vs external,NavigationBar
    获取最上层view controller：  
 
 
-~~~
+```objective-c
 + (UIViewController *)topViewController {
   return [self
       topViewControllerWithRootViewController:[UIApplication sharedApplication].delegate.window.rootViewController];
@@ -48,7 +48,7 @@ description: sxgfxm,Carthage,Objective-C static vs external,NavigationBar
     return rootViewController;
   }
 }
-~~~
+```
 
 ## Create Groups vs Create Folder References
 Group：不创建文件夹，不能同名；   

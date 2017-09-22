@@ -39,18 +39,18 @@ scrollview自动布局：添加tmpview，在tmpview上添加view，最后约束t
 ## 退出viewcontroller事件监听
 
 ## IQActionSheetPickerView
-~~~
+```objective-c
 IQActionSheetPickerView *picker = [IQActionSheetPickerView actionSheetWithTitle:@"Age" delegate:self];
 NSArray *dataSource = @[@"10",@"20",@"30",@"40",@"50",@"60"];
 [picker setTitlesForComponents:@[dataSource]];
 [picker setSelectedTitles:@[@"20"]];
 [picker show];
-~~~
+```
+
 代理回调   
 
-
-
-~~~
+```objective-c
 - (void)actionSheetPickerView:(IQActionSheetPickerView *)pickerView didSelectTitles:(NSArray *)titles {
 }
-~~~
+```
+

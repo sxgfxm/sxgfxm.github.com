@@ -23,11 +23,11 @@ iOS 10开始，获取**隐私**敏感数据需要在**plist.info**文件中配�
 手动请求权限：当用户拒绝授权某权限时，需要手动再次请求。  
 跳转至权限设置界面：
 
-~~~
+```objective-c
 [[UIApplication sharedApplication]
                 openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]
                 options:@{}
       completionHandler:nil];
-~~~
+```
 
 [Demo地址](https://github.com/sxgfxm/AuthorizationDemo)

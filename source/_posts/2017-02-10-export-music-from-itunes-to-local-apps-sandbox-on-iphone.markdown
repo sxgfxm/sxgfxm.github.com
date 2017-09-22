@@ -18,69 +18,57 @@ description: Export Music from Itunes to Local App's Sandbox on iPhone
 
 导入所需的头文件。
 
-
-
-~~~c
+```objective-c
 #import <AVFoundation/AVAssetExportSession.h>
 #import <MediaPlayer/MediaPlayer.h>
-~~~
+```
 
 ##注册通知
 
 注册**MPMediaLibraryDidChangeNotification**通知，当iTunes音乐库文件发生变化时，做出响应。
 
-
-
-~~~c
+```objective-c
 [[NSNotificationCenter defaultCenter]
     addObserver:self
     selector:@selector(mediaLibraryDidChange:)
     name:MPMediaLibraryDidChangeNotification
     object:nil];
-~~~
+```
 
 ##开启通知
 
 开启**MPMediaLibrary**通知。
 
-
-
-~~~c
+```objective-c
 [[MPMediaLibrary defaultMediaLibrary] beginGeneratingLibraryChangeNotifications];
-~~~
+```
 
 ##关闭通知
 
 关闭**MPMediaLibrary**通知。
 
-
-
-~~~c
+```objective-c
 [[MPMediaLibrary defaultMediaLibrary] endGeneratingLibraryChangeNotifications];
-~~~
+```
 
 ##MPMediaQuery
 
 通过**MPMediaQuery**获取iTunes中音乐列表，可以自定义列表类型，调用`-collection`方法，返回对应列表的数组。数组中元素为**MPMediaItemCollection**类型。
 
-
-
-~~~c
+```objective-c
 //  create
 MPMediaQuery *mediaQuery = [MPMediaQuery playlistQuery];
 //  groupType
 mediaQuery.groupingType = MPMediaGroupingAlbumArtist;
 //  query
 NSArray<MPMediaItemCollection *> *mediaCollections = [mediaQuery collections];
-~~~
+```
 
 ##MPMediaItem
 
 通过**MPMediaItemCollection**获取对应的**MPMediaItem**，对应多媒体文件。通过**MPMediaItem**获取文件相关信息。导出时需要文件地址**assetURL**。
 
-
-
-~~~c
+```objective-c
 NSMutableArray<MPMediaItem *> mediaItems = [NSMutableArray array];
 for (MPMediaItemCollection *collection in mediaCollections) {
   //  mediaItem
@@ -98,21 +86,19 @@ for (MPMediaItemCollection *collection in mediaCollections) {
   //  add
   [mediaItems addObject:mediaItem];
 }
-~~~
+```
 
 ##Play
 
 获取到**MPMediaItemCollection**后，可以选择使用iTunes直接播放该文件。
 
-
-
-~~~c
+```objective-c
 MPMediaItemCollection *mediaItemCollection = [mediaCollections firstObject];
 MPMediaItem *selectedItem = [collection representativeItem];
 [[MPMusicPlayerController iPodMusicPlayer] setQueueWithItemCollection:mediaItemCollection];
 [[MPMusicPlayerController iPodMusicPlayer] setNowPlayingItem:selectedItem];
 [[MPMusicPlayerController iPodMusicPlayer] play];
-~~~
+```
 
 ##Export Music to Local Sandbox
 
@@ -126,9 +112,7 @@ MPMediaItem *selectedItem = [collection representativeItem];
 
 4、使用**AVAssetExportSession**导出AVURLAsset。
 
-
-
-~~~c
+```objective-c
 for (MPMediaItem *musicItem in musicItems) {
     //  获取文件名及地址
     NSString *title = [mediaItem valueForProperty:MPMediaItemPropertyTitle];
@@ -189,8 +173,11 @@ for (MPMediaItem *musicItem in musicItems) {
       }
     }
   }
-~~~
-~~~c
+```
+
+
+
+```objective-c
 - (BOOL)validIpodLibraryURL:(NSURL *)url {
   NSString *IPOD_SCHEME = @"ipod-library";
   if (nil == url)
@@ -207,4 +194,5 @@ for (MPMediaItem *musicItem in musicItems) {
   }
   return YES;
 }
-~~~
+```
+

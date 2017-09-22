@@ -23,23 +23,20 @@ cross size。
 ## Container Properties
 flex-direction：决定主轴方向。  
 
-
-
-~~~
+```objective-c
 typedef NS_ENUM(NSUInteger, CKStackLayoutDirection) {
   //  垂直方向
   CKStackLayoutDirectionVertical,
   //  水平方向
   CKStackLayoutDirectionHorizontal,
 };
-~~~
+```
+
 flex-wrap：决定如何换行。  
 flex-flow：flex-direction和flex-wrap的简写形式。  
 **justify-content**：决定items在主轴上的对齐方式。  
 
-
-
-~~~
+```objective-c
 /** If no children are flexible, how should this component justify its children in the available space? */
 typedef NS_ENUM(NSUInteger, CKStackLayoutJustifyContent) {
   /**
@@ -61,12 +58,11 @@ typedef NS_ENUM(NSUInteger, CKStackLayoutJustifyContent) {
   //  右对齐
   CKStackLayoutJustifyContentEnd,
 };
-~~~
+```
+
 **align-items**：决定items在交叉轴上的对齐方式。  
 
-
-
-~~~
+```objective-c
 typedef NS_ENUM(NSUInteger, CKStackLayoutAlignItems) {
   /** Align children to start of cross axis */
   //  交叉轴起点对齐
@@ -81,7 +77,7 @@ typedef NS_ENUM(NSUInteger, CKStackLayoutAlignItems) {
   //  交叉轴方向拉伸
   CKStackLayoutAlignItemsStretch,
 };
-~~~
+```
 
 ## Item Properties
 order：决定item排列顺序，数值越小，排位越靠前。  
@@ -94,9 +90,7 @@ flex：flex-grow, flex-shrink 和 flex-basis的简写。
 **align-self**：决定item单独的对齐方式，可以覆盖 **align-items** 属性。  
 默认值为auto，表示继承父元素的align-items属性，如果没有父元素，则等同于stretch。  
 
-
-
-~~~
+```objective-c
 /**
  Each child may override their parent stack's cross axis alignment.
  @see CKStackLayoutAlignItems
@@ -109,15 +103,15 @@ typedef NS_ENUM(NSUInteger, CKStackLayoutAlignSelf) {
   CKStackLayoutAlignSelfCenter,
   CKStackLayoutAlignSelfStretch,
 };
-~~~
+```
+
+
 
 ## CKStackLayoutComponent
 A simple layout component that stacks a list of children vertically or horizontally.  
 动态创建children：  
 
-
-
-~~~
+```objective-c
 static std::vector<CKStackLayoutComponentChild> createChildren(NSArray* list){
   std::vector<CKStackLayoutComponentChild> children;
   for (VPANewsModel*newsModel in list) {
@@ -125,17 +119,15 @@ static std::vector<CKStackLayoutComponentChild> createChildren(NSArray* list){
   }
   return children;
 }
-~~~
+```
 
 ## CKBackgroundLayoutComponent
 Lays out a single child component, then lays out a background component behind it stretched to its size.  
 
-
-
-~~~
+```objective-c
 + (instancetype)newWithComponent:(CKComponent *)component
                       background:(CKComponent *)background;
-~~~
+```
 
 ## CKStaticLayoutComponent
 A component that positions children at fixed positions.  
@@ -144,14 +136,12 @@ Computes a size that is the union of all childrens' frames.
 ## CKCenterLayoutComponent
 Lays out a single child component and position it so that it is centered into the layout bounds.  
 
-
-
-~~~
+```objective-c
 + (instancetype)newWithCenteringOptions:(CKCenterLayoutComponentCenteringOptions)centeringOptions
                           sizingOptions:(CKCenterLayoutComponentSizingOptions)sizingOptions
                                   child:(CKComponent *)child
                                    size:(const CKComponentSize &)size;
-~~~
+```
 
 ## CKRatioLayoutComponent
 For when the content should respect a certain inherent ratio but can be scaled (think photos or videos).

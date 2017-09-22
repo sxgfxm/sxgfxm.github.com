@@ -29,9 +29,7 @@ iOS 10 对Core Data做了很大的优化和改进，大大简化了Core Data的�
 NSPersistentContainer是新添加的类，从此大部分情况下无需再和NSManagedObjectContext、NSPersistentStoreCoordinator打交道。  
 获取NSPersistentContainer    
 
-
-
-~~~objective-c
+```objective-c
 #import 'AppDelegate.h'
 
 @interface ViewController ()
@@ -48,14 +46,12 @@ NSPersistentContainer是新添加的类，从此大部分情况下无需再和NS
 }
 
 @end
-~~~
+```
 
 ##Add Record
 导入通过系统创建的Create NSManagedObject Subclass，通过NSEntityDescription增添记录。  
 
-
-
-~~~objective-c
+```objective-c
 #import "People+CoreDataProperties.h"
 
 #define kEntityName @"People"
@@ -66,14 +62,12 @@ NSPersistentContainer是新添加的类，从此大部分情况下无需再和NS
   people.sex = YES;
   people.age = 23;
 }
-~~~
+```
 
 ##Fetch Record
 通过NSFetchRequest查询记录。  
 
-
-
-~~~objective-c
+```objective-c
 -(void)fetchRecord{
   NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:kEntityName];
   NSArray<People *> *results = [self.container.viewContext executeFetchRequest:fetchRequest error:nil];
@@ -83,14 +77,12 @@ NSPersistentContainer是新添加的类，从此大部分情况下无需再和NS
     NSLog(@"age  %@", people.age);
   }
 }
-~~~
+```
 
 ##Update Record
 先fetch需要修改的记录，然后直接修改即可。  
 
-
-
-~~~objective-c
+```objective-c
 -(void)updateRecord{
   NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:kEntityName];
   NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", @"Tom"];
@@ -100,14 +92,12 @@ NSPersistentContainer是新添加的类，从此大部分情况下无需再和NS
     people.name = @"Lily";
   }
 }
-~~~
+```
 
 ##Delete Record
 先fetch需要删除的记录，然后通过NSManagedObjectContext删除即可。  
 
-
-
-~~~objective-c
+```objective-c
 -(void)deleteRecord{
   NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:kEntityName];
   NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", @"Lily"];
@@ -117,7 +107,7 @@ NSPersistentContainer是新添加的类，从此大部分情况下无需再和NS
     [self.container.viewContext deleteObject:people];
   }
 }
-~~~
+```
 
 ## GitHub源码
 

@@ -9,7 +9,7 @@ description: iOS, lock, circular image, RxJava, socket
 ---
 
 ## OC中的锁
-~~~
+```objective-c
 @implementation TestObj
 
 -(void)method1{
@@ -20,12 +20,13 @@ description: iOS, lock, circular image, RxJava, socket
 }
 
 @end
-~~~
+```
+
 <!--more-->
 
 ### NSLock    
 
-~~~
+```objective-c
 NSLock *lock = [[NSLock alloc] init];
 //线程1
 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -41,10 +42,11 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     [obj method2];
     [lock unlock];
 });
-~~~
+```
+
 ### synchronized关键字。  
 
-~~~
+```objective-c
 //主线程中
 TestObj *obj = [[TestObj alloc] init];
 //线程1
@@ -61,10 +63,11 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [obj method2];
     }
 });
-~~~
+```
+
 ### phread_mutex_t。  
 
-~~~
+```objective-c
 //主线程中
 TestObj *obj = [[TestObj alloc] init];
 __block pthread_mutex_t mutex;
@@ -83,10 +86,11 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     [obj method2];
     pthread_mutex_unlock(&mutex);
 });
-~~~
+```
+
 ### GCD。  
 
-~~~
+```objective-c
 //主线程中
 TestObj *obj = [[TestObj alloc] init];
 dispatch_semaphore_t semaphore = dispatch_semaphore_create(1);
@@ -104,10 +108,10 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     [obj method2];
     dispatch_semaphore_signal(semaphore);
 });
-~~~
+```
 
 ## 生成圆形透明背景图片
-~~~
+```objective-c
 + (UIImage *)circularScaleAndCropImage:(UIImage *)image {
   // Create the bitmap graphics context
   UIGraphicsBeginImageContextWithOptions(CGSizeMake(image.size.width, image.size.height), NO, 0.0);
@@ -137,7 +141,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 
   return newImage;
 }
-~~~
+```
 
 ## RxJava
 响应式函数编程  

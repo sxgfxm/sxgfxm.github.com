@@ -9,7 +9,7 @@ description: sxgfxm,Light's Blog,CAKeyFrameAnimation,aniamtionDidStop,removedOnC
 ---
 
 ## CAKeyFrameAnimation
-~~~
+```objective-c
 - (CAKeyframeAnimation *)circleShake {
   if (!_circleShake) {
     CGFloat baseX = self.circleMask.position.x;
@@ -36,7 +36,7 @@ description: sxgfxm,Light's Blog,CAKeyFrameAnimation,aniamtionDidStop,removedOnC
   }
   return _circleShake;
 }
-~~~
+```
 
 <!-- more -->
 
@@ -46,19 +46,19 @@ Use `animationForKey:` to identify.
 Create one animation and add to multiple layers.  
 
 ## Apply changes when animation finished
-~~~
+```objective-c
 animation.removedOnCompletion = NO;
 animation.fillMode = kCAFillModeForwards;
-~~~
+```
 
 ## Resume changes when animation finished
-~~~
+```objective-c
 animation.removedOnCompletion = NO;
 animation.fillMode = kCAFillModeBackwards;
-~~~
+```
 
 ## Use CAAnimationGroup to run animations cocurrently
-~~~
+```objective-c
 - (CAAnimationGroup *)circleBig {
   if (!_circleBig) {
     _circleBig = [CAAnimationGroup animation];
@@ -88,19 +88,20 @@ animation.fillMode = kCAFillModeBackwards;
   }
   return _circleBig;
 }
-~~~
+```
 
 ## TabBar背景设为透明色
-~~~
+```objective-c
 [[UITabBar appearance] setShadowImage:[WWImageUtil imageWithColor:[UIColor clearColor]]];
 [[UITabBar appearance] setBackgroundImage:[WWImageUtil imageWithColor:[UIColor clearColor]]];
 [UITabBar appearance].translucent = YES;
-~~~
+```
 
 ## TabBar去除黑线
-~~~
+
+```objective-c
 [[UITabBar appearance] setClipsToBounds:YES];
-~~~
+```
 
 ## self.title
 `self.title`：同时设置导航栏和tabBar的title；  

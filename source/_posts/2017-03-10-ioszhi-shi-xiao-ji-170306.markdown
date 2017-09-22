@@ -31,7 +31,7 @@ description: sxgfxm,Block,单例,Healthkit,UIPasteboard,发送本地通知
 3. 单例的特性？  
 
 ## NSOperation
-~~~
+```objective-c
 -(void)start;
 -(void)main;
 -(void)cancel;
@@ -41,7 +41,8 @@ description: sxgfxm,Block,单例,Healthkit,UIPasteboard,发送本地通知
 @property BOOL cancelled;
 @property BOOL finished;
 @property copy void (^completionBlock)(void);
-~~~
+```
+
 使用方法：  
 1、继承NSOperation，通过init方法初始化，重写main方法执行任务；  
 2、可以通过completionBlock设置执行完成回调；  
@@ -50,13 +51,14 @@ description: sxgfxm,Block,单例,Healthkit,UIPasteboard,发送本地通知
 5、可以通过NSCondition阻塞，加锁，生产者-消费者；  
 
 ## NSOperationQueue
-~~~
+```objective-c
 @property NSInteger maxCoucurrentOperationCount;
 @property NSInteger operationCount;
 -(void)addOperation:(NSOperation*)op;
 -(void)cancelAllOperations;
 -(void)waitUntilAllOperationsAreFinished;
-~~~
+```
+
 使用方法：  
 1、初始化NSOperationQueue，设置同时可并行任务数量；  
 2、创建任务，并将其加入队列中，任务自动开始执行；  
@@ -72,15 +74,13 @@ description: sxgfxm,Block,单例,Healthkit,UIPasteboard,发送本地通知
 ## UIPasteboard
 将信息写到剪切板中。  
 
-
-
-~~~
+```objective-c
 UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
 [pasteboard setString:string];
-~~~
+```
 
 ## 发送本地通知
-~~~
+```objective-c
 // 创建一个本地推送
 UILocalNotification *notification = [UILocalNotification new];
 if (notification != nil) {
@@ -97,13 +97,13 @@ if (notification != nil) {
   UIApplication *app = [UIApplication sharedApplication];
   [app scheduleLocalNotification:notification];
 }
-~~~
+```
 
 ## string label
-~~~
+```objective-c
 NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
 ceil()
-~~~
+```
 
 ## 相册和相机
 取消选择照片和选择没有照片是不同的回调。  

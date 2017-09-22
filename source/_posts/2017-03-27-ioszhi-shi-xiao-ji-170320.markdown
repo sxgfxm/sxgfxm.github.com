@@ -21,9 +21,7 @@ description: sxgfxm,UIActivityViewController,AVAssetExportSession,GCDWebServer
 ## GCDWebserver后台运行
 设置option  
 
-
-
-~~~
+```objective-c
 - (BOOL)startServer {
   for (int i = 0; i < 10; i++) {
     //  随机端口号
@@ -40,4 +38,5 @@ description: sxgfxm,UIActivityViewController,AVAssetExportSession,GCDWebServer
   }
   return NO;
 }
-~~~
+```
+

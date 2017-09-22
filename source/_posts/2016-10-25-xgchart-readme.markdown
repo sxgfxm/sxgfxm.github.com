@@ -27,7 +27,7 @@ description: iOS chart，plot，diagram，XGChart，calayer
 ```
 
 ```objective-c
- //  configuration
+//  configuration
   XGChartConfiguration *configuration = [[XGChartConfiguration alloc] init];
   configuration.chartType = XGChartTypeLineChart;
   configuration.paddingTop = 20;
@@ -58,7 +58,6 @@ description: iOS chart，plot，diagram，XGChart，calayer
       configuration:configuration];
   lineChart.backgroundColor = [UIColor blackColor];
   [self.view addSubview:lineChart];
-
 ```
 
 ## Result

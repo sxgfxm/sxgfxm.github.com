@@ -13,17 +13,14 @@ description: sxgfxm, ComponentKit Tutorial,CKComponent,CKLabelComponent,CKButton
 ## CKComponent
 A component is an immutable object that specifies how to configure a view, loosely inspired by React.  
 
-
-
-~~~
+```objective-c
 + (instancetype)newWithView:(const CKComponentViewConfiguration &)view
                        size:(const CKComponentSize &)size;
-~~~
+```
+
 Example:  
 
-
-
-~~~
+```objective-c
 CKComponent *component = [CKComponent
     newWithView:{
         [UIView class],
@@ -41,16 +38,14 @@ CKComponent *component = [CKComponent
     return [oldState boolValue] ? @NO : @YES;
   } mode:CKUpdateModeSynchronous];
 }
-~~~
+```
 
 <!-- more -->
 
 ## CKLabelComponent
 多行文字通过size.width控制。  
 
-
-
-~~~
+```objective-c
 CKLabelComponent *titleComponent = [CKLabelComponent newWithLabelAttributes:{
     .string = newsModel.title,
     .color = [UIColor whiteColor],
@@ -61,10 +56,10 @@ CKLabelComponent *titleComponent = [CKLabelComponent newWithLabelAttributes:{
     { @selector(setBackgroundColor:), [UIColor clearColor] }
   }
   size:{}];
-~~~
+```
 
 ## CKButtonComponent
-~~~
+```objective-c
  CKButtonComponent *buttonComponent = [CKButtonComponent
     newWithTitles:{
       {UIControlStateNormal,@"button"}
@@ -81,10 +76,10 @@ CKLabelComponent *titleComponent = [CKLabelComponent newWithLabelAttributes:{
     size:{}
     attributes:{}
     accessibilityConfiguration:{}];
-~~~
+```
 
 ## CKImageComponent
-~~~
+```objective-c
 CKImageComponent *image = [CKImageComponent newWithImage:
     [UIImage imageNamed:newsModel.imageURL]
     attributes:{
@@ -92,42 +87,37 @@ CKImageComponent *image = [CKImageComponent newWithImage:
         {CKComponentViewAttribute::LayerAttribute(@selector(setCornerRadius:)), @10.0}
     }
     size:{60, 60}];
-~~~
+```
 
 ## CKInsetComponent
 A component that wraps another component, applying insets around it.  
 
-
-
-~~~
+```objective-c
 + (instancetype)newWithView:(const CKComponentViewConfiguration &)view
                      insets:(UIEdgeInsets)insets
                   component:(CKComponent *)component;
 
 + (instancetype)newWithInsets:(UIEdgeInsets)insets component:(CKComponent *)child;
-~~~
+```
+
 Example:  
 
-
-
-~~~
+```objective-c
 CKInsetComponent *insetComponent = [CKInsetComponent
     newWithInsets:{.top = 10,.left = 20,.right = 10,.bottom = 20}
     component:[CKComponent
         newWithView:{}
         size:{}]
     ];
-~~~
+```
 
 ## CKOverlayLayoutComponent
 This component lays out a single component and then overlays a component on top of it streched to its size.  
 
-
-
-~~~
+```objective-c
 + (instancetype)newWithComponent:(CKComponent *)component
                          overlay:(CKComponent *)overlay;
-~~~
+```
 
 
 ## State

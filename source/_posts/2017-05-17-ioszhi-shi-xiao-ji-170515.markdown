@@ -17,9 +17,7 @@ description: sxgfxm,Get local bundle,custom cocoapods, Localized string in cocoa
 ## Get local bundle
 通过`frameworkName`和`bundleName`获取对应bundle。  
 
-
-
-~~~c
+```objective-c
 + (NSBundle *)getBundleWithFrameworkName:(NSString *)frameworkName bundleName:(NSString *)bundleName {
   NSString *tmpBundleName = [bundleName copy];
   if (![bundleName hasSuffix:@".bundle"]) {
@@ -42,7 +40,7 @@ description: sxgfxm,Get local bundle,custom cocoapods, Localized string in cocoa
   NSString *path = [[[NSBundle mainBundle] privateFrameworksPath] stringByAppendingPathComponent:tempFramework];
   return [NSBundle bundleWithPath:[path stringByAppendingPathComponent:tmpBundleName]];
 }
-~~~
+```
 
 ## Localized string in cocoapods
 在自定义pod中添加语言本地化：  
@@ -51,7 +49,7 @@ description: sxgfxm,Get local bundle,custom cocoapods, Localized string in cocoa
 3. 添加简便调用方法：    
 
 
-~~~c
+```objective-c
 NSString *XGLocalizedString(NSString *key, NSString *comment) {
   return [XGFitnessLocalize localizedString:key];
 }
@@ -85,7 +83,7 @@ NSString *XGLocalizedString(NSString *key, NSString *comment) {
   }
   return localizedString;
 }
-~~~
+```
 
 ## Image in cocoapods
 在自定义pod中添加图片步骤：  
@@ -94,7 +92,7 @@ NSString *XGLocalizedString(NSString *key, NSString *comment) {
 3. 为`UIImage`添加类别方法`bundleImageNamed:`    
 
 
-~~~objective-c
+```objective-c
 @implementation UIImage (BundleImage)
 
 + (UIImage *)bundleImageNamed:(NSString *)name {
@@ -103,7 +101,7 @@ NSString *XGLocalizedString(NSString *key, NSString *comment) {
 }
 
 @end
-~~~
+```
 
 ## Font in cocoapods
 自定义字体无法静态添加到自定义pod中，需要动态注册字体才能使用。  
@@ -112,7 +110,7 @@ NSString *XGLocalizedString(NSString *key, NSString *comment) {
 3. 创建注册字体方法，并在使用前仅调用一次。  
 
 
-~~~objective-c
+```objective-c
 #import <CoreText/CTFontManager.h>
 
 + (void)registerFitnessFont {
@@ -142,4 +140,4 @@ void CFSafeRelease(CFTypeRef cf) {
     CFRelease(cf);
   }
 }
-~~~
+```

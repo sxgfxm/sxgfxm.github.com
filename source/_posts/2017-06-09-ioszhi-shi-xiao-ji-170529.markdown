@@ -14,7 +14,7 @@ description: sxgfxm,wifi setting, UITextField, Gradient flow animation, UISlider
 <!-- more -->
 
 ## UITextField
-~~~
+```objective-c
 -(void)setupTextField{
   self.wifiNameTF =
       [[UITextField alloc] initWithFrame:CGRectMake(kScaleFrom_iPhone6_Desgin(16), 0,
@@ -32,14 +32,12 @@ description: sxgfxm,wifi setting, UITextField, Gradient flow animation, UISlider
   self.wifiNameTF.rightViewMode = UITextFieldViewModeAlways;
   [self.view addSubview:self.wifiNameTF];
 }
-~~~
+```
 
 ## Gradient flow animation
 两倍长度，添加左右移动动画，并添加左右两边覆盖层。  
 
-
-
-~~~
+```objective-c
   //  progress bar
   self.progressBar =
       [[UIView alloc] initWithFrame:CGRectMake((self.view.bounds.size.width - kScaleFrom_iPhone6_Desgin(120)) / 2,
@@ -80,10 +78,10 @@ description: sxgfxm,wifi setting, UITextField, Gradient flow animation, UISlider
   moveAnimation.duration = 2;
   moveAnimation.autoreverses = NO;
   [self.gradientLayer addAnimation:moveAnimation forKey:@"animation"];
-~~~
+```
 
 ## Alert with text field
-~~~
+```objective-c
 - (void)changeName {
   // 修改昵称提示框
   UIAlertController *alertController =
@@ -109,10 +107,10 @@ description: sxgfxm,wifi setting, UITextField, Gradient flow animation, UISlider
                                                     }]];
   [self presentViewController:alertController animated:YES completion:nil];
 }
-~~~
+```
 
 ## UISlider
-~~~
+```objective-c
 -(void)setupSlider{
   self.volumeSlider = [UISlider new];
   [self.volumeSlider addTarget:self action:@selector(changeVolumeAction) forControlEvents:UIControlEventTouchUpInside];
@@ -128,10 +126,10 @@ description: sxgfxm,wifi setting, UITextField, Gradient flow animation, UISlider
     make.width.equalTo(@(kScaleFrom_iPhone6_Desgin(270)));
   }];
 }
-~~~
+```
 
 ## UITextView
-~~~
+```objective-c
 -(void)setupTextView{
   self.textView = [UITextView new];
   self.textView.backgroundColor = [UIColor clearColor];
@@ -171,10 +169,10 @@ description: sxgfxm,wifi setting, UITextField, Gradient flow animation, UISlider
   }
   return YES;
 }
-~~~
+```
 
 ## IQActionSheetPickerView
-~~~
+```objective-c
 -(void)setupPickerView{
   NSArray *dataSource = @[@"item1",@"item2",@"item3"];
   IQActionSheetPickerView *categoryPicker = [[IQActionSheetPickerView alloc] initWithTitle:@"选择" delegate:self];
@@ -210,7 +208,7 @@ description: sxgfxm,wifi setting, UITextField, Gradient flow animation, UISlider
 - (void)actionSheetPickerView:(IQActionSheetPickerView *)pickerView didSelectTitles:(NSArray *)titles {
   //  do something with selected item
 }
-~~~
+```
 
 ## NSURLSession
 completion handler 并非在主线程回调。  
