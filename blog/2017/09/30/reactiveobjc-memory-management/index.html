@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Github Blog - 搭建 - Light's Blog</title>
+  <title>ReactiveObjC Memory Management - Light's Blog</title>
   <meta name="author" content="Light">
 
   
-  <meta name="description" content="搭建octopress博客">
-  <meta name="keywords" content="octopress，搭建octopress博客">
+  <meta name="description" content="ReactiveObjC Memory Management">
+  <meta name="keywords" content="sxgfxm, ReactiveObjC Memory Management">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://sxgfxm.github.io/blog/2016/10/18/github-blog-da-jian/">
+  <link rel="canonical" href="http://sxgfxm.github.io/blog/2017/09/30/reactiveobjc-memory-management/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Light's Blog" type="application/atom+xml">
@@ -102,7 +102,7 @@ $(document).bind('DOMNodeInserted', function(event) {
   
   <header>
     
-      <h1 class="entry-title">Github Blog - 搭建</h1>
+      <h1 class="entry-title">ReactiveObjC Memory Management</h1>
     
     
       <p class="meta">
@@ -111,7 +111,7 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 
-<time class='entry-date' datetime='2016-10-18T08:44:43+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:44 am</span></time>
+<time class='entry-date' datetime='2017-09-30T15:06:51+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>3:06 pm</span></time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://sxgfxm.github.io">Comments</a>
@@ -121,53 +121,77 @@ $(document).bind('DOMNodeInserted', function(event) {
   </header>
 
 
-<div class="entry-content"><h2>安装Git</h2>
+<div class="entry-content"><p>You don&rsquo;t need to retain signals in order to process them.</p>
 
-<h2>安装Ruby</h2>
+<h2>Subscribers</h2>
 
-<p>推荐使用RVM。</p>
+<p>Any objects referenced from those blocks will therefore be retained as part of the subscription.</p>
 
-<!--more-->
+<h2>Finite or Short-Lived Signals</h2>
 
+<p>Subscription is automatically terminated upon completion or error, and the subscriber removed.<br/>
+The <strong>RACSignal -> RACSubscriber</strong> relationship is torn down as soon as signal finishes, breaking the retain cycle.</p>
 
-<h2>安装DevKit</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gem install devkit</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>克隆Octopress库</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git://github.com/imathis/octopress.git </span></code></pre></td></tr></table></div></figure>
+<!-- more -->
 
 
-<h2>安装Octopress依赖项</h2>
+<h2>Infinite Signals</h2>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><strong>Disposing of a subscription will remove the associated subscriber</strong>, and just generally clean up any resources associated with that subscription.</p>
+
+<h2>Signals Derived from self</h2>
+
+<p>Any time a signal&rsquo;s lifetime is tied to the calling scope, you&rsquo;ll have a much harder cycle to break.<br/>
+This commonly occurs when using <strong>RACObserve()</strong> on a key path that&rsquo;s relative to <strong>self</strong>, and then applying a block that needs to capture <strong>self</strong>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gem install bundler
-</span><span class='line'>bundler install</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">__weak</span> <span class="kt">id</span> <span class="n">weakSelf</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
+</span><span class='line'><span class="p">[</span><span class="n">RACObserve</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">username</span><span class="p">)</span> <span class="nl">subscribeNext</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="n">username</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kt">id</span> <span class="n">strongSelf</span> <span class="o">=</span> <span class="n">weakSelf</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">strongSelf</span> <span class="n">validateUsername</span><span class="p">];</span>
+</span><span class='line'><span class="p">}];</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<h2>安装Octopress默认主题</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rake install</span></code></pre></td></tr></table></div></figure>
 
 
-<h2>关联Octopress至Github</h2>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">@</span><span class="n">weakify</span><span class="p">(</span><span class="nb">self</span><span class="p">);</span>
+</span><span class='line'><span class="p">[</span><span class="n">RACObserve</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">username</span><span class="p">)</span> <span class="nl">subscribeNext</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="n">username</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">@</span><span class="n">strongify</span><span class="p">(</span><span class="nb">self</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">[</span><span class="nb">self</span> <span class="n">validateUsername</span><span class="p">];</span>
+</span><span class='line'><span class="p">}];</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rake setup_github_pages</span></code></pre></td></tr></table></div></figure>
 
 
-<p>在Repository url中输入对应的仓库地址。<p class='post-footer'>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">RACSignal</span> <span class="o">*</span><span class="n">validated</span> <span class="o">=</span> <span class="p">[</span><span class="n">RACObserve</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">username</span><span class="p">)</span> <span class="nl">map</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="n">username</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// Put validation logic here.</span>
+</span><span class='line'>    <span class="k">return</span> <span class="m">@YES</span><span class="p">;</span>
+</span><span class='line'><span class="p">}];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p class='post-footer'>
   原始地址：
-  <a href='http://sxgfxm.github.io/blog/2016/10/18/github-blog-da-jian/'><a href="http://sxgfxm.github.io/blog/2016/10/18/github-blog-da-jian/">http://sxgfxm.github.io/blog/2016/10/18/github-blog-da-jian/</a></a><br/>
+  <a href='http://sxgfxm.github.io/blog/2017/09/30/reactiveobjc-memory-management/'>http://sxgfxm.github.io/blog/2017/09/30/reactiveobjc-memory-management/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
-  </p></p>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
+  </p>
+
 </div>
 
 
@@ -183,12 +207,12 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 
-<time class='entry-date' datetime='2016-10-18T08:44:43+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:44 am</span></time>
+<time class='entry-date' datetime='2017-09-30T15:06:51+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>3:06 pm</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/octopress/'>octopress</a>
+    <a class='category' href='/blog/categories/reactiveobjc/'>reactiveobjc</a>
   
 </span>
 
@@ -205,10 +229,8 @@ $(document).bind('DOMNodeInserted', function(event) {
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2016/10/17/markdown-syntax/" title="Previous Post: Markdown Syntax">&laquo; Markdown Syntax</a>
+        <a class="basic-alignment left" href="/blog/2017/09/30/reactiveobjc-framework-overview/" title="Previous Post: ReactiveObjC Framework Overview">&laquo; ReactiveObjC Framework Overview</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2016/10/18/github-blog-ji-ben-cao-zuo/" title="Next Post: Github Blog - 基本操作">Github Blog - 基本操作 &raquo;</a>
       
     </p>
   </footer>
@@ -347,8 +369,8 @@ $(document).bind('DOMNodeInserted', function(event) {
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://sxgfxm.github.io/blog/2016/10/18/github-blog-da-jian/';
-        var disqus_url = 'http://sxgfxm.github.io/blog/2016/10/18/github-blog-da-jian/';
+        var disqus_identifier = 'http://sxgfxm.github.io/blog/2017/09/30/reactiveobjc-memory-management/';
+        var disqus_url = 'http://sxgfxm.github.io/blog/2017/09/30/reactiveobjc-memory-management/';
         var disqus_script = 'embed.js';
       
     (function () {

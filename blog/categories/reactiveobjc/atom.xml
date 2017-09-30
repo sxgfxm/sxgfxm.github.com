@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Reactiveobjc | Light's Blog]]></title>
+  <link href="http://sxgfxm.github.io/blog/categories/reactiveobjc/atom.xml" rel="self"/>
+  <link href="http://sxgfxm.github.io/"/>
+  <updated>2017-09-30T15:11:45+08:00</updated>
+  <id>http://sxgfxm.github.io/</id>
+  <author>
+    <name><![CDATA[Light]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[ReactiveObjC Memory Management]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/09/30/reactiveobjc-memory-management/"/>
+    <updated>2017-09-30T15:06:51+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/09/30/reactiveobjc-memory-management</id>
+    <content type="html"><![CDATA[<p>You don&rsquo;t need to retain signals in order to process them.</p>
+
+<h2>Subscribers</h2>
+
+<p>Any objects referenced from those blocks will therefore be retained as part of the subscription.</p>
+
+<h2>Finite or Short-Lived Signals</h2>
+
+<p>Subscription is automatically terminated upon completion or error, and the subscriber removed.<br/>
+The <strong>RACSignal -> RACSubscriber</strong> relationship is torn down as soon as signal finishes, breaking the retain cycle.</p>
+
+<!-- more -->
+
+
+<h2>Infinite Signals</h2>
+
+<p><strong>Disposing of a subscription will remove the associated subscriber</strong>, and just generally clean up any resources associated with that subscription.</p>
+
+<h2>Signals Derived from self</h2>
+
+<p>Any time a signal&rsquo;s lifetime is tied to the calling scope, you&rsquo;ll have a much harder cycle to break.<br/>
+This commonly occurs when using <strong>RACObserve()</strong> on a key path that&rsquo;s relative to <strong>self</strong>, and then applying a block that needs to capture <strong>self</strong>.<br/>
+<code>objective-c
+__weak id weakSelf = self;
+[RACObserve(self, username) subscribeNext:^(NSString *username) {
+    id strongSelf = weakSelf;
+    [strongSelf validateUsername];
+}];
+</code></p>
+
+<pre><code class="objective-c">@weakify(self);
+[RACObserve(self, username) subscribeNext:^(NSString *username) {
+    @strongify(self);
+    [self validateUsername];
+}];
+</code></pre>
+
+<pre><code class="objective-c">RACSignal *validated = [RACObserve(self, username) map:^(NSString *username) {
+    // Put validation logic here.
+    return @YES;
+}];
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ReactiveObjC Framework Overview]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/09/30/reactiveobjc-framework-overview/"/>
+    <updated>2017-09-30T15:04:20+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/09/30/reactiveobjc-framework-overview</id>
+    <content type="html"><![CDATA[<h1>Streams</h1>
+
+<p>A <strong>stream</strong>, represented by the <strong>RACStream</strong> abstract class, is any series of object values.</p>
+
+<h2>Signals</h2>
+
+<p>A <strong>signal</strong>, represented by the <strong>RACSignal</strong> class, is a push-driven stream.</p>
+
+<p>Signals generally represent data that will be delivered <strong>in the future</strong>. Users must <strong>subscribe</strong> to a signal in order to access its values.</p>
+
+<p>Signals send three different types of events to their subscribers:</p>
+
+<ol>
+<li>The <strong>next</strong> event provides a new value from the stream.</li>
+<li>The <strong>error</strong> event indicates that an error occurred before the signal could finish.</li>
+<li>The completed event indicates that the signal finished successfully, and that no more values will be added to the stream.</li>
+</ol>
+
+
+<!-- more -->
+
+
+<h3>Subscription</h3>
+
+<p>A subscriber is anything that is waiting or capable of waiting for events from a signal.<br/>
+A subscription is created through any call to <code>-subscribeNext:error:completed:</code>, or one of the corresponding convenience methods.</p>
+
+<h3>Subjects</h3>
+
+<p>A <strong>subject</strong>, represented by the <strong>RACSubject</strong> class, is a signal that can be manually controlled.<br/>
+Subjects are extremely useful for bridging non-RAC code into the world of signals.</p>
+
+<h3>Commands</h3>
+
+<p>A <strong>command</strong>, represented by the <strong>RACCommand</strong> class, creates and subscribes to a signal in response to some action.<br/>
+This makes it easy to perform side-effecting work as the user interacts with the app.</p>
+
+<h3>Connections</h3>
+
+<p>A <strong>connection</strong>, represented by the <strong>RACMulticastConnection</strong> class, is a subscription that is shared between any number of subscribers.<br/>
+A connection is created through the <code>-publish</code> or <code>-multicast:</code> methods on RACSignal, and ensures that only one underlying subscription is created, no matter how many times the connection is subscribed to.</p>
+
+<h2>Sequences</h2>
+
+<p>A <strong>sequence</strong>, represented by the <strong>RACSequence</strong> class, is a pull-driven stream.<br/>
+Sequences are a kind of collection, sequences cannot contain <code>nil</code>.</p>
+
+<h2>Disposables</h2>
+
+<p>The <strong>RACDisposable</strong> class is used for cancellation and resource cleanup.</p>
+
+<h2>Schedulers</h2>
+
+<p>A <strong>scheduler</strong>, represented by the <strong>RACScheduler</strong> class, is a serial execution queue for signals to perform work or deliver their results upon.<br/>
+Schedulers are similar to Grand Central Dispatch queues, but schedulers support cancellation (via disposables), and always execute serially.<br/>
+RACScheduler is also somewhat similar to NSOperationQueue, but schedulers do not allow tasks to be reordered or depend on one another.</p>
+
+<h2>Value types</h2>
+
+<p>RAC offers a few miscellaneous classes for conveniently representing values in a stream:</p>
+
+<ol>
+<li><strong>RACTuple</strong> is a small, constant-sized collection that can contain nil (represented by RACTupleNil). It is generally used to represent the combined values of multiple streams.</li>
+<li><strong>RACUnit</strong> is a singleton &ldquo;empty&rdquo; value. It is used as a value in a stream for those times when more meaningful data doesn&rsquo;t exist.</li>
+<li><strong>RACEvent</strong> represents any signal event as a single value. It is primarily used by the -materialize method of RACSignal.</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+</feed>

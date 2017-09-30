@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-09-30T10:07:17+08:00</updated>
+  <updated>2017-09-30T15:11:45+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,165 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ReactiveObjC Memory Management]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/09/30/reactiveobjc-memory-management/"/>
+    <updated>2017-09-30T15:06:51+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/09/30/reactiveobjc-memory-management</id>
+    <content type="html"><![CDATA[<p>You don&rsquo;t need to retain signals in order to process them.</p>
+
+<h2>Subscribers</h2>
+
+<p>Any objects referenced from those blocks will therefore be retained as part of the subscription.</p>
+
+<h2>Finite or Short-Lived Signals</h2>
+
+<p>Subscription is automatically terminated upon completion or error, and the subscriber removed.<br/>
+The <strong>RACSignal -> RACSubscriber</strong> relationship is torn down as soon as signal finishes, breaking the retain cycle.</p>
+
+<!-- more -->
+
+
+<h2>Infinite Signals</h2>
+
+<p><strong>Disposing of a subscription will remove the associated subscriber</strong>, and just generally clean up any resources associated with that subscription.</p>
+
+<h2>Signals Derived from self</h2>
+
+<p>Any time a signal&rsquo;s lifetime is tied to the calling scope, you&rsquo;ll have a much harder cycle to break.<br/>
+This commonly occurs when using <strong>RACObserve()</strong> on a key path that&rsquo;s relative to <strong>self</strong>, and then applying a block that needs to capture <strong>self</strong>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">__weak</span> <span class="kt">id</span> <span class="n">weakSelf</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
+</span><span class='line'><span class="p">[</span><span class="n">RACObserve</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">username</span><span class="p">)</span> <span class="nl">subscribeNext</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="n">username</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kt">id</span> <span class="n">strongSelf</span> <span class="o">=</span> <span class="n">weakSelf</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">strongSelf</span> <span class="n">validateUsername</span><span class="p">];</span>
+</span><span class='line'><span class="p">}];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">@</span><span class="n">weakify</span><span class="p">(</span><span class="nb">self</span><span class="p">);</span>
+</span><span class='line'><span class="p">[</span><span class="n">RACObserve</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">username</span><span class="p">)</span> <span class="nl">subscribeNext</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="n">username</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">@</span><span class="n">strongify</span><span class="p">(</span><span class="nb">self</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">[</span><span class="nb">self</span> <span class="n">validateUsername</span><span class="p">];</span>
+</span><span class='line'><span class="p">}];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">RACSignal</span> <span class="o">*</span><span class="n">validated</span> <span class="o">=</span> <span class="p">[</span><span class="n">RACObserve</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">username</span><span class="p">)</span> <span class="nl">map</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="n">username</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// Put validation logic here.</span>
+</span><span class='line'>    <span class="k">return</span> <span class="m">@YES</span><span class="p">;</span>
+</span><span class='line'><span class="p">}];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2017/09/30/reactiveobjc-memory-management/'>http://sxgfxm.github.io/blog/2017/09/30/reactiveobjc-memory-management/</a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
+  </p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ReactiveObjC Framework Overview]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/09/30/reactiveobjc-framework-overview/"/>
+    <updated>2017-09-30T15:04:20+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/09/30/reactiveobjc-framework-overview</id>
+    <content type="html"><![CDATA[<h1>Streams</h1>
+
+<p>A <strong>stream</strong>, represented by the <strong>RACStream</strong> abstract class, is any series of object values.</p>
+
+<h2>Signals</h2>
+
+<p>A <strong>signal</strong>, represented by the <strong>RACSignal</strong> class, is a push-driven stream.</p>
+
+<p>Signals generally represent data that will be delivered <strong>in the future</strong>. Users must <strong>subscribe</strong> to a signal in order to access its values.</p>
+
+<p>Signals send three different types of events to their subscribers:</p>
+
+<ol>
+<li>The <strong>next</strong> event provides a new value from the stream.</li>
+<li>The <strong>error</strong> event indicates that an error occurred before the signal could finish.</li>
+<li>The completed event indicates that the signal finished successfully, and that no more values will be added to the stream.</li>
+</ol>
+
+
+<!-- more -->
+
+
+<h3>Subscription</h3>
+
+<p>A subscriber is anything that is waiting or capable of waiting for events from a signal.<br/>
+A subscription is created through any call to <code>-subscribeNext:error:completed:</code>, or one of the corresponding convenience methods.</p>
+
+<h3>Subjects</h3>
+
+<p>A <strong>subject</strong>, represented by the <strong>RACSubject</strong> class, is a signal that can be manually controlled.<br/>
+Subjects are extremely useful for bridging non-RAC code into the world of signals.</p>
+
+<h3>Commands</h3>
+
+<p>A <strong>command</strong>, represented by the <strong>RACCommand</strong> class, creates and subscribes to a signal in response to some action.<br/>
+This makes it easy to perform side-effecting work as the user interacts with the app.</p>
+
+<h3>Connections</h3>
+
+<p>A <strong>connection</strong>, represented by the <strong>RACMulticastConnection</strong> class, is a subscription that is shared between any number of subscribers.<br/>
+A connection is created through the <code>-publish</code> or <code>-multicast:</code> methods on RACSignal, and ensures that only one underlying subscription is created, no matter how many times the connection is subscribed to.</p>
+
+<h2>Sequences</h2>
+
+<p>A <strong>sequence</strong>, represented by the <strong>RACSequence</strong> class, is a pull-driven stream.<br/>
+Sequences are a kind of collection, sequences cannot contain <code>nil</code>.</p>
+
+<h2>Disposables</h2>
+
+<p>The <strong>RACDisposable</strong> class is used for cancellation and resource cleanup.</p>
+
+<h2>Schedulers</h2>
+
+<p>A <strong>scheduler</strong>, represented by the <strong>RACScheduler</strong> class, is a serial execution queue for signals to perform work or deliver their results upon.<br/>
+Schedulers are similar to Grand Central Dispatch queues, but schedulers support cancellation (via disposables), and always execute serially.<br/>
+RACScheduler is also somewhat similar to NSOperationQueue, but schedulers do not allow tasks to be reordered or depend on one another.</p>
+
+<h2>Value types</h2>
+
+<p>RAC offers a few miscellaneous classes for conveniently representing values in a stream:</p>
+
+<ol>
+<li><strong>RACTuple</strong> is a small, constant-sized collection that can contain nil (represented by RACTupleNil). It is generally used to represent the combined values of multiple streams.</li>
+<li><strong>RACUnit</strong> is a singleton &ldquo;empty&rdquo; value. It is used as a value in a stream for those times when more meaningful data doesn&rsquo;t exist.</li>
+<li><strong>RACEvent</strong> represents any signal event as a single value. It is primarily used by the -materialize method of RACSignal.  <p class='post-footer'>
+原始地址：
+<a href='http://sxgfxm.github.io/blog/2017/09/30/reactiveobjc-framework-overview/'><a href="http://sxgfxm.github.io/blog/2017/09/30/reactiveobjc-framework-overview/">http://sxgfxm.github.io/blog/2017/09/30/reactiveobjc-framework-overview/</a></a><br/>
+written by <a href='http://sxgfxm.github.io'>Light</a>
+&nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
+</p></li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-170925]]></title>
@@ -3115,532 +3274,6 @@ It makes the comparison by drawing both the view or layer and the existing snaps
 <p class='post-footer'>
   原始地址：
   <a href='http://sxgfxm.github.io/blog/2017/06/12/ioszhi-shi-xiao-ji-170605/'>http://sxgfxm.github.io/blog/2017/06/12/ioszhi-shi-xiao-ji-170605/</a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-170529]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/06/09/ioszhi-shi-xiao-ji-170529/"/>
-    <updated>2017-06-09T10:08:09+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/06/09/ioszhi-shi-xiao-ji-170529</id>
-    <content type="html"><![CDATA[<h2>Open system wifi settings</h2>
-
-<p><code>[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"App-Prefs:root=WIFI"]];</code></p>
-
-<!-- more -->
-
-
-<h2>UITextField</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setupTextField</span><span class="p">{</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">wifiNameTF</span> <span class="o">=</span>
-</span><span class='line'>      <span class="p">[[</span><span class="bp">UITextField</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">16</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span>
-</span><span class='line'>                                                    <span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">32</span><span class="p">),</span>
-</span><span class='line'>                                                    <span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">54</span><span class="p">))];</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">wifiNameTF</span><span class="p">.</span><span class="n">placeholder</span> <span class="o">=</span> <span class="s">@&quot;请输入Wi-Fi名称&quot;</span><span class="p">;</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">wifiNameTF</span><span class="p">.</span><span class="n">font</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIFont</span> <span class="nl">systemFontOfSize</span><span class="p">:</span><span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">16</span><span class="p">)];</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">wifiNameTF</span><span class="p">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="n">UIColorFromRGBA</span><span class="p">(</span><span class="mh">0xff16181d</span><span class="p">);</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">wifiNameTF</span><span class="p">.</span><span class="n">clearButtonMode</span> <span class="o">=</span> <span class="n">UITextFieldViewModeWhileEditing</span><span class="p">;</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">wifiNameTF</span><span class="p">.</span><span class="n">autocapitalizationType</span> <span class="o">=</span> <span class="n">UITextAutocapitalizationTypeNone</span><span class="p">;</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">wifiNameTF</span><span class="p">.</span><span class="n">returnKeyType</span> <span class="o">=</span> <span class="n">UIReturnKeyDone</span><span class="p">;</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">wifiNameTF</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">wifiNameTF</span><span class="p">.</span><span class="n">secureTextEntry</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">wifiNameTF</span><span class="p">.</span><span class="n">rightView</span> <span class="o">=</span> <span class="n">secureBtn</span><span class="p">;</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">wifiNameTF</span><span class="p">.</span><span class="n">rightViewMode</span> <span class="o">=</span> <span class="n">UITextFieldViewModeAlways</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">wifiNameTF</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Gradient flow animation</h2>
-
-<p>两倍长度，添加左右移动动画，并添加左右两边覆盖层。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="c1">//  progress bar</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">progressBar</span> <span class="o">=</span>
-</span><span class='line'>      <span class="p">[[</span><span class="bp">UIView</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">((</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">120</span><span class="p">))</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
-</span><span class='line'>                                               <span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">360</span><span class="p">),</span> <span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">120</span><span class="p">),</span>
-</span><span class='line'>                                               <span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">4</span><span class="p">))];</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">progressBar</span><span class="p">];</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">gradientLayer</span> <span class="o">=</span> <span class="p">[</span><span class="bp">CAGradientLayer</span> <span class="n">layer</span><span class="p">];</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">gradientLayer</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span>
-</span><span class='line'>      <span class="n">CGRectMake</span><span class="p">(</span><span class="o">-</span><span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">120</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">240</span><span class="p">),</span> <span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">4</span><span class="p">));</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">gradientLayer</span><span class="p">.</span><span class="n">locations</span> <span class="o">=</span> <span class="l">@[</span> <span class="mi">@0</span><span class="p">,</span> <span class="mf">@0.15</span><span class="p">,</span> <span class="mf">@0.3</span><span class="p">,</span> <span class="mf">@0.5</span><span class="p">,</span> <span class="mf">@0.65</span><span class="p">,</span> <span class="mf">@0.8</span><span class="p">,</span> <span class="mi">@1</span> <span class="l">]</span><span class="p">;</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">gradientLayer</span><span class="p">.</span><span class="n">colors</span> <span class="o">=</span> <span class="l">@[</span>
-</span><span class='line'>    <span class="p">(</span><span class="k">__bridge</span> <span class="kt">id</span><span class="p">)</span><span class="n">UIColorFromRGBA</span><span class="p">(</span><span class="mh">0xff1af28f</span><span class="p">)</span>
-</span><span class='line'>        <span class="p">.</span><span class="bp">CGColor</span><span class="p">,</span>
-</span><span class='line'>    <span class="p">(</span><span class="k">__bridge</span> <span class="kt">id</span><span class="p">)</span><span class="n">UIColorFromRGBA</span><span class="p">(</span><span class="mh">0xff0de9c5</span><span class="p">).</span><span class="bp">CGColor</span><span class="p">,</span>
-</span><span class='line'>    <span class="p">(</span><span class="k">__bridge</span> <span class="kt">id</span><span class="p">)</span><span class="n">UIColorFromRGBA</span><span class="p">(</span><span class="mh">0xff3293fe</span><span class="p">).</span><span class="bp">CGColor</span><span class="p">,</span>
-</span><span class='line'>    <span class="p">(</span><span class="k">__bridge</span> <span class="kt">id</span><span class="p">)</span><span class="n">UIColorFromRGBA</span><span class="p">(</span><span class="mh">0xff1af28f</span><span class="p">).</span><span class="bp">CGColor</span><span class="p">,</span>
-</span><span class='line'>    <span class="p">(</span><span class="k">__bridge</span> <span class="kt">id</span><span class="p">)</span><span class="n">UIColorFromRGBA</span><span class="p">(</span><span class="mh">0xff0de9c5</span><span class="p">).</span><span class="bp">CGColor</span><span class="p">,</span>
-</span><span class='line'>    <span class="p">(</span><span class="k">__bridge</span> <span class="kt">id</span><span class="p">)</span><span class="n">UIColorFromRGBA</span><span class="p">(</span><span class="mh">0xff3293fe</span><span class="p">).</span><span class="bp">CGColor</span><span class="p">,</span>
-</span><span class='line'>    <span class="p">(</span><span class="k">__bridge</span> <span class="kt">id</span><span class="p">)</span><span class="n">UIColorFromRGBA</span><span class="p">(</span><span class="mh">0xff1af28f</span><span class="p">).</span><span class="bp">CGColor</span>
-</span><span class='line'>  <span class="l">]</span><span class="p">;</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">gradientLayer</span><span class="p">.</span><span class="n">startPoint</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">gradientLayer</span><span class="p">.</span><span class="n">endPoint</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">progressBar</span><span class="p">.</span><span class="n">layer</span> <span class="nl">addSublayer</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">gradientLayer</span><span class="p">];</span>
-</span><span class='line'>  <span class="bp">CALayer</span> <span class="o">*</span><span class="n">leftMask</span> <span class="o">=</span> <span class="p">[</span><span class="bp">CALayer</span> <span class="n">layer</span><span class="p">];</span>
-</span><span class='line'>  <span class="n">leftMask</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span>
-</span><span class='line'>      <span class="n">CGRectMake</span><span class="p">(</span><span class="o">-</span><span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">120</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">120</span><span class="p">),</span> <span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">4</span><span class="p">));</span>
-</span><span class='line'>  <span class="n">leftMask</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">].</span><span class="bp">CGColor</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">progressBar</span><span class="p">.</span><span class="n">layer</span> <span class="nl">addSublayer</span><span class="p">:</span><span class="n">leftMask</span><span class="p">];</span>
-</span><span class='line'>  <span class="bp">CALayer</span> <span class="o">*</span><span class="n">rightMask</span> <span class="o">=</span> <span class="p">[</span><span class="bp">CALayer</span> <span class="n">layer</span><span class="p">];</span>
-</span><span class='line'>  <span class="n">rightMask</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span>
-</span><span class='line'>      <span class="n">CGRectMake</span><span class="p">(</span><span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">120</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">120</span><span class="p">),</span> <span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">4</span><span class="p">));</span>
-</span><span class='line'>  <span class="n">rightMask</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">].</span><span class="bp">CGColor</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">progressBar</span><span class="p">.</span><span class="n">layer</span> <span class="nl">addSublayer</span><span class="p">:</span><span class="n">rightMask</span><span class="p">];</span>
-</span><span class='line'>  <span class="bp">CABasicAnimation</span> <span class="o">*</span><span class="n">moveAnimation</span> <span class="o">=</span> <span class="p">[</span><span class="bp">CABasicAnimation</span> <span class="nl">animationWithKeyPath</span><span class="p">:</span><span class="s">@&quot;position.x&quot;</span><span class="p">];</span>
-</span><span class='line'>  <span class="n">moveAnimation</span><span class="p">.</span><span class="n">fromValue</span> <span class="o">=</span> <span class="l">@(</span><span class="nb">self</span><span class="p">.</span><span class="n">gradientLayer</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="l">)</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">moveAnimation</span><span class="p">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="l">@(</span><span class="nb">self</span><span class="p">.</span><span class="n">gradientLayer</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">120</span><span class="p">)</span><span class="l">)</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">moveAnimation</span><span class="p">.</span><span class="n">repeatCount</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">moveAnimation</span><span class="p">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">moveAnimation</span><span class="p">.</span><span class="n">autoreverses</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">gradientLayer</span> <span class="nl">addAnimation</span><span class="p">:</span><span class="n">moveAnimation</span> <span class="nl">forKey</span><span class="p">:</span><span class="s">@&quot;animation&quot;</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Alert with text field</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">changeName</span> <span class="p">{</span>
-</span><span class='line'>  <span class="c1">// 修改昵称提示框</span>
-</span><span class='line'>  <span class="n">UIAlertController</span> <span class="o">*</span><span class="n">alertController</span> <span class="o">=</span>
-</span><span class='line'>      <span class="p">[</span><span class="n">UIAlertController</span> <span class="nl">alertControllerWithTitle</span><span class="p">:</span><span class="s">@&quot;Title&quot;</span>
-</span><span class='line'>                                          <span class="nl">message</span><span class="p">:</span><span class="nb">nil</span>
-</span><span class='line'>                                   <span class="nl">preferredStyle</span><span class="p">:</span><span class="n">UIAlertControllerStyleAlert</span><span class="p">];</span>
-</span><span class='line'>  <span class="c1">// 添加输入框</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">alertController</span> <span class="nl">addTextFieldWithConfigurationHandler</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">UITextField</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">textField</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">textField</span><span class="p">.</span><span class="n">placeholder</span> <span class="o">=</span> <span class="s">@&quot;Please input&quot;</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}];</span>
-</span><span class='line'>  <span class="c1">// 添加确定按钮</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">alertController</span> <span class="nl">addAction</span><span class="p">:[</span><span class="n">UIAlertAction</span> <span class="nl">actionWithTitle</span><span class="p">:</span><span class="s">@&quot;Done&quot;</span>
-</span><span class='line'>                                                      <span class="nl">style</span><span class="p">:</span><span class="n">UIAlertActionStyleDefault</span>
-</span><span class='line'>                                                    <span class="nl">handler</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">UIAlertAction</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">action</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>                                                      <span class="c1">// 获得当前输入的字符串</span>
-</span><span class='line'>                                                      <span class="bp">NSString</span> <span class="o">*</span><span class="n">name</span> <span class="o">=</span> <span class="n">alertController</span><span class="p">.</span><span class="n">textFields</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">text</span><span class="p">;</span>
-</span><span class='line'>                                                      <span class="nb">self</span><span class="p">.</span><span class="n">tichomeNameLbl</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">name</span><span class="p">;</span>
-</span><span class='line'>                                                    <span class="p">}]];</span>
-</span><span class='line'>  <span class="c1">// 添加取消按钮</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">alertController</span> <span class="nl">addAction</span><span class="p">:[</span><span class="n">UIAlertAction</span> <span class="nl">actionWithTitle</span><span class="p">:</span><span class="s">@&quot;Cancel&quot;</span>
-</span><span class='line'>                                                      <span class="nl">style</span><span class="p">:</span><span class="n">UIAlertActionStyleCancel</span>
-</span><span class='line'>                                                    <span class="nl">handler</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">UIAlertAction</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">action</span><span class="p">){</span>
-</span><span class='line'>                                                    <span class="p">}]];</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">self</span> <span class="nl">presentViewController</span><span class="p">:</span><span class="n">alertController</span> <span class="nl">animated</span><span class="p">:</span><span class="nb">YES</span> <span class="nl">completion</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>UISlider</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setupSlider</span><span class="p">{</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">volumeSlider</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UISlider</span> <span class="n">new</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">volumeSlider</span> <span class="nl">addTarget</span><span class="p">:</span><span class="nb">self</span> <span class="nl">action</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">changeVolumeAction</span><span class="p">)</span> <span class="nl">forControlEvents</span><span class="p">:</span><span class="n">UIControlEventTouchUpInside</span><span class="p">];</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">volumeSlider</span><span class="p">.</span><span class="n">minimumValueImage</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:</span><span class="s">@&quot;icVolumeDown&quot;</span><span class="p">];</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">volumeSlider</span><span class="p">.</span><span class="n">maximumValueImage</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:</span><span class="s">@&quot;icVolumeUp&quot;</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">volumeSlider</span> <span class="nl">setThumbImage</span><span class="p">:[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:</span><span class="s">@&quot;icVolumeBtn&quot;</span><span class="p">]</span> <span class="nl">forState</span><span class="p">:</span><span class="n">UIControlStateNormal</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">volumeSlider</span> <span class="nl">setMinimumTrackImage</span><span class="p">:[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:</span><span class="s">@&quot;minTrackBg&quot;</span><span class="p">]</span> <span class="nl">forState</span><span class="p">:</span><span class="n">UIControlStateNormal</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">volumeSlider</span> <span class="nl">setMaximumTrackImage</span><span class="p">:[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:</span><span class="s">@&quot;maxTrackBg&quot;</span><span class="p">]</span> <span class="nl">forState</span><span class="p">:</span><span class="n">UIControlStateNormal</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">contentView</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">volumeSlider</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">volumeSlider</span> <span class="nl">mas_makeConstraints</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">MASConstraintMaker</span> <span class="o">*</span><span class="n">make</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">make</span><span class="p">.</span><span class="n">centerX</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">contentView</span><span class="p">.</span><span class="n">mas_centerX</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">make</span><span class="p">.</span><span class="n">bottom</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">contentView</span><span class="p">.</span><span class="n">mas_bottom</span><span class="p">).</span><span class="n">offset</span><span class="p">(</span><span class="o">-</span><span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">15</span><span class="p">));</span>
-</span><span class='line'>    <span class="n">make</span><span class="p">.</span><span class="n">width</span><span class="p">.</span><span class="n">equalTo</span><span class="p">(</span><span class="l">@(</span><span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">270</span><span class="p">)</span><span class="l">)</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">}];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>UITextView</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setupTextView</span><span class="p">{</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">textView</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UITextView</span> <span class="n">new</span><span class="p">];</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">textView</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">clearColor</span><span class="p">];</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">textView</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">@&quot;placeholder&quot;</span><span class="p">;</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">textView</span><span class="p">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">]</span> <span class="nl">colorWithAlphaComponent</span><span class="p">:</span><span class="mf">0.2</span><span class="p">];</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">textView</span><span class="p">.</span><span class="n">font</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIFont</span> <span class="nl">systemFontOfSize</span><span class="p">:</span><span class="mi">14</span><span class="p">];</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">textView</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">textView</span><span class="p">.</span><span class="n">autocapitalizationType</span> <span class="o">=</span> <span class="n">UITextAutocapitalizationTypeNone</span><span class="p">;</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">textView</span><span class="p">.</span><span class="n">returnKeyType</span> <span class="o">=</span> <span class="n">UIReturnKeyDone</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">contentView</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">textView</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//  实现placeholder功能</span>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">textViewShouldBeginEditing:</span><span class="p">(</span><span class="bp">UITextView</span> <span class="o">*</span><span class="p">)</span><span class="nv">textView</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">isEmpty</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">textView</span><span class="p">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">textView</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">@&quot;&quot;</span><span class="p">;</span>
-</span><span class='line'>    <span class="nb">self</span><span class="p">.</span><span class="n">isEmpty</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">textViewDidEndEditing:</span><span class="p">(</span><span class="bp">UITextView</span> <span class="o">*</span><span class="p">)</span><span class="nv">textView</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">textView</span><span class="p">.</span><span class="n">text</span><span class="p">.</span><span class="n">length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nb">self</span><span class="p">.</span><span class="n">isEmpty</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">textView</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">@&quot;placeholder&quot;</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">textView</span><span class="p">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">]</span> <span class="nl">colorWithAlphaComponent</span><span class="p">:</span><span class="mf">0.2</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">textView</span> <span class="n">resignFirstResponder</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//  实现换行替换为结束编辑</span>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">textView:</span><span class="p">(</span><span class="bp">UITextView</span> <span class="o">*</span><span class="p">)</span><span class="nv">textView</span> <span class="nf">shouldChangeTextInRange:</span><span class="p">(</span><span class="n">NSRange</span><span class="p">)</span><span class="nv">range</span> <span class="nf">replacementText:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">text</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">([</span><span class="n">text</span> <span class="nl">isEqualToString</span><span class="p">:</span><span class="s">@&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">textView</span> <span class="n">resignFirstResponder</span><span class="p">];</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nb">NO</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>IQActionSheetPickerView</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setupPickerView</span><span class="p">{</span>
-</span><span class='line'>  <span class="bp">NSArray</span> <span class="o">*</span><span class="n">dataSource</span> <span class="o">=</span> <span class="l">@[</span><span class="s">@&quot;item1&quot;</span><span class="p">,</span><span class="s">@&quot;item2&quot;</span><span class="p">,</span><span class="s">@&quot;item3&quot;</span><span class="l">]</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">IQActionSheetPickerView</span> <span class="o">*</span><span class="n">categoryPicker</span> <span class="o">=</span> <span class="p">[[</span><span class="n">IQActionSheetPickerView</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTitle</span><span class="p">:</span><span class="s">@&quot;选择&quot;</span> <span class="nl">delegate</span><span class="p">:</span><span class="nb">self</span><span class="p">];</span>
-</span><span class='line'>  <span class="c1">//  tool bar</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">categoryPicker</span> <span class="nl">setTitleFont</span><span class="p">:[</span><span class="bp">UIFont</span> <span class="nl">systemFontOfSize</span><span class="p">:</span><span class="mi">17</span><span class="p">]];</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">categoryPicker</span> <span class="nl">setTitleColor</span><span class="p">:[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">]];</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">categoryPicker</span> <span class="nl">setToolbarTintColor</span><span class="p">:[</span><span class="n">UIColorFromRGBA</span><span class="p">(</span><span class="mh">0xff26272e</span><span class="p">)</span> <span class="nl">colorWithAlphaComponent</span><span class="p">:</span><span class="mf">0.6</span><span class="p">]];</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">categoryPicker</span> <span class="nl">setDoneButtonAttributes</span><span class="p">:</span><span class="l">@{</span>
-</span><span class='line'>    <span class="nl">kIQActionSheetAttributesForNormalStateKey</span> <span class="p">:</span> <span class="l">@{</span>
-</span><span class='line'>      <span class="nl">NSForegroundColorAttributeName</span> <span class="p">:</span> <span class="p">[[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">]</span> <span class="nl">colorWithAlphaComponent</span><span class="p">:</span><span class="mf">0.5</span><span class="p">],</span>
-</span><span class='line'>      <span class="nl">NSFontAttributeName</span> <span class="p">:</span> <span class="p">[</span><span class="bp">UIFont</span> <span class="nl">systemFontOfSize</span><span class="p">:</span><span class="mi">15</span><span class="p">]</span>
-</span><span class='line'>    <span class="l">}</span>
-</span><span class='line'>  <span class="l">}</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">categoryPicker</span> <span class="nl">setCancelButtonAttributes</span><span class="p">:</span><span class="l">@{</span>
-</span><span class='line'>    <span class="nl">kIQActionSheetAttributesForNormalStateKey</span> <span class="p">:</span> <span class="l">@{</span>
-</span><span class='line'>      <span class="nl">NSForegroundColorAttributeName</span> <span class="p">:</span> <span class="p">[[</span><span class="bp">UIColor</span> <span class="n">grayColor</span><span class="p">]</span> <span class="nl">colorWithAlphaComponent</span><span class="p">:</span><span class="mf">0.5</span><span class="p">],</span>
-</span><span class='line'>      <span class="nl">NSFontAttributeName</span> <span class="p">:</span> <span class="p">[</span><span class="bp">UIFont</span> <span class="nl">systemFontOfSize</span><span class="p">:</span><span class="mi">15</span><span class="p">]</span>
-</span><span class='line'>    <span class="l">}</span>
-</span><span class='line'>  <span class="l">}</span><span class="p">];</span>
-</span><span class='line'>  <span class="c1">//  component</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">categoryPicker</span> <span class="nl">setPickerViewBackgroundColor</span><span class="p">:</span><span class="n">UIColorFromRGBA</span><span class="p">(</span><span class="mh">0xff1c1d24</span><span class="p">)];</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">categoryPicker</span> <span class="nl">setPickerComponentsFont</span><span class="p">:[</span><span class="bp">UIFont</span> <span class="nl">systemFontOfSize</span><span class="p">:</span><span class="mi">16</span><span class="p">]];</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">categoryPicker</span> <span class="nl">setPickerComponentsColor</span><span class="p">:[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">]];</span>
-</span><span class='line'>  <span class="c1">//  data source</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">categoryPicker</span> <span class="nl">setTitlesForComponents</span><span class="p">:</span><span class="l">@[</span> <span class="n">dataSource</span> <span class="l">]</span><span class="p">];</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">category</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">categoryPicker</span> <span class="nl">setSelectedTitles</span><span class="p">:</span><span class="l">@[</span> <span class="s">@&quot;item2&quot;</span> <span class="l">]</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="c1">//  show</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">categoryPicker</span> <span class="n">show</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">actionSheetPickerView:</span><span class="p">(</span><span class="n">IQActionSheetPickerView</span> <span class="o">*</span><span class="p">)</span><span class="nv">pickerView</span> <span class="nf">didSelectTitles:</span><span class="p">(</span><span class="bp">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nv">titles</span> <span class="p">{</span>
-</span><span class='line'>  <span class="c1">//  do something with selected item</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>NSURLSession</h2>
-
-<p>completion handler 并非在主线程回调。<br/>
-UI相关操作必须在主线程执行。</p>
-
-<h2>Protocol Buffers</h2>
-
-<p>Protocol buffers – a language-neutral, platform-neutral, extensible way of serializing structured data for use in communications protocols, data storage, and more.<br/>
-Protocol buffers have many advantages over XML for serializing structured data. Protocol buffers:<br/>
-  are simpler<br/>
-  are 3 to 10 times smaller<br/>
-  are 20 to 100 times faster<br/>
-  are less ambiguous<br/>
-  generate data access classes that are easier to use programmatically</p>
-
-<ol>
-<li>protoc</li>
-<li>build rules</li>
-<li>build phases</li>
-</ol>
-
-
-<h2>Undefined symbols for architecture arm64</h2>
-
-<p>build phases -> compile source</p>
-
-<h2>NSError</h2>
-
-<p>error.localizedDescription</p>
-
-<h2>block</h2>
-
-<p>循环引用。</p>
-
-<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/06/09/ioszhi-shi-xiao-ji-170529/'>http://sxgfxm.github.io/blog/2017/06/09/ioszhi-shi-xiao-ji-170529/</a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-170522]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/06/09/ioszhi-shi-xiao-ji-170522/"/>
-    <updated>2017-06-09T09:57:35+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/06/09/ioszhi-shi-xiao-ji-170522</id>
-    <content type="html"><![CDATA[<h2>Networking Concepts</h2>
-
-<p><a href="https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/NetworkingConcepts/Introduction/Introduction.html#//apple_ref/doc/uid/TP40012487">Networking Concepts</a></p>
-
-<!-- more -->
-
-
-<h3>Networking Terminology</h3>
-
-<p><strong>host</strong>: a host is any device that is connected to a network and provides an endpoint for networked communication.It is called a host because it hosts the applications and daemons that run on it.<br/>
-<strong>nfrastructure device</strong>: an infrastructure device is any piece of equipment that is responsible for making the network function.
-When one host sends data across a network, it divides the data into small pieces called packets.
-A packet generally contains three basic parts: a <strong>header</strong> that tells where the packet should be sent, a <strong>payload</strong> that contains the actual data, and a <strong>trailer</strong> that contains checksum information to ensure that the packet was received correctly.<br/>
-<strong>encapsulation</strong>: When one packet contains another packet (generally of a different type), this is called encapsulation.</p>
-
-<h3>Networking Layers</h3>
-
-<p><strong>Link Layer</strong>: The bottommost layer is the link layer, or <strong>physical layer</strong>.This layer of the networking stack involves the actual hardware used to communicate with nearby physically connected hosts.A network interface is a piece of hardware that provides a link-layer interconnect.<br/>
-<strong>IP Layer</strong>: Sitting on top of the link layer is the IP layer. The IP layer provides packet transport from one host to another in such a way that the packets can pass across multiple physical networks. The path your packets take is called a route, and each link that the packets follow from one router to another along the route is called a hop.To hide this difference, the IP layer splits packets into multiple pieces—a process known as fragmentation—and reassembles them at the other end.<br/>
-<strong>Transport Layer</strong>: On top of the IP layer, you’ll find several transport layers. The two most common protocols at this layer are the transmission control protocol (TCP) and the user datagram protocol (UDP). Both TCP and UDP provide basic data transport from one host to another, much like IP, but add the notion of port numbers.<br/>
-<strong>UDP</strong><br/>
-  No guarantee &mdash;- Like the layers below it, UDP provides no guarantee that the data will ever reach its destination.<br/>
-  Low latency &mdash;- UDP may be a good choice for situations where low latency is required.<br/>
-  Broadcast messages in IPv4 &mdash;- packets sent to a broadcast address are received by every host within its broadcast domain.<br/>
-  Multicast messages &mdash;- UDP packets sent to a multicast address are sent out to any host that subscribes to them.<br/>
-  Preservation of record (packet) boundaries &mdash;- With UDP, the receiver sees each message individually instead of as a continuous stream of bytes.<br/>
-<strong>TCP </strong> <br/>
-  Delivery guarantees &mdash;- Data transmitted using TCP is guaranteed to be received in the order in which it was sent and (connection failures notwithstanding) in its entirety.<br/>
-  Congestion control &mdash;- Sending hosts back off the speed of transmission (and retransmission) if data is getting dropped along the way due to an over-utilized link.<br/>
-  Flow control &mdash;- When busy, receiving hosts tell sending hosts to wait until they are ready to handle more data.<br/>
-  Stream-based data flow &mdash;- Your software sees the data as a series of bytes instead of as a series of discrete records (messages, in UDP parlance)<br/>
-  Path MTU discovery &mdash;- TCP chooses the largest packet size that avoids fragmentation en route.<br/>
-<strong>Application Layer</strong>: The application layer sits at the top of the protocol stack. This layer includes such protocols as hypertext transfer protocol (HTTP) and file transfer protocol (FTP).</p>
-
-<h3>Understanding Latency</h3>
-
-<p>Latency refers to the round-trip time for a request. Every network has latency.<br/>
-The minimum latency between two points on the earth can be calculated by dividing the distance by the speed at which light or electricity moves in a particular medium.<br/>
-Routing delays.<br/>
-Retransmission and exponential backoff.<br/>
-Signal propagation delays within hardware that receives, transmits, forwards, or repeats packets.</p>
-
-<h3>Addressing Schemes and Domain Names</h3>
-
-<p>At every level of networking, each host is assigned one or more numeric identifiers that uniquely represent it within a particular network.<br/>
-<strong>Link-Layer Addressing</strong>: At the link layer (physical layer), each network interface is usually identified by a globally unique hardware ID: Ethernet—MAC address etc.The hardware ID is used to determine whether a particular device should listen to a packet or ignore it.<br/>
-<strong>IP-Layer Addressing</strong>: At the IP layer and above, hosts are identified by an IP address. An IP address can be in one of two forms: IPv4 or IPv6.<br/>
-  <strong>IPv4</strong>: An IPv4 address consists of four bytes, and is usually represented to the user as a series of four numbers separated by decimal points.<br/>
-  <strong>IPv6</strong>: An IPv6 address is a 128-bit value, and is usually written as eight groups of 16-bit hexadecimal numbers separated by colons. Leading zeros in each group can be omitted as long as there is at least one digit in each group.<br/>
-<strong>Domain Name System (DNS)</strong>:
-A domain name is a human-readable name that describes a particular host. Each domain name is made up of a series of parts separated by periods.<br/>
-Features:<br/>
-  Minimize service disruption when an IP address changes.<br/>
-  Allow a host to be accessed by more than one address.<br/>
-  Allow multiple physical hosts to pretend to be a single host.<br/>
-  Can adapt to changes in the underlying technology.<br/>
-  Being easier to remember.</p>
-
-<h3>Packet Routing and Delivery</h3>
-
-<p>Each packet contains a the link-layer address of its intended recipient.</p>
-
-<h2>Networking Overview</h2>
-
-<p><a href="https://developer.apple.com/library/content/documentation/NetworkingInternetWeb/Conceptual/NetworkingOverview/Introduction/Introduction.html#//apple_ref/doc/uid/TP40010220">Networking Overview</a></p>
-
-<h2>Bonjour Overview</h2>
-
-<p><a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/NetServices/Introduction.html#//apple_ref/doc/uid/10000119i">Bonjour Overview</a></p>
-
-<p>The Bonjour zero-configuration networking architecture provides support for publishing and discovering TCP/IP-based services on a local area or wide area network.<br/>
-Bonjour is Apple’s implementation of a suite of zero-configuration networking protocols. Bonjour is designed to make network configuration easier for users.</p>
-
-<h2>NSNetServices and CFNetworkServices Programming Guide</h2>
-
-<p><a href="https://developer.apple.com/library/content/documentation/Networking/Conceptual/NSNetServiceProgGuide/Introduction.html#//apple_ref/doc/uid/TP40002736">NSNetServices and CFNetworkServices Programming Guide</a></p>
-
-<h2>DNS Service Discovery Programming Guide</h2>
-
-<p><a href="https://developer.apple.com/library/content/documentation/Networking/Conceptual/dns_discovery_api/Introduction.html#//apple_ref/doc/uid/TP30000964">DNS Service Discovery Programming Guide</a></p>
-
-<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/06/09/ioszhi-shi-xiao-ji-170522/'>http://sxgfxm.github.io/blog/2017/06/09/ioszhi-shi-xiao-ji-170522/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>
