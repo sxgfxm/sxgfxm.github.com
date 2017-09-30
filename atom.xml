@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-09-22T11:43:42+08:00</updated>
+  <updated>2017-09-30T10:07:17+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,160 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-170925]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/09/29/ioszhi-shi-xiao-ji-170925/"/>
+    <updated>2017-09-29T17:49:31+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/09/29/ioszhi-shi-xiao-ji-170925</id>
+    <content type="html"><![CDATA[<h2>URL encode</h2>
+
+<p>string -> url，特殊字符需要编码。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nf">urlEncode:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">string</span> <span class="p">{</span>
+</span><span class='line'>  <span class="bp">NSCharacterSet</span> <span class="o">*</span><span class="n">set</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSCharacterSet</span> <span class="nl">characterSetWithCharactersInString</span><span class="p">:</span><span class="s">@&quot;;/?:@=&amp;&lt;&gt;</span><span class="se">\&quot;</span><span class="s">#%{}|</span><span class="se">\\</span><span class="s">^~[]` ()&quot;</span><span class="p">].</span><span class="n">invertedSet</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">return</span> <span class="p">[</span><span class="n">string</span> <span class="nl">stringByAddingPercentEncodingWithAllowedCharacters</span><span class="p">:</span><span class="n">set</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!-- more -->
+
+
+<h2>Git fetch remote branch</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="n">git</span> <span class="n">fetch</span>
+</span><span class='line'>  <span class="n">git</span> <span class="n">checkout</span> <span class="o">-</span><span class="n">b</span> <span class="n">localBanchName</span> <span class="n">remoteBranchName</span>
+</span><span class='line'>  <span class="n">git</span> <span class="n">branch</span> <span class="o">-</span><span class="n">vv</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>NSNumberFormatter</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="bp">NSNumberFormatter</span> <span class="o">*</span><span class="n">formatter</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSNumberFormatter</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">formatter</span><span class="p">.</span><span class="n">numberStyle</span> <span class="o">=</span> <span class="n">NSNumberFormatterPercentStyle</span><span class="p">;</span>
+</span><span class='line'>  <span class="bp">NSNumber</span> <span class="o">*</span><span class="n">number</span> <span class="o">=</span> <span class="p">[</span><span class="n">formatter</span> <span class="nl">numberFromString</span><span class="p">:</span><span class="n">index</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>layoutSubviews</h2>
+
+<p>当frame改变时调用</p>
+
+<h2>AVAudioSession</h2>
+
+<p>The session&rsquo;s category and mode together define how the application intends to use audio.</p>
+
+<h2>AVAudioSessionCategory</h2>
+
+<p>Each app running in iOS has a single audio session, which in turn has a single category. You can change your audio session’s category while your app is running.</p>
+
+<p><strong>AVAudioSessionCategoryAmbient</strong>：可以与其他app混合，锁屏停止播放，受静音键控制。<br/>
+<strong>AVAudioSessionCategorySoloAmbient</strong>：默认设置，不可以与其他app混合，锁屏停止播放，受静音键控制。<br/>
+<strong>AVAudioSessionCategoryPlayback</strong>：混合其他app需要设置，后台播放需要设置，锁屏继续播放，不受静音键控制。<br/>
+<strong>AVAudioSessionCategoryRecord</strong>：用于录音，会打断音频播放，后台录音需要设置，且需要申请录音权限。<br/>
+<strong>AVAudioSessionCategoryPlayAndRecord</strong>：既可以录音也可以播放，混合其他app需要设置。<br/>
+<strong>AVAudioSessionCategoryMultiRoute</strong>：既可以录音也可以播放，用于多路输出。</p>
+
+<h2>AVAudioSessionCategoryOptions</h2>
+
+<p>Constants that specify optional audio behaviors. Each option is valid only with specific audio session categories.<br/>
+options需要配合category使用。</p>
+
+<p><strong>AVAudioSessionCategoryOptionMixWithOthers</strong>：允许与其他active session混合。<br/>
+<strong>AVAudioSessionCategoryOptionDuckOthers</strong>：使其他audio session声音减弱。<br/>
+<strong>AVAudioSessionCategoryOptionAllowBluetooth</strong>：使蓝牙设备可作为音频输入设备。<br/>
+<strong>AVAudioSessionCategoryOptionDefaultToSpeaker</strong>：在没有其他输出设备时，通过手机扬声器播放音频，否则通过听筒播放。<br/>
+<strong>AVAudioSessionCategoryOptionInterruptSpokenAudioAndMixWithOthers</strong>：会暂停其他音乐播放，适用于指引类app。<br/>
+<strong>AVAudioSessionCategoryOptionAllowAirPlay</strong>：允许AirPlay播放。<br/>
+<strong>AVAudioSessionCategoryOptionAllowBluetoothA2DP</strong>：允许蓝牙播放。</p>
+
+<p>语音识别界面：可录音，可播放，不受静音键控制；可混合；扬声器发声；可蓝牙播放；可后台播放。</p>
+
+<h2><a href="https://github.com/ReactiveCocoa/ReactiveCocoa">ReactiveCocoa</a></h2>
+
+<p>ReactiveCocoa is an open source library that brings Functional Reactive Programming paradigm to Objective-C.<br/>
+Functional Reactive Programming (FRP) is a way of thinking about software in terms of transforming inputs to produce output continuously over time.</p>
+
+<p>ReactiveCocoa is comprised of two major components: signals (<strong>RACSignal</strong>) and sequences (<strong>RACSequence</strong>).
+Both signals and sequences are kinds of streams, sharing many of the same operators. Signals are a push-driven stream, and sequences are a pull-driven stream.</p>
+
+<h3>RACSignal</h3>
+
+<ol>
+<li>Handling Asynchronous Or Event-driven Data Sources.</li>
+<li>Chaining Dependent Operations.</li>
+<li>Parallelizing Independent Work.</li>
+</ol>
+
+
+<p>Events signals send:<br/>
+1. The <strong>next</strong> event provides a new value from the stream.
+2. The <strong>error</strong> event indicates that an error occurred before the signal could finish.
+3. The <strong>completed</strong> event indicates that the signal finished successfully, and that no more values will be added to the stream.</p>
+
+<h3>RACSequence</h3>
+
+<p>Simplifying Collection Transformations.<br/>
+The values in a sequence are evaluated lazily (i.e., only when they are needed) by default.<br/>
+Just like Cocoa collections, sequences cannot contain nil.</p>
+
+<h3>RAC vs. KVO</h3>
+
+<p>KVO is neither pleasant nor easy to use: its API is overwrought with unused parameters and sorely lacking a blocks-based interface.</p>
+
+<h3>RAC vs. Bindings</h3>
+
+<p>RAC offers a clear, understandable, and extensible code-based API that works in iOS and is apt to replace all but the most trivial uses of bindings in your OS X application.</p>
+
+<h2><a href="https://github.com/ReactiveCocoa/ReactiveObjC">ReactiveObjC</a></h2>
+
+<p>ReactiveObjC(RAC) is an Objective-C framework inspired by <a href="https://en.wikipedia.org/wiki/Functional_reactive_programming">Functional Reactive Programming</a>.<br/>
+It provides APIs for <strong>composing and transforming streams of values. </strong><br/>
+ReactiveObjC supports OS X 10.8+ and <strong>iOS 8.0+</strong>.</p>
+
+<h3>Features:</h3>
+
+<ol>
+<li>RAC provides <strong>signals</strong> (represented by <strong>RACSigal</strong>) that capture present and future values.</li>
+<li>RAC provides <strong>unified approach</strong> to dealing with asynchronous behaviors.</li>
+<li>Signals can be <strong>chained together</strong> and operated on.</li>
+<li>Signals can be used to <strong>derive state</strong>.</li>
+<li>Signals can be built on <strong>any stream of values</strong> over time.</li>
+<li>Signals can also represent timers, other UI events, or anything else that <strong>changes over time</strong>.</li>
+<li>Signals can be chained to <strong>sequentially execute asynchronous operations</strong>, instead of nesting callbacks with blocks.</li>
+<li>RAC even makes it easy to <strong>bind</strong> to the result of an asynchronous operation.</li>
+</ol>
+
+
+<h3>When to use ReactiveObjC</h3>
+
+<ol>
+<li>Handling asynchronous or event-driven data sources.</li>
+<li>Chaining dependent operations.</li>
+<li>Parallelizing independent work.</li>
+<li>Simplifying collection transformations.<p class='post-footer'>
+原始地址：
+<a href='http://sxgfxm.github.io/blog/2017/09/29/ioszhi-shi-xiao-ji-170925/'><a href="http://sxgfxm.github.io/blog/2017/09/29/ioszhi-shi-xiao-ji-170925/">http://sxgfxm.github.io/blog/2017/09/29/ioszhi-shi-xiao-ji-170925/</a></a><br/>
+written by <a href='http://sxgfxm.github.io'>Light</a>
+&nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
+</p></li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-170918]]></title>
@@ -3487,250 +3641,6 @@ Bonjour is Apple’s implementation of a suite of zero-configuration networking 
 <p class='post-footer'>
   原始地址：
   <a href='http://sxgfxm.github.io/blog/2017/06/09/ioszhi-shi-xiao-ji-170522/'>http://sxgfxm.github.io/blog/2017/06/09/ioszhi-shi-xiao-ji-170522/</a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-170515]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170515/"/>
-    <updated>2017-05-17T16:57:00+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170515</id>
-    <content type="html"><![CDATA[<h2>更新cocoapods版本</h2>
-
-<p>正式版：<code>sudo gem install cocoapods</code><br/>
-开发版：<code>sudo gem install cocoapods --pre </code></p>
-
-<!-- more -->
-
-
-<h2>Get local bundle</h2>
-
-<p>通过<code>frameworkName</code>和<code>bundleName</code>获取对应bundle。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">+</span> <span class="p">(</span><span class="bp">NSBundle</span> <span class="o">*</span><span class="p">)</span><span class="nf">getBundleWithFrameworkName:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">frameworkName</span> <span class="nf">bundleName:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">bundleName</span> <span class="p">{</span>
-</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">tmpBundleName</span> <span class="o">=</span> <span class="p">[</span><span class="n">bundleName</span> <span class="k">copy</span><span class="p">];</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">[</span><span class="n">bundleName</span> <span class="nl">hasSuffix</span><span class="p">:</span><span class="s">@&quot;.bundle&quot;</span><span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">tmpBundleName</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;%@.bundle&quot;</span><span class="p">,</span> <span class="n">tmpBundleName</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">mainBundlePath</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSBundle</span> <span class="n">mainBundle</span><span class="p">]</span> <span class="n">resourcePath</span><span class="p">];</span>
-</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">bundlePath</span> <span class="o">=</span> <span class="p">[</span><span class="n">mainBundlePath</span> <span class="nl">stringByAppendingPathComponent</span><span class="p">:</span><span class="n">tmpBundleName</span><span class="p">];</span>
-</span><span class='line'>  <span class="bp">NSBundle</span> <span class="o">*</span><span class="n">bundle</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSBundle</span> <span class="nl">bundleWithPath</span><span class="p">:</span><span class="n">bundlePath</span><span class="p">];</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">bundle</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">bundle</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">tempFramework</span> <span class="o">=</span> <span class="p">[</span><span class="n">frameworkName</span> <span class="k">copy</span><span class="p">];</span>
-</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">frameExtension</span> <span class="o">=</span> <span class="s">@&quot;.framework&quot;</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">[</span><span class="n">tempFramework</span> <span class="nl">hasSuffix</span><span class="p">:</span><span class="n">frameExtension</span><span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">tempFramework</span> <span class="o">=</span> <span class="p">[</span><span class="n">tempFramework</span> <span class="nl">stringByAppendingString</span><span class="p">:</span><span class="n">frameExtension</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">path</span> <span class="o">=</span> <span class="p">[[[</span><span class="bp">NSBundle</span> <span class="n">mainBundle</span><span class="p">]</span> <span class="n">privateFrameworksPath</span><span class="p">]</span> <span class="nl">stringByAppendingPathComponent</span><span class="p">:</span><span class="n">tempFramework</span><span class="p">];</span>
-</span><span class='line'>  <span class="k">return</span> <span class="p">[</span><span class="bp">NSBundle</span> <span class="nl">bundleWithPath</span><span class="p">:[</span><span class="n">path</span> <span class="nl">stringByAppendingPathComponent</span><span class="p">:</span><span class="n">tmpBundleName</span><span class="p">]];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Localized string in cocoapods</h2>
-
-<p>在自定义pod中添加语言本地化：<br/>
-1. 为<code>MyPod</code>添加语言路径<code>MyPod/Languages/**/*</code>,pod中使用的不同语言的<code>.strings</code>存放在该目录下；<br/>
-2. 在<code>MyPod.podspec</code>文件中添加语言bundle：<code>s.resource_bundles = {'LanguageBundle' =&gt; ['MyPod/Languages/**/*']}</code>；<br/>
-3. 添加简便调用方法：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">NSString</span> <span class="o">*</span><span class="nf">XGLocalizedString</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="n">key</span><span class="p">,</span> <span class="bp">NSString</span> <span class="o">*</span><span class="n">comment</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">return</span> <span class="p">[</span><span class="n">XGFitnessLocalize</span> <span class="nl">localizedString</span><span class="p">:</span><span class="n">key</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nf">localizedString:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">key</span> <span class="p">{</span>
-</span><span class='line'>  <span class="c1">//  key == nil, return nil;</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">key</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">key</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="c1">//  system language</span>
-</span><span class='line'>  <span class="bp">NSUserDefaults</span> <span class="o">*</span><span class="n">defaults</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSUserDefaults</span> <span class="n">standardUserDefaults</span><span class="p">];</span>
-</span><span class='line'>  <span class="bp">NSArray</span> <span class="o">*</span><span class="n">languages</span> <span class="o">=</span> <span class="p">[</span><span class="n">defaults</span> <span class="nl">objectForKey</span><span class="p">:</span><span class="n">kAppleLanguageKey</span><span class="p">];</span>
-</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">language</span> <span class="o">=</span> <span class="p">[</span><span class="n">languages</span> <span class="n">firstObject</span><span class="p">];</span>
-</span><span class='line'>  <span class="c1">//  set default language</span>
-</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">fileNamePrefix</span> <span class="o">=</span> <span class="n">language</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">([</span><span class="n">fileNamePrefix</span> <span class="nl">isEqualToString</span><span class="p">:</span><span class="n">kLanguageEnglish</span><span class="p">]</span> <span class="o">||</span>
-</span><span class='line'>        <span class="p">[</span><span class="n">fileNamePrefix</span> <span class="nl">isEqualToString</span><span class="p">:</span><span class="n">kLanguageSimplifiedChinese</span><span class="p">]</span> <span class="o">||</span>
-</span><span class='line'>        <span class="p">[</span><span class="n">fileNamePrefix</span> <span class="nl">isEqualToString</span><span class="p">:</span><span class="n">kLanguageTraditionalChinese</span><span class="p">]))</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">fileNamePrefix</span> <span class="o">=</span> <span class="n">kDefaultLanguage</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="c1">//  language bundle</span>
-</span><span class='line'>  <span class="bp">NSBundle</span> <span class="o">*</span><span class="n">languageBundle</span> <span class="o">=</span>
-</span><span class='line'>      <span class="p">[</span><span class="n">WWFitnessBundleUtil</span> <span class="nl">getBundleWithFrameworkName</span><span class="p">:</span><span class="n">kFrameworkName</span> <span class="nl">bundleName</span><span class="p">:</span><span class="n">kLanguageBundleName</span><span class="p">];</span>
-</span><span class='line'>  <span class="c1">//  lproj bundle</span>
-</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">path</span> <span class="o">=</span> <span class="p">[</span><span class="n">languageBundle</span> <span class="nl">pathForResource</span><span class="p">:</span><span class="n">fileNamePrefix</span> <span class="nl">ofType</span><span class="p">:</span><span class="s">@&quot;lproj&quot;</span><span class="p">];</span>
-</span><span class='line'>  <span class="bp">NSBundle</span> <span class="o">*</span><span class="n">lprojBundle</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSBundle</span> <span class="nl">bundleWithPath</span><span class="p">:</span><span class="n">path</span><span class="p">];</span>
-</span><span class='line'>  <span class="c1">//  localized string</span>
-</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">localizedString</span> <span class="o">=</span> <span class="p">[</span><span class="n">lprojBundle</span> <span class="nl">localizedStringForKey</span><span class="p">:</span><span class="n">key</span> <span class="nl">value</span><span class="p">:</span><span class="s">@&quot;&quot;</span> <span class="nl">table</span><span class="p">:</span><span class="s">@&quot;Localizable&quot;</span><span class="p">];</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">localizedString</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">localizedString</span> <span class="o">=</span> <span class="n">key</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">localizedString</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Image in cocoapods</h2>
-
-<p>在自定义pod中添加图片步骤：<br/>
-1. 为<code>MyPod</code>添加图片路径<code>MyPod/Assets/Images</code>,pod中使用的图片存放在该目录下；<br/>
-2. 在<code>MyPod.podspec</code>文件中添加图片bundle：<code>s.resource_bundles = {'ImageBundle' =&gt; ['MyPod/Assets/Images/**/*']}</code>；<br/>
-3. 为<code>UIImage</code>添加类别方法<code>bundleImageNamed:</code></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@implementation</span> <span class="bp">UIImage</span> <span class="nl">(BundleImage)</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nf">bundleImageNamed:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span> <span class="p">{</span>
-</span><span class='line'>  <span class="bp">NSBundle</span> <span class="o">*</span><span class="n">imageBundle</span> <span class="o">=</span> <span class="p">[</span><span class="n">WWFitnessBundleUtil</span> <span class="nl">getBundleWithFrameworkName</span><span class="p">:</span><span class="s">@&quot;MyPod&quot;</span> <span class="nl">bundleName</span><span class="p">:</span><span class="s">@&quot;ImageBundle&quot;</span><span class="p">];</span>
-</span><span class='line'>  <span class="k">return</span> <span class="p">[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:</span><span class="n">name</span> <span class="nl">inBundle</span><span class="p">:</span><span class="n">imageBundle</span> <span class="nl">compatibleWithTraitCollection</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Font in cocoapods</h2>
-
-<p>自定义字体无法静态添加到自定义pod中，需要动态注册字体才能使用。<br/>
-1. 为<code>MyPod</code>添加字体路径<code>MyPod/Fonts</code>,pod中使用的字体存放在该目录下；<br/>
-2. 在<code>MyPod.podspec</code>文件中添加字体bundle：<code>s.resource_bundles = {'FontBundle' =&gt; ['MyPod/Fonts/*']}</code>；<br/>
-3. 创建注册字体方法，并在使用前仅调用一次。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &lt;CoreText/CTFontManager.h&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">registerFitnessFont</span> <span class="p">{</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">self</span> <span class="nl">registerFitnessFont</span><span class="p">:</span><span class="s">@&quot;DIN-Regular&quot;</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">self</span> <span class="nl">registerFitnessFont</span><span class="p">:</span><span class="s">@&quot;DIN-Medium&quot;</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">self</span> <span class="nl">registerFitnessFont</span><span class="p">:</span><span class="s">@&quot;DIN-Bold&quot;</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">registerFitnessFont:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">fontName</span> <span class="p">{</span>
-</span><span class='line'>  <span class="bp">NSBundle</span> <span class="o">*</span><span class="n">fontBundle</span> <span class="o">=</span> <span class="p">[</span><span class="n">WWFitnessBundleUtil</span> <span class="nl">getBundleWithFrameworkName</span><span class="p">:</span><span class="s">@&quot;MyPod&quot;</span> <span class="nl">bundleName</span><span class="p">:</span><span class="s">@&quot;FontBundle&quot;</span><span class="p">];</span>
-</span><span class='line'>  <span class="bp">NSURL</span> <span class="o">*</span><span class="n">fontURL</span> <span class="o">=</span> <span class="p">[</span><span class="n">fontBundle</span> <span class="nl">URLForResource</span><span class="p">:</span><span class="n">fontName</span> <span class="nl">withExtension</span><span class="p">:</span><span class="s">@&quot;otf&quot;</span> <span class="cm">/*or TTF*/</span><span class="p">];</span>
-</span><span class='line'>  <span class="bp">NSData</span> <span class="o">*</span><span class="n">inData</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSData</span> <span class="nl">dataWithContentsOfURL</span><span class="p">:</span><span class="n">fontURL</span><span class="p">];</span>
-</span><span class='line'>  <span class="n">CFErrorRef</span> <span class="n">error</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">CGDataProviderRef</span> <span class="n">provider</span> <span class="o">=</span> <span class="n">CGDataProviderCreateWithCFData</span><span class="p">((</span><span class="n">CFDataRef</span><span class="p">)</span><span class="n">inData</span><span class="p">);</span>
-</span><span class='line'>  <span class="n">CGFontRef</span> <span class="n">font</span> <span class="o">=</span> <span class="n">CGFontCreateWithDataProvider</span><span class="p">(</span><span class="n">provider</span><span class="p">);</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">CTFontManagerRegisterGraphicsFont</span><span class="p">(</span><span class="n">font</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">error</span><span class="p">))</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">CFStringRef</span> <span class="n">errorDescription</span> <span class="o">=</span> <span class="n">CFErrorCopyDescription</span><span class="p">(</span><span class="n">error</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Failed to load font: %@&quot;</span><span class="p">,</span> <span class="n">errorDescription</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">CFRelease</span><span class="p">(</span><span class="n">errorDescription</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="n">CFSafeRelease</span><span class="p">(</span><span class="n">font</span><span class="p">);</span>
-</span><span class='line'>  <span class="n">CFSafeRelease</span><span class="p">(</span><span class="n">provider</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="kt">void</span> <span class="nf">CFSafeRelease</span><span class="p">(</span><span class="n">CFTypeRef</span> <span class="n">cf</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">cf</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">CFRelease</span><span class="p">(</span><span class="n">cf</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170515/'>http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170515/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>

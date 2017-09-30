@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-09-22T11:43:42+08:00</updated>
+  <updated>2017-09-30T10:07:17+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,140 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-170925]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/09/29/ioszhi-shi-xiao-ji-170925/"/>
+    <updated>2017-09-29T17:49:31+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/09/29/ioszhi-shi-xiao-ji-170925</id>
+    <content type="html"><![CDATA[<h2>URL encode</h2>
+
+<p>string -> url，特殊字符需要编码。
+<code>objective-c
+- (NSString *)urlEncode:(NSString *)string {
+  NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:@";/?:@=&amp;&lt;&gt;\"#%{}|\\^~[]` ()"].invertedSet;
+  return [string stringByAddingPercentEncodingWithAllowedCharacters:set];
+}
+</code></p>
+
+<!-- more -->
+
+
+<h2>Git fetch remote branch</h2>
+
+<pre><code>  git fetch
+  git checkout -b localBanchName remoteBranchName
+  git branch -vv
+</code></pre>
+
+<h2>NSNumberFormatter</h2>
+
+<pre><code class="objective-c">  NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+  formatter.numberStyle = NSNumberFormatterPercentStyle;
+  NSNumber *number = [formatter numberFromString:index];
+</code></pre>
+
+<h2>layoutSubviews</h2>
+
+<p>当frame改变时调用</p>
+
+<h2>AVAudioSession</h2>
+
+<p>The session&rsquo;s category and mode together define how the application intends to use audio.</p>
+
+<h2>AVAudioSessionCategory</h2>
+
+<p>Each app running in iOS has a single audio session, which in turn has a single category. You can change your audio session’s category while your app is running.</p>
+
+<p><strong>AVAudioSessionCategoryAmbient</strong>：可以与其他app混合，锁屏停止播放，受静音键控制。<br/>
+<strong>AVAudioSessionCategorySoloAmbient</strong>：默认设置，不可以与其他app混合，锁屏停止播放，受静音键控制。<br/>
+<strong>AVAudioSessionCategoryPlayback</strong>：混合其他app需要设置，后台播放需要设置，锁屏继续播放，不受静音键控制。<br/>
+<strong>AVAudioSessionCategoryRecord</strong>：用于录音，会打断音频播放，后台录音需要设置，且需要申请录音权限。<br/>
+<strong>AVAudioSessionCategoryPlayAndRecord</strong>：既可以录音也可以播放，混合其他app需要设置。<br/>
+<strong>AVAudioSessionCategoryMultiRoute</strong>：既可以录音也可以播放，用于多路输出。</p>
+
+<h2>AVAudioSessionCategoryOptions</h2>
+
+<p>Constants that specify optional audio behaviors. Each option is valid only with specific audio session categories.<br/>
+options需要配合category使用。</p>
+
+<p><strong>AVAudioSessionCategoryOptionMixWithOthers</strong>：允许与其他active session混合。<br/>
+<strong>AVAudioSessionCategoryOptionDuckOthers</strong>：使其他audio session声音减弱。<br/>
+<strong>AVAudioSessionCategoryOptionAllowBluetooth</strong>：使蓝牙设备可作为音频输入设备。<br/>
+<strong>AVAudioSessionCategoryOptionDefaultToSpeaker</strong>：在没有其他输出设备时，通过手机扬声器播放音频，否则通过听筒播放。<br/>
+<strong>AVAudioSessionCategoryOptionInterruptSpokenAudioAndMixWithOthers</strong>：会暂停其他音乐播放，适用于指引类app。<br/>
+<strong>AVAudioSessionCategoryOptionAllowAirPlay</strong>：允许AirPlay播放。<br/>
+<strong>AVAudioSessionCategoryOptionAllowBluetoothA2DP</strong>：允许蓝牙播放。</p>
+
+<p>语音识别界面：可录音，可播放，不受静音键控制；可混合；扬声器发声；可蓝牙播放；可后台播放。</p>
+
+<h2><a href="https://github.com/ReactiveCocoa/ReactiveCocoa">ReactiveCocoa</a></h2>
+
+<p>ReactiveCocoa is an open source library that brings Functional Reactive Programming paradigm to Objective-C.<br/>
+Functional Reactive Programming (FRP) is a way of thinking about software in terms of transforming inputs to produce output continuously over time.</p>
+
+<p>ReactiveCocoa is comprised of two major components: signals (<strong>RACSignal</strong>) and sequences (<strong>RACSequence</strong>).
+Both signals and sequences are kinds of streams, sharing many of the same operators. Signals are a push-driven stream, and sequences are a pull-driven stream.</p>
+
+<h3>RACSignal</h3>
+
+<ol>
+<li>Handling Asynchronous Or Event-driven Data Sources.</li>
+<li>Chaining Dependent Operations.</li>
+<li>Parallelizing Independent Work.</li>
+</ol>
+
+
+<p>Events signals send:<br/>
+1. The <strong>next</strong> event provides a new value from the stream.
+2. The <strong>error</strong> event indicates that an error occurred before the signal could finish.
+3. The <strong>completed</strong> event indicates that the signal finished successfully, and that no more values will be added to the stream.</p>
+
+<h3>RACSequence</h3>
+
+<p>Simplifying Collection Transformations.<br/>
+The values in a sequence are evaluated lazily (i.e., only when they are needed) by default.<br/>
+Just like Cocoa collections, sequences cannot contain nil.</p>
+
+<h3>RAC vs. KVO</h3>
+
+<p>KVO is neither pleasant nor easy to use: its API is overwrought with unused parameters and sorely lacking a blocks-based interface.</p>
+
+<h3>RAC vs. Bindings</h3>
+
+<p>RAC offers a clear, understandable, and extensible code-based API that works in iOS and is apt to replace all but the most trivial uses of bindings in your OS X application.</p>
+
+<h2><a href="https://github.com/ReactiveCocoa/ReactiveObjC">ReactiveObjC</a></h2>
+
+<p>ReactiveObjC(RAC) is an Objective-C framework inspired by <a href="https://en.wikipedia.org/wiki/Functional_reactive_programming">Functional Reactive Programming</a>.<br/>
+It provides APIs for <strong>composing and transforming streams of values. </strong><br/>
+ReactiveObjC supports OS X 10.8+ and <strong>iOS 8.0+</strong>.</p>
+
+<h3>Features:</h3>
+
+<ol>
+<li>RAC provides <strong>signals</strong> (represented by <strong>RACSigal</strong>) that capture present and future values.</li>
+<li>RAC provides <strong>unified approach</strong> to dealing with asynchronous behaviors.</li>
+<li>Signals can be <strong>chained together</strong> and operated on.</li>
+<li>Signals can be used to <strong>derive state</strong>.</li>
+<li>Signals can be built on <strong>any stream of values</strong> over time.</li>
+<li>Signals can also represent timers, other UI events, or anything else that <strong>changes over time</strong>.</li>
+<li>Signals can be chained to <strong>sequentially execute asynchronous operations</strong>, instead of nesting callbacks with blocks.</li>
+<li>RAC even makes it easy to <strong>bind</strong> to the result of an asynchronous operation.</li>
+</ol>
+
+
+<h3>When to use ReactiveObjC</h3>
+
+<ol>
+<li>Handling asynchronous or event-driven data sources.</li>
+<li>Chaining dependent operations.</li>
+<li>Parallelizing independent work.</li>
+<li>Simplifying collection transformations.</li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-170918]]></title>
@@ -350,81 +484,6 @@ git branch -D &lt;branch_name&gt; // force delete
 <h2>智能家居控制</h2>
 
 <p>分解</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-170821]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/08/28/ioszhi-shi-xiao-ji-170821/"/>
-    <updated>2017-08-28T11:39:03+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/08/28/ioszhi-shi-xiao-ji-170821</id>
-    <content type="html"><![CDATA[<h2>ipa架构</h2>
-
-<pre><code>IPA File
-  Payload
-    {appname}.app
-      Application Binary
-      Mobile Provision File
-      Code Signature
-      Bundled Resource File
-  iTunesArtwork
-  iTunesMetadata.plist
-</code></pre>
-
-<!-- more -->
-
-
-<h2>Insecure Local Data Storage</h2>
-
-<ol>
-<li>PropertyList files</li>
-<li>NSUserDefaults class</li>
-<li>KeyChain</li>
-<li>CoreData and SQLite databases</li>
-</ol>
-
-
-<h2>Apple Data Protection API</h2>
-
-<ol>
-<li>Complete Protection (NSFileProtectionComplete)</li>
-<li>Protected Unless Open (NSFileProtectionCompleteUnlessOpen)</li>
-<li>Protected Until First User Authentication (NSFileProtectionCompleteUntilFirstUserAuthentication)</li>
-<li>No Protection (NSFileProtectionNone)</li>
-</ol>
-
-
-<h2>NSTimeZone</h2>
-
-<pre><code class="objective-c">NSTimeZone *timeZone = [NSTimeZone localTimeZone];
-//  Asia/Shanghai
-NSString *name = timeZone.name;
-//  GMT+8
-NSString *abbreviation = timeZone.abbreviation;
-</code></pre>
-
-<h2>Prevent Buffer Overflows</h2>
-
-<ol>
-<li>Address Space Layout Randomization (ASLR)</li>
-<li>Automatic Reference Counting (ARC)</li>
-<li>Stack Protectors</li>
-</ol>
-
-
-<h2>System Call</h2>
-
-<pre><code class="objective-c">-(void)makeCall:(NSString *)phone{
-  NSString *phoneNumber = [@"telprompt://" stringByAppendingString:phone];
-  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
-}
-</code></pre>
-
-<h2>NSString to NSURL</h2>
-
-<pre><code class="objective-c">NSString *encodeURL = [string stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-NSURL *url = [NSURL URLWithString:encodeURL];
-</code></pre>
 ]]></content>
   </entry>
   
