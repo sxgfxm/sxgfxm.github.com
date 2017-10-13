@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-09-30T15:11:45+08:00</updated>
+  <updated>2017-10-13T17:09:28+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,97 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-171009]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/10/13/ioszhi-shi-xiao-ji-171009/"/>
+    <updated>2017-10-13T17:04:25+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/10/13/ioszhi-shi-xiao-ji-171009</id>
+    <content type="html"><![CDATA[<h2>NSInteger to NSData</h2>
+
+<pre><code class="objective-c">  -(NSData*)dataWithInteger:(NSInteger)integer{
+    return [NSData dataWithBytes:&amp;integer length:sizeof(integer)];
+  }
+</code></pre>
+
+<h2>UICollectionView contentInset</h2>
+
+<p>设置内容距离上下左右的间距。</p>
+
+<!-- more -->
+
+
+<h2>Snapshot CKComponent</h2>
+
+<pre><code class="objective-c">#import "CKComponentSnapshotTestCase.h"
+
+#import &lt;ComponentKitTestHelpers/CKComponentLifecycleTestHelper.h&gt;
+
+const CKComponentLayout componentLayout = [component layoutThatFits:sizeRange parentSize:sizeRange.max];
+CKComponentLifecycleTestHelper *componentLifecycleTestController = [[CKComponentLifecycleTestHelper alloc] initWithComponentProvider:nil sizeRangeProvider:nil];
+[componentLifecycleTestController updateWithState:(CKComponentLifecycleTestHelperState){
+  .componentLayout = componentLayout
+}];
+UIView *view = [[UIView alloc] initWithFrame:{0,0, componentLayout.size.width, componentLayout.size.height}];
+[componentLifecycleTestController attachToView:view];
+</code></pre>
+
+<pre><code class="objective-c">- (UIImage *)_imageForViewOrLayer:(id)viewOrLayer
+{
+  if ([viewOrLayer isKindOfClass:[UIView class]]) {
+    if (_usesDrawViewHierarchyInRect) {
+      return [UIImage fb_imageForView:viewOrLayer];
+    } else {
+      return [UIImage fb_imageForViewLayer:viewOrLayer];
+    }
+  } else if ([viewOrLayer isKindOfClass:[CALayer class]]) {
+    return [UIImage fb_imageForLayer:viewOrLayer];
+  } else {
+    [NSException raise:@"Only UIView and CALayer classes can be snapshotted" format:@"%@", viewOrLayer];
+  }
+  return nil;
+}
+</code></pre>
+
+<pre><code class="objective-c">+ (UIImage *)fb_imageForView:(UIView *)view
+{
+  CGRect bounds = view.bounds;
+  NSAssert1(CGRectGetWidth(bounds), @"Zero width for view %@", view);
+  NSAssert1(CGRectGetHeight(bounds), @"Zero height for view %@", view);
+
+  // If the input view is already a UIWindow, then just use that. Otherwise wrap in a window.
+  UIWindow *window = [view isKindOfClass:[UIWindow class]] ? (UIWindow *)view : view.window;
+  BOOL removeFromSuperview = NO;
+  if (!window) {
+    window = [[UIApplication sharedApplication] fb_strictKeyWindow];
+  }
+
+  if (!view.window &amp;&amp; view != window) {
+    [window addSubview:view];
+    removeFromSuperview = YES;
+  }
+
+  UIGraphicsBeginImageContextWithOptions(bounds.size, NO, 0);
+  [view layoutIfNeeded];
+  [view drawViewHierarchyInRect:view.bounds afterScreenUpdates:YES];
+
+  UIImage *snapshot = UIGraphicsGetImageFromCurrentImageContext();
+  UIGraphicsEndImageContext();
+
+  if (removeFromSuperview) {
+    [view removeFromSuperview];
+  }
+
+  return snapshot;
+}
+</code></pre>
+
+<h2>Border &amp;&amp; Shadow</h2>
+
+<p>圆角可以和Border并存，Border属于bounds里面，不会被剪切掉；
+圆角不能和Shadow并存，<code>maskToBounds</code>会剪切掉Shadow；</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-170925]]></title>
@@ -363,127 +454,6 @@ git branch -D &lt;branch_name&gt; // force delete
 <h2>MVC</h2>
 
 <h2>&lt;> &amp; &ldquo;&rdquo;</h2>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-170828]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/09/04/ioszhi-shi-xiao-ji-170828/"/>
-    <updated>2017-09-04T14:12:44+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/09/04/ioszhi-shi-xiao-ji-170828</id>
-    <content type="html"><![CDATA[<h2>TableView Header / Footer Height</h2>
-
-<p>UITableView默认有section header/footer高度，设为0无效，最小可设为1。</p>
-
-<h2>CNContactPickerViewController</h2>
-
-<pre><code class="objective-c">-(void)pickContact{
-  CNContactPickerViewController *controller = [[CNContactPickerViewController alloc] init];
-  controller.delegate = self;
-  [self presentViewController:controller animated:YES completion:nil];
-}
-
-- (void)contactPicker:(CNContactPickerViewController *)picker
-    didSelectContactProperty:(CNContactProperty *)contactProperty {
-  CNContact *contact = contactProperty.contact;
-  NSString *name = [CNContactFormatter stringFromContact:contact style:CNContactFormatterStyleFullName];
-  CNPhoneNumber *phoneValue = contactProperty.value;
-  NSString *phoneNumber = phoneValue.stringValue;
-  NSLog(@"%@--%@", name, phoneNumber);
-}
-</code></pre>
-
-<!-- more -->
-
-
-<h2>CNContactStore</h2>
-
-<p>info.plist添加<code>Privacy - Contacts Usage Description</code>。</p>
-
-<pre><code class="objective-c">- (void)checkAuthorization {
-  NSLog(@"Contact - Check Authorization");
-  //  status
-  CNAuthorizationStatus status =
-      [CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts];
-  //  check authorization
-  if (status != CNAuthorizationStatusAuthorized) {
-    NSLog(@"Contact - Not Authorized");
-    //  request access
-    CNContactStore *store = [CNContactStore new];
-    NSLog(@"Contact - Request Authorization");
-    [store
-        requestAccessForEntityType:CNEntityTypeContacts
-                 completionHandler:^(BOOL granted, NSError *_Nullable error) {
-                   if (granted) {
-                     //  YES
-                     NSLog(@"Contact - Authorized");
-                     [self fetchContact];
-                   } else {
-                     //  No
-                     NSLog(@"Contact - Not Authorized");
-                   }
-                 }];
-  } else {
-    NSLog(@"Contact - Authorized");
-    [self fetchContact];
-  }
-}
-
-- (void)fetchContact {
-  NSLog(@"Contact - Fetch Contact");
-  //  keys
-  NSArray *keys = @[
-    CNContactPhoneNumbersKey,
-    CNContactGivenNameKey,
-    CNContactFamilyNameKey
-  ];
-  //  request
-  CNContactFetchRequest *request =
-      [[CNContactFetchRequest alloc] initWithKeysToFetch:keys];
-  //  store
-  NSError *error = nil;
-  CNContactStore *store = [CNContactStore new];
-  [store
-      enumerateContactsWithFetchRequest:request
-                                  error:&amp;error
-                             usingBlock:^(CNContact *_Nonnull contact,
-                                          BOOL *_Nonnull stop) {
-                               //  contact
-                               NSString *firstName = contact.familyName;
-                               NSString *lastName = contact.givenName;
-                               NSLog(@"%@ %@", firstName, lastName);
-                               //  phone number
-                               for (CNLabeledValue *labeledValue in contact
-                                        .phoneNumbers) {
-                                 CNPhoneNumber *phoneValue = labeledValue.value;
-                                 NSString *phoneNumber = phoneValue.stringValue;
-                                 NSString *label = [CNLabeledValue
-                                     localizedStringForLabel:labeledValue
-                                                                 .label];
-                                 NSLog(@"%@ : %@", label, phoneNumber);
-                               }
-                               NSLog(@"");
-                             }];
-}
-</code></pre>
-
-<h2>iOS本地化</h2>
-
-<ol>
-<li>Project -> Localizations -> Add Chinese</li>
-<li>New File -> Strings File</li>
-<li>Strings File -> Utities -> Localization -> Add Chinese</li>
-<li>Add Localized String</li>
-</ol>
-
-
-<h2>灯效说明</h2>
-
-<p>继承</p>
-
-<h2>智能家居控制</h2>
-
-<p>分解</p>
 ]]></content>
   </entry>
   
