@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-10-16T20:57:49+08:00</updated>
+  <updated>2017-10-18T09:12:58+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,150 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-171016]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/10/17/ioszhi-shi-xiao-ji-171016/"/>
+    <updated>2017-10-17T19:06:22+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/10/17/ioszhi-shi-xiao-ji-171016</id>
+    <content type="html"><![CDATA[<h2>Clear iOS DeviceSupport to free disk storage</h2>
+
+<p>真机调试时，不同系统的手机会生成不同的Device Support文件，每个大概3GB左右，占用大量磁盘空间。删除不需要的Device Support文件，可以释放大量磁盘空间。
+iOS DeviceSupport 目录路径<code>[User]/Library/Developer/Xcode/iOS DeviceSupport</code></p>
+
+<h2>Compute CKComponent size</h2>
+
+<p>获取component的size。</p>
+
+<pre><code class="objective-c">  #import &lt;ComponentKit/CKComponentSubclass.h&gt;
+
+  - (CGSize)sizeOfComponent:(CKComponent*)component{
+    return [component computeLayoutThatFits: CKSizeRange()].size;
+  }
+</code></pre>
+
+<!-- more -->
+
+
+<h2>CKComponentRootView</h2>
+
+<p>获取component对应的根视图，在CKComponentController中可以自定义根视图。</p>
+
+<pre><code class="objective-c">  CKComponentRootView *rootView = component.viewContext.view;
+</code></pre>
+
+<h2>CKComponentController</h2>
+
+<ol>
+<li>命名必须为<strong>ComponentName+Controller</strong>，继承至CKComponentController；</li>
+<li>Component必须添加<strong>Scope</strong>，<code>CKComponentScope scope(self, model)</code>；</li>
+<li>ComponentController可以监控component的生命周期，进行设置；</li>
+<li><code>-didMount</code>，已经加载完成，包括所有的子component；</li>
+<li><code>-willUpdateComponent</code>，component即将更新时调用；</li>
+<li><code>-willRemount</code>，component正在update或root component被关联到其他root view时调用；</li>
+<li><code>-componentTreeWillAppear</code>，当调用<code>-willDisplayCell:for{Row|Item}AtIndexPath:</code>时调用；</li>
+</ol>
+
+
+<h2><a href="https://github.com/lefex/TCZLocalizableTool">TCZLocalizableTool</a></h2>
+
+<p>通过Python脚本检查本地化文件中语法错误。</p>
+
+<h2>Horizontal ScrollComponent of CKComponent</h2>
+
+<p>Add a horizontal UIScrollView to a vertical UICollectionView by ComponentKit.</p>
+
+<ol>
+<li>Create a <strong>CKStackLayoutComponent</strong> component and set [<strong>UIScrollView</strong> class] in block newWithView;</li>
+<li>In <code>-didMount</code>, get the scroll view and set its <code>contentSize</code>;</li>
+<li>In <code>-didUpdateComponent</code>, update its <code>contentSize</code> if the component has changed.</li>
+</ol>
+
+
+<p>.h</p>
+
+<pre><code>#import &lt;ComponentKit/ComponentKit.h&gt;
+
+@interface XGHorizontalScrollComponent : CKCompositeComponent
+
++ (instancetype)newWithChildren:(std::vector&lt;CKStackLayoutComponentChild&gt;)children;
+
+@end
+
+@interface XGHorizontalScrollComponentController : CKComponentController
+
+@end
+</code></pre>
+
+<p>.mm</p>
+
+<pre><code>#import "XGHorizontalScrollComponent.h"
+#import &lt;ComponentKit/CKComponentSubclass.h&gt;
+
+@interface XGHorizontalScrollComponent()
+
+@property(nonatomic, strong) CKComponent *scrollComponent;
+
+@end
+
+@implementation XGHorizontalScrollComponent
+
++ (instancetype)newWithChildren:(std::vector&lt;CKStackLayoutComponentChild&gt;)children{
+  CKComponentScope scope(self);
+  CKComponent *content = [CKStackLayoutComponent
+                          newWithView:{
+                            [UIScrollView class]
+                          }
+                          size:{}
+                          style:{
+                            .direction = CKStackLayoutDirectionHorizontal,
+                            .alignItems = CKStackLayoutAlignItemsStretch
+                          }
+                          children:{children}];
+  XGHorizontalScrollComponent *component = [super newWithComponent:content];
+  if (component) {
+    component-&gt;_scrollComponent = content;
+  }
+  return component;
+}
+
+@end
+
+@implementation XGHorizontalScrollComponentController
+
+- (void)didMount {
+  [super didMount];
+  //  Get scroll component
+  XGHorizontalScrollComponent *component = (XGHorizontalScrollComponent*)self.component;
+  CKComponent *scrollComponent = component.scrollComponent;
+  //  Get component size
+  CKSizeRange range = CKSizeRange();
+  CKComponentLayout layout = [scrollComponent computeLayoutThatFits:range];
+  //  Get scroll view
+  UIScrollView *scrollView = (UIScrollView *)scrollComponent.viewContext.view;
+  //  Set scroll view properties, you can custom scrollView here
+  scrollView.showsHorizontalScrollIndicator = NO;
+  scrollView.showsVerticalScrollIndicator = NO;
+  //  Set contentSize
+  [scrollView setContentSize:layout.size];
+}
+
+//  Invoked when the component is updated
+-(void)didUpdateComponent{
+  [super didUpdateComponent];
+  //  Update contentSize
+  XGHorizontalScrollComponent *component = (XGHorizontalScrollComponent*)self.component;
+  CKComponent *scrollComponent = component.scrollComponent;
+  CKSizeRange range = CKSizeRange();
+  CKComponentLayout layout = [scrollComponent computeLayoutThatFits:range];
+  UIScrollView *scrollView = (UIScrollView *)scrollComponent.viewContext.view;
+  [scrollView setContentSize:layout.size];
+}
+
+@end
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-171009]]></title>
@@ -433,27 +577,6 @@ Ra, Sa, and Da are the alpha components of R, S, and D
   return touchPoint.y &gt; 0;
 }
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-170904]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/09/15/ioszhi-shi-xiao-ji-170904/"/>
-    <updated>2017-09-15T17:19:17+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/09/15/ioszhi-shi-xiao-ji-170904</id>
-    <content type="html"><![CDATA[<h2>Git Delete Branch</h2>
-
-<pre><code class="c">git branch -a
-git branch -d &lt;branch_name&gt;
-git branch -D &lt;branch_name&gt; // force delete
-</code></pre>
-
-<!-- more -->
-
-
-<h2>MVC</h2>
-
-<h2>&lt;> &amp; &ldquo;&rdquo;</h2>
 ]]></content>
   </entry>
   

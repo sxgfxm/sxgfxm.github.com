@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-10-16T20:57:49+08:00</updated>
+  <updated>2017-10-18T09:12:58+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,247 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-171016]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/10/17/ioszhi-shi-xiao-ji-171016/"/>
+    <updated>2017-10-17T19:06:22+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/10/17/ioszhi-shi-xiao-ji-171016</id>
+    <content type="html"><![CDATA[<h2>Clear iOS DeviceSupport to free disk storage</h2>
+
+<p>真机调试时，不同系统的手机会生成不同的Device Support文件，每个大概3GB左右，占用大量磁盘空间。删除不需要的Device Support文件，可以释放大量磁盘空间。
+iOS DeviceSupport 目录路径<code>[User]/Library/Developer/Xcode/iOS DeviceSupport</code></p>
+
+<h2>Compute CKComponent size</h2>
+
+<p>获取component的size。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="cp">#import &lt;ComponentKit/CKComponentSubclass.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="o">-</span> <span class="p">(</span><span class="bp">CGSize</span><span class="p">)</span><span class="nl">sizeOfComponent</span><span class="p">:(</span><span class="n">CKComponent</span><span class="o">*</span><span class="p">)</span><span class="n">component</span><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="n">component</span> <span class="nl">computeLayoutThatFits</span><span class="p">:</span> <span class="n">CKSizeRange</span><span class="p">()].</span><span class="n">size</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!-- more -->
+
+
+<h2>CKComponentRootView</h2>
+
+<p>获取component对应的根视图，在CKComponentController中可以自定义根视图。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="n">CKComponentRootView</span> <span class="o">*</span><span class="n">rootView</span> <span class="o">=</span> <span class="n">component</span><span class="p">.</span><span class="n">viewContext</span><span class="p">.</span><span class="n">view</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>CKComponentController</h2>
+
+<ol>
+<li>命名必须为<strong>ComponentName+Controller</strong>，继承至CKComponentController；</li>
+<li>Component必须添加<strong>Scope</strong>，<code>CKComponentScope scope(self, model)</code>；</li>
+<li>ComponentController可以监控component的生命周期，进行设置；</li>
+<li><code>-didMount</code>，已经加载完成，包括所有的子component；</li>
+<li><code>-willUpdateComponent</code>，component即将更新时调用；</li>
+<li><code>-willRemount</code>，component正在update或root component被关联到其他root view时调用；</li>
+<li><code>-componentTreeWillAppear</code>，当调用<code>-willDisplayCell:for{Row|Item}AtIndexPath:</code>时调用；</li>
+</ol>
+
+
+<h2><a href="https://github.com/lefex/TCZLocalizableTool">TCZLocalizableTool</a></h2>
+
+<p>通过Python脚本检查本地化文件中语法错误。</p>
+
+<h2>Horizontal ScrollComponent of CKComponent</h2>
+
+<p>Add a horizontal UIScrollView to a vertical UICollectionView by ComponentKit.</p>
+
+<ol>
+<li>Create a <strong>CKStackLayoutComponent</strong> component and set [<strong>UIScrollView</strong> class] in block newWithView;</li>
+<li>In <code>-didMount</code>, get the scroll view and set its <code>contentSize</code>;</li>
+<li>In <code>-didUpdateComponent</code>, update its <code>contentSize</code> if the component has changed.</li>
+</ol>
+
+
+<p>.h</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &lt;ComponentKit/ComponentKit.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">XGHorizontalScrollComponent</span> : <span class="nc">CKCompositeComponent</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">newWithChildren:</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">CKStackLayoutComponentChild</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">children</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">XGHorizontalScrollComponentController</span> : <span class="nc">CKComponentController</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>.mm</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &quot;XGHorizontalScrollComponent.h&quot;</span>
+</span><span class='line'><span class="cp">#import &lt;ComponentKit/CKComponentSubclass.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">XGHorizontalScrollComponent</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="n">CKComponent</span> <span class="o">*</span><span class="n">scrollComponent</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">XGHorizontalScrollComponent</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">newWithChildren:</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">CKStackLayoutComponentChild</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">children</span><span class="p">{</span>
+</span><span class='line'>  <span class="n">CKComponentScope</span> <span class="n">scope</span><span class="p">(</span><span class="nb">self</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">CKComponent</span> <span class="o">*</span><span class="n">content</span> <span class="o">=</span> <span class="p">[</span><span class="n">CKStackLayoutComponent</span>
+</span><span class='line'>                          <span class="nl">newWithView</span><span class="p">:{</span>
+</span><span class='line'>                            <span class="p">[</span><span class="bp">UIScrollView</span> <span class="k">class</span><span class="p">]</span>
+</span><span class='line'>                          <span class="p">}</span>
+</span><span class='line'>                          <span class="nl">size</span><span class="p">:{}</span>
+</span><span class='line'>                          <span class="nl">style</span><span class="p">:{</span>
+</span><span class='line'>                            <span class="p">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">CKStackLayoutDirectionHorizontal</span><span class="p">,</span>
+</span><span class='line'>                            <span class="p">.</span><span class="n">alignItems</span> <span class="o">=</span> <span class="n">CKStackLayoutAlignItemsStretch</span>
+</span><span class='line'>                          <span class="p">}</span>
+</span><span class='line'>                          <span class="nl">children</span><span class="p">:{</span><span class="n">children</span><span class="p">}];</span>
+</span><span class='line'>  <span class="n">XGHorizontalScrollComponent</span> <span class="o">*</span><span class="n">component</span> <span class="o">=</span> <span class="p">[</span><span class="nb">super</span> <span class="nl">newWithComponent</span><span class="p">:</span><span class="n">content</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">component</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">component</span><span class="o">-&gt;</span><span class="n">_scrollComponent</span> <span class="o">=</span> <span class="n">content</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">component</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">XGHorizontalScrollComponentController</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">didMount</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">super</span> <span class="n">didMount</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  Get scroll component</span>
+</span><span class='line'>  <span class="n">XGHorizontalScrollComponent</span> <span class="o">*</span><span class="n">component</span> <span class="o">=</span> <span class="p">(</span><span class="n">XGHorizontalScrollComponent</span><span class="o">*</span><span class="p">)</span><span class="nb">self</span><span class="p">.</span><span class="n">component</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">CKComponent</span> <span class="o">*</span><span class="n">scrollComponent</span> <span class="o">=</span> <span class="n">component</span><span class="p">.</span><span class="n">scrollComponent</span><span class="p">;</span>
+</span><span class='line'>  <span class="c1">//  Get component size</span>
+</span><span class='line'>  <span class="n">CKSizeRange</span> <span class="n">range</span> <span class="o">=</span> <span class="n">CKSizeRange</span><span class="p">();</span>
+</span><span class='line'>  <span class="n">CKComponentLayout</span> <span class="n">layout</span> <span class="o">=</span> <span class="p">[</span><span class="n">scrollComponent</span> <span class="nl">computeLayoutThatFits</span><span class="p">:</span><span class="n">range</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  Get scroll view</span>
+</span><span class='line'>  <span class="bp">UIScrollView</span> <span class="o">*</span><span class="n">scrollView</span> <span class="o">=</span> <span class="p">(</span><span class="bp">UIScrollView</span> <span class="o">*</span><span class="p">)</span><span class="n">scrollComponent</span><span class="p">.</span><span class="n">viewContext</span><span class="p">.</span><span class="n">view</span><span class="p">;</span>
+</span><span class='line'>  <span class="c1">//  Set scroll view properties, you can custom scrollView here</span>
+</span><span class='line'>  <span class="n">scrollView</span><span class="p">.</span><span class="n">showsHorizontalScrollIndicator</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">scrollView</span><span class="p">.</span><span class="n">showsVerticalScrollIndicator</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+</span><span class='line'>  <span class="c1">//  Set contentSize</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">scrollView</span> <span class="nl">setContentSize</span><span class="p">:</span><span class="n">layout</span><span class="p">.</span><span class="n">size</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//  Invoked when the component is updated</span>
+</span><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">didUpdateComponent</span><span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">super</span> <span class="n">didUpdateComponent</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  Update contentSize</span>
+</span><span class='line'>  <span class="n">XGHorizontalScrollComponent</span> <span class="o">*</span><span class="n">component</span> <span class="o">=</span> <span class="p">(</span><span class="n">XGHorizontalScrollComponent</span><span class="o">*</span><span class="p">)</span><span class="nb">self</span><span class="p">.</span><span class="n">component</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">CKComponent</span> <span class="o">*</span><span class="n">scrollComponent</span> <span class="o">=</span> <span class="n">component</span><span class="p">.</span><span class="n">scrollComponent</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">CKSizeRange</span> <span class="n">range</span> <span class="o">=</span> <span class="n">CKSizeRange</span><span class="p">();</span>
+</span><span class='line'>  <span class="n">CKComponentLayout</span> <span class="n">layout</span> <span class="o">=</span> <span class="p">[</span><span class="n">scrollComponent</span> <span class="nl">computeLayoutThatFits</span><span class="p">:</span><span class="n">range</span><span class="p">];</span>
+</span><span class='line'>  <span class="bp">UIScrollView</span> <span class="o">*</span><span class="n">scrollView</span> <span class="o">=</span> <span class="p">(</span><span class="bp">UIScrollView</span> <span class="o">*</span><span class="p">)</span><span class="n">scrollComponent</span><span class="p">.</span><span class="n">viewContext</span><span class="p">.</span><span class="n">view</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">scrollView</span> <span class="nl">setContentSize</span><span class="p">:</span><span class="n">layout</span><span class="p">.</span><span class="n">size</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2017/10/17/ioszhi-shi-xiao-ji-171016/'>http://sxgfxm.github.io/blog/2017/10/17/ioszhi-shi-xiao-ji-171016/</a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
+  </p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-171009]]></title>
@@ -2319,1051 +2560,6 @@ Create one animation and add to multiple layers.</p>
 <p class='post-footer'>
   原始地址：
   <a href='http://sxgfxm.github.io/blog/2017/06/16/ioszhi-shi-xiao-ji-170612/'>http://sxgfxm.github.io/blog/2017/06/16/ioszhi-shi-xiao-ji-170612/</a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ComponentKit Tutorial]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/06/13/componentkit-tutorial/"/>
-    <updated>2017-06-13T16:23:00+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/06/13/componentkit-tutorial</id>
-    <content type="html"><![CDATA[<h2>What&rsquo;s Component ?</h2>
-
-<p>Components are <strong>immutable objects</strong> that specify how to configure views.<br/>
-A component is a fixed description that can be used to paint a view but that is <strong>not a view itself</strong>.</p>
-
-<!-- more -->
-
-
-<h2>What&rsquo;s Special ?</h2>
-
-<p><strong>Declarative</strong>: You directly declare the hierarchy of the component from up to down. It&rsquo;s different from what we used to layout views. It turns to <strong>layout your children</strong>, not <strong>layout yourself</strong>.<br/>
-<strong>Functional</strong>: Data flows in one direction. Methods take data models and return totally <strong>immutable</strong> components. When state changes, ComponentKit re-renders from the root and reconciles the two component trees from the top with as few changes to the view hierarchy as possible. Cause of one direction data flow, you can focus on how to display the model and simply write unit test for the component.<br/>
-<strong>Composable</strong>: A component is ofen composed of other components, building up a component hierarchy that describes a user interface. You can esaily reuse a component just in one line.</p>
-
-<h2>What&rsquo;s Limitation ？</h2>
-
-<p><strong>ListViews</strong>: ComponetKit is optimized to work well with a <strong>UICollectionView</strong>, and with more effort for <strong>UITableView</strong>. It&rsquo;s not efficient in other situation.<br/>
-<strong>Gestures</strong>: ComponetKit can simply handle tap gesture but it&rsquo;s hard to implement more complicated gestures like panning, pinching, swiping and so on.<br/>
-<strong>Animation</strong>: CKComponent forms a declarative mapping from model to view configuration. Animations should be handled fullyi n the view layer instead of inside Components.<br/>
-<strong>LearningCost</strong>: ComponetKit is developed in C++. It will be difficult when you dig into if you are not familiar with C++. You have to get used to <strong>Reactive Philosophy</strong>.</p>
-
-<h2>How to Define a Component ?</h2>
-
-<p>Avoid subclassing <code>CKComponent</code> directly. Instead, subclassing <code>CKCompositeComponent</code>.<br/>
-A &ldquo;composite component&rdquo; simply wraps another component, hiding its implementation details from the outside world.<br/>
-Steps to define a component:  <br/>
-1. Define the model;<br/>
-2. Define a class inherit from <code>CKCompositeComponent</code>, and change the suffix from <code>.m</code> to <code>.mm</code>, because ComponetKit is developed in C++;<br/>
-3. Add a constructor method use <code>+newWith...</code>;<br/>
-4. Implement the <code>+newWith...</code> method by directly declare the hierarchy of the component.<br/>
-5. Anywhere using component, the suffix of the implementation file should also be <code>.mm</code>.</p>
-
-<p>An example to implement a custom VPADateComponent.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@implementation</span> <span class="nc">VPADateComponent</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//  Data flows in one direction. Component is immutable.</span>
-</span><span class='line'><span class="p">+(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">newWithDateModel:</span><span class="p">(</span><span class="n">VPADateModel</span> <span class="o">*</span><span class="p">)</span><span class="nv">dateModel</span><span class="p">{</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">dateModel</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="c1">//  Directly declare the hierarchy of the component from up to down.</span>
-</span><span class='line'>  <span class="c1">//  VPADateComponent is composed of CKInsetComponent, CKCenterLayoutComponent and CKLabelComponent and they are alse reuseable.</span>
-</span><span class='line'>  <span class="k">return</span> <span class="p">[</span><span class="nb">super</span> <span class="nl">newWithComponent</span><span class="p">:[</span><span class="n">CKInsetComponent</span>
-</span><span class='line'>                                  <span class="nl">newWithInsets</span><span class="p">:{.</span><span class="n">left</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="p">.</span><span class="n">top</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="p">.</span><span class="n">right</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="p">.</span><span class="n">bottom</span> <span class="o">=</span> <span class="mi">10</span><span class="p">}</span>
-</span><span class='line'>                                  <span class="nl">component</span><span class="p">:[</span><span class="n">CKCenterLayoutComponent</span>
-</span><span class='line'>                                             <span class="nl">newWithCenteringOptions</span><span class="p">:</span><span class="n">CKCenterLayoutComponentCenteringXY</span>
-</span><span class='line'>                                             <span class="nl">sizingOptions</span><span class="p">:</span><span class="n">CKCenterLayoutComponentSizingOptionDefault</span>
-</span><span class='line'>                                             <span class="nl">child</span><span class="p">:[</span><span class="n">CKLabelComponent</span>
-</span><span class='line'>                                                    <span class="nl">newWithLabelAttributes</span><span class="p">:{</span>
-</span><span class='line'>                                                      <span class="p">.</span><span class="n">string</span> <span class="o">=</span> <span class="n">formatDate</span><span class="p">(</span><span class="n">dateModel</span><span class="p">.</span><span class="n">date</span><span class="p">),</span>
-</span><span class='line'>                                                      <span class="p">.</span><span class="n">font</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIFont</span> <span class="nl">systemFontOfSize</span><span class="p">:</span><span class="mi">12</span><span class="p">],</span>
-</span><span class='line'>                                                      <span class="p">.</span><span class="n">color</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">]</span>
-</span><span class='line'>                                                    <span class="p">}</span>
-</span><span class='line'>                                                    <span class="nl">viewAttributes</span><span class="p">:{</span>
-</span><span class='line'>                                                      <span class="p">{</span><span class="k">@selector</span><span class="p">(</span><span class="nl">setBackgroundColor</span><span class="p">:),[</span><span class="bp">UIColor</span> <span class="n">clearColor</span><span class="p">]},</span>
-</span><span class='line'>                                                      <span class="p">{</span><span class="k">@selector</span><span class="p">(</span><span class="nl">setUserInteractionEnabled</span><span class="p">:),</span> <span class="m">@NO</span><span class="p">}</span>
-</span><span class='line'>                                                    <span class="p">}</span>
-</span><span class='line'>                                                    <span class="nl">size</span><span class="p">:{}]</span>
-</span><span class='line'>                                             <span class="nl">size</span><span class="p">:{}]]];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">static</span> <span class="bp">NSString</span><span class="o">*</span> <span class="nf">formatDate</span><span class="p">(</span><span class="bp">NSDate</span><span class="o">*</span> <span class="n">date</span><span class="p">){</span>
-</span><span class='line'>  <span class="bp">NSDateFormatter</span> <span class="o">*</span><span class="n">formatter</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSDateFormatter</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'>  <span class="n">formatter</span><span class="p">.</span><span class="n">dateFormat</span> <span class="o">=</span> <span class="s">@&quot;yyyy-MM-dd hh:mm:ss&quot;</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">return</span> <span class="p">[</span><span class="n">formatter</span> <span class="nl">stringFromDate</span><span class="p">:</span><span class="n">date</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Common UI Components</h2>
-
-<h3>CKComponent</h3>
-
-<p>The base class of all Components. You can never directly subclass <code>CKComponent</code>.<br/>
-Constructor:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cm">/**</span>
-</span><span class='line'><span class="cm"> @param view A struct describing the view for this component. Pass {} to specify that no view should be created.</span>
-</span><span class='line'><span class="cm"> @param size A size constraint that should apply to this component. Pass {} to specify no size constraint.</span>
-</span><span class='line'><span class="cm"> */</span>
-</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">newWithView:</span><span class="p">(</span><span class="k">const</span> <span class="n">CKComponentViewConfiguration</span> <span class="o">&amp;</span><span class="p">)</span><span class="nv">view</span>
-</span><span class='line'>                       <span class="nf">size:</span><span class="p">(</span><span class="k">const</span> <span class="n">CKComponentSize</span> <span class="o">&amp;</span><span class="p">)</span><span class="nv">size</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Exmaple:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">CKComponent</span> <span class="o">*</span><span class="n">component</span> <span class="o">=</span> <span class="p">[</span><span class="n">CKComponent</span>
-</span><span class='line'>  <span class="nl">newWithView</span><span class="p">:{</span>
-</span><span class='line'>    <span class="p">[</span><span class="bp">UIView</span> <span class="k">class</span><span class="p">],</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>      <span class="c1">//  set common properties of the view</span>
-</span><span class='line'>      <span class="p">{</span><span class="k">@selector</span><span class="p">(</span><span class="nl">setBackgroundColor</span><span class="p">:),[</span><span class="bp">UIColor</span> <span class="n">redColor</span><span class="p">]},</span>
-</span><span class='line'>      <span class="c1">//  set user interaction</span>
-</span><span class='line'>      <span class="p">{</span><span class="k">@selector</span><span class="p">(</span><span class="nl">setUserInteractionEnabled</span><span class="p">:),</span> <span class="m">@YES</span><span class="p">},</span>
-</span><span class='line'>      <span class="c1">//  set tap gesture</span>
-</span><span class='line'>      <span class="p">{</span><span class="n">CKComponentTapGestureAttribute</span><span class="p">(</span><span class="k">@selector</span><span class="p">(</span><span class="n">tapAction</span><span class="p">))},</span>
-</span><span class='line'>      <span class="c1">//  set layer properties</span>
-</span><span class='line'>      <span class="p">{</span><span class="n">CKComponentViewAttribute</span><span class="o">::</span><span class="n">LayerAttribute</span><span class="p">(</span><span class="k">@selector</span><span class="p">(</span><span class="nl">setCornerRadius</span><span class="p">:)),</span> <span class="mf">@10.0</span><span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="nl">size</span><span class="p">:{</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">}];</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">tapAction</span><span class="p">{</span>
-</span><span class='line'>  <span class="c1">//  add tap action here</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>CKCompositeComponent</h3>
-
-<p><code>CKCompositeComponent</code> allows you to hide your implementation details and avoid subclassing layout components like <code>CKStackLayoutComponent</code>. In almost all cases, you should subclass <code>CKCompositeComponent</code> instead of subclassing any other class directly. This hides your layout implementation details from the outside world.</p>
-
-<h3>CKLabelComponent</h3>
-
-<p>CKLabelComponent is a simplified text component that just displays NSStrings.<br/>
-Constructor:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cm">/**</span>
-</span><span class='line'><span class="cm"> @param attributes The content and styling information for the text component.</span>
-</span><span class='line'><span class="cm"> @param viewAttributes These are passed directly to CKTextComponent and its backing view.</span>
-</span><span class='line'><span class="cm"> @param size The component size or {} for the default which is for the layout to take the maximum space available.</span>
-</span><span class='line'><span class="cm"> */</span>
-</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">newWithLabelAttributes:</span><span class="p">(</span><span class="k">const</span> <span class="n">CKLabelAttributes</span> <span class="o">&amp;</span><span class="p">)</span><span class="nv">attributes</span>
-</span><span class='line'>                        <span class="nf">viewAttributes:</span><span class="p">(</span><span class="k">const</span> <span class="n">CKViewComponentAttributeValueMap</span> <span class="o">&amp;</span><span class="p">)</span><span class="nv">viewAttributes</span>
-</span><span class='line'>                                  <span class="nf">size:</span><span class="p">(</span><span class="k">const</span> <span class="n">CKComponentSize</span> <span class="o">&amp;</span><span class="p">)</span><span class="nv">size</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Example:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">CKLabelComponent</span> <span class="o">*</span><span class="n">labelComponent</span> <span class="o">=</span> <span class="p">[</span><span class="n">CKLabelComponent</span>
-</span><span class='line'>  <span class="nl">newWithLabelAttributes</span><span class="p">:{</span>
-</span><span class='line'>    <span class="p">.</span><span class="n">string</span> <span class="o">=</span> <span class="s">@&quot;Lable Component&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="p">.</span><span class="n">color</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">blackColor</span><span class="p">],</span>
-</span><span class='line'>    <span class="p">.</span><span class="n">font</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIFont</span> <span class="nl">systemFontOfSize</span><span class="p">:</span><span class="mi">17</span><span class="p">],</span>
-</span><span class='line'>    <span class="p">.</span><span class="n">alignment</span> <span class="o">=</span> <span class="n">NSTextAlignmentLeft</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="nl">viewAttributes</span><span class="p">:{</span>
-</span><span class='line'>    <span class="p">{</span><span class="k">@selector</span><span class="p">(</span><span class="nl">setBackgroundColor</span><span class="p">:),[</span><span class="bp">UIColor</span> <span class="n">clearColor</span><span class="p">]},</span>
-</span><span class='line'>    <span class="p">{</span><span class="k">@selector</span><span class="p">(</span><span class="nl">setUserInteractionEnabled</span><span class="p">:),</span> <span class="m">@NO</span><span class="p">}</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="nl">size</span><span class="p">:{.</span><span class="n">maxWidth</span> <span class="o">=</span> <span class="mi">250</span><span class="p">}]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>CKButtonCompoent</h3>
-
-<p>A component that creates a UIButton.<br/>
-Constructor:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cm">/**</span>
-</span><span class='line'><span class="cm"> This component chooses the smallest size within its SizeRange that will fit its content. If its max size is smaller</span>
-</span><span class='line'><span class="cm"> than the size required to fit its content, it will be truncated.</span>
-</span><span class='line'><span class="cm"> */</span>
-</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">newWithTitles:</span><span class="p">(</span><span class="n">CKContainerWrapper</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">UIControlState</span><span class="p">,</span> <span class="bp">NSString</span> <span class="o">*&gt;&gt;</span> <span class="o">&amp;&amp;</span><span class="p">)</span><span class="nv">titles</span>
-</span><span class='line'>                  <span class="nf">titleColors:</span><span class="p">(</span><span class="n">CKContainerWrapper</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">UIControlState</span><span class="p">,</span> <span class="bp">UIColor</span> <span class="o">*&gt;&gt;</span> <span class="o">&amp;&amp;</span><span class="p">)</span><span class="nv">titleColors</span>
-</span><span class='line'>                       <span class="nf">images:</span><span class="p">(</span><span class="n">CKContainerWrapper</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">UIControlState</span><span class="p">,</span> <span class="bp">UIImage</span> <span class="o">*&gt;&gt;</span> <span class="o">&amp;&amp;</span><span class="p">)</span><span class="nv">images</span>
-</span><span class='line'>             <span class="nf">backgroundImages:</span><span class="p">(</span><span class="n">CKContainerWrapper</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">UIControlState</span><span class="p">,</span> <span class="bp">UIImage</span> <span class="o">*&gt;&gt;</span> <span class="o">&amp;&amp;</span><span class="p">)</span><span class="nv">backgroundImages</span>
-</span><span class='line'>                    <span class="nf">titleFont:</span><span class="p">(</span><span class="bp">UIFont</span> <span class="o">*</span><span class="p">)</span><span class="nv">titleFont</span>
-</span><span class='line'>                     <span class="nf">selected:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">selected</span>
-</span><span class='line'>                      <span class="nf">enabled:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">enabled</span>
-</span><span class='line'>                       <span class="nf">action:</span><span class="p">(</span><span class="k">const</span> <span class="n">CKTypedComponentAction</span><span class="o">&lt;</span><span class="bp">UIEvent</span> <span class="o">*&gt;</span> <span class="o">&amp;</span><span class="p">)</span><span class="nv">action</span>
-</span><span class='line'>                         <span class="nf">size:</span><span class="p">(</span><span class="k">const</span> <span class="n">CKComponentSize</span> <span class="o">&amp;</span><span class="p">)</span><span class="nv">size</span>
-</span><span class='line'>   <span class="nf">accessibilityConfiguration:</span><span class="p">(</span><span class="n">CKButtonComponentAccessibilityConfiguration</span><span class="p">)</span><span class="nv">accessibilityConfiguration</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Example:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">CKButtonComponent</span> <span class="o">*</span><span class="n">buttonComponent</span> <span class="o">=</span> <span class="p">[</span><span class="n">CKButtonComponent</span>
-</span><span class='line'>  <span class="nl">newWithTitles</span><span class="p">:{</span>
-</span><span class='line'>    <span class="p">{</span><span class="n">UIControlStateNormal</span><span class="p">,</span><span class="s">@&quot;button&quot;</span><span class="p">}</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="nl">titleColors</span><span class="p">:{</span>
-</span><span class='line'>    <span class="p">{</span><span class="n">UIControlStateNormal</span><span class="p">,[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">]}</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="nl">images</span><span class="p">:{}</span>
-</span><span class='line'>  <span class="nl">backgroundImages</span><span class="p">:{}</span>
-</span><span class='line'>  <span class="nl">titleFont</span><span class="p">:[</span><span class="bp">UIFont</span> <span class="nl">systemFontOfSize</span><span class="p">:</span><span class="mi">20</span><span class="p">]</span>
-</span><span class='line'>  <span class="nl">selected</span><span class="p">:</span><span class="nb">NO</span>
-</span><span class='line'>  <span class="nl">enabled</span><span class="p">:</span><span class="nb">YES</span>
-</span><span class='line'>  <span class="nl">action</span><span class="p">:{</span><span class="n">scope</span><span class="p">,</span><span class="k">@selector</span><span class="p">(</span><span class="n">tapAction</span><span class="p">)}</span>
-</span><span class='line'>  <span class="nl">size</span><span class="p">:{}</span>
-</span><span class='line'>  <span class="nl">attributes</span><span class="p">:{</span>
-</span><span class='line'>    <span class="p">{</span><span class="k">@selector</span><span class="p">(</span><span class="nl">setBackgroundColor</span><span class="p">:),[</span><span class="bp">UIColor</span> <span class="n">yellowColor</span><span class="p">]}</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="nl">accessibilityConfiguration</span><span class="p">:{}]</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">tapAction</span><span class="p">{</span>
-</span><span class='line'>  <span class="c1">//  add tap action here</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>CKImageComponent</h3>
-
-<p>A component that displays an image using UIImageView.<br/>
-Constructor:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cm">/**</span>
-</span><span class='line'><span class="cm"> Uses a static layout with the given image size and applies additional attributes.</span>
-</span><span class='line'><span class="cm"> */</span>
-</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">newWithImage:</span><span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span>
-</span><span class='line'>                  <span class="nf">attributes:</span><span class="p">(</span><span class="k">const</span> <span class="n">CKViewComponentAttributeValueMap</span> <span class="o">&amp;</span><span class="p">)</span><span class="nv">attributes</span>
-</span><span class='line'>                        <span class="nf">size:</span><span class="p">(</span><span class="k">const</span> <span class="n">CKComponentSize</span> <span class="o">&amp;</span><span class="p">)</span><span class="nv">size</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Example:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">CKImageComponent</span> <span class="o">*</span><span class="n">imageComponent</span> <span class="o">=</span> <span class="p">[</span><span class="n">CKImageComponent</span>
-</span><span class='line'>  <span class="nl">newWithImage</span><span class="p">:[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:</span><span class="n">imageName</span><span class="p">]</span>
-</span><span class='line'>  <span class="nl">attributes</span><span class="p">:{</span>
-</span><span class='line'>    <span class="p">{</span><span class="k">@selector</span><span class="p">(</span><span class="nl">setUserInteractionEnabled</span><span class="p">:),</span> <span class="m">@NO</span><span class="p">}</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="nl">size</span><span class="p">:{</span><span class="mi">40</span><span class="p">,</span> <span class="mi">40</span><span class="p">}]]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Common Layout Components</h2>
-
-<p>ComponentKit includes a library of components that can be composed to declaratively specify a layout.</p>
-
-<h3>CKStackLayoutComponent</h3>
-
-<p>A simple layout component that stacks a list of children vertically or horizontally.</p>
-
-<p>Constructor:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'> <span class="err"> </span><span class="cm">/** @param view A view configuration, or {} for no view. @param size A size, or {} for the default size. @param style Specifies how children are laid out. @param children A vector of children components. */</span>
-</span><span class='line'><span class="o">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nl">newWithView</span><span class="p">:(</span><span class="k">const</span> <span class="n">CKComponentViewConfiguration</span> <span class="o">&amp;</span><span class="p">)</span><span class="n">view</span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="nl">size</span><span class="p">:(</span><span class="k">const</span> <span class="n">CKComponentSize</span> <span class="o">&amp;</span><span class="p">)</span><span class="n">size</span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span>  <span class="nl">style</span><span class="p">:(</span><span class="k">const</span> <span class="n">CKStackLayoutComponentStyle</span> <span class="o">&amp;</span><span class="p">)</span><span class="n">style</span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="nl">children</span><span class="p">:(</span><span class="n">CKContainerWrapper</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">CKStackLayoutComponentChild</span><span class="o">&gt;&gt;</span> <span class="o">&amp;&amp;</span><span class="p">)</span><span class="n">children</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Exmaple:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">CKStackLayoutComponent</span> <span class="o">*</span><span class="n">stackComponent</span> <span class="o">=</span> <span class="p">[</span><span class="n">CKStackLayoutComponent</span>
-</span><span class='line'>  <span class="nl">newWithView</span><span class="p">:{}</span>
-</span><span class='line'>  <span class="nl">size</span><span class="p">:{}</span>
-</span><span class='line'>  <span class="nl">style</span><span class="p">:{.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">CKStackLayoutDirectionVertical</span><span class="p">,</span> <span class="p">.</span><span class="n">alignItems</span> <span class="o">=</span> <span class="n">CKStackLayoutAlignItemsStretch</span><span class="p">}</span>
-</span><span class='line'>  <span class="nl">children</span><span class="p">:{</span>
-</span><span class='line'>    <span class="p">{</span><span class="n">labelComponent</span><span class="p">},</span>
-</span><span class='line'>    <span class="p">{</span><span class="n">buttonComponent</span><span class="p">},</span>
-</span><span class='line'>    <span class="p">{</span><span class="n">imageComponent</span><span class="p">}</span>
-</span><span class='line'>  <span class="p">}];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>CKInsetComponent</h3>
-
-<p>A component that wraps another component, applying insets around it.<br/>
-If the child component has a size specified as a percentage, the percentage is resolved against this component&rsquo;s parent size <strong>after</strong> applying insets.<br/>
-CKInsetComponent&rsquo;s child behaves similarly to &ldquo;box-sizing: border-box&rdquo;. <br/>
-Constructor:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cm">/**</span>
-</span><span class='line'><span class="cm"> @param view Passed to CKComponent +newWithView:size:. The view, if any, will extend outside the insets.</span>
-</span><span class='line'><span class="cm"> @param insets The amount of space to inset on each side.</span>
-</span><span class='line'><span class="cm"> @param component The wrapped child component to inset. If nil, this method returns nil.</span>
-</span><span class='line'><span class="cm"> */</span>
-</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">newWithView:</span><span class="p">(</span><span class="k">const</span> <span class="n">CKComponentViewConfiguration</span> <span class="o">&amp;</span><span class="p">)</span><span class="nv">view</span>
-</span><span class='line'>                     <span class="nf">insets:</span><span class="p">(</span><span class="bp">UIEdgeInsets</span><span class="p">)</span><span class="nv">insets</span>
-</span><span class='line'>                  <span class="nf">component:</span><span class="p">(</span><span class="n">CKComponent</span> <span class="o">*</span><span class="p">)</span><span class="nv">component</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Example:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">CKInsetComponent</span> <span class="o">*</span><span class="n">insetComponent</span> <span class="o">=</span> <span class="p">[</span><span class="n">CKInsetComponent</span>
-</span><span class='line'>  <span class="nl">newWithView</span><span class="p">:{}</span>
-</span><span class='line'>  <span class="nl">insets</span><span class="p">:{.</span><span class="n">left</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="p">.</span><span class="n">top</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="p">.</span><span class="n">right</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="p">.</span><span class="n">bottom</span> <span class="o">=</span> <span class="mi">10</span><span class="p">}</span>
-</span><span class='line'>  <span class="nl">component</span><span class="p">:</span> <span class="n">labelComponent</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>CKCenterLayoutComponent</h3>
-
-<p>Lays out a single child component and position it so that it is centered into the layout bounds.<br/>
-Constructor:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cm">/**</span>
-</span><span class='line'><span class="cm"> @param centeringOptions, see CKCenterLayoutComponentCenteringOptions.</span>
-</span><span class='line'><span class="cm"> @param sizingOptions, see CKCenterLayoutComponentSizingOptions.</span>
-</span><span class='line'><span class="cm"> @param child The child to center.</span>
-</span><span class='line'><span class="cm"> @param size The component size or {} for the default which is for the layout to take the maximum space available.</span>
-</span><span class='line'><span class="cm"> */</span>
-</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">newWithCenteringOptions:</span><span class="p">(</span><span class="n">CKCenterLayoutComponentCenteringOptions</span><span class="p">)</span><span class="nv">centeringOptions</span>
-</span><span class='line'>                          <span class="nf">sizingOptions:</span><span class="p">(</span><span class="n">CKCenterLayoutComponentSizingOptions</span><span class="p">)</span><span class="nv">sizingOptions</span>
-</span><span class='line'>                                  <span class="nf">child:</span><span class="p">(</span><span class="n">CKComponent</span> <span class="o">*</span><span class="p">)</span><span class="nv">child</span>
-</span><span class='line'>                                   <span class="nf">size:</span><span class="p">(</span><span class="k">const</span> <span class="n">CKComponentSize</span> <span class="o">&amp;</span><span class="p">)</span><span class="nv">size</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Exmaple:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">CKCenterLayoutComponent</span> <span class="o">*</span> <span class="n">centerComponent</span> <span class="o">=</span> <span class="p">[</span><span class="n">CKCenterLayoutComponent</span>
-</span><span class='line'>  <span class="nl">newWithCenteringOptions</span><span class="p">:</span><span class="n">CKCenterLayoutComponentCenteringXY</span>
-</span><span class='line'>  <span class="nl">sizingOptions</span><span class="p">:</span><span class="n">CKCenterLayoutComponentSizingOptionDefault</span>
-</span><span class='line'>  <span class="nl">child</span><span class="p">:</span><span class="n">labelComponent</span>
-</span><span class='line'>  <span class="nl">size</span><span class="p">:{}];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>CKOverlayLayoutComponent</h3>
-
-<p>This component lays out a single component and then overlays a component on top of it streched to its size.<br/>
-Constructor:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">newWithComponent:</span><span class="p">(</span><span class="n">CKComponent</span> <span class="o">*</span><span class="p">)</span><span class="nv">component</span>
-</span><span class='line'>                         <span class="nf">overlay:</span><span class="p">(</span><span class="n">CKComponent</span> <span class="o">*</span><span class="p">)</span><span class="nv">overlay</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Exmaple:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">CKOverlayLayoutComponent</span> <span class="o">*</span><span class="n">overlayComponent</span> <span class="o">=</span> <span class="p">[</span><span class="n">CKOverlayLayoutComponent</span>
-</span><span class='line'>  <span class="nl">newWithComponent</span><span class="p">:</span> <span class="n">imageComponent</span>
-</span><span class='line'>  <span class="nl">overlay</span><span class="p">:</span> <span class="n">labelComponent</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>CKBackgroundLayoutComponent</h3>
-
-<p>Lays out a single child component, then lays out a background component behind it stretched to its size.<br/>
-Constructor:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cm">/**</span>
-</span><span class='line'><span class="cm"> @param component A child that is laid out to determine the size of this component. If this is nil, then this method</span>
-</span><span class='line'><span class="cm">        returns nil.</span>
-</span><span class='line'><span class="cm"> @param background A child that is laid out behind it. May be nil, in which case the background is omitted.</span>
-</span><span class='line'><span class="cm"> */</span>
-</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">newWithComponent:</span><span class="p">(</span><span class="n">CKComponent</span> <span class="o">*</span><span class="p">)</span><span class="nv">component</span>
-</span><span class='line'>                      <span class="nf">background:</span><span class="p">(</span><span class="n">CKComponent</span> <span class="o">*</span><span class="p">)</span><span class="nv">background</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Exmaple:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">CKBackgroundLayoutComponent</span> <span class="o">*</span><span class="n">backgroundComponent</span> <span class="o">=</span> <span class="p">[</span><span class="n">CKBackgroundLayoutComponent</span>
-</span><span class='line'>  <span class="nl">newWithComponent</span><span class="p">:</span> <span class="n">labelComponent</span>
-</span><span class='line'>  <span class="nl">background</span><span class="p">:</span> <span class="n">imageComponent</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>CKStaticLayoutComponent</h3>
-
-<p>A component that positions children at fixed positions.<br/>
-Computes a size that is the union of all childrens' frames.<br/>
-Constructor:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">@</span><span class="n">param</span> <span class="n">view</span> <span class="n">Passed</span> <span class="n">to</span> <span class="n">the</span> <span class="nb">super</span> <span class="k">class</span> <span class="n">initializer</span><span class="p">.</span>
-</span><span class='line'><span class="p">@</span><span class="n">param</span> <span class="n">children</span> <span class="n">Children</span> <span class="n">to</span> <span class="n">be</span> <span class="n">positioned</span> <span class="n">at</span> <span class="n">fixed</span> <span class="n">positions</span><span class="p">.</span>
-</span><span class='line'><span class="err">*/</span>
-</span><span class='line'><span class="o">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nl">newWithView</span><span class="p">:(</span><span class="k">const</span> <span class="n">CKComponentViewConfiguration</span> <span class="o">&amp;</span><span class="p">)</span><span class="n">view</span>
-</span><span class='line'>                      <span class="nl">size</span><span class="p">:(</span><span class="k">const</span> <span class="n">CKComponentSize</span> <span class="o">&amp;</span><span class="p">)</span><span class="n">size</span>
-</span><span class='line'>                  <span class="nl">children</span><span class="p">:(</span><span class="n">CKContainerWrapper</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">CKStaticLayoutComponentChild</span><span class="o">&gt;&gt;</span> <span class="o">&amp;&amp;</span><span class="p">)</span><span class="n">children</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Exmaple:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">CKStaticLayoutComponent</span> <span class="o">*</span><span class="n">staticComponent</span> <span class="o">=</span> <span class="p">[</span><span class="n">CKStaticLayoutComponent</span>
-</span><span class='line'>  <span class="nl">newWithView</span><span class="p">:{}</span>
-</span><span class='line'>  <span class="nl">size</span><span class="p">:{}</span>
-</span><span class='line'>  <span class="nl">children</span><span class="p">:{</span>
-</span><span class='line'>    <span class="p">{</span><span class="n">labelComponent</span><span class="p">},</span>
-</span><span class='line'>    <span class="p">{</span><span class="n">buttonComponent</span><span class="p">},</span>
-</span><span class='line'>    <span class="p">{</span><span class="n">imageComponent</span><span class="p">}</span>
-</span><span class='line'>  <span class="p">}];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>CKRatioLayoutComponent</h3>
-
-<p>For when the content should respect a certain inherent ratio but can be scaled (think photos or videos).<br/>
-The ratio passed is the ratio of height / width you expect.<br/>
-Constructor:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">newWithRatio:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">ratio</span>
-</span><span class='line'>                        <span class="nf">size:</span><span class="p">(</span><span class="k">const</span> <span class="n">CKComponentSize</span> <span class="o">&amp;</span><span class="p">)</span><span class="nv">size</span>
-</span><span class='line'>                   <span class="nf">component:</span><span class="p">(</span><span class="n">CKComponent</span> <span class="o">*</span><span class="p">)</span><span class="nv">component</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Exmaple:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">CKRatioLayoutComponent</span> <span class="o">*</span><span class="n">ratioComponent</span> <span class="o">=</span> <span class="p">[</span><span class="n">CKRatioLayoutComponent</span>
-</span><span class='line'>  <span class="nl">newWithRatio</span><span class="p">:</span><span class="mf">0.5</span>
-</span><span class='line'>  <span class="nl">size</span><span class="p">:{}</span>
-</span><span class='line'>  <span class="nl">component</span><span class="p">:</span><span class="n">imageComponent</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Apply in UICollectionView</h2>
-
-<p>The collection view in ComponentKit is really different from the collection view in UIKit.</p>
-
-<p>The UIKit way to add content to a collection view is:  <br/>
-1. Tell the <code>UICollectionView</code> to add/insert/update items or sections.<br/>
-2. Synchronously, the <code>UICollectionView</code> ask its data source for number of items, sections and layout info.<br/>
-3. Depending on whether or not the updated index paths are visible the <code>UICollectionView</code> will Synchronously call <code>cellForItemAtIndexPath:</code>.<br/>
-4. Finally, the data source returns a configured cell for this index path.</p>
-
-<p>The ComponentKit uses an idiom that is more &ldquo;reactive&rdquo;:  <br/>
-1. Tell the <code>CKCollectionViewTransactionalDataSource</code> to add/insert/update items or sections.<br/>
-2. Asynchronously, and in the background, computes the corresponding components.<br/>
-3. When the computation is done, apply the changes to the  <code>UICollectionView</code>.</p>
-
-<p>ComponentKit really shines when used with a <code>UICollectionView</code>:  <br/>
-1. <strong>Automatic reuse</strong>. You just need to setup the components and ComponentKit will automaitc reuse and reconfiguration.<br/>
-2. <strong>Flexible height</strong>. You don&rsquo;t have to compute the height of each items yourself.<br/>
-3. <strong>Scroll performance</strong>. ComponentKit addresses common scroll performance issues holistically.<br/>
-4. <strong>Simple to use</strong>. You just need to care about two things, <strong>manipulating data</strong> and <strong>providing components</strong>.</p>
-
-<p>Steps to use ComponentKit in <code>UICollectionView</code>:</p>
-
-<p>1、ViewController()<CKComponentProvider>
-ViewController需要遵守<code>CKComponentProvider</code>协议，实现<code>+componentForModel: context:</code>方法，将model转换为component。<br/>
-在该方法中，通过不同类型的model返回不同类型的component。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">+</span> <span class="p">(</span><span class="n">CKComponent</span> <span class="o">*</span><span class="p">)</span><span class="nf">componentForModel:</span><span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="bp">NSObject</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">model</span>
-</span><span class='line'>                           <span class="nf">context:</span><span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="bp">NSObject</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">context</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">([</span><span class="n">model</span> <span class="nl">isKindOfClass</span><span class="p">:[</span><span class="n">NewsModel</span> <span class="k">class</span><span class="p">]])</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="n">NewsComponent</span> <span class="nl">newWithNewsModel</span><span class="p">:</span><span class="n">model</span> <span class="nl">context</span><span class="p">:</span><span class="n">context</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>2、FlowLayout
-创建<code>UICollectionViewFlowLayout</code>对象，设置滑动方向、间距参数等。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">UICollectionViewFlowLayout</span> <span class="o">*</span><span class="n">flowLayout</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UICollectionViewFlowLayout</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="n">flowLayout</span> <span class="nl">setScrollDirection</span><span class="p">:</span><span class="n">UICollectionViewScrollDirectionVertical</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="n">flowLayout</span> <span class="nl">setMinimumInteritemSpacing</span><span class="p">:</span><span class="mi">0</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="n">flowLayout</span> <span class="nl">setMinimumLineSpacing</span><span class="p">:</span><span class="mi">0</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>3、CollectionView
-创建<code>UICollectionView</code>。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="nb">self</span><span class="p">.</span><span class="n">collectionView</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UICollectionView</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span> <span class="nl">collectionViewLayout</span><span class="p">:</span><span class="n">flowLayout</span><span class="p">];</span>
-</span><span class='line'><span class="nb">self</span><span class="p">.</span><span class="n">collectionView</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
-</span><span class='line'><span class="nb">self</span><span class="p">.</span><span class="n">collectionView</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">blackColor</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">collectionView</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>4、Item size range
-Item size range。通过设置<code>CKComponentSizeRangeFlexibleHeight</code>使item的高度自适应。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">const</span> <span class="n">CKSizeRange</span> <span class="n">sizeRange</span> <span class="o">=</span> <span class="p">[[</span><span class="n">CKComponentFlexibleSizeRangeProvider</span>
-</span><span class='line'>      <span class="nl">providerWithFlexibility</span><span class="p">:</span><span class="n">CKComponentSizeRangeFlexibleHeight</span><span class="p">]</span>
-</span><span class='line'>     <span class="nl">sizeRangeForBoundingSize</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">collectionView</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>5、Context
-Context可以是任何不可变对象，创建component时的不可变上下文信息，比如设备类型，图片下载器。<br/>
-<code>MyContext *context = [MyContext new];</code><br/>
-预先在主线程加载图片。</p>
-
-<p>6、Configuration
-<code>CKTransactionalComponentDataSourceConfiguration</code>，需要 <strong>ComponentProvider</strong>，<strong>sizeRange</strong>，<strong>context</strong> 三个参数。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">CKTransactionalComponentDataSourceConfiguration</span> <span class="o">*</span><span class="n">configuration</span> <span class="o">=</span>
-</span><span class='line'>      <span class="p">[[</span><span class="n">CKTransactionalComponentDataSourceConfiguration</span> <span class="n">alloc</span><span class="p">]</span>
-</span><span class='line'>          <span class="nl">initWithComponentProvider</span><span class="p">:[</span><span class="nb">self</span> <span class="k">class</span><span class="p">]</span>
-</span><span class='line'>                            <span class="nl">context</span><span class="p">:</span><span class="n">context</span>
-</span><span class='line'>                          <span class="nl">sizeRange</span><span class="p">:</span><span class="n">sizeRange</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>7、DataSource
-<code>CKCollectionViewTransactionalDataSource</code>,需要 <strong>collectionView</strong>，<strong>supplementaryViewDataSource</strong>，<strong>configuration</strong> 三个参数。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="nb">self</span><span class="p">.</span><span class="n">dataSource</span> <span class="o">=</span> <span class="p">[[</span><span class="n">CKCollectionViewTransactionalDataSource</span> <span class="n">alloc</span><span class="p">]</span>
-</span><span class='line'>           <span class="nl">initWithCollectionView</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">collectionView</span>
-</span><span class='line'>      <span class="nl">supplementaryViewDataSource</span><span class="p">:</span><span class="nb">nil</span>
-</span><span class='line'>                    <span class="nl">configuration</span><span class="p">:</span><span class="n">configuration</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>8、Initial changeset
-需要初始化DataSource，即向DataSource中添加Section。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">CKTransactionalComponentDataSourceChangeset</span> <span class="o">*</span><span class="n">initialChangeset</span> <span class="o">=</span>
-</span><span class='line'>  <span class="p">[[[</span><span class="n">CKTransactionalComponentDataSourceChangesetBuilder</span>
-</span><span class='line'>      <span class="n">transactionalComponentDataSourceChangeset</span><span class="p">]</span>
-</span><span class='line'>      <span class="nl">withInsertedSections</span><span class="p">:[</span><span class="bp">NSIndexSet</span> <span class="nl">indexSetWithIndex</span><span class="p">:</span><span class="mi">0</span><span class="p">]]</span> <span class="n">build</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">dataSource</span> <span class="nl">applyChangeset</span><span class="p">:</span><span class="n">initialChangeset</span>
-</span><span class='line'>                           <span class="nl">mode</span><span class="p">:</span><span class="n">CKUpdateModeAsynchronous</span>
-</span><span class='line'>                       <span class="nl">userInfo</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>9、Insert/Update items
-向DataSource中插入Items才能显示。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">NSMutableDictionary</span><span class="o">&lt;</span><span class="bp">NSIndexPath</span> <span class="o">*</span><span class="p">,</span> <span class="n">NewsModel</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableDictionary</span> <span class="n">new</span><span class="p">];</span>
-</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="bp">NSInteger</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">50</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="n">NewsModel</span> <span class="o">*</span><span class="n">newsModel</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NewsModel</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'>  <span class="n">newsModel</span><span class="p">.</span><span class="n">title</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;News Title: Title %ld&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">];</span>
-</span><span class='line'>  <span class="n">newsModel</span><span class="p">.</span><span class="n">category</span> <span class="o">=</span> <span class="s">@&quot;科技&quot;</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">newsModel</span><span class="p">.</span><span class="n">updateTime</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSDate</span> <span class="n">date</span><span class="p">];</span>
-</span><span class='line'>  <span class="n">newsModel</span><span class="p">.</span><span class="n">source</span> <span class="o">=</span> <span class="s">@&quot;网易新闻&quot;</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">items</span> <span class="nl">setObject</span><span class="p">:</span><span class="n">newsModel</span>
-</span><span class='line'>            <span class="nl">forKey</span><span class="p">:[</span><span class="bp">NSIndexPath</span> <span class="nl">indexPathForRow</span><span class="p">:</span><span class="n">i</span> <span class="nl">inSection</span><span class="p">:</span><span class="mi">0</span><span class="p">]];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="n">CKTransactionalComponentDataSourceChangeset</span> <span class="o">*</span><span class="n">changeset</span> <span class="o">=</span>
-</span><span class='line'>  <span class="p">[[[</span><span class="n">CKTransactionalComponentDataSourceChangesetBuilder</span>
-</span><span class='line'>      <span class="n">transactionalComponentDataSourceChangeset</span><span class="p">]</span>
-</span><span class='line'>      <span class="nl">withInsertedItems</span><span class="p">:</span><span class="n">items</span><span class="p">]</span> <span class="n">build</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">dataSource</span> <span class="nl">applyChangeset</span><span class="p">:</span><span class="n">changeset</span>
-</span><span class='line'>                           <span class="nl">mode</span><span class="p">:</span><span class="n">CKUpdateModeAsynchronous</span>
-</span><span class='line'>                       <span class="nl">userInfo</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>10、ViewController()&lt;UICollectionViewDelegate, UICollectionViewDelegateFlowLayout></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">CGSize</span><span class="p">)</span><span class="nf">collectionView:</span><span class="p">(</span><span class="bp">UICollectionView</span> <span class="o">*</span><span class="p">)</span><span class="nv">collectionView</span>
-</span><span class='line'>                  <span class="nf">layout:</span><span class="p">(</span><span class="bp">UICollectionViewLayout</span> <span class="o">*</span><span class="p">)</span><span class="nv">collectionViewLayout</span>
-</span><span class='line'>  <span class="nf">sizeForItemAtIndexPath:</span><span class="p">(</span><span class="bp">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">indexPath</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">return</span> <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">dataSource</span> <span class="nl">sizeForItemAtIndexPath</span><span class="p">:</span><span class="n">indexPath</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">collectionView:</span><span class="p">(</span><span class="bp">UICollectionView</span> <span class="o">*</span><span class="p">)</span><span class="nv">collectionView</span>
-</span><span class='line'>       <span class="nf">willDisplayCell:</span><span class="p">(</span><span class="bp">UICollectionViewCell</span> <span class="o">*</span><span class="p">)</span><span class="nv">cell</span>
-</span><span class='line'>    <span class="nf">forItemAtIndexPath:</span><span class="p">(</span><span class="bp">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">indexPath</span> <span class="p">{</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">dataSource</span> <span class="nl">announceWillDisplayCell</span><span class="p">:</span><span class="n">cell</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">collectionView:</span><span class="p">(</span><span class="bp">UICollectionView</span> <span class="o">*</span><span class="p">)</span><span class="nv">collectionView</span>
-</span><span class='line'>  <span class="nf">didEndDisplayingCell:</span><span class="p">(</span><span class="bp">UICollectionViewCell</span> <span class="o">*</span><span class="p">)</span><span class="nv">cell</span>
-</span><span class='line'>    <span class="nf">forItemAtIndexPath:</span><span class="p">(</span><span class="bp">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">indexPath</span> <span class="p">{</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">dataSource</span> <span class="nl">announceDidEndDisplayingCell</span><span class="p">:</span><span class="n">cell</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Flexbox layout</h2>
-
-<p><strong>flex container</strong>：容器。<br/>
-main axis：main start， main end。<br/>
-cross axis：cross start， cross end。<br/>
-<strong>flex item</strong>：成员。<br/>
-main size。<br/>
-cross size。</p>
-
-<h3>Container Properties</h3>
-
-<p>flex-direction：决定主轴方向。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">typedef</span> <span class="nf">NS_ENUM</span><span class="p">(</span><span class="bp">NSUInteger</span><span class="p">,</span> <span class="n">CKStackLayoutDirection</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="c1">//  垂直方向</span>
-</span><span class='line'>  <span class="n">CKStackLayoutDirectionVertical</span><span class="p">,</span>
-</span><span class='line'>  <span class="c1">//  水平方向</span>
-</span><span class='line'>  <span class="n">CKStackLayoutDirectionHorizontal</span><span class="p">,</span>
-</span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>flex-wrap：决定如何换行。<br/>
-flex-flow：flex-direction和flex-wrap的简写形式。<br/>
-<strong>justify-content</strong>：决定items在主轴上的对齐方式。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cm">/** If no children are flexible, how should this component justify its children in the available space? */</span>
-</span><span class='line'><span class="k">typedef</span> <span class="nf">NS_ENUM</span><span class="p">(</span><span class="bp">NSUInteger</span><span class="p">,</span> <span class="n">CKStackLayoutJustifyContent</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="cm">/**</span>
-</span><span class='line'><span class="cm">   On overflow, children overflow out of this component&#39;s bounds on the right/bottom side.</span>
-</span><span class='line'><span class="cm">   On underflow, children are left/top-aligned within this component&#39;s bounds.</span>
-</span><span class='line'><span class="cm">   */</span>
-</span><span class='line'>  <span class="c1">//  左对齐</span>
-</span><span class='line'>  <span class="n">CKStackLayoutJustifyContentStart</span><span class="p">,</span>
-</span><span class='line'>  <span class="cm">/**</span>
-</span><span class='line'><span class="cm">   On overflow, children are centered and overflow on both sides.</span>
-</span><span class='line'><span class="cm">   On underflow, children are centered within this component&#39;s bounds in the stacking direction.</span>
-</span><span class='line'><span class="cm">   */</span>
-</span><span class='line'>  <span class="c1">//  居中</span>
-</span><span class='line'>  <span class="n">CKStackLayoutJustifyContentCenter</span><span class="p">,</span>
-</span><span class='line'>  <span class="cm">/**</span>
-</span><span class='line'><span class="cm">   On overflow, children overflow out of this component&#39;s bounds on the left/top side.</span>
-</span><span class='line'><span class="cm">   On underflow, children are right/bottom-aligned within this component&#39;s bounds.</span>
-</span><span class='line'><span class="cm">   */</span>
-</span><span class='line'>  <span class="c1">//  右对齐</span>
-</span><span class='line'>  <span class="n">CKStackLayoutJustifyContentEnd</span><span class="p">,</span>
-</span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>align-items</strong>：决定items在交叉轴上的对齐方式。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">typedef</span> <span class="nf">NS_ENUM</span><span class="p">(</span><span class="bp">NSUInteger</span><span class="p">,</span> <span class="n">CKStackLayoutAlignItems</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="cm">/** Align children to start of cross axis */</span>
-</span><span class='line'>  <span class="c1">//  交叉轴起点对齐</span>
-</span><span class='line'>  <span class="n">CKStackLayoutAlignItemsStart</span><span class="p">,</span>
-</span><span class='line'>  <span class="cm">/** Align children with end of cross axis */</span>
-</span><span class='line'>  <span class="n">CKStackLayoutAlignItemsEnd</span><span class="p">,</span>
-</span><span class='line'>  <span class="c1">//  交叉轴终点对齐</span>
-</span><span class='line'>  <span class="cm">/** Center children on cross axis */</span>
-</span><span class='line'>  <span class="c1">//  交叉轴居中对齐</span>
-</span><span class='line'>  <span class="n">CKStackLayoutAlignItemsCenter</span><span class="p">,</span>
-</span><span class='line'>  <span class="cm">/** Expand children to fill cross axis */</span>
-</span><span class='line'>  <span class="c1">//  交叉轴方向拉伸</span>
-</span><span class='line'>  <span class="n">CKStackLayoutAlignItemsStretch</span><span class="p">,</span>
-</span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Item Properties</h3>
-
-<p>order：决定item排列顺序，数值越小，排位越靠前。<br/>
-<strong>flex-grow</strong>：决定item主轴方向的放大比例，默认为0，即如果存在剩余空间，也不放大。<br/>
-如果所有项目的flex-grow属性都为1，则它们将等分剩余空间（如果有的话）。如果一个项目的flex-grow属性为2，其他项目都为1，则前者占据的剩余空间将比其他项多一倍。<br/>
-<strong>flex-shrink</strong>：决定item主轴方向的缩小比例，默认为1，即如果空间不足，该item将缩小。<br/>
-如果所有项目的flex-shrink属性都为1，当空间不足时，都将等比例缩小。如果一个项目的flex-shrink属性为0，其他项目都为1，则空间不足时，前者不缩小。<br/>
-<strong>flex-basis</strong>：决定了在分配多余空间之前，item的main size大小，根据该值计算主轴是否有多余空间。<br/>
-flex：flex-grow, flex-shrink 和 flex-basis的简写。<br/>
-<strong>align-self</strong>：决定item单独的对齐方式，可以覆盖 <strong>align-items</strong> 属性。<br/>
-默认值为auto，表示继承父元素的align-items属性，如果没有父元素，则等同于stretch。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cm">/**</span>
-</span><span class='line'><span class="cm"> Each child may override their parent stack&#39;s cross axis alignment.</span>
-</span><span class='line'><span class="cm"> @see CKStackLayoutAlignItems</span>
-</span><span class='line'><span class="cm"> */</span>
-</span><span class='line'><span class="k">typedef</span> <span class="nf">NS_ENUM</span><span class="p">(</span><span class="bp">NSUInteger</span><span class="p">,</span> <span class="n">CKStackLayoutAlignSelf</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="cm">/** Inherit alignment value from containing stack. */</span>
-</span><span class='line'>  <span class="n">CKStackLayoutAlignSelfAuto</span><span class="p">,</span>
-</span><span class='line'>  <span class="n">CKStackLayoutAlignSelfStart</span><span class="p">,</span>
-</span><span class='line'>  <span class="n">CKStackLayoutAlignSelfEnd</span><span class="p">,</span>
-</span><span class='line'>  <span class="n">CKStackLayoutAlignSelfCenter</span><span class="p">,</span>
-</span><span class='line'>  <span class="n">CKStackLayoutAlignSelfStretch</span><span class="p">,</span>
-</span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>FBSnapshotTestCase</h2>
-
-<p><code>FBSnapshotTestCase</code> takes a configured <code>UIView</code> or <code>CALayer</code> and uses the <code>renderInContext:</code> method to get an image snapshot of its contents. It compares this snapshot to a &ldquo;reference image&rdquo; stored in your source code repository and fails the test if the two images don&rsquo;t match.<br/>
-It makes the comparison by drawing both the view or layer and the existing snapshot into two <code>CGContextRefs</code> and doing a memory comparison of them with the C function <code>memcmp()</code>.</p>
-
-<h3>Features</h3>
-
-<ol>
-<li>It is esay to understand and visible and quickly.</li>
-<li>Automatically names reference images on disk according to test class and selector.</li>
-<li>Prints a descriptive error message to the console on failure.</li>
-<li>Supply an optional &ldquo;identifier&rdquo; if you want to perform multiple snapshots in a single test method.</li>
-<li>Support for <code>UIView</code> via <code>FBSnapshotVerifyView</code>.</li>
-<li>Support for <code>CALayer</code> via <code>FBSnapshotVerifyLayer</code>.</li>
-<li>Support for <code>CKComponent</code> via <code>FBSnapshotVerifyComponent</code>.</li>
-<li><code>isDeviceAgnostic</code> to allow appending the device model (iPhone, etc), OS version and screen size to the images (allowing to have multiple tests for the same «snapshot» for different OSs and devices).</li>
-<li>Provide a diff image to show the difference when test failed.</li>
-<li>It&rsquo;s esay to test different state of the view.</li>
-<li>Snapshot tests are run at the same time as the rest of your tests. They can mostly be run without pushing the view to the screen.</li>
-<li>Snapshots give code reviews a narrative.</li>
-<li>Snapshot tests are fast.</li>
-</ol>
-
-
-<h3>Disadvantages</h3>
-
-<ol>
-<li>Testing asynchronous code is hard.</li>
-<li>Some components can be hard to test.</li>
-<li>Apple’s OS patches can change the way their stock components are rendered.</li>
-<li>Each snapshot is a PNG file stored in your repository, and together they average out at about 30-100kb per file.</li>
-</ol>
-
-
-<h3>Install</h3>
-
-<ol>
-<li><code>pod 'FBSnapshotTestCase'</code>.</li>
-<li>Define <code>FB_REFERENCE_IMAGE_DIR</code> and <code>IMAGE_DIFF_DIR</code> in scheme(Edit Scheme -> Run -> Arguments -> Environment Variables).<br/>
-<code>FB_REFERENCE_IMAGE_DIR</code> = <code>$(SOURCE_ROOT)/$(PROJECT_NAME)Tests/ReferenceImages</code><br/>
-<code>IMAGE_DIFF_DIR</code> = <code>$(SOURCE_ROOT)/$(PROJECT_NAME)Tests/FailureDiffs</code></li>
-</ol>
-
-
-<h3>Create a snapshot test</h3>
-
-<ol>
-<li>Subclass <code>FBSnapshotTestCase</code> instead of <code>XCTestCase</code>.</li>
-<li>From within your test, use <code>FBSnapshotVerifyComponent</code>.</li>
-<li>Run the test once with <code>self.recordMode = YES;</code> in the test&rsquo;s <code>-setup</code> method. (This creates the reference images on disk)</li>
-<li>Run the test again with <code>self.recordMode = NO;</code>.</li>
-</ol>
-
-
-<h3>Notes</h3>
-
-<p>Your unit test must be an &ldquo;application test&rdquo;, not a &ldquo;logic test.&rdquo; (That is, it must be run within the Simulator so that it has access to <code>UIKit</code>.)</p>
-
-<h3>Reference</h3>
-
-<p><a href="https://github.com/facebook/ios-snapshot-test-case">FBSnapshotTestCase</a><br/>
-<a href="https://www.objc.io/issues/15-testing/snapshot-testing/">Snapshot Testing</a><br/>
-<a href="https://github.com/orta/snapshots">Snapshot Plugin</a></p>
-
-<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/06/13/componentkit-tutorial/'>http://sxgfxm.github.io/blog/2017/06/13/componentkit-tutorial/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>

@@ -1,0 +1,558 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS知识小集-171016 - Light's Blog</title>
+  <meta name="author" content="Light">
+
+  
+  <meta name="description" content="sxgfxm,Horizontal ScrollComponent of CKComponent,CKComponentController,computeLayoutThatFits,CKComponentRootView, iOS DeviceSupport">
+  <meta name="keywords" content="sxgfxm,Horizontal ScrollComponent of CKComponent,CKComponentController,computeLayoutThatFits,CKComponentRootView, iOS DeviceSupport">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://sxgfxm.github.io/blog/2017/10/17/ioszhi-shi-xiao-ji-171016/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Light's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+
+function addBlankTargetForLinks () {
+
+  $('a[href^="http"]').each(function(){
+
+      $(this).attr('target', '_blank');
+
+  });
+
+}
+
+$(document).bind('DOMNodeInserted', function(event) {
+
+  addBlankTargetForLinks();
+
+});
+
+</script>
+
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-86198628-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  
+  <meta name="baidu-site-verification" content="vgau9BNOtE" />
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Light's Blog</a></h1>
+  
+    <h2>The best or nothing.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <!-- <input type="hidden" name="sitesearch" value="sxgfxm.github.io"> -->
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS知识小集-171016</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-10-17T19:06:22+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>7:06 pm</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>Clear iOS DeviceSupport to free disk storage</h2>
+
+<p>真机调试时，不同系统的手机会生成不同的Device Support文件，每个大概3GB左右，占用大量磁盘空间。删除不需要的Device Support文件，可以释放大量磁盘空间。
+iOS DeviceSupport 目录路径<code>[User]/Library/Developer/Xcode/iOS DeviceSupport</code></p>
+
+<h2>Compute CKComponent size</h2>
+
+<p>获取component的size。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="cp">#import &lt;ComponentKit/CKComponentSubclass.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="o">-</span> <span class="p">(</span><span class="bp">CGSize</span><span class="p">)</span><span class="nl">sizeOfComponent</span><span class="p">:(</span><span class="n">CKComponent</span><span class="o">*</span><span class="p">)</span><span class="n">component</span><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="n">component</span> <span class="nl">computeLayoutThatFits</span><span class="p">:</span> <span class="n">CKSizeRange</span><span class="p">()].</span><span class="n">size</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!-- more -->
+
+
+<h2>CKComponentRootView</h2>
+
+<p>获取component对应的根视图，在CKComponentController中可以自定义根视图。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="n">CKComponentRootView</span> <span class="o">*</span><span class="n">rootView</span> <span class="o">=</span> <span class="n">component</span><span class="p">.</span><span class="n">viewContext</span><span class="p">.</span><span class="n">view</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>CKComponentController</h2>
+
+<ol>
+<li>命名必须为<strong>ComponentName+Controller</strong>，继承至CKComponentController；</li>
+<li>Component必须添加<strong>Scope</strong>，<code>CKComponentScope scope(self, model)</code>；</li>
+<li>ComponentController可以监控component的生命周期，进行设置；</li>
+<li><code>-didMount</code>，已经加载完成，包括所有的子component；</li>
+<li><code>-willUpdateComponent</code>，component即将更新时调用；</li>
+<li><code>-willRemount</code>，component正在update或root component被关联到其他root view时调用；</li>
+<li><code>-componentTreeWillAppear</code>，当调用<code>-willDisplayCell:for{Row|Item}AtIndexPath:</code>时调用；</li>
+</ol>
+
+
+<h2><a href="https://github.com/lefex/TCZLocalizableTool">TCZLocalizableTool</a></h2>
+
+<p>通过Python脚本检查本地化文件中语法错误。</p>
+
+<h2>Horizontal ScrollComponent of CKComponent</h2>
+
+<p>Add a horizontal UIScrollView to a vertical UICollectionView by ComponentKit.</p>
+
+<ol>
+<li>Create a <strong>CKStackLayoutComponent</strong> component and set [<strong>UIScrollView</strong> class] in block newWithView;</li>
+<li>In <code>-didMount</code>, get the scroll view and set its <code>contentSize</code>;</li>
+<li>In <code>-didUpdateComponent</code>, update its <code>contentSize</code> if the component has changed.</li>
+</ol>
+
+
+<p>.h</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &lt;ComponentKit/ComponentKit.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">XGHorizontalScrollComponent</span> : <span class="nc">CKCompositeComponent</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">newWithChildren:</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">CKStackLayoutComponentChild</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">children</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">XGHorizontalScrollComponentController</span> : <span class="nc">CKComponentController</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>.mm</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &quot;XGHorizontalScrollComponent.h&quot;</span>
+</span><span class='line'><span class="cp">#import &lt;ComponentKit/CKComponentSubclass.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">XGHorizontalScrollComponent</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="n">CKComponent</span> <span class="o">*</span><span class="n">scrollComponent</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">XGHorizontalScrollComponent</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">newWithChildren:</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">CKStackLayoutComponentChild</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">children</span><span class="p">{</span>
+</span><span class='line'>  <span class="n">CKComponentScope</span> <span class="n">scope</span><span class="p">(</span><span class="nb">self</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">CKComponent</span> <span class="o">*</span><span class="n">content</span> <span class="o">=</span> <span class="p">[</span><span class="n">CKStackLayoutComponent</span>
+</span><span class='line'>                          <span class="nl">newWithView</span><span class="p">:{</span>
+</span><span class='line'>                            <span class="p">[</span><span class="bp">UIScrollView</span> <span class="k">class</span><span class="p">]</span>
+</span><span class='line'>                          <span class="p">}</span>
+</span><span class='line'>                          <span class="nl">size</span><span class="p">:{}</span>
+</span><span class='line'>                          <span class="nl">style</span><span class="p">:{</span>
+</span><span class='line'>                            <span class="p">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">CKStackLayoutDirectionHorizontal</span><span class="p">,</span>
+</span><span class='line'>                            <span class="p">.</span><span class="n">alignItems</span> <span class="o">=</span> <span class="n">CKStackLayoutAlignItemsStretch</span>
+</span><span class='line'>                          <span class="p">}</span>
+</span><span class='line'>                          <span class="nl">children</span><span class="p">:{</span><span class="n">children</span><span class="p">}];</span>
+</span><span class='line'>  <span class="n">XGHorizontalScrollComponent</span> <span class="o">*</span><span class="n">component</span> <span class="o">=</span> <span class="p">[</span><span class="nb">super</span> <span class="nl">newWithComponent</span><span class="p">:</span><span class="n">content</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">component</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">component</span><span class="o">-&gt;</span><span class="n">_scrollComponent</span> <span class="o">=</span> <span class="n">content</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">component</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">XGHorizontalScrollComponentController</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">didMount</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">super</span> <span class="n">didMount</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  Get scroll component</span>
+</span><span class='line'>  <span class="n">XGHorizontalScrollComponent</span> <span class="o">*</span><span class="n">component</span> <span class="o">=</span> <span class="p">(</span><span class="n">XGHorizontalScrollComponent</span><span class="o">*</span><span class="p">)</span><span class="nb">self</span><span class="p">.</span><span class="n">component</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">CKComponent</span> <span class="o">*</span><span class="n">scrollComponent</span> <span class="o">=</span> <span class="n">component</span><span class="p">.</span><span class="n">scrollComponent</span><span class="p">;</span>
+</span><span class='line'>  <span class="c1">//  Get component size</span>
+</span><span class='line'>  <span class="n">CKSizeRange</span> <span class="n">range</span> <span class="o">=</span> <span class="n">CKSizeRange</span><span class="p">();</span>
+</span><span class='line'>  <span class="n">CKComponentLayout</span> <span class="n">layout</span> <span class="o">=</span> <span class="p">[</span><span class="n">scrollComponent</span> <span class="nl">computeLayoutThatFits</span><span class="p">:</span><span class="n">range</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  Get scroll view</span>
+</span><span class='line'>  <span class="bp">UIScrollView</span> <span class="o">*</span><span class="n">scrollView</span> <span class="o">=</span> <span class="p">(</span><span class="bp">UIScrollView</span> <span class="o">*</span><span class="p">)</span><span class="n">scrollComponent</span><span class="p">.</span><span class="n">viewContext</span><span class="p">.</span><span class="n">view</span><span class="p">;</span>
+</span><span class='line'>  <span class="c1">//  Set scroll view properties, you can custom scrollView here</span>
+</span><span class='line'>  <span class="n">scrollView</span><span class="p">.</span><span class="n">showsHorizontalScrollIndicator</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">scrollView</span><span class="p">.</span><span class="n">showsVerticalScrollIndicator</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+</span><span class='line'>  <span class="c1">//  Set contentSize</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">scrollView</span> <span class="nl">setContentSize</span><span class="p">:</span><span class="n">layout</span><span class="p">.</span><span class="n">size</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//  Invoked when the component is updated</span>
+</span><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">didUpdateComponent</span><span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">super</span> <span class="n">didUpdateComponent</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  Update contentSize</span>
+</span><span class='line'>  <span class="n">XGHorizontalScrollComponent</span> <span class="o">*</span><span class="n">component</span> <span class="o">=</span> <span class="p">(</span><span class="n">XGHorizontalScrollComponent</span><span class="o">*</span><span class="p">)</span><span class="nb">self</span><span class="p">.</span><span class="n">component</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">CKComponent</span> <span class="o">*</span><span class="n">scrollComponent</span> <span class="o">=</span> <span class="n">component</span><span class="p">.</span><span class="n">scrollComponent</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">CKSizeRange</span> <span class="n">range</span> <span class="o">=</span> <span class="n">CKSizeRange</span><span class="p">();</span>
+</span><span class='line'>  <span class="n">CKComponentLayout</span> <span class="n">layout</span> <span class="o">=</span> <span class="p">[</span><span class="n">scrollComponent</span> <span class="nl">computeLayoutThatFits</span><span class="p">:</span><span class="n">range</span><span class="p">];</span>
+</span><span class='line'>  <span class="bp">UIScrollView</span> <span class="o">*</span><span class="n">scrollView</span> <span class="o">=</span> <span class="p">(</span><span class="bp">UIScrollView</span> <span class="o">*</span><span class="p">)</span><span class="n">scrollComponent</span><span class="p">.</span><span class="n">viewContext</span><span class="p">.</span><span class="n">view</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">scrollView</span> <span class="nl">setContentSize</span><span class="p">:</span><span class="n">layout</span><span class="p">.</span><span class="n">size</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2017/10/17/ioszhi-shi-xiao-ji-171016/'>http://sxgfxm.github.io/blog/2017/10/17/ioszhi-shi-xiao-ji-171016/</a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
+  </p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Light</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2017-10-17T19:06:22+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>7:06 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2017/10/13/ioszhi-shi-xiao-ji-171009/" title="Previous Post: iOS知识小集-171009">&laquo; iOS知识小集-171009</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+ <h1>Introduction</h1>
+
+<li>
+	<span style="color:#222222;font-family:inherit;font-size:18px;font-style:inherit;font-weight:inherit;line-height:1.5;">Light</br></span>
+	<span style="font-family:inherit;font-style:inherit;font-weight:inherit;color:#222222;font-size:18px;line-height:1.5;">iOS研发工程师</br></span>
+	<span style="font-family:inherit;font-style:inherit;font-weight:inherit;color:#222222;font-size:18px;line-height:1.5;">现就职于 出门问问</br></span>
+  <span style="font-family:inherit;font-style:inherit;font-weight:inherit;color:#222222;font-size:18px;line-height:1.5;">E-mail: aysxgfxm@163.com</br></span>
+</li>
+
+</section>
+<section>
+ <h1>Categories</h1>
+ <ul id="categories">
+  <li class='category'><a href='/blog/categories/componentkit/'>componentkit (1)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (46)</a></li>
+<li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
+<li class='category'><a href='/blog/categories/reactiveobjc/'>reactiveobjc (2)</a></li>
+
+ </ul>
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/10/17/ioszhi-shi-xiao-ji-171016/">iOS知识小集-171016</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/10/13/ioszhi-shi-xiao-ji-171009/">iOS知识小集-171009</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/09/30/reactiveobjc-memory-management/">ReactiveObjC Memory Management</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/09/30/reactiveobjc-framework-overview/">ReactiveObjC Framework Overview</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/09/29/ioszhi-shi-xiao-ji-170925/">iOS知识小集-170925</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+ <h1>他山之石</h1>
+	<li>
+		<a href="http://southpeak.github.io/">南峰子的技术博客</a></br>
+	</li>
+	<li>
+		<a href="http://www.tutorialspoint.com/index.htm">TutorailSpoint</a></br>
+	</li>
+	<li>
+		<a href="http://stackoverflow.com/">StackOverflow</a></br>
+	</li>
+</section>
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/sxgfxm">@sxgfxm</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'sxgfxm',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+<section>
+ <h1>Visitors</h1>
+	<a href="http://info.flagcounter.com/CVgH"><img src="http://s09.flagcounter.com/count2/CVgH/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_10/viewers_0/labels_0/pageviews_0/flags_0/percent_0/" alt="Flag Counter" border="0"></a>
+</section>
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Light -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-86198628-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'lights-blog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://sxgfxm.github.io/blog/2017/10/17/ioszhi-shi-xiao-ji-171016/';
+        var disqus_url = 'http://sxgfxm.github.io/blog/2017/10/17/ioszhi-shi-xiao-ji-171016/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
