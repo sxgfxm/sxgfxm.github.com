@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-10-18T09:12:58+08:00</updated>
+  <updated>2017-11-02T10:58:53+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,199 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-171023]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/11/02/ioszhi-shi-xiao-ji-171023/"/>
+    <updated>2017-11-02T10:34:10+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/11/02/ioszhi-shi-xiao-ji-171023</id>
+    <content type="html"><![CDATA[<h2>UITableView AccessoryView TintColor</h2>
+
+<p>通过设置Cell的TintColor来设置AccessoryView的tintColor。</p>
+
+<h2>Git Rebase</h2>
+
+<p><code>git rebase</code>会删除<code>merge commit</code>。<br/>
+进行merge操作后不要向其amend代码。</p>
+
+<!-- more -->
+
+
+<h2>UITableViewCell</h2>
+
+<p>注意在返回cell的代理方法中，不要重复创建view。</p>
+
+<h2>UITableViewCell高度自适应</h2>
+
+<ol>
+<li><code>estimatedRowHeight</code>；</li>
+<li><code>-systemLayoutSizeFittingSize:</code> + cache height；</li>
+<li>ComponentKit；</li>
+</ol>
+
+
+<h2>layoutIfNeeded、setNeedsLayout、setNeedsDisplay</h2>
+
+<p>// TODO</p>
+
+<h2>动态更新Cell高度</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">tableView</span> <span class="n">beginUpdates</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">tableView</span> <span class="n">endUpdates</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>UIImageView Animation</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">imageView</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UIImageView</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">)];</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">imageView</span><span class="p">.</span><span class="n">animationImages</span> <span class="o">=</span> <span class="l">@[</span><span class="p">[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:</span><span class="s">@&quot;Image1&quot;</span><span class="p">],[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:</span><span class="s">@&quot;Image2&quot;</span><span class="p">],[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:</span><span class="s">@&quot;Image3&quot;</span><span class="p">]</span><span class="l">]</span><span class="p">;</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">imageView</span><span class="p">.</span><span class="n">animationDuration</span> <span class="o">=</span> <span class="mf">0.75</span><span class="p">;</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">imageView</span><span class="p">.</span><span class="n">animationRepeatCount</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">imageView</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">imageView</span> <span class="n">startAnimating</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">imageView</span> <span class="n">stopAnimating</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>AVAudioPlayer Simple Use</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">AVAudioPlayer</span> <span class="o">*</span><span class="p">)</span><span class="nf">startAudioPlayer</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">_startAudioPlayer</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="bp">NSString</span> <span class="o">*</span><span class="n">path</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;%@/startAudio.wav&quot;</span><span class="p">,</span> <span class="p">[[</span><span class="bp">NSBundle</span> <span class="n">mainBundle</span><span class="p">]</span> <span class="n">resourcePath</span><span class="p">]];</span>
+</span><span class='line'>    <span class="bp">NSURL</span> <span class="o">*</span><span class="n">soundURL</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURL</span> <span class="nl">fileURLWithPath</span><span class="p">:</span><span class="n">path</span><span class="p">];</span>
+</span><span class='line'>    <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">_startAudioPlayer</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">AVAudioPlayer</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithContentsOfURL</span><span class="p">:</span><span class="n">soundURL</span> <span class="nl">error</span><span class="p">:</span><span class="o">&amp;</span><span class="n">error</span><span class="p">];</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">DDLogDebug</span><span class="p">(</span><span class="s">@&quot;Can&#39;t find audio file %@&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">.</span><span class="n">localizedDescription</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">_startAudioPlayer</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">startAudioPlayer</span> <span class="n">play</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">startAudioPlayer</span> <span class="n">pause</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>模糊效果</h2>
+
+<h3>UIBlurEffect</h3>
+
+<p>可以选择模糊亮度，但无法自定义模糊半径。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="n">UIBlurEffect</span> <span class="o">*</span><span class="n">blurEffect</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIBlurEffect</span> <span class="nl">effectWithStyle</span><span class="p">:</span><span class="n">UIBlurEffectStyleLight</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">UIVisualEffectView</span> <span class="o">*</span><span class="n">blurView</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIVisualEffectView</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithEffect</span><span class="p">:</span><span class="n">blurEffect</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">blurView</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">myView</span><span class="p">.</span><span class="n">bounds</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">myView</span> <span class="nl">addSubview</span><span class="p">:</span><span class="n">blurView</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>CIImage &amp; CIFilter</h3>
+
+<p>可以选择滤波算法，并设置滤波参数。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nf">convertToBlurImage:</span><span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">//  create input image</span>
+</span><span class='line'>  <span class="bp">CIImage</span> <span class="o">*</span><span class="n">inputImage</span> <span class="o">=</span> <span class="p">[</span><span class="bp">CIImage</span> <span class="nl">imageWithCGImage</span><span class="p">:[</span><span class="n">image</span> <span class="bp">CGImage</span><span class="p">]];</span>
+</span><span class='line'>  <span class="c1">//  create filter</span>
+</span><span class='line'>  <span class="bp">CIFilter</span> <span class="o">*</span><span class="n">gaussianBlurFilter</span> <span class="o">=</span> <span class="p">[</span><span class="bp">CIFilter</span> <span class="nl">filterWithName</span><span class="p">:</span><span class="s">@&quot;CIGaussianBlur&quot;</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  set filter parameters</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">gaussianBlurFilter</span> <span class="n">setDefaults</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">gaussianBlurFilter</span> <span class="nl">setValue</span><span class="p">:</span><span class="n">inputImage</span> <span class="nl">forKey</span><span class="p">:</span><span class="n">kCIInputImageKey</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">gaussianBlurFilter</span> <span class="nl">setValue</span><span class="p">:</span><span class="mi">@6</span> <span class="nl">forKey</span><span class="p">:</span><span class="n">kCIInputRadiusKey</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  create output image</span>
+</span><span class='line'>  <span class="bp">CIImage</span> <span class="o">*</span><span class="n">outputImage</span> <span class="o">=</span> <span class="p">[</span><span class="n">gaussianBlurFilter</span> <span class="n">outputImage</span><span class="p">];</span>
+</span><span class='line'>  <span class="bp">CIContext</span> <span class="o">*</span><span class="n">context</span> <span class="o">=</span> <span class="p">[</span><span class="bp">CIContext</span> <span class="nl">contextWithOptions</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">CGImageRef</span> <span class="n">cgimg</span> <span class="o">=</span> <span class="p">[</span><span class="n">context</span> <span class="nl">createCGImage</span><span class="p">:</span><span class="n">outputImage</span> <span class="nl">fromRect</span><span class="p">:[</span><span class="n">inputImage</span> <span class="n">extent</span><span class="p">]];</span>
+</span><span class='line'>  <span class="c1">//  get UIImage</span>
+</span><span class='line'>  <span class="bp">UIImage</span> <span class="o">*</span><span class="n">convertedImage</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIImage</span> <span class="nl">imageWithCGImage</span><span class="p">:</span><span class="n">cgimg</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">convertedImage</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>UIView to UIImage</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nf">imageFromUIView:</span><span class="p">(</span><span class="bp">UIView</span> <span class="o">*</span><span class="p">)</span><span class="nv">view</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">UIGraphicsBeginImageContextWithOptions</span><span class="p">(</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">,</span> <span class="nb">YES</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+</span><span class='line'>  <span class="c1">//  render view in context</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">view</span><span class="p">.</span><span class="n">layer</span> <span class="nl">renderInContext</span><span class="p">:</span><span class="n">UIGraphicsGetCurrentContext</span><span class="p">()];</span>
+</span><span class='line'>  <span class="c1">//  get image from context</span>
+</span><span class='line'>  <span class="bp">UIImage</span> <span class="o">*</span><span class="n">image</span> <span class="o">=</span> <span class="n">UIGraphicsGetImageFromCurrentImageContext</span><span class="p">();</span>
+</span><span class='line'>  <span class="n">UIGraphicsEndImageContext</span><span class="p">();</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">image</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2017/11/02/ioszhi-shi-xiao-ji-171023/'>http://sxgfxm.github.io/blog/2017/11/02/ioszhi-shi-xiao-ji-171023/</a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
+  </p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-171016]]></title>
@@ -2192,374 +2385,6 @@ Create one animation and add to multiple layers.</p>
 <p class='post-footer'>
   原始地址：
   <a href='http://sxgfxm.github.io/blog/2017/06/26/ioszhi-shi-xiao-ji-170619/'>http://sxgfxm.github.io/blog/2017/06/26/ioszhi-shi-xiao-ji-170619/</a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-170612]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/06/16/ioszhi-shi-xiao-ji-170612/"/>
-    <updated>2017-06-16T14:08:12+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/06/16/ioszhi-shi-xiao-ji-170612</id>
-    <content type="html"><![CDATA[<h2>MBProgressHUD需要在主线程调用</h2>
-
-<p>UI在主线程操作。</p>
-
-<!-- more -->
-
-
-<h2>引入库</h2>
-
-<p><code>#import &lt;&gt;</code>: global include<br/>
-<code>#import ""</code>: local include<br/>
-<code>#import</code>: only include once<br/>
-<code>#include</code>: may recursive include<br/>
-<code>@import</code>: done automatically</p>
-
-<h2>Edit Scheme</h2>
-
-<p>定义不同的宏</p>
-
-<h2>NSAssert</h2>
-
-<p>多用断言</p>
-
-<h2>打包和解包</h2>
-
-<p>打包：头 + 长度 + 内容。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nf">packageData:</span><span class="p">(</span><span class="bp">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">data</span> <span class="p">{</span>
-</span><span class='line'>  <span class="n">NSAssert</span><span class="p">(</span><span class="n">data</span> <span class="o">&amp;&amp;</span> <span class="n">data</span><span class="p">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s">@&quot;Data cannot be empty&quot;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="bp">NSMutableData</span> <span class="o">*</span><span class="n">payload</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableData</span> <span class="n">data</span><span class="p">];</span>
-</span><span class='line'>  <span class="kt">int</span> <span class="n">length</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">data</span><span class="p">.</span><span class="n">length</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">payload</span> <span class="nl">appendBytes</span><span class="p">:</span><span class="n">kMagicHeader</span> <span class="nl">length</span><span class="p">:</span><span class="mi">4</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">payload</span> <span class="nl">appendBytes</span><span class="p">:</span><span class="o">&amp;</span><span class="n">length</span> <span class="nl">length</span><span class="p">:</span><span class="mi">4</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">payload</span> <span class="nl">appendData</span><span class="p">:</span><span class="n">data</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">return</span> <span class="n">payload</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>解包：取头 + 取长度 + 取内容。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">parseData:</span><span class="p">(</span><span class="bp">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">data</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">@synchronized</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">writeBuffer</span> <span class="nl">appendData</span><span class="p">:</span><span class="n">data</span><span class="p">];</span>
-</span><span class='line'>    <span class="k">while</span> <span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">writeBuffer</span><span class="p">.</span><span class="n">length</span> <span class="o">-</span> <span class="nb">self</span><span class="p">.</span><span class="n">writeBufferOffset</span> <span class="o">&gt;</span> <span class="mi">8</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>      <span class="c1">// Parse header</span>
-</span><span class='line'>      <span class="kt">char</span> <span class="n">header</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>
-</span><span class='line'>      <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">writeBuffer</span> <span class="nl">getBytes</span><span class="p">:</span><span class="n">header</span> <span class="nl">range</span><span class="p">:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">writeBufferOffset</span><span class="p">,</span> <span class="mi">4</span><span class="p">)];</span>
-</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">kMagicHeader</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">||</span> <span class="n">header</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">kMagicHeader</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">||</span> <span class="n">header</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">!=</span> <span class="n">kMagicHeader</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">||</span>
-</span><span class='line'>          <span class="n">header</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">!=</span> <span class="n">kMagicHeader</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Invalid magic header&quot;</span><span class="p">);</span>
-</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">writeBufferOffset</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
-</span><span class='line'>        <span class="k">continue</span><span class="p">;</span>
-</span><span class='line'>      <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="c1">// Parse length</span>
-</span><span class='line'>      <span class="kt">int</span> <span class="n">length</span><span class="p">;</span>
-</span><span class='line'>      <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">writeBuffer</span> <span class="nl">getBytes</span><span class="p">:</span><span class="o">&amp;</span><span class="n">length</span> <span class="nl">range</span><span class="p">:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">writeBufferOffset</span> <span class="o">+</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)];</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="c1">// Parse payload</span>
-</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">writeBuffer</span><span class="p">.</span><span class="n">length</span> <span class="o">-</span> <span class="nb">self</span><span class="p">.</span><span class="n">writeBufferOffset</span> <span class="o">-</span> <span class="mi">8</span> <span class="o">&lt;</span> <span class="n">length</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">break</span><span class="p">;</span>
-</span><span class='line'>      <span class="p">}</span>
-</span><span class='line'>      <span class="bp">NSData</span> <span class="o">*</span><span class="n">payload</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSData</span> <span class="nl">dataWithBytes</span><span class="p">:[</span><span class="nb">self</span><span class="p">.</span><span class="n">writeBuffer</span> <span class="n">bytes</span><span class="p">]</span> <span class="o">+</span> <span class="nb">self</span><span class="p">.</span><span class="n">writeBufferOffset</span> <span class="o">+</span> <span class="mi">8</span> <span class="nl">length</span><span class="p">:</span><span class="n">length</span><span class="p">];</span>
-</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">delegate</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">delegate</span> <span class="nl">onIncomingData</span><span class="p">:</span><span class="n">payload</span><span class="p">];</span>
-</span><span class='line'>      <span class="p">}</span>
-</span><span class='line'>      <span class="nb">self</span><span class="p">.</span><span class="n">writeBufferOffset</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">writeBufferOffset</span> <span class="o">+</span> <span class="mi">8</span> <span class="o">+</span> <span class="n">length</span><span class="p">;</span>
-</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">writeBufferOffset</span> <span class="o">&gt;=</span> <span class="nb">self</span><span class="p">.</span><span class="n">writeBuffer</span><span class="p">.</span><span class="n">length</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">writeBuffer</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSMutableData</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">writeBufferOffset</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'>      <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>NSNetServiceBrowser</h2>
-
-<p>扫描service。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">start</span><span class="p">{</span>
-</span><span class='line'>  <span class="bp">NSNetServiceBrowser</span> <span class="o">*</span><span class="n">browser</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSNetServiceBrowser</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'>  <span class="n">browser</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">browser</span> <span class="nl">searchForServicesOfType</span><span class="p">:</span><span class="s">@&quot;_http._tcp.&quot;</span> <span class="nl">inDomain</span><span class="p">:</span><span class="s">@&quot;&quot;</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">netServiceBrowser:</span><span class="p">(</span><span class="bp">NSNetServiceBrowser</span> <span class="o">*</span><span class="p">)</span><span class="nv">aNetServiceBrowser</span>
-</span><span class='line'>           <span class="nf">didFindService:</span><span class="p">(</span><span class="bp">NSNetService</span> <span class="o">*</span><span class="p">)</span><span class="nv">aNetService</span>
-</span><span class='line'>               <span class="nf">moreComing:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">moreComing</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">([</span><span class="nb">self</span><span class="p">.</span><span class="n">serviceTypes</span> <span class="nl">containsObject</span><span class="p">:</span><span class="n">aNetService</span><span class="p">.</span><span class="n">name</span><span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Found a service: %@&quot;</span><span class="p">,</span> <span class="n">aNetService</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">aNetService</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">aNetService</span> <span class="nl">resolveWithTimeout</span><span class="p">:</span><span class="mi">5</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">netServiceBrowser:</span><span class="p">(</span><span class="bp">NSNetServiceBrowser</span> <span class="o">*</span><span class="p">)</span><span class="nv">aNetServiceBrowser</span>
-</span><span class='line'>         <span class="nf">didRemoveService:</span><span class="p">(</span><span class="bp">NSNetService</span> <span class="o">*</span><span class="p">)</span><span class="nv">aNetService</span>
-</span><span class='line'>               <span class="nf">moreComing:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">moreComing</span> <span class="p">{</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">netServiceDidResolveAddress:</span><span class="p">(</span><span class="bp">NSNetService</span> <span class="o">*</span><span class="p">)</span><span class="nv">netService</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">([</span><span class="nb">self</span><span class="p">.</span><span class="n">serviceTypes</span> <span class="nl">containsObject</span><span class="p">:</span><span class="n">netService</span><span class="p">.</span><span class="n">name</span><span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>    <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">delegate</span> <span class="nl">serviceAdded</span><span class="p">:</span><span class="n">netService</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="bp">NSURL</span> <span class="o">*</span><span class="n">serviceURL</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;http://%@:%li&quot;</span><span class="p">,</span> <span class="n">netService</span><span class="p">.</span><span class="n">hostName</span><span class="p">,</span> <span class="p">(</span><span class="kt">long</span><span class="p">)</span><span class="n">netService</span><span class="p">.</span><span class="n">port</span><span class="p">]];</span>
-</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Resolved address for service %@: %@&quot;</span><span class="p">,</span> <span class="n">netService</span><span class="p">,</span> <span class="n">serviceURL</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">netService:</span><span class="p">(</span><span class="bp">NSNetService</span> <span class="o">*</span><span class="p">)</span><span class="nv">sender</span> <span class="nf">didNotResolve:</span><span class="p">(</span><span class="bp">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">errorDict</span> <span class="p">{</span>
-</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Couldn&#39;t resolve address for service %@: %@&quot;</span><span class="p">,</span> <span class="n">sender</span><span class="p">,</span> <span class="n">errorDict</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Compress files and folder</h2>
-
-<p><strong>Zip</strong></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">zip</span> <span class="o">-</span><span class="n">r</span> <span class="o">-</span><span class="n">X</span> <span class="n">archive_name</span><span class="p">.</span><span class="n">zip</span> <span class="n">folder_to_compress</span>
-</span><span class='line'><span class="n">unzip</span> <span class="n">archive_name</span><span class="p">.</span><span class="n">zip</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Upload a file to Google Drive from the command line</h2>
-
-<p>Install <a href="https://github.com/prasmussen/gdrive">gdrive</a>, a command line utility for interacting with Google Drive.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">brew</span> <span class="n">install</span> <span class="n">gdrive</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">gdrive</span> <span class="n">list</span>
-</span><span class='line'><span class="n">gdrive</span> <span class="n">download</span> <span class="n">file_name</span>
-</span><span class='line'><span class="n">gdrive</span> <span class="n">upload</span> <span class="n">file_name</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Open a certain folder in Atom</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">cd</span> <span class="n">folder_path</span>
-</span><span class='line'><span class="n">atom</span> <span class="p">.</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>AFHTTPSessionManager</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">AFHTTPSessionManager</span> <span class="o">*</span><span class="n">manager</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFHTTPSessionManager</span> <span class="n">manager</span><span class="p">];</span>
-</span><span class='line'>  <span class="n">manager</span><span class="p">.</span><span class="n">responseSerializer</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFHTTPResponseSerializer</span> <span class="n">serializer</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">manager</span> <span class="nl">GET</span><span class="p">:</span><span class="n">kXGFeedbackURL</span>
-</span><span class='line'>      <span class="nl">parameters</span><span class="p">:</span><span class="nb">nil</span>
-</span><span class='line'>      <span class="nl">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSURLSessionDataTask</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">task</span><span class="p">,</span> <span class="kt">id</span> <span class="n">_Nonnull</span> <span class="n">responseObject</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">dataSource</span> <span class="o">=</span> <span class="p">[[</span><span class="n">XGFeedbackResponse</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithData</span><span class="p">:</span><span class="n">responseObject</span> <span class="nl">error</span><span class="p">:</span><span class="o">&amp;</span><span class="n">error</span><span class="p">];</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>          <span class="n">DDLogDebug</span><span class="p">(</span><span class="s">@&quot;XG - Feedback response error %@&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">.</span><span class="n">localizedDescription</span><span class="p">);</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="n">DDLogDebug</span><span class="p">(</span><span class="s">@&quot;XG - Feedback response %@&quot;</span><span class="p">,</span> <span class="nb">self</span><span class="p">.</span><span class="n">dataSource</span><span class="p">);</span>
-</span><span class='line'>      <span class="p">}</span>
-</span><span class='line'>      <span class="nl">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSURLSessionDataTask</span> <span class="o">*</span><span class="n">_Nullable</span> <span class="n">task</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">error</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">DDLogDebug</span><span class="p">(</span><span class="s">@&quot;XG - Feedback fail %@&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">.</span><span class="n">localizedDescription</span><span class="p">);</span>
-</span><span class='line'>      <span class="p">}];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>JSONModel</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &lt;JSONModel/JSONModel.h&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@protocol</span> <span class="nc">XGFeedbackItem</span>;
-</span><span class='line'><span class="k">@protocol</span> <span class="nc">XGFeedbackCategory</span>;
-</span><span class='line'>
-</span><span class='line'><span class="k">@interface</span> <span class="nc">XGFeedbackItem</span> : <span class="nc">JSONModel</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="bp">NSString</span> <span class="o">*</span><span class="n">cn</span><span class="p">;</span>
-</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="bp">NSString</span> <span class="o">*</span><span class="n">en</span><span class="p">;</span>
-</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="bp">NSString</span> <span class="o">*</span><span class="n">tw</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@interface</span> <span class="nc">XGFeedbackCategory</span> : <span class="nc">JSONModel</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="n">XGFeedbackItem</span> <span class="o">*</span><span class="n">title</span><span class="p">;</span>
-</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="bp">NSArray</span><span class="o">&lt;</span><span class="n">XGFeedbackItem</span> <span class="o">*&gt;&lt;</span><span class="n">XGFeedbackItem</span><span class="o">&gt;</span> <span class="o">*</span><span class="n">detail</span><span class="p">;</span>
-</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">assign</span><span class="p">)</span> <span class="kt">BOOL</span> <span class="n">multiple</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@interface</span> <span class="nc">XGFeedbackResponse</span> : <span class="nc">JSONModel</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="bp">NSString</span> <span class="o">*</span><span class="n">product</span><span class="p">;</span>
-</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="bp">NSArray</span><span class="o">&lt;</span><span class="n">XGFeedbackCategory</span> <span class="o">*&gt;&lt;</span><span class="n">XGFeedbackCategory</span><span class="o">&gt;</span> <span class="o">*</span><span class="n">content</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>获取系统语言</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">NSString</span> <span class="o">*</span><span class="n">language</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSLocale</span> <span class="n">preferredLanguages</span><span class="p">]</span> <span class="n">firstObject</span><span class="p">];</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">([</span><span class="n">language</span> <span class="nl">hasPrefix</span><span class="p">:</span><span class="s">@&quot;zh-Hans&quot;</span><span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nb">self</span><span class="p">.</span><span class="n">cn</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">([</span><span class="n">language</span> <span class="nl">hasPrefix</span><span class="p">:</span><span class="s">@&quot;zh-Hant&quot;</span><span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nb">self</span><span class="p">.</span><span class="n">tw</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nb">self</span><span class="p">.</span><span class="n">en</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/06/16/ioszhi-shi-xiao-ji-170612/'>http://sxgfxm.github.io/blog/2017/06/16/ioszhi-shi-xiao-ji-170612/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>

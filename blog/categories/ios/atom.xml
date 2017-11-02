@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-10-18T09:12:58+08:00</updated>
+  <updated>2017-11-02T10:58:53+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,127 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-171023]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/11/02/ioszhi-shi-xiao-ji-171023/"/>
+    <updated>2017-11-02T10:34:10+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/11/02/ioszhi-shi-xiao-ji-171023</id>
+    <content type="html"><![CDATA[<h2>UITableView AccessoryView TintColor</h2>
+
+<p>通过设置Cell的TintColor来设置AccessoryView的tintColor。</p>
+
+<h2>Git Rebase</h2>
+
+<p><code>git rebase</code>会删除<code>merge commit</code>。<br/>
+进行merge操作后不要向其amend代码。</p>
+
+<!-- more -->
+
+
+<h2>UITableViewCell</h2>
+
+<p>注意在返回cell的代理方法中，不要重复创建view。</p>
+
+<h2>UITableViewCell高度自适应</h2>
+
+<ol>
+<li><code>estimatedRowHeight</code>；</li>
+<li><code>-systemLayoutSizeFittingSize:</code> + cache height；</li>
+<li>ComponentKit；</li>
+</ol>
+
+
+<h2>layoutIfNeeded、setNeedsLayout、setNeedsDisplay</h2>
+
+<p>// TODO</p>
+
+<h2>动态更新Cell高度</h2>
+
+<pre><code class="objective-c">  [self.tableView beginUpdates];
+  [self.tableView endUpdates];
+</code></pre>
+
+<h2>UIImageView Animation</h2>
+
+<pre><code class="objective-c">  self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(100, 200, 50, 50)];
+  self.imageView.animationImages = @[[UIImage imageNamed:@"Image1"],[UIImage imageNamed:@"Image2"],[UIImage imageNamed:@"Image3"]];
+  self.imageView.animationDuration = 0.75;
+  self.imageView.animationRepeatCount = 10;
+  [self.view addSubview:self.imageView];
+  [self.imageView startAnimating];
+  [self.imageView stopAnimating];
+</code></pre>
+
+<h2>AVAudioPlayer Simple Use</h2>
+
+<pre><code class="objective-c">- (AVAudioPlayer *)startAudioPlayer {
+  if (!_startAudioPlayer) {
+    NSString *path = [NSString stringWithFormat:@"%@/startAudio.wav", [[NSBundle mainBundle] resourcePath]];
+    NSURL *soundURL = [NSURL fileURLWithPath:path];
+    NSError *error = nil;
+    _startAudioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:soundURL error:&amp;error];
+    if (error) {
+      DDLogDebug(@"Can't find audio file %@", error.localizedDescription);
+    }
+  }
+  return _startAudioPlayer;
+}
+</code></pre>
+
+<pre><code class="objective-c">  [self.startAudioPlayer play];
+  [self.startAudioPlayer pause];
+</code></pre>
+
+<h2>模糊效果</h2>
+
+<h3>UIBlurEffect</h3>
+
+<p>可以选择模糊亮度，但无法自定义模糊半径。</p>
+
+<pre><code class="objective-c">  UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+  UIVisualEffectView *blurView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+  blurView.frame = myView.bounds;
+  [myView addSubview:blurView];
+</code></pre>
+
+<h3>CIImage &amp; CIFilter</h3>
+
+<p>可以选择滤波算法，并设置滤波参数。</p>
+
+<pre><code class="objective-c">- (UIImage *)convertToBlurImage:(UIImage *)image {
+  //  create input image
+  CIImage *inputImage = [CIImage imageWithCGImage:[image CGImage]];
+  //  create filter
+  CIFilter *gaussianBlurFilter = [CIFilter filterWithName:@"CIGaussianBlur"];
+  //  set filter parameters
+  [gaussianBlurFilter setDefaults];
+  [gaussianBlurFilter setValue:inputImage forKey:kCIInputImageKey];
+  [gaussianBlurFilter setValue:@6 forKey:kCIInputRadiusKey];
+  //  create output image
+  CIImage *outputImage = [gaussianBlurFilter outputImage];
+  CIContext *context = [CIContext contextWithOptions:nil];
+  CGImageRef cgimg = [context createCGImage:outputImage fromRect:[inputImage extent]];
+  //  get UIImage
+  UIImage *convertedImage = [UIImage imageWithCGImage:cgimg];
+  return convertedImage;
+}
+</code></pre>
+
+<h2>UIView to UIImage</h2>
+
+<pre><code class="objective-c">- (UIImage *)imageFromUIView:(UIView *)view {
+  UIGraphicsBeginImageContextWithOptions(view.bounds.size, YES, 0.0);
+  //  render view in context
+  [view.layer renderInContext:UIGraphicsGetCurrentContext()];
+  //  get image from context
+  UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+  UIGraphicsEndImageContext();
+  return image;
+}
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-171016]]></title>
@@ -480,103 +601,6 @@ Ra, Sa, and Da are the alpha components of R, S, and D
 <h2>UIWebView</h2>
 
 <p>如果webView加载的内容被卡住，<code>[self.webView canGoBack]</code>不能立即返回，如果使用该方法判断是否可以pop页面，可能会造成卡顿。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-170911]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/09/15/ioszhi-shi-xiao-ji-170911/"/>
-    <updated>2017-09-15T17:20:49+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/09/15/ioszhi-shi-xiao-ji-170911</id>
-    <content type="html"><![CDATA[<h2>长按语音控制</h2>
-
-<pre><code class="c">-(void)setupBtn{
-  //  按下按钮
-  [self.voiceBtn addTarget:self action:@selector(btnTouchBegin:) forControlEvents:UIControlEventTouchDown];
-  //  立刻松开
-  [self.voiceBtn addTarget:self action:@selector(btnTouchEnd:) forControlEvents:UIControlEventTouchUpInside];
-  //  上划取消
-  [self.voiceBtn addTarget:self action:@selector(cancelSpeak) forControlEvents:UIControlEventTouchDragExit];
-  //  外部松开
-  [self.voiceBtn addTarget:self action:@selector(btnTouchEnd:) forControlEvents:UIControlEventTouchUpOutside];
-}
-
-//  通过计时器区分“点击”还是“长按”
-- (void)btnTouchBegin:(UIButton *)button {
-  self.countNum = 0.0f;
-  self.timer =
-      [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(handleTimer) userInfo:nil repeats:YES];
-  [self.timer fire];
-}
-
-- (void)btnTouchEnd:(UIButton *)button {
-  [self.timer invalidate];
-
-  if ([self isLongPressGesture]) {
-    //  执行长按操作
-  } else {
-    //  执行点击操作
-  }
-}
-
-// 处理时间
-- (void)handleTimer {
-  self.countNum += 0.1;
-
-  if ([self isLongPressGesture]) {
-    [self.timer invalidate];
-    [self longPressVoiceBegin];
-  }
-}
-
-// 判断是否为长按手势
-- (BOOL)isLongPressGesture {
-  return self.countNum &gt;= 0.5;
-}
-
-// 上划取消语音输入
-- (void)cancelSpeak {
-  [self voiceEnd];
-}  
-</code></pre>
-
-<!-- more -->
-
-
-<h2>长按手势控制</h2>
-
-<p>添加长按手势</p>
-
-<pre><code class="objective-c">- (void)addLongPressGesture{
-  UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressGestureAction:)];
-  [self.voiceBtn addGestureRecognizer:longPressGesture];
-}
-</code></pre>
-
-<p>处理长按手势</p>
-
-<pre><code class="objective-c">- (void)longPressGestureAction:(UILongPressGestureRecognizer *)longPress {
-  CGPoint point = [longPress locationInView:self.voiceBtn];
-  switch (longPress.state) {
-    case UIGestureRecognizerStateBegan:
-      //  长按手势开始
-      break;
-    case UIGestureRecognizerStateChanged:
-      //  长按滑动
-      break;
-    case UIGestureRecognizerStateEnded:
-      //  长按手势结束
-      break;
-    default:
-      break;
-  }
-}
-
-//  判断触点是否在特定区域内
-- (BOOL)isInViewAreaWithTouchPoint:(CGPoint)touchPoint {
-  return touchPoint.y &gt; 0;
-}
-</code></pre>
 ]]></content>
   </entry>
   
