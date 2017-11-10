@@ -105,6 +105,97 @@ $(document).bind('DOMNodeInserted', function(event) {
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2016/10/19/iospan-duan-gpszuo-biao-shi-fou-zai-zhong-guo/">iOS判断GPS坐标是否在中国</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-10-19T10:29:23+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:29 am</span></time>
+        
+           | <a href="/blog/2016/10/19/iospan-duan-gpszuo-biao-shi-fou-zai-zhong-guo/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2016/10/19/iospan-duan-gpszuo-biao-shi-fou-zai-zhong-guo/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Background</h2>
+
+<p>GPS定位已经深入生活的方方面面。现实生活中存在着多种GPS坐标系：</p>
+
+<ul>
+<li><strong>WGS-84坐标系</strong>（World Geodetic System——1984 Coordinate System），国际通用GPS坐标系。</li>
+<li><strong>GCJ-02坐标系</strong>（Guojia Cehui Ju Coordinate System），中国专用坐标系，加入随机偏差，俗称火星坐标。</li>
+<li><strong>百度坐标系</strong>，百度自己定义的坐标系。</li>
+</ul>
+
+
+<p>在iOS应用开发中，<strong>CoreLocation</strong>返回<strong>WGS坐标</strong>，当定位在中国时，如果直接用<strong>MKMapView</strong>显示位置，由于中国地图使用<strong>GCJ坐标</strong>，会使定位出现偏差，达不到预期效果。为解决这一问题，在显示位置之前，需要判断<strong>WGS坐标</strong>是否在中国，并作出相应的坐标转换。</p>
+
+<p>该问题抽象为<strong>判断点是否在多边形内部</strong>。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/10/19/iospan-duan-gpszuo-biao-shi-fou-zai-zhong-guo/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/10/18/uicollectionview-ios10-new-features/">UICollectionView iOS 10 New Features</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-10-18T20:01:45+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:01 pm</span></time>
+        
+           | <a href="/blog/2016/10/18/uicollectionview-ios10-new-features/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2016/10/18/uicollectionview-ios10-new-features/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Background</h2>
+
+<p>iPhone屏幕的刷新频率固定为60fps，为了达到流畅的滑动效果，iOS应用展示必须满足该条件。当帧率很低时，就会出现明显的卡顿现象。</p>
+
+<p>60fps相当于每帧16.67毫秒，在这么短的时间内collection view可能并不能完成从相对较慢的数据源加载数据。为了提升collection view性能，一个常用的技巧是使<code>cellForItemAtIndexPath</code>尽可能快的返回cell，比如异步加载网络图片等。为了进一步提高collection view性能，并且尽量减少开发者的工作，在iOS 10中引入了新特性。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/10/18/uicollectionview-ios10-new-features/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/10/18/github-blog-zi-ding-yi/">Github Blog - 自定义</a></h1>
     
     
@@ -396,7 +487,7 @@ $(document).bind('DOMNodeInserted', function(event) {
  <h1>Categories</h1>
  <ul id="categories">
   <li class='category'><a href='/blog/categories/componentkit/'>componentkit (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>ios (47)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (49)</a></li>
 <li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
 <li class='category'><a href='/blog/categories/reactiveobjc/'>reactiveobjc (2)</a></li>
@@ -405,6 +496,14 @@ $(document).bind('DOMNodeInserted', function(event) {
 </section><section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/11/10/ioszhi-shi-xiao-ji-171106/">iOS知识小集-171106</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/11/10/ioszhi-shi-xiao-ji-171030/">iOS知识小集-171030</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2017/11/02/ioszhi-shi-xiao-ji-171023/">iOS知识小集-171023</a>
@@ -416,14 +515,6 @@ $(document).bind('DOMNodeInserted', function(event) {
     
       <li class="post">
         <a href="/blog/2017/10/13/ioszhi-shi-xiao-ji-171009/">iOS知识小集-171009</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/09/30/reactiveobjc-memory-management/">ReactiveObjC Memory Management</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/09/30/reactiveobjc-framework-overview/">ReactiveObjC Framework Overview</a>
       </li>
     
   </ul>
