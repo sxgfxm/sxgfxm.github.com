@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-11-10T17:03:33+08:00</updated>
+  <updated>2017-11-17T17:31:21+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,62 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-171113]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/11/17/ioszhi-shi-xiao-ji-171113/"/>
+    <updated>2017-11-17T17:28:01+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/11/17/ioszhi-shi-xiao-ji-171113</id>
+    <content type="html"><![CDATA[<h2>include vs. import vs. class</h2>
+
+<h3>include</h3>
+
+<p>C语言中引用头文件的语法，无法防止重复引用头文件。</p>
+
+<h3>import</h3>
+
+<p>OC中引用头文件的语法，可以防止重复引用头文件，无法防止循环引用头文件。</p>
+
+<h3>class</h3>
+
+<p>使用<code>@class</code>告知编译器有这样一个类，书写代码时不要报错，真正调用该类的方法时，再<code>#import</code>该类。
+可以防止循环引用头文件。</p>
+
+<p>一般来讲，头文件中使用<code>@class</code>引用其他类，在源文件中<code>#import</code>该类。</p>
+
+<h2>目录结构</h2>
+
+<p>工程目录结构看出技术水平。<br/>
+高内聚，低耦合原则。</p>
+
+<h2>Group vs. Folder</h2>
+
+<p>Group创建引用，并不会创建实际文件夹，方便工程内移动；<br/>
+Folder会创建实际文件夹，方便磁盘文件与工程文件对应；</p>
+
+<h2>下拉刷新</h2>
+
+<p><code>-scrollViewDidScroll:</code>，下拉播放header view的动画；<br/>
+<code>-scrollViewDidEndDragging:willDecelerate:</code>，松手后请求数据；<br/>
+数据返回后切换到正在状态。</p>
+
+<h2>AFNetworking 内存泄露</h2>
+
+<p>如果在一个ViewController中发起网络请求，在数据返回之前退出ViewController，网络请求持有的两个block不会被释放。</p>
+
+<h2>UIBaselineAdjustment</h2>
+
+<p>当文字缩放时的对齐方法：<br/>
+<code>UIBaselineAdjustmentNone</code>：top和top对齐；<br/>
+<code>UIBaselineAdjustmentAlignBaselines</code>：top和centerY对齐；<br/>
+<code>UIBaselineAdjustmentAlignCenters</code>：centerY和centerY对齐。</p>
+
+<h2>Generated duplicate UUIDs</h2>
+
+<p>解决CocoaPods 重复生成 UUID。<br/>
+在<code>Podfile</code>中添加<code>install! 'cocoapods', :deterministic_uuids =&gt; false</code>。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-171106]]></title>
@@ -352,97 +408,6 @@ iOS DeviceSupport 目录路径<code>[User]/Library/Developer/Xcode/iOS DeviceSup
 
 @end
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-171009]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/10/13/ioszhi-shi-xiao-ji-171009/"/>
-    <updated>2017-10-13T17:04:25+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/10/13/ioszhi-shi-xiao-ji-171009</id>
-    <content type="html"><![CDATA[<h2>NSInteger to NSData</h2>
-
-<pre><code class="objective-c">  -(NSData*)dataWithInteger:(NSInteger)integer{
-    return [NSData dataWithBytes:&amp;integer length:sizeof(integer)];
-  }
-</code></pre>
-
-<h2>UICollectionView contentInset</h2>
-
-<p>设置内容距离上下左右的间距。</p>
-
-<!-- more -->
-
-
-<h2>Snapshot CKComponent</h2>
-
-<pre><code class="objective-c">#import "CKComponentSnapshotTestCase.h"
-
-#import &lt;ComponentKitTestHelpers/CKComponentLifecycleTestHelper.h&gt;
-
-const CKComponentLayout componentLayout = [component layoutThatFits:sizeRange parentSize:sizeRange.max];
-CKComponentLifecycleTestHelper *componentLifecycleTestController = [[CKComponentLifecycleTestHelper alloc] initWithComponentProvider:nil sizeRangeProvider:nil];
-[componentLifecycleTestController updateWithState:(CKComponentLifecycleTestHelperState){
-  .componentLayout = componentLayout
-}];
-UIView *view = [[UIView alloc] initWithFrame:{0,0, componentLayout.size.width, componentLayout.size.height}];
-[componentLifecycleTestController attachToView:view];
-</code></pre>
-
-<pre><code class="objective-c">- (UIImage *)_imageForViewOrLayer:(id)viewOrLayer
-{
-  if ([viewOrLayer isKindOfClass:[UIView class]]) {
-    if (_usesDrawViewHierarchyInRect) {
-      return [UIImage fb_imageForView:viewOrLayer];
-    } else {
-      return [UIImage fb_imageForViewLayer:viewOrLayer];
-    }
-  } else if ([viewOrLayer isKindOfClass:[CALayer class]]) {
-    return [UIImage fb_imageForLayer:viewOrLayer];
-  } else {
-    [NSException raise:@"Only UIView and CALayer classes can be snapshotted" format:@"%@", viewOrLayer];
-  }
-  return nil;
-}
-</code></pre>
-
-<pre><code class="objective-c">+ (UIImage *)fb_imageForView:(UIView *)view
-{
-  CGRect bounds = view.bounds;
-  NSAssert1(CGRectGetWidth(bounds), @"Zero width for view %@", view);
-  NSAssert1(CGRectGetHeight(bounds), @"Zero height for view %@", view);
-
-  // If the input view is already a UIWindow, then just use that. Otherwise wrap in a window.
-  UIWindow *window = [view isKindOfClass:[UIWindow class]] ? (UIWindow *)view : view.window;
-  BOOL removeFromSuperview = NO;
-  if (!window) {
-    window = [[UIApplication sharedApplication] fb_strictKeyWindow];
-  }
-
-  if (!view.window &amp;&amp; view != window) {
-    [window addSubview:view];
-    removeFromSuperview = YES;
-  }
-
-  UIGraphicsBeginImageContextWithOptions(bounds.size, NO, 0);
-  [view layoutIfNeeded];
-  [view drawViewHierarchyInRect:view.bounds afterScreenUpdates:YES];
-
-  UIImage *snapshot = UIGraphicsGetImageFromCurrentImageContext();
-  UIGraphicsEndImageContext();
-
-  if (removeFromSuperview) {
-    [view removeFromSuperview];
-  }
-
-  return snapshot;
-}
-</code></pre>
-
-<h2>Border &amp;&amp; Shadow</h2>
-
-<p>圆角可以和Border并存，Border属于bounds里面，不会被剪切掉；
-圆角不能和Shadow并存，<code>maskToBounds</code>会剪切掉Shadow；</p>
 ]]></content>
   </entry>
   

@@ -105,6 +105,90 @@ $(document).bind('DOMNodeInserted', function(event) {
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2017/11/17/ioszhi-shi-xiao-ji-171113/">iOS知识小集-171113</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-11-17T17:28:01+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>5:28 pm</span></time>
+        
+           | <a href="/blog/2017/11/17/ioszhi-shi-xiao-ji-171113/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/11/17/ioszhi-shi-xiao-ji-171113/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>include vs. import vs. class</h2>
+
+<h3>include</h3>
+
+<p>C语言中引用头文件的语法，无法防止重复引用头文件。</p>
+
+<h3>import</h3>
+
+<p>OC中引用头文件的语法，可以防止重复引用头文件，无法防止循环引用头文件。</p>
+
+<h3>class</h3>
+
+<p>使用<code>@class</code>告知编译器有这样一个类，书写代码时不要报错，真正调用该类的方法时，再<code>#import</code>该类。
+可以防止循环引用头文件。</p>
+
+<p>一般来讲，头文件中使用<code>@class</code>引用其他类，在源文件中<code>#import</code>该类。</p>
+
+<h2>目录结构</h2>
+
+<p>工程目录结构看出技术水平。<br/>
+高内聚，低耦合原则。</p>
+
+<h2>Group vs. Folder</h2>
+
+<p>Group创建引用，并不会创建实际文件夹，方便工程内移动；<br/>
+Folder会创建实际文件夹，方便磁盘文件与工程文件对应；</p>
+
+<h2>下拉刷新</h2>
+
+<p><code>-scrollViewDidScroll:</code>，下拉播放header view的动画；<br/>
+<code>-scrollViewDidEndDragging:willDecelerate:</code>，松手后请求数据；<br/>
+数据返回后切换到正在状态。</p>
+
+<h2>AFNetworking 内存泄露</h2>
+
+<p>如果在一个ViewController中发起网络请求，在数据返回之前退出ViewController，网络请求持有的两个block不会被释放。</p>
+
+<h2>UIBaselineAdjustment</h2>
+
+<p>当文字缩放时的对齐方法：<br/>
+<code>UIBaselineAdjustmentNone</code>：top和top对齐；<br/>
+<code>UIBaselineAdjustmentAlignBaselines</code>：top和centerY对齐；<br/>
+<code>UIBaselineAdjustmentAlignCenters</code>：centerY和centerY对齐。</p>
+
+<h2>Generated duplicate UUIDs</h2>
+
+<p>解决CocoaPods 重复生成 UUID。<br/>
+在<code>Podfile</code>中添加<code>install! 'cocoapods', :deterministic_uuids =&gt; false</code>。<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2017/11/17/ioszhi-shi-xiao-ji-171113/'><a href="http://sxgfxm.github.io/blog/2017/11/17/ioszhi-shi-xiao-ji-171113/">http://sxgfxm.github.io/blog/2017/11/17/ioszhi-shi-xiao-ji-171113/</a></a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
+  </p></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2017/11/10/ioszhi-shi-xiao-ji-171106/">iOS知识小集-171106</a></h1>
     
     
@@ -529,144 +613,6 @@ The <strong>RACSignal -> RACSubscriber</strong> relationship is torn down as soo
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/09/15/ioszhi-shi-xiao-ji-170911/">iOS知识小集-170911</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2017-09-15T17:20:49+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>5:20 pm</span></time>
-        
-           | <a href="/blog/2017/09/15/ioszhi-shi-xiao-ji-170911/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/09/15/ioszhi-shi-xiao-ji-170911/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>长按语音控制</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="o">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">setupBtn</span><span class="p">{</span>
-</span><span class='line'>  <span class="c1">//  按下按钮</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">voiceBtn</span> <span class="nl">addTarget</span><span class="p">:</span><span class="n">self</span> <span class="nl">action</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="nl">btnTouchBegin</span><span class="p">:)</span> <span class="nl">forControlEvents</span><span class="p">:</span><span class="n">UIControlEventTouchDown</span><span class="p">];</span>
-</span><span class='line'>  <span class="c1">//  立刻松开</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">voiceBtn</span> <span class="nl">addTarget</span><span class="p">:</span><span class="n">self</span> <span class="nl">action</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="nl">btnTouchEnd</span><span class="p">:)</span> <span class="nl">forControlEvents</span><span class="p">:</span><span class="n">UIControlEventTouchUpInside</span><span class="p">];</span>
-</span><span class='line'>  <span class="c1">//  上划取消</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">voiceBtn</span> <span class="nl">addTarget</span><span class="p">:</span><span class="n">self</span> <span class="nl">action</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">cancelSpeak</span><span class="p">)</span> <span class="nl">forControlEvents</span><span class="p">:</span><span class="n">UIControlEventTouchDragExit</span><span class="p">];</span>
-</span><span class='line'>  <span class="c1">//  外部松开</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">voiceBtn</span> <span class="nl">addTarget</span><span class="p">:</span><span class="n">self</span> <span class="nl">action</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="nl">btnTouchEnd</span><span class="p">:)</span> <span class="nl">forControlEvents</span><span class="p">:</span><span class="n">UIControlEventTouchUpOutside</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//  通过计时器区分“点击”还是“长按”</span>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">btnTouchBegin</span><span class="p">:(</span><span class="n">UIButton</span> <span class="o">*</span><span class="p">)</span><span class="n">button</span> <span class="p">{</span>
-</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">countNum</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">=</span>
-</span><span class='line'>      <span class="p">[</span><span class="n">NSTimer</span> <span class="nl">scheduledTimerWithTimeInterval</span><span class="p">:</span><span class="mf">0.1</span> <span class="nl">target</span><span class="p">:</span><span class="n">self</span> <span class="nl">selector</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">handleTimer</span><span class="p">)</span> <span class="nl">userInfo</span><span class="p">:</span><span class="n">nil</span> <span class="nl">repeats</span><span class="p">:</span><span class="n">YES</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="n">fire</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">btnTouchEnd</span><span class="p">:(</span><span class="n">UIButton</span> <span class="o">*</span><span class="p">)</span><span class="n">button</span> <span class="p">{</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="n">invalidate</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">if</span> <span class="p">([</span><span class="n">self</span> <span class="n">isLongPressGesture</span><span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>    <span class="c1">//  执行长按操作</span>
-</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span><span class='line'>    <span class="c1">//  执行点击操作</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 处理时间</span>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">handleTimer</span> <span class="p">{</span>
-</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">countNum</span> <span class="o">+=</span> <span class="mf">0.1</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">if</span> <span class="p">([</span><span class="n">self</span> <span class="n">isLongPressGesture</span><span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="n">invalidate</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">self</span> <span class="n">longPressVoiceBegin</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 判断是否为长按手势</span>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">isLongPressGesture</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="n">countNum</span> <span class="o">&gt;=</span> <span class="mf">0.5</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 上划取消语音输入</span>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">cancelSpeak</span> <span class="p">{</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">self</span> <span class="n">voiceEnd</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2017/09/15/ioszhi-shi-xiao-ji-170911/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -692,7 +638,7 @@ The <strong>RACSignal -> RACSubscriber</strong> relationship is torn down as soo
  <h1>Categories</h1>
  <ul id="categories">
   <li class='category'><a href='/blog/categories/componentkit/'>componentkit (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>ios (49)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (50)</a></li>
 <li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
 <li class='category'><a href='/blog/categories/reactiveobjc/'>reactiveobjc (2)</a></li>
@@ -701,6 +647,10 @@ The <strong>RACSignal -> RACSubscriber</strong> relationship is torn down as soo
 </section><section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/11/17/ioszhi-shi-xiao-ji-171113/">iOS知识小集-171113</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2017/11/10/ioszhi-shi-xiao-ji-171106/">iOS知识小集-171106</a>
@@ -716,10 +666,6 @@ The <strong>RACSignal -> RACSubscriber</strong> relationship is torn down as soo
     
       <li class="post">
         <a href="/blog/2017/10/17/ioszhi-shi-xiao-ji-171016/">iOS知识小集-171016</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/10/13/ioszhi-shi-xiao-ji-171009/">iOS知识小集-171009</a>
       </li>
     
   </ul>

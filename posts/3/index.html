@@ -105,6 +105,100 @@ $(document).bind('DOMNodeInserted', function(event) {
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2017/07/10/ioszhi-shi-xiao-ji-170703/">iOS知识小集-170703</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-07-10T11:09:16+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>11:09 am</span></time>
+        
+           | <a href="/blog/2017/07/10/ioszhi-shi-xiao-ji-170703/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/07/10/ioszhi-shi-xiao-ji-170703/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>CAKeyFrameAnimation</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">CAKeyframeAnimation</span> <span class="o">*</span><span class="p">)</span><span class="nf">circleShake</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">_circleShake</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">CGFloat</span> <span class="n">baseX</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">circleMask</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">_circleShake</span> <span class="o">=</span> <span class="p">[</span><span class="bp">CAKeyframeAnimation</span> <span class="nl">animationWithKeyPath</span><span class="p">:</span><span class="s">@&quot;position.x&quot;</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">_circleShake</span><span class="p">.</span><span class="n">keyTimes</span> <span class="o">=</span> <span class="l">@[</span>
+</span><span class='line'>      <span class="mi">@0</span><span class="p">,</span>
+</span><span class='line'>      <span class="l">@(</span><span class="mf">0.1</span> <span class="o">/</span> <span class="mf">0.8</span><span class="l">)</span><span class="p">,</span>
+</span><span class='line'>      <span class="l">@(</span><span class="mf">0.2</span> <span class="o">/</span> <span class="mf">0.8</span><span class="l">)</span><span class="p">,</span>
+</span><span class='line'>      <span class="l">@(</span><span class="mf">0.3</span> <span class="o">/</span> <span class="mf">0.8</span><span class="l">)</span><span class="p">,</span>
+</span><span class='line'>      <span class="l">@(</span><span class="mf">0.5</span> <span class="o">/</span> <span class="mf">0.8</span><span class="l">)</span><span class="p">,</span>
+</span><span class='line'>      <span class="l">@(</span><span class="mf">0.76</span> <span class="o">/</span> <span class="mf">0.8</span><span class="l">)</span>
+</span><span class='line'>    <span class="l">]</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">_circleShake</span><span class="p">.</span><span class="n">values</span> <span class="o">=</span> <span class="l">@[</span>
+</span><span class='line'>      <span class="l">@(</span><span class="n">baseX</span><span class="l">)</span><span class="p">,</span>
+</span><span class='line'>      <span class="l">@(</span><span class="n">baseX</span> <span class="o">-</span> <span class="mi">11</span><span class="l">)</span><span class="p">,</span>
+</span><span class='line'>      <span class="l">@(</span><span class="n">baseX</span> <span class="o">+</span> <span class="mi">11</span><span class="l">)</span><span class="p">,</span>
+</span><span class='line'>      <span class="l">@(</span><span class="n">baseX</span> <span class="o">-</span> <span class="mi">11</span><span class="l">)</span><span class="p">,</span>
+</span><span class='line'>      <span class="l">@(</span><span class="n">baseX</span> <span class="o">+</span> <span class="mi">11</span><span class="l">)</span><span class="p">,</span>
+</span><span class='line'>      <span class="l">@(</span><span class="n">baseX</span><span class="l">)</span>
+</span><span class='line'>    <span class="l">]</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">_circleShake</span><span class="p">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">_circleShake</span><span class="p">.</span><span class="n">removedOnCompletion</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">_circleShake</span><span class="p">.</span><span class="n">fillMode</span> <span class="o">=</span> <span class="n">kCAFillModeForwards</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">_circleShake</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/07/10/ioszhi-shi-xiao-ji-170703/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2017/07/03/ioszhi-shi-xiao-ji-170626/">iOS知识小集-170626</a></h1>
     
     
@@ -471,51 +565,6 @@ A component is a fixed description that can be used to paint a view but that is 
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170501/">iOS知识小集-170501</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2017-05-17T16:42:40+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:42 pm</span></time>
-        
-           | <a href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170501/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170501/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>ComponentKit Tutorial - CollectionView</h1>
-
-<h2>Install</h2>
-
-<p>通过 <strong>Carthage</strong> 安装，在 <strong>Cartfile</strong> 中添加<code>github "facebook/ComponentKit" ~&gt; 0.20</code>，然后运行<code>carthage update</code>，编译完成后，在 <strong>Embedded Binaries</strong> 添加<code>Carthage/Build/iOS/ComponentKit.framework</code>。所有需要使用ComponentKit的源文件需要修改后缀为 <strong>.mm</strong>。</p>
-
-<h2>Philosophy</h2>
-
-<p>Doing so this reverses the traditional approach for a <code>UICollectionViewDataSource</code>. Usually the controller layer will <strong>tell</strong> the <code>UICollectionView</code> to update and then the <code>UICollectionView</code> <strong>ask</strong> the datasource for the data. Here the model is  more Reactive, from an external prospective, the datasource is <strong>told</strong> what changes to apply and then <strong>tell</strong> the collection view to apply the corresponding changes.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170501/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/4">&larr; Older</a>
@@ -543,7 +592,7 @@ A component is a fixed description that can be used to paint a view but that is 
  <h1>Categories</h1>
  <ul id="categories">
   <li class='category'><a href='/blog/categories/componentkit/'>componentkit (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>ios (49)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (50)</a></li>
 <li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
 <li class='category'><a href='/blog/categories/reactiveobjc/'>reactiveobjc (2)</a></li>
@@ -552,6 +601,10 @@ A component is a fixed description that can be used to paint a view but that is 
 </section><section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/11/17/ioszhi-shi-xiao-ji-171113/">iOS知识小集-171113</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2017/11/10/ioszhi-shi-xiao-ji-171106/">iOS知识小集-171106</a>
@@ -567,10 +620,6 @@ A component is a fixed description that can be used to paint a view but that is 
     
       <li class="post">
         <a href="/blog/2017/10/17/ioszhi-shi-xiao-ji-171016/">iOS知识小集-171016</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/10/13/ioszhi-shi-xiao-ji-171009/">iOS知识小集-171009</a>
       </li>
     
   </ul>
