@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-11-17T17:31:21+08:00</updated>
+  <updated>2017-11-27T11:28:12+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,72 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-171120]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/11/27/ioszhi-shi-xiao-ji-171120/"/>
+    <updated>2017-11-27T11:25:53+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/11/27/ioszhi-shi-xiao-ji-171120</id>
+    <content type="html"><![CDATA[<h2>iOS 10.3之后删除线失效解决办法</h2>
+
+<p>iOS 10.3之前写法：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">attr</span> <span class="nl">addAttributes</span><span class="p">:</span><span class="l">@{</span>
+</span><span class='line'>    <span class="nl">NSStrikethroughStyleAttributeName</span><span class="p">:</span> <span class="l">@(</span><span class="n">NSUnderlineStyleSingle</span><span class="l">)</span>
+</span><span class='line'>  <span class="l">}</span>
+</span><span class='line'>              <span class="nl">range</span><span class="p">:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">string</span><span class="p">.</span><span class="n">length</span><span class="p">)];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>iOS 10.3之后写法：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">attr</span> <span class="nl">addAttributes</span><span class="p">:</span><span class="l">@{</span>
+</span><span class='line'>    <span class="nl">NSStrikethroughStyleAttributeName</span><span class="p">:</span> <span class="l">@(</span><span class="n">NSUnderlineStyleSingle</span><span class="l">)</span><span class="p">,</span>
+</span><span class='line'>    <span class="nl">NSBaselineOffsetAttributeName</span><span class="p">:</span> <span class="l">@(</span><span class="n">NSUnderlineStyleNone</span><span class="l">)</span>
+</span><span class='line'>  <span class="l">}</span>
+</span><span class='line'>              <span class="nl">range</span><span class="p">:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">string</span><span class="p">.</span><span class="n">length</span><span class="p">)];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!-- more -->
+
+
+<h2>设置状态栏style</h2>
+
+<p>在<code>info.plist</code>文件中设置<code>View controller-based status bar appearance</code>为<code>YES</code>。<br/>
+在对应ViewController中添加下面的方法：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="n">UIStatusBarStyle</span><span class="p">)</span><span class="nf">preferredStatusBarStyle</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">UIStatusBarStyleLightContent</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2017/11/27/ioszhi-shi-xiao-ji-171120/'>http://sxgfxm.github.io/blog/2017/11/27/ioszhi-shi-xiao-ji-171120/</a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
+  </p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-171113]]></title>
@@ -34,6 +100,9 @@
 可以防止循环引用头文件。</p>
 
 <p>一般来讲，头文件中使用<code>@class</code>引用其他类，在源文件中<code>#import</code>该类。</p>
+
+<!-- more -->
+
 
 <h2>目录结构</h2>
 
@@ -2016,243 +2085,6 @@ AVAudioSessionCategoryOptionMixWithOthers：不打断其他App音频播放。</p
 <p class='post-footer'>
   原始地址：
   <a href='http://sxgfxm.github.io/blog/2017/07/24/ioszhi-shi-xiao-ji-170717/'>http://sxgfxm.github.io/blog/2017/07/24/ioszhi-shi-xiao-ji-170717/</a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-170710]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/07/15/ioszhi-shi-xiao-ji-170710/"/>
-    <updated>2017-07-15T15:08:46+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/07/15/ioszhi-shi-xiao-ji-170710</id>
-    <content type="html"><![CDATA[<h2><a href="https://github.com/airbnb/lottie-ios">Lottie</a></h2>
-
-<p>Lottie is a mobile library for Android and iOS that parses Adobe After Effects animations exported as json with bodymovin and renders the vector animations natively on mobile and through React Native!<br/>
-Common Animations</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">LOTAnimationView</span> <span class="o">*</span><span class="n">animation</span> <span class="o">=</span> <span class="p">[</span><span class="n">LOTAnimationView</span> <span class="nl">animationNamed</span><span class="p">:</span><span class="s">@&quot;Lottie&quot;</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="n">animation</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="n">animation</span> <span class="nl">playWithCompletion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">animationFinished</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="c1">// Do Something</span>
-</span><span class='line'><span class="p">}];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<!-- more -->
-
-
-<p>UIViewController Transition</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="bp">UIViewControllerAnimatedTransitioning</span><span class="o">&gt;</span><span class="p">)</span><span class="nf">animationControllerForPresentedController:</span><span class="p">(</span><span class="bp">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">presented</span>
-</span><span class='line'>                                                                  <span class="nf">presentingController:</span><span class="p">(</span><span class="bp">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">presenting</span>
-</span><span class='line'>                                                                      <span class="nf">sourceController:</span><span class="p">(</span><span class="bp">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">source</span> <span class="p">{</span>
-</span><span class='line'>  <span class="n">LOTAnimationTransitionController</span> <span class="o">*</span><span class="n">animationController</span> <span class="o">=</span> <span class="p">[[</span><span class="n">LOTAnimationTransitionController</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithAnimationNamed</span><span class="p">:</span><span class="s">@&quot;vcTransition1&quot;</span>
-</span><span class='line'>                                                                                                          <span class="nl">fromLayerNamed</span><span class="p">:</span><span class="s">@&quot;outLayer&quot;</span>
-</span><span class='line'>                                                                                                            <span class="nl">toLayerNamed</span><span class="p">:</span><span class="s">@&quot;inLayer&quot;</span><span class="p">];</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">animationController</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="bp">UIViewControllerAnimatedTransitioning</span><span class="o">&gt;</span><span class="p">)</span><span class="nf">animationControllerForDismissedController:</span><span class="p">(</span><span class="bp">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">dismissed</span> <span class="p">{</span>
-</span><span class='line'>  <span class="n">LOTAnimationTransitionController</span> <span class="o">*</span><span class="n">animationController</span> <span class="o">=</span> <span class="p">[[</span><span class="n">LOTAnimationTransitionController</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithAnimationNamed</span><span class="p">:</span><span class="s">@&quot;vcTransition2&quot;</span>
-</span><span class='line'>                                                                                                          <span class="nl">fromLayerNamed</span><span class="p">:</span><span class="s">@&quot;outLayer&quot;</span>
-</span><span class='line'>                                                                                                            <span class="nl">toLayerNamed</span><span class="p">:</span><span class="s">@&quot;inLayer&quot;</span><span class="p">];</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">animationController</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>导航栏设为透明</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">navigationController</span><span class="p">.</span><span class="n">navigationBar</span> <span class="nl">setBackgroundImage</span><span class="p">:[</span><span class="bp">UIImage</span> <span class="n">new</span><span class="p">]</span> <span class="nl">forBarMetrics</span><span class="p">:</span><span class="n">UIBarMetricsDefault</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">navigationController</span><span class="p">.</span><span class="n">navigationBar</span> <span class="nl">setShadowImage</span><span class="p">:[</span><span class="bp">UIImage</span> <span class="n">new</span><span class="p">]];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>导航栏还原</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">navigationController</span><span class="p">.</span><span class="n">navigationBar</span> <span class="nl">setBackgroundImage</span><span class="p">:</span><span class="nb">nil</span> <span class="nl">forBarMetrics</span><span class="p">:</span><span class="n">UIBarMetricsDefault</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">navigationController</span><span class="p">.</span><span class="n">navigationBar</span> <span class="nl">setShadowImage</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Change UITextField Placeholder Color</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">string</span> <span class="o">=</span> <span class="s">@&quot;请输入Wi-Fi名称&quot;</span><span class="p">;</span>
-</span><span class='line'>  <span class="bp">NSMutableAttributedString</span> <span class="o">*</span><span class="n">attributedString</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSMutableAttributedString</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithString</span><span class="p">:</span><span class="n">string</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">attributedString</span> <span class="nl">addAttribute</span><span class="p">:</span><span class="n">NSForegroundColorAttributeName</span> <span class="nl">value</span><span class="p">:[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">]</span> <span class="nl">range</span><span class="p">:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">string</span><span class="p">.</span><span class="n">length</span><span class="p">)];</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">wifiNameTF</span><span class="p">.</span><span class="n">attributedPlaceholder</span> <span class="o">=</span> <span class="n">attributedString</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>KVO NSKeyValueObservingOptions</h2>
-
-<p>NSKeyValueObservingOptionNew：获取新值<br/>
-NSKeyValueObservingOptionOld：获取旧值<br/>
-NSKeyValueObservingOptionInitial：获取初始值<br/>
-NSKeyValueObservingOptionPrior：获取新旧值</p>
-
-<h2>UITextField nil While Editing</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">textField:</span><span class="p">(</span><span class="bp">UITextField</span><span class="o">*</span><span class="p">)</span><span class="nv">textField</span> <span class="nf">shouldChangeCharactersInRange:</span><span class="p">(</span><span class="n">NSRange</span><span class="p">)</span><span class="nv">range</span> <span class="nf">replacementString:</span><span class="p">(</span><span class="bp">NSString</span><span class="o">*</span><span class="p">)</span><span class="nv">string</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">range</span><span class="p">.</span><span class="n">location</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">string</span><span class="p">.</span><span class="n">length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="c1">//textField is empty</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>UIKeyboardAppearance</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">textField</span><span class="p">.</span><span class="n">keyboardAppearance</span> <span class="o">=</span> <span class="n">UIKeyboardAppearanceDark</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>UIView Transition Animation</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="bp">UIView</span> <span class="nl">transitionFromView</span><span class="p">:</span><span class="n">view1</span>
-</span><span class='line'>                   <span class="nl">toView</span><span class="p">:</span><span class="n">view2</span>
-</span><span class='line'>                 <span class="nl">duration</span><span class="p">:</span><span class="mi">2</span>
-</span><span class='line'>                  <span class="nl">options</span><span class="p">:</span><span class="n">animationTransitionType</span>
-</span><span class='line'>               <span class="nl">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">finished</span><span class="p">){</span>
-</span><span class='line'>                            <span class="p">[</span><span class="n">view1</span> <span class="n">removeFromSuperview</span><span class="p">];</span>
-</span><span class='line'>                          <span class="p">}];</span>
-</span><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="n">view2</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>UIView Fade In Fade Out</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">view</span> <span class="nl">setAlpha</span><span class="p">:</span><span class="mf">0.f</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mf">2.f</span> <span class="nl">delay</span><span class="p">:</span><span class="mf">0.f</span> <span class="nl">options</span><span class="p">:</span><span class="n">UIViewAnimationOptionCurveEaseIn</span> <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
-</span><span class='line'>    <span class="c1">//  fade in</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">view</span> <span class="nl">setAlpha</span><span class="p">:</span><span class="mf">1.f</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span> <span class="nl">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">finished</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mf">2.f</span> <span class="nl">delay</span><span class="p">:</span><span class="mf">0.f</span> <span class="nl">options</span><span class="p">:</span><span class="n">UIViewAnimationOptionCurveEaseInOut</span> <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
-</span><span class='line'>        <span class="c1">//  fade out</span>
-</span><span class='line'>        <span class="p">[</span><span class="n">view</span> <span class="nl">setAlpha</span><span class="p">:</span><span class="mf">0.f</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">}</span> <span class="nl">completion</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-</span><span class='line'><span class="p">}];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Reachability</h2>
-
-<p>ReachableViaWiFi</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="nb">self</span><span class="p">.</span><span class="n">reachability</span> <span class="o">=</span> <span class="p">[</span><span class="n">Reachability</span> <span class="n">reachabilityForInternetConnection</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">reachability</span> <span class="n">startNotifier</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">reachability</span> <span class="n">stopNotifier</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Wi-Fi Name</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">+</span> <span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nf">currentWifiName</span> <span class="p">{</span>
-</span><span class='line'>  <span class="bp">NSArray</span> <span class="o">*</span><span class="n">ifs</span> <span class="o">=</span> <span class="p">(</span><span class="k">__bridge_transfer</span> <span class="bp">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="n">CNCopySupportedInterfaces</span><span class="p">();</span>
-</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">ifnam</span> <span class="o">=</span> <span class="p">[</span><span class="n">ifs</span> <span class="n">firstObject</span><span class="p">];</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ifnam</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="bp">NSDictionary</span> <span class="o">*</span><span class="n">info</span> <span class="o">=</span> <span class="p">(</span><span class="k">__bridge_transfer</span> <span class="bp">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="n">CNCopyCurrentNetworkInfo</span><span class="p">((</span><span class="k">__bridge</span> <span class="n">CFStringRef</span><span class="p">)</span><span class="n">ifnam</span><span class="p">);</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">info</span><span class="p">[</span><span class="s">@&quot;SSID&quot;</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>NetworkExtension</h2>
-
-<p>Configure VPN tunnels. Customize and extend core networking features.</p>
-
-<h3>Personal VPN</h3>
-
-<p><code>NEVPNManager</code>: is used to create and manage VPN configurations and to control the resulting VPN tunnel connections.<br/>
-Non-Personal VPN configurations take precedence over Personal VPN configurations.<br/>
-Enable the &ldquo;Personal VPN&rdquo; capability for your app in Xcode.</p>
-
-<h2>UIViewController</h2>
-
-<h2>UINavigationController</h2>
-
-<h2>UITabBarController</h2>
-
-<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/07/15/ioszhi-shi-xiao-ji-170710/'>http://sxgfxm.github.io/blog/2017/07/15/ioszhi-shi-xiao-ji-170710/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>
