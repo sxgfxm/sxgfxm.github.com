@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-11-27T11:28:12+08:00</updated>
+  <updated>2017-12-02T18:11:26+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,218 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-171127]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/12/02/ioszhi-shi-xiao-ji-171127/"/>
+    <updated>2017-12-02T18:08:07+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/12/02/ioszhi-shi-xiao-ji-171127</id>
+    <content type="html"><![CDATA[<h2>ContentInset</h2>
+
+<p>内容偏移，可用于下拉刷新调整界面位置。</p>
+
+<h2>嵌套UINavigationController的UIViewController设置preferredStatusBarStyle无效</h2>
+
+<p>如果<code>UIViewController</code>有<code>UINavigationController</code>，则会先调<code>UINavigationController</code>的<code>childViewControllerForStatusBarStyle</code>方法，该方法默认返回nil，所以子<code>UIViewController</code>设置的<code>preferredStatusBarStyle</code>无效。<br/>
+解决办法，继承<code>UINavigationController</code>，并重写<code>childViewControllerForStatusBarStyle</code>方法：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nf">childViewControllerForStatusBarStyle</span><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">self</span><span class="p">.</span><span class="n">topViewController</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!-- more -->
+
+
+<h2>Present可Push的ViewController</h2>
+
+<p>需要在present之前用<code>UINavigationController</code>包装一下待present的<code>UIViewController</code>。</p>
+
+<h2>UITableView insert or delete or move cell</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#pragma mark - Edit</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">tableView:</span><span class="p">(</span><span class="bp">UITableView</span> <span class="o">*</span><span class="p">)</span><span class="nv">tableView</span> <span class="nf">canEditRowAtIndexPath:</span><span class="p">(</span><span class="bp">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">indexPath</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="n">UITableViewCellEditingStyle</span><span class="p">)</span><span class="nf">tableView:</span><span class="p">(</span><span class="bp">UITableView</span> <span class="o">*</span><span class="p">)</span><span class="nv">tableView</span> <span class="nf">editingStyleForRowAtIndexPath:</span><span class="p">(</span><span class="bp">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">indexPath</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">indexPath</span><span class="p">.</span><span class="n">section</span> <span class="o">?</span> <span class="nl">UITableViewCellEditingStyleInsert</span> <span class="p">:</span> <span class="n">UITableViewCellEditingStyleDelete</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">tableView:</span><span class="p">(</span><span class="bp">UITableView</span> <span class="o">*</span><span class="p">)</span><span class="nv">tableView</span> <span class="nf">commitEditingStyle:</span><span class="p">(</span><span class="n">UITableViewCellEditingStyle</span><span class="p">)</span><span class="nv">editingStyle</span> <span class="nf">forRowAtIndexPath:</span><span class="p">(</span><span class="bp">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">indexPath</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">switch</span> <span class="p">(</span><span class="n">editingStyle</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nl">UITableViewCellEditingStyleDelete</span><span class="p">:{</span>
+</span><span class='line'>      <span class="bp">NSString</span> <span class="o">*</span><span class="n">item</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">selectCategoies</span><span class="p">[</span><span class="n">indexPath</span><span class="p">.</span><span class="n">row</span><span class="p">];</span>
+</span><span class='line'>      <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">selectCategoies</span> <span class="nl">removeObject</span><span class="p">:</span><span class="n">item</span><span class="p">];</span>
+</span><span class='line'>      <span class="p">[</span><span class="n">tableView</span> <span class="nl">deleteRowsAtIndexPaths</span><span class="p">:</span><span class="l">@[</span><span class="n">indexPath</span><span class="l">]</span> <span class="nl">withRowAnimation</span><span class="p">:</span><span class="n">UITableViewRowAnimationFade</span><span class="p">];</span>
+</span><span class='line'>      <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">unselectCategoies</span> <span class="nl">insertObject</span><span class="p">:</span><span class="n">item</span> <span class="nl">atIndex</span><span class="p">:</span><span class="mi">0</span><span class="p">];</span>
+</span><span class='line'>      <span class="p">[</span><span class="n">tableView</span> <span class="nl">insertRowsAtIndexPaths</span><span class="p">:</span><span class="l">@[</span><span class="p">[</span><span class="bp">NSIndexPath</span> <span class="nl">indexPathForRow</span><span class="p">:</span><span class="mi">0</span> <span class="nl">inSection</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span><span class="l">]</span> <span class="nl">withRowAnimation</span><span class="p">:</span><span class="n">UITableViewRowAnimationFade</span><span class="p">];</span>
+</span><span class='line'>      <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nl">UITableViewCellEditingStyleInsert</span><span class="p">:{</span>
+</span><span class='line'>      <span class="bp">NSString</span> <span class="o">*</span><span class="n">item</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">unselectCategoies</span><span class="p">[</span><span class="n">indexPath</span><span class="p">.</span><span class="n">row</span><span class="p">];</span>
+</span><span class='line'>      <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">unselectCategoies</span> <span class="nl">removeObject</span><span class="p">:</span><span class="n">item</span><span class="p">];</span>
+</span><span class='line'>      <span class="p">[</span><span class="n">tableView</span> <span class="nl">deleteRowsAtIndexPaths</span><span class="p">:</span><span class="l">@[</span><span class="n">indexPath</span><span class="l">]</span> <span class="nl">withRowAnimation</span><span class="p">:</span><span class="n">UITableViewRowAnimationFade</span><span class="p">];</span>
+</span><span class='line'>      <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">selectCategoies</span> <span class="nl">addObject</span><span class="p">:</span><span class="n">item</span><span class="p">];</span>
+</span><span class='line'>      <span class="p">[</span><span class="n">tableView</span> <span class="nl">insertRowsAtIndexPaths</span><span class="p">:</span><span class="l">@[</span><span class="p">[</span><span class="bp">NSIndexPath</span> <span class="nl">indexPathForRow</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">selectCategoies</span><span class="p">.</span><span class="n">count</span> <span class="o">-</span> <span class="mi">1</span> <span class="nl">inSection</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span><span class="l">]</span> <span class="nl">withRowAnimation</span><span class="p">:</span><span class="n">UITableViewRowAnimationFade</span><span class="p">];</span>
+</span><span class='line'>      <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nl">UITableViewCellEditingStyleNone</span><span class="p">:</span>
+</span><span class='line'>      <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span> <span class="n">uploadCategorySetting</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nf">tableView:</span><span class="p">(</span><span class="bp">UITableView</span> <span class="o">*</span><span class="p">)</span><span class="nv">tableView</span> <span class="nf">titleForDeleteConfirmationButtonForRowAtIndexPath:</span><span class="p">(</span><span class="bp">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">indexPath</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="s">@&quot;删除&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#pragma mark - Move</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">tableView:</span><span class="p">(</span><span class="bp">UITableView</span> <span class="o">*</span><span class="p">)</span><span class="nv">tableView</span> <span class="nf">canMoveRowAtIndexPath:</span><span class="p">(</span><span class="bp">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">indexPath</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">indexPath</span><span class="p">.</span><span class="n">section</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">NO</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">tableView:</span><span class="p">(</span><span class="bp">UITableView</span> <span class="o">*</span><span class="p">)</span><span class="nv">tableView</span> <span class="nf">moveRowAtIndexPath:</span><span class="p">(</span><span class="bp">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">sourceIndexPath</span> <span class="nf">toIndexPath:</span><span class="p">(</span><span class="bp">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">destinationIndexPath</span><span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">selectCategoies</span> <span class="nl">exchangeObjectAtIndex</span><span class="p">:</span><span class="n">sourceIndexPath</span><span class="p">.</span><span class="n">row</span> <span class="nl">withObjectAtIndex</span><span class="p">:</span><span class="n">destinationIndexPath</span><span class="p">.</span><span class="n">row</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">tableView</span> <span class="nl">exchangeSubviewAtIndex</span><span class="p">:</span><span class="n">sourceIndexPath</span><span class="p">.</span><span class="n">row</span> <span class="nl">withSubviewAtIndex</span><span class="p">:</span><span class="n">destinationIndexPath</span><span class="p">.</span><span class="n">row</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span> <span class="n">uploadCategorySetting</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>CLLocation逆向地理编码</h2>
+
+<p>逆向地理编码是一个异步操作，如需使用解析后的地址，需要在block回调时添加代码，而不是在<code>-locationManager:didUpdateLocations:</code>时添加代码。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">reverseGeocodeLocation:</span><span class="p">(</span><span class="bp">CLLocation</span> <span class="o">*</span><span class="p">)</span><span class="nv">location</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">// 逆向地理编码</span>
+</span><span class='line'>  <span class="bp">CLGeocoder</span> <span class="o">*</span><span class="n">geocoder</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">CLGeocoder</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">geocoder</span> <span class="nl">reverseGeocodeLocation</span><span class="p">:</span><span class="n">location</span>
+</span><span class='line'>                 <span class="nl">completionHandler</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSArray</span> <span class="o">*</span><span class="n">placemarks</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                   <span class="n">CLLocationCoordinate2D</span> <span class="n">coordinate</span> <span class="o">=</span> <span class="n">location</span><span class="p">.</span><span class="n">coordinate</span><span class="p">;</span>
+</span><span class='line'>                   <span class="c1">// 中国坐标转换</span>
+</span><span class='line'>                   <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">[</span><span class="n">TQLocationConverter</span> <span class="nl">isLocationOutOfChina</span><span class="p">:</span><span class="n">coordinate</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>                     <span class="n">coordinate</span> <span class="o">=</span> <span class="p">[</span><span class="n">TQLocationConverter</span> <span class="nl">transformFromWGSToGCJ</span><span class="p">:</span><span class="n">coordinate</span><span class="p">];</span>
+</span><span class='line'>                     <span class="n">coordinate</span> <span class="o">=</span> <span class="p">[</span><span class="n">TQLocationConverter</span> <span class="nl">transformFromGCJToBaidu</span><span class="p">:</span><span class="n">coordinate</span><span class="p">];</span>
+</span><span class='line'>                   <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>                   <span class="k">if</span> <span class="p">(</span><span class="n">error</span> <span class="o">==</span> <span class="nb">nil</span> <span class="o">&amp;&amp;</span> <span class="p">[</span><span class="n">placemarks</span> <span class="n">count</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                     <span class="bp">CLPlacemark</span> <span class="o">*</span><span class="n">placemark</span> <span class="o">=</span> <span class="p">[</span><span class="n">placemarks</span> <span class="nl">objectAtIndex</span><span class="p">:</span><span class="mi">0</span><span class="p">];</span>
+</span><span class='line'>                     <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">currentLocation</span> <span class="nl">setLocationInfoWithPlacemark</span><span class="p">:</span><span class="n">placemark</span>
+</span><span class='line'>                                                               <span class="nl">latitude</span><span class="p">:</span><span class="n">coordinate</span><span class="p">.</span><span class="n">latitude</span>
+</span><span class='line'>                                                              <span class="nl">longitude</span><span class="p">:</span><span class="n">coordinate</span><span class="p">.</span><span class="n">longitude</span><span class="p">];</span>
+</span><span class='line'>                   <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>                     <span class="n">DDLogInfo</span><span class="p">(</span><span class="s">@&quot;No results were returned.&quot;</span><span class="p">);</span>
+</span><span class='line'>                     <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">currentLocation</span> <span class="nl">setLocationInfoWithPlacemark</span><span class="p">:</span><span class="nb">nil</span>
+</span><span class='line'>                                                               <span class="nl">latitude</span><span class="p">:</span><span class="n">coordinate</span><span class="p">.</span><span class="n">latitude</span>
+</span><span class='line'>                                                              <span class="nl">longitude</span><span class="p">:</span><span class="n">coordinate</span><span class="p">.</span><span class="n">longitude</span><span class="p">];</span>
+</span><span class='line'>                   <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>                   <span class="n">DDLogInfo</span><span class="p">(</span><span class="s">@&quot;获取逆向地理编码成功 : %@&quot;</span><span class="p">,</span> <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">currentLocation</span> <span class="n">commaSeparatedAddress</span><span class="p">]);</span>
+</span><span class='line'>                 <span class="p">}];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2017/12/02/ioszhi-shi-xiao-ji-171127/'>http://sxgfxm.github.io/blog/2017/12/02/ioszhi-shi-xiao-ji-171127/</a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
+  </p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-171120]]></title>
@@ -2061,30 +2273,6 @@ AVAudioSessionCategoryOptionMixWithOthers：不打断其他App音频播放。</p
 <p class='post-footer'>
   原始地址：
   <a href='http://sxgfxm.github.io/blog/2017/07/31/ioszhi-shi-xiao-ji-170724/'>http://sxgfxm.github.io/blog/2017/07/31/ioszhi-shi-xiao-ji-170724/</a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-170717]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/07/24/ioszhi-shi-xiao-ji-170717/"/>
-    <updated>2017-07-24T09:36:53+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/07/24/ioszhi-shi-xiao-ji-170717</id>
-    <content type="html"><![CDATA[<h2>Set UITableViewHeaderFooterView backgroundColor transparent</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="nb">self</span><span class="p">.</span><span class="n">backgroundView</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UIImageView</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithImage</span><span class="p">:[</span><span class="bp">UIImage</span> <span class="n">new</span><span class="p">]];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/07/24/ioszhi-shi-xiao-ji-170717/'>http://sxgfxm.github.io/blog/2017/07/24/ioszhi-shi-xiao-ji-170717/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>

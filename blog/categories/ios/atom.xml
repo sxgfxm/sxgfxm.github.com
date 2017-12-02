@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-11-27T11:28:12+08:00</updated>
+  <updated>2017-12-02T18:11:26+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,122 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-171127]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/12/02/ioszhi-shi-xiao-ji-171127/"/>
+    <updated>2017-12-02T18:08:07+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/12/02/ioszhi-shi-xiao-ji-171127</id>
+    <content type="html"><![CDATA[<h2>ContentInset</h2>
+
+<p>内容偏移，可用于下拉刷新调整界面位置。</p>
+
+<h2>嵌套UINavigationController的UIViewController设置preferredStatusBarStyle无效</h2>
+
+<p>如果<code>UIViewController</code>有<code>UINavigationController</code>，则会先调<code>UINavigationController</code>的<code>childViewControllerForStatusBarStyle</code>方法，该方法默认返回nil，所以子<code>UIViewController</code>设置的<code>preferredStatusBarStyle</code>无效。<br/>
+解决办法，继承<code>UINavigationController</code>，并重写<code>childViewControllerForStatusBarStyle</code>方法：<br/>
+<code>objective-c
+- (UIViewController *)childViewControllerForStatusBarStyle{
+    return self.topViewController;
+}
+</code></p>
+
+<!-- more -->
+
+
+<h2>Present可Push的ViewController</h2>
+
+<p>需要在present之前用<code>UINavigationController</code>包装一下待present的<code>UIViewController</code>。</p>
+
+<h2>UITableView insert or delete or move cell</h2>
+
+<pre><code class="objective-c">#pragma mark - Edit
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
+  return YES;
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+  return indexPath.section ? UITableViewCellEditingStyleInsert : UITableViewCellEditingStyleDelete;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+  switch (editingStyle) {
+    case UITableViewCellEditingStyleDelete:{
+      NSString *item = self.selectCategoies[indexPath.row];
+      [self.selectCategoies removeObject:item];
+      [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+      [self.unselectCategoies insertObject:item atIndex:0];
+      [tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationFade];
+      break;
+    }
+    case UITableViewCellEditingStyleInsert:{
+      NSString *item = self.unselectCategoies[indexPath.row];
+      [self.unselectCategoies removeObject:item];
+      [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+      [self.selectCategoies addObject:item];
+      [tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.selectCategoies.count - 1 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+      break;
+    }
+    case UITableViewCellEditingStyleNone:
+      break;
+  }
+  [self uploadCategorySetting];
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath{
+  return @"删除";
+}
+
+#pragma mark - Move
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath{
+  if (indexPath.section == 0) {
+    return YES;
+  }else{
+    return NO;
+  }
+}
+
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath{
+  [self.selectCategoies exchangeObjectAtIndex:sourceIndexPath.row withObjectAtIndex:destinationIndexPath.row];
+  [tableView exchangeSubviewAtIndex:sourceIndexPath.row withSubviewAtIndex:destinationIndexPath.row];
+  [self uploadCategorySetting];
+}
+</code></pre>
+
+<h2>CLLocation逆向地理编码</h2>
+
+<p>逆向地理编码是一个异步操作，如需使用解析后的地址，需要在block回调时添加代码，而不是在<code>-locationManager:didUpdateLocations:</code>时添加代码。</p>
+
+<pre><code>- (void)reverseGeocodeLocation:(CLLocation *)location {
+  // 逆向地理编码
+  CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+  [geocoder reverseGeocodeLocation:location
+                 completionHandler:^(NSArray *placemarks, NSError *error) {
+                   CLLocationCoordinate2D coordinate = location.coordinate;
+                   // 中国坐标转换
+                   if (![TQLocationConverter isLocationOutOfChina:coordinate]) {
+                     coordinate = [TQLocationConverter transformFromWGSToGCJ:coordinate];
+                     coordinate = [TQLocationConverter transformFromGCJToBaidu:coordinate];
+                   }
+
+                   if (error == nil &amp;&amp; [placemarks count] &gt; 0) {
+                     CLPlacemark *placemark = [placemarks objectAtIndex:0];
+                     [self.currentLocation setLocationInfoWithPlacemark:placemark
+                                                               latitude:coordinate.latitude
+                                                              longitude:coordinate.longitude];
+                   } else {
+                     DDLogInfo(@"No results were returned.");
+                     [self.currentLocation setLocationInfoWithPlacemark:nil
+                                                               latitude:coordinate.latitude
+                                                              longitude:coordinate.longitude];
+                   }
+
+                   DDLogInfo(@"获取逆向地理编码成功 : %@", [self.currentLocation commaSeparatedAddress]);
+                 }];
+}
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-171120]]></title>
@@ -185,127 +301,6 @@ for (id view in self.pageController.view.subviews) {
     <content type="html"><![CDATA[<h2>ReactiveObjC</h2>
 
 <p>To be finished.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-171023]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/11/02/ioszhi-shi-xiao-ji-171023/"/>
-    <updated>2017-11-02T10:34:10+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/11/02/ioszhi-shi-xiao-ji-171023</id>
-    <content type="html"><![CDATA[<h2>UITableView AccessoryView TintColor</h2>
-
-<p>通过设置Cell的TintColor来设置AccessoryView的tintColor。</p>
-
-<h2>Git Rebase</h2>
-
-<p><code>git rebase</code>会删除<code>merge commit</code>。<br/>
-进行merge操作后不要向其amend代码。</p>
-
-<!-- more -->
-
-
-<h2>UITableViewCell</h2>
-
-<p>注意在返回cell的代理方法中，不要重复创建view。</p>
-
-<h2>UITableViewCell高度自适应</h2>
-
-<ol>
-<li><code>estimatedRowHeight</code>；</li>
-<li><code>-systemLayoutSizeFittingSize:</code> + cache height；</li>
-<li>ComponentKit；</li>
-</ol>
-
-
-<h2>layoutIfNeeded、setNeedsLayout、setNeedsDisplay</h2>
-
-<p>// TODO</p>
-
-<h2>动态更新Cell高度</h2>
-
-<pre><code class="objective-c">  [self.tableView beginUpdates];
-  [self.tableView endUpdates];
-</code></pre>
-
-<h2>UIImageView Animation</h2>
-
-<pre><code class="objective-c">  self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(100, 200, 50, 50)];
-  self.imageView.animationImages = @[[UIImage imageNamed:@"Image1"],[UIImage imageNamed:@"Image2"],[UIImage imageNamed:@"Image3"]];
-  self.imageView.animationDuration = 0.75;
-  self.imageView.animationRepeatCount = 10;
-  [self.view addSubview:self.imageView];
-  [self.imageView startAnimating];
-  [self.imageView stopAnimating];
-</code></pre>
-
-<h2>AVAudioPlayer Simple Use</h2>
-
-<pre><code class="objective-c">- (AVAudioPlayer *)startAudioPlayer {
-  if (!_startAudioPlayer) {
-    NSString *path = [NSString stringWithFormat:@"%@/startAudio.wav", [[NSBundle mainBundle] resourcePath]];
-    NSURL *soundURL = [NSURL fileURLWithPath:path];
-    NSError *error = nil;
-    _startAudioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:soundURL error:&amp;error];
-    if (error) {
-      DDLogDebug(@"Can't find audio file %@", error.localizedDescription);
-    }
-  }
-  return _startAudioPlayer;
-}
-</code></pre>
-
-<pre><code class="objective-c">  [self.startAudioPlayer play];
-  [self.startAudioPlayer pause];
-</code></pre>
-
-<h2>模糊效果</h2>
-
-<h3>UIBlurEffect</h3>
-
-<p>可以选择模糊亮度，但无法自定义模糊半径。</p>
-
-<pre><code class="objective-c">  UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-  UIVisualEffectView *blurView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
-  blurView.frame = myView.bounds;
-  [myView addSubview:blurView];
-</code></pre>
-
-<h3>CIImage &amp; CIFilter</h3>
-
-<p>可以选择滤波算法，并设置滤波参数。</p>
-
-<pre><code class="objective-c">- (UIImage *)convertToBlurImage:(UIImage *)image {
-  //  create input image
-  CIImage *inputImage = [CIImage imageWithCGImage:[image CGImage]];
-  //  create filter
-  CIFilter *gaussianBlurFilter = [CIFilter filterWithName:@"CIGaussianBlur"];
-  //  set filter parameters
-  [gaussianBlurFilter setDefaults];
-  [gaussianBlurFilter setValue:inputImage forKey:kCIInputImageKey];
-  [gaussianBlurFilter setValue:@6 forKey:kCIInputRadiusKey];
-  //  create output image
-  CIImage *outputImage = [gaussianBlurFilter outputImage];
-  CIContext *context = [CIContext contextWithOptions:nil];
-  CGImageRef cgimg = [context createCGImage:outputImage fromRect:[inputImage extent]];
-  //  get UIImage
-  UIImage *convertedImage = [UIImage imageWithCGImage:cgimg];
-  return convertedImage;
-}
-</code></pre>
-
-<h2>UIView to UIImage</h2>
-
-<pre><code class="objective-c">- (UIImage *)imageFromUIView:(UIView *)view {
-  UIGraphicsBeginImageContextWithOptions(view.bounds.size, YES, 0.0);
-  //  render view in context
-  [view.layer renderInContext:UIGraphicsGetCurrentContext()];
-  //  get image from context
-  UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-  UIGraphicsEndImageContext();
-  return image;
-}
-</code></pre>
 ]]></content>
   </entry>
   
