@@ -1,0 +1,527 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS知识小集-171204 - Light's Blog</title>
+  <meta name="author" content="Light">
+
+  
+  <meta name="description" content="sxgfxm,UIViewController Transition,transitioningDelegate,UIViewControllerAnimatedTransitioning">
+  <meta name="keywords" content="sxgfxm,UIViewController Transition,transitioningDelegate,UIViewControllerAnimatedTransitioning">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://sxgfxm.github.io/blog/2017/12/11/ioszhi-shi-xiao-ji-171204/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Light's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+
+function addBlankTargetForLinks () {
+
+  $('a[href^="http"]').each(function(){
+
+      $(this).attr('target', '_blank');
+
+  });
+
+}
+
+$(document).bind('DOMNodeInserted', function(event) {
+
+  addBlankTargetForLinks();
+
+});
+
+</script>
+
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-86198628-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  
+  <meta name="baidu-site-verification" content="vgau9BNOtE" />
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Light's Blog</a></h1>
+  
+    <h2>The best or nothing.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <!-- <input type="hidden" name="sitesearch" value="sxgfxm.github.io"> -->
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS知识小集-171204</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-12-11T16:49:04+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:49 pm</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>UIViewController Transition</h2>
+
+<p>自定义Present和Dismiss动画。</p>
+
+<!-- more -->
+
+
+<h3>设置待Present的UIViewController的transitioningDelegate</h3>
+
+<p><code>modalPresentationStyle</code>为<code>FullScreen</code>时，dismiss时会自动移除<code>fromView</code>。<br/>
+<code>modalPresentationStyle</code>为<code>Custom</code>时，dismiss时会需手动移除<code>fromView</code>。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@interface</span> <span class="nc">ViewController</span> : <span class="bp">UIViewController</span> <span class="o">&lt;</span><span class="bp">UIViewControllerTransitioningDelegate</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">ViewController</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">init</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nb">self</span> <span class="o">=</span> <span class="p">[</span><span class="nb">super</span> <span class="n">init</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nb">self</span><span class="p">.</span><span class="n">modalPresentationStyle</span> <span class="o">=</span> <span class="n">UIModalPresentationOverFullScreen</span><span class="p">;</span>
+</span><span class='line'>    <span class="nb">self</span><span class="p">.</span><span class="n">transitioningDelegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nb">self</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#pragma mark - UIViewControllerTransitioningDelegate</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="bp">UIViewControllerAnimatedTransitioning</span><span class="o">&gt;</span><span class="p">)</span><span class="nf">animationControllerForPresentedController:</span><span class="p">(</span><span class="bp">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">presented</span>
+</span><span class='line'>                                                                  <span class="nf">presentingController:</span><span class="p">(</span><span class="bp">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">presenting</span>
+</span><span class='line'>                                                                      <span class="nf">sourceController:</span><span class="p">(</span><span class="bp">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">source</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="p">[</span><span class="n">PresentAnimator</span> <span class="n">new</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="bp">UIViewControllerAnimatedTransitioning</span><span class="o">&gt;</span><span class="p">)</span><span class="nf">animationControllerForDismissedController:</span><span class="p">(</span><span class="bp">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">dismissed</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="p">[</span><span class="n">DismissAnimator</span> <span class="n">new</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>创建PresentAnimator</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@interface</span> <span class="nc">PresentAnimator</span> : <span class="bp">NSObject</span> <span class="o">&lt;</span><span class="bp">UIViewControllerAnimatedTransitioning</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">PresentAnimator</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#pragma mark - UIViewControllerContextTransitioning</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">animateTransition:</span><span class="p">(</span><span class="n">nonnull</span> <span class="kt">id</span><span class="o">&lt;</span><span class="bp">UIViewControllerContextTransitioning</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">transitionContext</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">//  from -&gt; to</span>
+</span><span class='line'>  <span class="bp">UIViewController</span> <span class="o">*</span><span class="n">fromViewController</span> <span class="o">=</span> <span class="p">[</span><span class="n">transitionContext</span> <span class="nl">viewControllerForKey</span><span class="p">:</span><span class="n">UITransitionContextFromViewControllerKey</span><span class="p">];</span>
+</span><span class='line'>  <span class="bp">UIViewController</span> <span class="o">*</span><span class="n">toViewController</span> <span class="o">=</span> <span class="p">[</span><span class="n">transitionContext</span> <span class="nl">viewControllerForKey</span><span class="p">:</span><span class="n">UITransitionContextToViewControllerKey</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  contrainer</span>
+</span><span class='line'>  <span class="bp">UIView</span> <span class="o">*</span><span class="n">containerView</span> <span class="o">=</span> <span class="n">transitionContext</span><span class="p">.</span><span class="n">containerView</span><span class="p">;</span>
+</span><span class='line'>  <span class="c1">//  from -&gt; to</span>
+</span><span class='line'>  <span class="bp">UIView</span> <span class="o">*</span><span class="n">fromView</span> <span class="o">=</span> <span class="p">[</span><span class="n">transitionContext</span> <span class="nl">viewForKey</span><span class="p">:</span><span class="n">UITransitionContextFromViewKey</span><span class="p">];</span>
+</span><span class='line'>  <span class="bp">UIView</span> <span class="o">*</span><span class="n">toView</span> <span class="o">=</span> <span class="p">[</span><span class="n">transitionContext</span> <span class="nl">viewForKey</span><span class="p">:</span><span class="n">UITransitionContextToViewKey</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  add</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">containerView</span> <span class="nl">addSubview</span><span class="p">:</span><span class="n">toView</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  animation</span>
+</span><span class='line'>  <span class="n">toView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">toView</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="n">fromView</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">CGRectGetMaxY</span><span class="p">(</span><span class="n">fromView</span><span class="p">.</span><span class="n">frame</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">fromView</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">,</span> <span class="n">fromView</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:[</span><span class="nb">self</span> <span class="nl">transitionDuration</span><span class="p">:</span><span class="n">transitionContext</span><span class="p">]</span> <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">toView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">toView</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="p">[</span><span class="n">transitionContext</span> <span class="nl">finalFrameForViewController</span><span class="p">:</span><span class="n">toViewController</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">}</span> <span class="nl">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">finished</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">transitionContext</span> <span class="nl">completeTransition</span><span class="p">:</span><span class="o">!</span><span class="p">[</span><span class="n">transitionContext</span> <span class="n">transitionWasCancelled</span><span class="p">]];</span>
+</span><span class='line'>  <span class="p">}];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="n">NSTimeInterval</span><span class="p">)</span><span class="nf">transitionDuration:</span><span class="p">(</span><span class="n">nullable</span> <span class="kt">id</span><span class="o">&lt;</span><span class="bp">UIViewControllerContextTransitioning</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">transitionContext</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="mf">0.25</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>创建DismissAnimator</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@interface</span> <span class="nc">DismissAnimator</span> : <span class="bp">NSObject</span> <span class="o">&lt;</span><span class="bp">UIViewControllerAnimatedTransitioning</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">DismissAnimator</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#pragma mark - UIViewControllerContextTransitioning</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">animateTransition:</span><span class="p">(</span><span class="n">nonnull</span> <span class="kt">id</span><span class="o">&lt;</span><span class="bp">UIViewControllerContextTransitioning</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">transitionContext</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">//  from -&gt; to</span>
+</span><span class='line'>  <span class="bp">UIView</span> <span class="o">*</span><span class="n">fromView</span> <span class="o">=</span> <span class="p">[</span><span class="n">transitionContext</span> <span class="nl">viewForKey</span><span class="p">:</span><span class="n">UITransitionContextFromViewKey</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  animation</span>
+</span><span class='line'>  <span class="n">fromView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:[</span><span class="nb">self</span> <span class="nl">transitionDuration</span><span class="p">:</span><span class="n">transitionContext</span><span class="p">]</span> <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">fromView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span> <span class="nl">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">finished</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">transitionContext</span> <span class="nl">completeTransition</span><span class="p">:</span><span class="o">!</span><span class="p">[</span><span class="n">transitionContext</span> <span class="n">transitionWasCancelled</span><span class="p">]];</span>
+</span><span class='line'>  <span class="p">}];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="n">NSTimeInterval</span><span class="p">)</span><span class="nf">transitionDuration:</span><span class="p">(</span><span class="n">nullable</span> <span class="kt">id</span><span class="o">&lt;</span><span class="bp">UIViewControllerContextTransitioning</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">transitionContext</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="mf">0.25</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2017/12/11/ioszhi-shi-xiao-ji-171204/'>http://sxgfxm.github.io/blog/2017/12/11/ioszhi-shi-xiao-ji-171204/</a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
+  </p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Light</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2017-12-11T16:49:04+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:49 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2017/12/02/ioszhi-shi-xiao-ji-171127/" title="Previous Post: iOS知识小集-171127">&laquo; iOS知识小集-171127</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+ <h1>Introduction</h1>
+
+<li>
+	<span style="color:#222222;font-family:inherit;font-size:18px;font-style:inherit;font-weight:inherit;line-height:1.5;">Light</br></span>
+	<span style="font-family:inherit;font-style:inherit;font-weight:inherit;color:#222222;font-size:18px;line-height:1.5;">iOS研发工程师</br></span>
+	<span style="font-family:inherit;font-style:inherit;font-weight:inherit;color:#222222;font-size:18px;line-height:1.5;">现就职于 出门问问</br></span>
+  <span style="font-family:inherit;font-style:inherit;font-weight:inherit;color:#222222;font-size:18px;line-height:1.5;">E-mail: aysxgfxm@163.com</br></span>
+</li>
+
+</section>
+<section>
+ <h1>Categories</h1>
+ <ul id="categories">
+  <li class='category'><a href='/blog/categories/componentkit/'>componentkit (1)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (53)</a></li>
+<li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
+<li class='category'><a href='/blog/categories/reactiveobjc/'>reactiveobjc (2)</a></li>
+
+ </ul>
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/12/11/ioszhi-shi-xiao-ji-171204/">iOS知识小集-171204</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/12/02/ioszhi-shi-xiao-ji-171127/">iOS知识小集-171127</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/11/27/ioszhi-shi-xiao-ji-171120/">iOS知识小集-171120</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/11/17/ioszhi-shi-xiao-ji-171113/">iOS知识小集-171113</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/11/10/ioszhi-shi-xiao-ji-171106/">iOS知识小集-171106</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+ <h1>他山之石</h1>
+	<li>
+		<a href="http://southpeak.github.io/">南峰子的技术博客</a></br>
+	</li>
+	<li>
+		<a href="http://www.tutorialspoint.com/index.htm">TutorailSpoint</a></br>
+	</li>
+	<li>
+		<a href="http://stackoverflow.com/">StackOverflow</a></br>
+	</li>
+</section>
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/sxgfxm">@sxgfxm</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'sxgfxm',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+<section>
+ <h1>Visitors</h1>
+	<a href="http://info.flagcounter.com/CVgH"><img src="http://s09.flagcounter.com/count2/CVgH/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_10/viewers_0/labels_0/pageviews_0/flags_0/percent_0/" alt="Flag Counter" border="0"></a>
+</section>
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Light -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-86198628-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'lights-blog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://sxgfxm.github.io/blog/2017/12/11/ioszhi-shi-xiao-ji-171204/';
+        var disqus_url = 'http://sxgfxm.github.io/blog/2017/12/11/ioszhi-shi-xiao-ji-171204/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

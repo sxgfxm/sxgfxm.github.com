@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-12-02T18:11:26+08:00</updated>
+  <updated>2017-12-11T16:51:11+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,119 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-171204]]></title>
+    <link href="http://sxgfxm.github.io/blog/2017/12/11/ioszhi-shi-xiao-ji-171204/"/>
+    <updated>2017-12-11T16:49:04+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2017/12/11/ioszhi-shi-xiao-ji-171204</id>
+    <content type="html"><![CDATA[<h2>UIViewController Transition</h2>
+
+<p>自定义Present和Dismiss动画。</p>
+
+<!-- more -->
+
+
+<h3>设置待Present的UIViewController的transitioningDelegate</h3>
+
+<p><code>modalPresentationStyle</code>为<code>FullScreen</code>时，dismiss时会自动移除<code>fromView</code>。<br/>
+<code>modalPresentationStyle</code>为<code>Custom</code>时，dismiss时会需手动移除<code>fromView</code>。</p>
+
+<pre><code class="objective-c">@interface ViewController : UIViewController &lt;UIViewControllerTransitioningDelegate&gt;
+
+@end
+
+@implementation ViewController
+
+- (instancetype)init{
+  if (self = [super init]) {
+    self.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    self.transitioningDelegate = self;
+  }
+  return self;
+}
+
+#pragma mark - UIViewControllerTransitioningDelegate
+- (id&lt;UIViewControllerAnimatedTransitioning&gt;)animationControllerForPresentedController:(UIViewController *)presented
+                                                                  presentingController:(UIViewController *)presenting
+                                                                      sourceController:(UIViewController *)source {
+  return [PresentAnimator new];
+}
+
+- (id&lt;UIViewControllerAnimatedTransitioning&gt;)animationControllerForDismissedController:(UIViewController *)dismissed{
+  return [DismissAnimator new];
+}
+
+@end
+</code></pre>
+
+<h3>创建PresentAnimator</h3>
+
+<pre><code class="objective-c">@interface PresentAnimator : NSObject &lt;UIViewControllerAnimatedTransitioning&gt;
+
+@end
+
+@implementation PresentAnimator
+
+#pragma mark - UIViewControllerContextTransitioning
+- (void)animateTransition:(nonnull id&lt;UIViewControllerContextTransitioning&gt;)transitionContext {
+  //  from -&gt; to
+  UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+  UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+  //  contrainer
+  UIView *containerView = transitionContext.containerView;
+  //  from -&gt; to
+  UIView *fromView = [transitionContext viewForKey:UITransitionContextFromViewKey];
+  UIView *toView = [transitionContext viewForKey:UITransitionContextToViewKey];
+  //  add
+  [containerView addSubview:toView];
+  //  animation
+  toView.alpha = 0;
+  toView.frame = CGRectMake(fromView.frame.origin.x, CGRectGetMaxY(fromView.frame) / 2, fromView.frame.size.width, fromView.frame.size.height);
+  [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
+    toView.alpha = 1;
+    toView.frame = [transitionContext finalFrameForViewController:toViewController];
+  } completion:^(BOOL finished) {
+    [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
+  }];
+}
+
+- (NSTimeInterval)transitionDuration:(nullable id&lt;UIViewControllerContextTransitioning&gt;)transitionContext {
+  return 0.25;
+}
+
+@end
+</code></pre>
+
+<h3>创建DismissAnimator</h3>
+
+<pre><code class="objective-c">@interface DismissAnimator : NSObject &lt;UIViewControllerAnimatedTransitioning&gt;
+
+@end
+
+@implementation DismissAnimator
+
+#pragma mark - UIViewControllerContextTransitioning
+- (void)animateTransition:(nonnull id&lt;UIViewControllerContextTransitioning&gt;)transitionContext {
+  //  from -&gt; to
+  UIView *fromView = [transitionContext viewForKey:UITransitionContextFromViewKey];
+  //  animation
+  fromView.alpha = 1;
+  [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
+    fromView.alpha = 0;
+  } completion:^(BOOL finished) {
+    [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
+  }];
+}
+
+- (NSTimeInterval)transitionDuration:(nullable id&lt;UIViewControllerContextTransitioning&gt;)transitionContext {
+  return 0.25;
+}
+
+@end
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-171127]]></title>
@@ -290,17 +403,6 @@ for (id view in self.pageController.view.subviews) {
     self.offset = index * width;
 }
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-171030]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/11/10/ioszhi-shi-xiao-ji-171030/"/>
-    <updated>2017-11-10T16:39:04+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/11/10/ioszhi-shi-xiao-ji-171030</id>
-    <content type="html"><![CDATA[<h2>ReactiveObjC</h2>
-
-<p>To be finished.</p>
 ]]></content>
   </entry>
   

@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>iOS知识小集-170724 - Light's Blog</title>
+  <title>Light's Blog</title>
   <meta name="author" content="Light">
 
   
-  <meta name="description" content="sxgfxm, JavaScriptCore, contentMode,setImageEdgeInsets,Reachability">
-  <meta name="keywords" content="sxgfxm, Light's Blog, JavaScriptCore, contentMode,setImageEdgeInsets,Reachability">
+  <meta name="description" content="sxgfxm, Light's Blog">
+  <meta name="keywords" content="iOS, sxgfxm,Light's Blog, octopress, markdown, objectiveC">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://sxgfxm.github.io/blog/2017/07/31/ioszhi-shi-xiao-ji-170724/">
+  <link rel="canonical" href="http://sxgfxm.github.io/posts/7/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Light's Blog" type="application/atom+xml">
@@ -97,12 +97,15 @@ $(document).bind('DOMNodeInserted', function(event) {
 </nav>
   <div id="main">
     <div id="content">
-      <div>
-<article class="hentry" role="article">
+      <div class="blog-index">
   
+  
+  
+    <article>
+      
   <header>
     
-      <h1 class="entry-title">iOS知识小集-170724</h1>
+      <h1 class="entry-title"><a href="/blog/2016/10/16/hello-github-blog/">Hello Github Blog</a></h1>
     
     
       <p class="meta">
@@ -111,117 +114,50 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 
-<time class='entry-date' datetime='2017-07-31T10:17:32+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2017</span></span> <span class='time'>10:17 am</span></time>
+<time class='entry-date' datetime='2016-10-16T20:45:37+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:45 pm</span></time>
         
-           | <a href="#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io">Comments</a>
+           | <a href="/blog/2016/10/16/hello-github-blog/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2016/10/16/hello-github-blog/">Comments</a>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><h2>JavaScriptCore</h2>
+  <div class="entry-content"><p><strong>Hello world !</strong></p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString</span><span class="p">:</span><span class="s">@&quot;document.getElementsByTagName(&#39;audio&#39;)[0].play()&quot;</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>以此纪念独立搭建的<strong>Github Blog</strong>。</p>
 
+<p>感谢<strong>Github Pages</strong>免费空间，感谢<strong>Octopress</strong>静态化博客系统。</p>
 
+<p>感谢带我入门的Web前端工程师<strong>bounlusin</strong>（ 博客：<a href="http://bounlusin.github.io">http://bounlusin.github.io</a> ）</p>
 
+<p>感谢极客学院建立<strong>Github Blog</strong>教程 <a href="http://wiki.jikexueyuan.com/project/github-page/">http://wiki.jikexueyuan.com/project/github-page/</a></p>
 
-<!-- more -->
-
-
-<h2>调整button点击区域</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="nb">self</span><span class="p">.</span><span class="n">playBtn</span><span class="p">.</span><span class="n">contentMode</span> <span class="o">=</span> <span class="n">UIViewContentModeScaleAspectFit</span><span class="p">;</span>
-</span><span class='line'><span class="nb">self</span><span class="p">.</span><span class="n">closeBtn</span><span class="p">.</span><span class="n">contentMode</span> <span class="o">=</span> <span class="n">UIViewContentModeScaleAspectFit</span><span class="p">;</span>
-</span><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">playBtn</span> <span class="nl">setImageEdgeInsets</span><span class="p">:</span><span class="n">UIEdgeInsetsMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)];</span>
-</span><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">closeBtn</span> <span class="nl">setImageEdgeInsets</span><span class="p">:</span><span class="n">UIEdgeInsetsMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>判断网络状态</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">connected</span> <span class="p">{</span>
-</span><span class='line'>  <span class="n">NetworkStatus</span> <span class="n">internetStatus</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Reachability</span> <span class="n">reachabilityForInternetConnection</span><span class="p">]</span> <span class="n">currentReachabilityStatus</span><span class="p">];</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">internetStatus</span> <span class="o">!=</span> <span class="n">NotReachable</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
+<p><strong>If you really want it , just make everyday count !</strong></p>
 
 <p class='post-footer'>
   原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/07/31/ioszhi-shi-xiao-ji-170724/'>http://sxgfxm.github.io/blog/2017/07/31/ioszhi-shi-xiao-ji-170724/</a><br/>
+  <a href='http://sxgfxm.github.io/blog/2016/10/16/hello-github-blog/'>http://sxgfxm.github.io/blog/2016/10/16/hello-github-blog/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>
 
 </div>
-
-
-  <footer>
-    <p class="meta">
-      
+  
   
 
-<span class="byline author vcard">Posted by <span class="fn">Light</span></span>
 
-      
-
-
-
-
-<time class='entry-date' datetime='2017-07-31T10:17:32+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2017</span></span> <span class='time'>10:17 am</span></time>
-      
-
-<span class="categories">
+    </article>
   
-    <a class='category' href='/blog/categories/ios/'>ios</a>
-  
-</span>
-
-
-    </p>
+  <div class="pagination">
     
-      <div class="sharing">
-  
-  
-  
-  
-</div>
-
+    <a href="/blog/archives">Blog Archives</a>
     
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2017/07/24/ioszhi-shi-xiao-ji-170717/" title="Previous Post: iOS知识小集-170717">&laquo; iOS知识小集-170717</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2017/08/07/ioszhi-shi-xiao-ji-170731/" title="Next Post: iOS知识小集-170731">iOS知识小集-170731 &raquo;</a>
-      
-    </p>
-  </footer>
-</article>
-
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a class="next" href="/posts/6">Newer &rarr;</a>
+    
+  </div>
 </div>
-  </section>
-
-</div>
-
 <aside class="sidebar">
   
     <section>
@@ -322,7 +258,6 @@ $(document).bind('DOMNodeInserted', function(event) {
   
 </aside>
 
-
     </div>
   </div>
   <footer role="contentinfo"><p>
@@ -348,10 +283,7 @@ $(document).bind('DOMNodeInserted', function(event) {
       var disqus_shortname = 'lights-blog';
       
         
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://sxgfxm.github.io/blog/2017/07/31/ioszhi-shi-xiao-ji-170724/';
-        var disqus_url = 'http://sxgfxm.github.io/blog/2017/07/31/ioszhi-shi-xiao-ji-170724/';
-        var disqus_script = 'embed.js';
+        var disqus_script = 'count.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
