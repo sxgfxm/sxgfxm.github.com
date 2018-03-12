@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-12-11T16:51:11+08:00</updated>
+  <updated>2018-03-12T15:27:41+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,33 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-171211]]></title>
+    <link href="http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-171211/"/>
+    <updated>2018-03-12T15:26:20+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-171211</id>
+    <content type="html"><![CDATA[<h2>layoutIfNeeded</h2>
+
+<p>布局其子视图。</p>
+
+<h2>UIViewContentModeScaleAspectFill</h2>
+
+<p>需要设置<code>clipsToBounds</code>为<code>YES</code>，否则图片显示可能会溢出。</p>
+
+<h2>UITableView Edit Cell</h2>
+
+<h2>UITableView Move Cell</h2>
+
+<h2>数据与界面同步<p class='post-footer'></h2>
+
+<p>  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-171211/'><a href="http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-171211/">http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-171211/</a></a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
+  </p></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-171204]]></title>
@@ -2330,108 +2357,6 @@ AVAudioSessionCategoryOptionMixWithOthers：不打断其他App音频播放。</p
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-170731]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/08/07/ioszhi-shi-xiao-ji-170731/"/>
-    <updated>2017-08-07T10:03:41+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/08/07/ioszhi-shi-xiao-ji-170731</id>
-    <content type="html"><![CDATA[<h2>UIImage Tint Color</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">cell</span><span class="p">.</span><span class="n">icon</span> <span class="nl">sd_setImageWithURL</span><span class="p">:[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="n">myURL</span><span class="p">]</span> <span class="nl">placeholderImage</span><span class="p">:[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:</span><span class="n">imageName</span><span class="p">]</span> <span class="nl">options</span><span class="p">:</span><span class="n">SDWebImageRefreshCached</span> <span class="nl">completed</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="n">image</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">,</span> <span class="n">SDImageCacheType</span> <span class="n">cacheType</span><span class="p">,</span> <span class="bp">NSURL</span> <span class="o">*</span><span class="n">imageURL</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">cell</span><span class="p">.</span><span class="n">icon</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="p">[</span><span class="n">image</span> <span class="nl">imageWithRenderingMode</span><span class="p">:</span><span class="n">UIImageRenderingModeAlwaysTemplate</span><span class="p">];</span>
-</span><span class='line'><span class="p">}];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>调整屏幕亮度</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[[</span><span class="bp">UIScreen</span> <span class="n">mainScreen</span><span class="p">]</span> <span class="nl">setBrightness</span><span class="p">:</span><span class="mf">0.5</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>保持屏幕常亮</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="bp">UIApplication</span> <span class="n">sharedApplication</span><span class="p">].</span><span class="n">idleTimerDisabled</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<!-- more -->
-
-
-<h2>cell.contentView VS cell</h2>
-
-<p>If you want to customize cells by simply adding additional views, you should add them to the content view so they will be positioned appropriately as the cell transitions into and out of editing mode.</p>
-
-<h2>NSURLSession</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">NSURLSessionConfiguration</span> <span class="o">*</span><span class="n">config</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURLSessionConfiguration</span> <span class="n">defaultSessionConfiguration</span><span class="p">];</span>
-</span><span class='line'><span class="bp">NSURLSession</span> <span class="o">*</span><span class="n">session</span> <span class="o">=</span>
-</span><span class='line'>      <span class="p">[</span><span class="bp">NSURLSession</span> <span class="nl">sessionWithConfiguration</span><span class="p">:</span><span class="n">config</span> <span class="nl">delegate</span><span class="p">:</span><span class="nb">self</span> <span class="nl">delegateQueue</span><span class="p">:[</span><span class="bp">NSOperationQueue</span> <span class="n">mainQueue</span><span class="p">]];</span>
-</span><span class='line'><span class="p">[</span><span class="n">session</span> <span class="nl">dataTaskWithRequest</span><span class="p">:</span><span class="n">request</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">URLSession:</span><span class="p">(</span><span class="bp">NSURLSession</span> <span class="o">*</span><span class="p">)</span><span class="nv">session</span>
-</span><span class='line'>                          <span class="nf">task:</span><span class="p">(</span><span class="bp">NSURLSessionTask</span> <span class="o">*</span><span class="p">)</span><span class="nv">task</span>
-</span><span class='line'>    <span class="nf">willPerformHTTPRedirection:</span><span class="p">(</span><span class="bp">NSHTTPURLResponse</span> <span class="o">*</span><span class="p">)</span><span class="nv">response</span>
-</span><span class='line'>                    <span class="nf">newRequest:</span><span class="p">(</span><span class="bp">NSURLRequest</span> <span class="o">*</span><span class="p">)</span><span class="nv">request</span>
-</span><span class='line'>             <span class="nf">completionHandler:</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="bp">NSURLRequest</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">))</span><span class="nv">completionHandler</span> <span class="p">{</span>
-</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;urlsession request %@&quot;</span><span class="p">,</span> <span class="n">request</span><span class="p">.</span><span class="n">URL</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>后台运行</h2>
-
-<p>Target -> Capabilities -> Background Modes -> Audio；<br/>
-在info.plist中 添加<code>Required background modes</code> = <code>App plays audio or streams audio/video using AirPlay</code>。<br/>
-如果启用后台录音，会有红色显示条。</p>
-
-<h2>应用进入前台或后台通知</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// app启动或者app从后台进入前台都会调用这个方法</span>
-</span><span class='line'><span class="p">[[</span><span class="bp">NSNotificationCenter</span> <span class="n">defaultCenter</span><span class="p">]</span> <span class="nl">addObserver</span><span class="p">:</span><span class="nb">self</span> <span class="nl">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">applicationBecomeActive</span><span class="p">)</span> <span class="nl">name</span><span class="p">:</span><span class="n">UIApplicationDidBecomeActiveNotification</span> <span class="nl">object</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-</span><span class='line'><span class="c1">// app从后台进入前台都会调用这个方法</span>
-</span><span class='line'><span class="p">[[</span><span class="bp">NSNotificationCenter</span> <span class="n">defaultCenter</span><span class="p">]</span> <span class="nl">addObserver</span><span class="p">:</span><span class="nb">self</span> <span class="nl">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">applicationBecomeActive</span><span class="p">)</span> <span class="nl">name</span><span class="p">:</span><span class="n">UIApplicationWillEnterForegroundNotification</span> <span class="nl">object</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-</span><span class='line'><span class="c1">// 添加检测app进入后台的观察者</span>
-</span><span class='line'><span class="p">[[</span><span class="bp">NSNotificationCenter</span> <span class="n">defaultCenter</span><span class="p">]</span> <span class="nl">addObserver</span><span class="p">:</span><span class="nb">self</span> <span class="nl">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">applicationEnterBackground</span><span class="p">)</span> <span class="nl">name</span><span class="p">:</span> <span class="n">UIApplicationDidEnterBackgroundNotification</span> <span class="nl">object</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Logging Malloc Stack</h2>
-
-<p>如果不关闭，会导致大量无法自动清除的系统log，占用巨大磁盘空间。  <p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/08/07/ioszhi-shi-xiao-ji-170731/'><a href="http://sxgfxm.github.io/blog/2017/08/07/ioszhi-shi-xiao-ji-170731/">http://sxgfxm.github.io/blog/2017/08/07/ioszhi-shi-xiao-ji-170731/</a></a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
-  </p></p>
 ]]></content>
   </entry>
   

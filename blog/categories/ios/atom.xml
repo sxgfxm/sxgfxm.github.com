@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2017-12-11T16:51:11+08:00</updated>
+  <updated>2018-03-12T15:27:41+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,27 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-171211]]></title>
+    <link href="http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-171211/"/>
+    <updated>2018-03-12T15:26:20+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-171211</id>
+    <content type="html"><![CDATA[<h2>layoutIfNeeded</h2>
+
+<p>布局其子视图。</p>
+
+<h2>UIViewContentModeScaleAspectFill</h2>
+
+<p>需要设置<code>clipsToBounds</code>为<code>YES</code>，否则图片显示可能会溢出。</p>
+
+<h2>UITableView Edit Cell</h2>
+
+<h2>UITableView Move Cell</h2>
+
+<h2>数据与界面同步</h2>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-171204]]></title>
@@ -337,72 +358,6 @@ Folder会创建实际文件夹，方便磁盘文件与工程文件对应；</p>
 
 <p>解决CocoaPods 重复生成 UUID。<br/>
 在<code>Podfile</code>中添加<code>install! 'cocoapods', :deterministic_uuids =&gt; false</code>。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-171106]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/11/10/ioszhi-shi-xiao-ji-171106/"/>
-    <updated>2017-11-10T17:01:04+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/11/10/ioszhi-shi-xiao-ji-171106</id>
-    <content type="html"><![CDATA[<h2>UIViewController modalPresentationStyle</h2>
-
-<p>当present controller时，可以设置这个属性来控制present时的效果，可用于透明显示被遮盖的conroller，此情况下被遮盖的conroller不会调用viewDidDisappear。</p>
-
-<!-- more -->
-
-
-<h2>UIPageViewController vs. UIScrollView</h2>
-
-<p>两者都可添加controller，实现滑动切换conroller切换的效果。<br/>
-UIPageViewController支持子controller生命周期函数调用，添加到UIScrollView上的controller滑动时不会调用生命周期函数。<br/>
-UIPageViewController便于代码分离。<br/>
-UIPageViewController没有暴露bounces属性，无法通过系统API禁用，需要特殊操作才可以，这一点UIScrollView有优势。<br/>
-UIPageViewController滑动时获取的contentOffset不够准确，需要特殊处理，这一点UIScrollView有优势。<br/>
-特殊处理方法：</p>
-
-<pre><code class="objective-c">//  设置UIPageViewController的scrollView的代理为self
-for (id view in self.pageController.view.subviews) {
-    if ([view isKindOfClass:[UIScrollView class]]) {
-      UIScrollView *scrollView = (UIScrollView *)view;
-      scrollView.delegate = self;
-    }
- }
-</code></pre>
-
-<pre><code class="objective-c">- (void)setOffset:(CGFloat)offset {
-    _offset = offset;
-    //  Do something with offsetX
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    CGFloat width = scrollView.bounds.size.width;
-    CGFloat offset = self.offset;
-    NSInteger childCount = self.childControllers.count;
-    // 将当前滑动显示的view 的坐标 =&gt; self.view 的坐标
-    for (UIViewController *vc in self.childControllers) {
-      CGPoint p = [vc.view convertPoint:CGPointMake(0, 0) toView:self.view];
-      if (p.x &gt; 0 &amp;&amp; p.x &lt; width) {
-        NSInteger index = [self.childControllers indexOfObject:vc];
-        offset = index * width - p.x;
-      }
-    }
-    if (offset &gt;= (childCount - 1) * width) {
-      CGPoint p = [self.childControllers.lastObject.view convertPoint:CGPointMake(0, 0) toView:self.view];
-      offset = (childCount - 1) * width - p.x;
-    }
-    self.offset = offset;
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    CGFloat width = scrollView.bounds.size.width;
-    NSInteger index = round(self.offset / width);
-    if (index &lt; 0) {
-      index = self.childControllers.count - 1;
-    }
-    self.offset = index * width;
-}
-</code></pre>
 ]]></content>
   </entry>
   

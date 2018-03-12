@@ -105,6 +105,52 @@ $(document).bind('DOMNodeInserted', function(event) {
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2017/09/30/reactiveobjc-memory-management/">ReactiveObjC Memory Management</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-09-30T15:06:51+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>3:06 pm</span></time>
+        
+           | <a href="/blog/2017/09/30/reactiveobjc-memory-management/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/09/30/reactiveobjc-memory-management/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>You don&rsquo;t need to retain signals in order to process them.</p>
+
+<h2>Subscribers</h2>
+
+<p>Any objects referenced from those blocks will therefore be retained as part of the subscription.</p>
+
+<h2>Finite or Short-Lived Signals</h2>
+
+<p>Subscription is automatically terminated upon completion or error, and the subscriber removed.<br/>
+The <strong>RACSignal -> RACSubscriber</strong> relationship is torn down as soon as signal finishes, breaking the retain cycle.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/09/30/reactiveobjc-memory-management/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2017/09/30/reactiveobjc-framework-overview/">ReactiveObjC Framework Overview</a></h1>
     
     
@@ -652,68 +698,6 @@ AVAudioSessionCategoryOptionMixWithOthers：不打断其他App音频播放。</p
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/08/07/ioszhi-shi-xiao-ji-170731/">iOS知识小集-170731</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2017-08-07T10:03:41+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>10:03 am</span></time>
-        
-           | <a href="/blog/2017/08/07/ioszhi-shi-xiao-ji-170731/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/08/07/ioszhi-shi-xiao-ji-170731/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>UIImage Tint Color</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">cell</span><span class="p">.</span><span class="n">icon</span> <span class="nl">sd_setImageWithURL</span><span class="p">:[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="n">myURL</span><span class="p">]</span> <span class="nl">placeholderImage</span><span class="p">:[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:</span><span class="n">imageName</span><span class="p">]</span> <span class="nl">options</span><span class="p">:</span><span class="n">SDWebImageRefreshCached</span> <span class="nl">completed</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="n">image</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">,</span> <span class="n">SDImageCacheType</span> <span class="n">cacheType</span><span class="p">,</span> <span class="bp">NSURL</span> <span class="o">*</span><span class="n">imageURL</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">cell</span><span class="p">.</span><span class="n">icon</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="p">[</span><span class="n">image</span> <span class="nl">imageWithRenderingMode</span><span class="p">:</span><span class="n">UIImageRenderingModeAlwaysTemplate</span><span class="p">];</span>
-</span><span class='line'><span class="p">}];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>调整屏幕亮度</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[[</span><span class="bp">UIScreen</span> <span class="n">mainScreen</span><span class="p">]</span> <span class="nl">setBrightness</span><span class="p">:</span><span class="mf">0.5</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>保持屏幕常亮</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="bp">UIApplication</span> <span class="n">sharedApplication</span><span class="p">].</span><span class="n">idleTimerDisabled</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2017/08/07/ioszhi-shi-xiao-ji-170731/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -741,7 +725,7 @@ AVAudioSessionCategoryOptionMixWithOthers：不打断其他App音频播放。</p
  <h1>Categories</h1>
  <ul id="categories">
   <li class='category'><a href='/blog/categories/componentkit/'>componentkit (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>ios (53)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (54)</a></li>
 <li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
 <li class='category'><a href='/blog/categories/reactiveobjc/'>reactiveobjc (2)</a></li>
@@ -750,6 +734,10 @@ AVAudioSessionCategoryOptionMixWithOthers：不打断其他App音频播放。</p
 </section><section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2018/03/12/ioszhi-shi-xiao-ji-171211/">iOS知识小集-171211</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2017/12/11/ioszhi-shi-xiao-ji-171204/">iOS知识小集-171204</a>
@@ -765,10 +753,6 @@ AVAudioSessionCategoryOptionMixWithOthers：不打断其他App音频播放。</p
     
       <li class="post">
         <a href="/blog/2017/11/17/ioszhi-shi-xiao-ji-171113/">iOS知识小集-171113</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/11/10/ioszhi-shi-xiao-ji-171106/">iOS知识小集-171106</a>
       </li>
     
   </ul>
@@ -827,7 +811,7 @@ AVAudioSessionCategoryOptionMixWithOthers：不打断其他App音频播放。</p
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2017 - Light -
+  Copyright &copy; 2018 - Light -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
