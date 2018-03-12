@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2018-03-12T15:27:41+08:00</updated>
+  <updated>2018-03-12T15:31:00+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,73 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-180129]]></title>
+    <link href="http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-180129/"/>
+    <updated>2018-03-12T15:28:49+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-180129</id>
+    <content type="html"><![CDATA[<h2>圆角动画与圆角定制</h2>
+
+<pre><code>  UIView *view = [[UIView alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
+  view.backgroundColor = [UIColor redColor];
+  view.layer.cornerRadius = 20;
+  //  圆角定制
+  view.layer.maskedCorners = kCALayerMinXMaxYCorner | kCALayerMaxXMaxYCorner;
+  [self.view addSubview:view];
+  //  圆角动画
+  [UIView animateWithDuration:0.5 animations:^{
+    view.layer.cornerRadius = 0;
+  }];
+</code></pre>
+
+<h2>NSMutableAttributedString crash</h2>
+
+<pre><code>- (void)testAttributedStringInitCrash
+{
+  NSString *nilStr = nil;
+  NSAttributedString *attributedStr = [[NSAttributedString alloc] initWithString:nilStr];
+}
+</code></pre>
+
+<p>Crash Log
+~~~
+Terminating app due to uncaught exception &lsquo;NSInvalidArgumentException&rsquo;, reason: &lsquo;NSConcreteAttributedString initWithString:: nil value&rsquo;
+~~~</p>
+
+<pre><code>- (void)testMutableAttributedStringInitCrash
+{
+  NSString *nilStr = nil;
+  NSMutableAttributedString *attributedStr = [[NSMutableAttributedString alloc] initWithString:nilStr];
+}
+</code></pre>
+
+<p>Crash Log
+~~~
+Terminating app due to uncaught exception &lsquo;NSInvalidArgumentException&rsquo;, reason: &lsquo;NSConcreteMutableAttributedString initWithString:: nil value&rsquo;
+~~~</p>
+
+<pre><code>- (void)testMutableAttributedStringAddAttributeCrash
+{
+  NSString *nonnullStr = @"str";
+  NSMutableAttributedString *attributedStr = [[NSMutableAttributedString alloc] initWithString:nonnullStr];
+
+  NSString *nilValue = nil;
+  [attributedStr addAttribute:NSAttachmentAttributeName value:nilValue range:NSMakeRange(0, 1)];
+}
+</code></pre>
+
+<p>Crash Log
+~~~
+Terminating app due to uncaught exception &lsquo;NSInvalidArgumentException&rsquo;, reason: &lsquo;NSConcreteMutableAttributedString addAttribute:value:range:: nil value&rsquo;
+~~~<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-180129/'><a href="http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-180129/">http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-180129/</a></a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
+  </p></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-171211]]></title>
@@ -2342,21 +2409,6 @@ AVAudioSessionCategoryOptionMixWithOthers：不打断其他App音频播放。</p
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
   </p></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-170807]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/08/22/ioszhi-shi-xiao-ji-170807/"/>
-    <updated>2017-08-22T10:12:54+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/08/22/ioszhi-shi-xiao-ji-170807</id>
-    <content type="html"><![CDATA[<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/08/22/ioszhi-shi-xiao-ji-170807/'>http://sxgfxm.github.io/blog/2017/08/22/ioszhi-shi-xiao-ji-170807/</a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
-
 ]]></content>
   </entry>
   

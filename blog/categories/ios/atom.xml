@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2018-03-12T15:27:41+08:00</updated>
+  <updated>2018-03-12T15:31:00+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,68 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-180129]]></title>
+    <link href="http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-180129/"/>
+    <updated>2018-03-12T15:28:49+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-180129</id>
+    <content type="html"><![CDATA[<h2>圆角动画与圆角定制</h2>
+
+<pre><code>  UIView *view = [[UIView alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
+  view.backgroundColor = [UIColor redColor];
+  view.layer.cornerRadius = 20;
+  //  圆角定制
+  view.layer.maskedCorners = kCALayerMinXMaxYCorner | kCALayerMaxXMaxYCorner;
+  [self.view addSubview:view];
+  //  圆角动画
+  [UIView animateWithDuration:0.5 animations:^{
+    view.layer.cornerRadius = 0;
+  }];
+</code></pre>
+
+<h2>NSMutableAttributedString crash</h2>
+
+<pre><code>- (void)testAttributedStringInitCrash
+{
+  NSString *nilStr = nil;
+  NSAttributedString *attributedStr = [[NSAttributedString alloc] initWithString:nilStr];
+}
+</code></pre>
+
+<p>Crash Log
+~~~
+Terminating app due to uncaught exception &lsquo;NSInvalidArgumentException&rsquo;, reason: &lsquo;NSConcreteAttributedString initWithString:: nil value&rsquo;
+~~~</p>
+
+<pre><code>- (void)testMutableAttributedStringInitCrash
+{
+  NSString *nilStr = nil;
+  NSMutableAttributedString *attributedStr = [[NSMutableAttributedString alloc] initWithString:nilStr];
+}
+</code></pre>
+
+<p>Crash Log
+~~~
+Terminating app due to uncaught exception &lsquo;NSInvalidArgumentException&rsquo;, reason: &lsquo;NSConcreteMutableAttributedString initWithString:: nil value&rsquo;
+~~~</p>
+
+<pre><code>- (void)testMutableAttributedStringAddAttributeCrash
+{
+  NSString *nonnullStr = @"str";
+  NSMutableAttributedString *attributedStr = [[NSMutableAttributedString alloc] initWithString:nonnullStr];
+
+  NSString *nilValue = nil;
+  [attributedStr addAttribute:NSAttachmentAttributeName value:nilValue range:NSMakeRange(0, 1)];
+}
+</code></pre>
+
+<p>Crash Log
+~~~
+Terminating app due to uncaught exception &lsquo;NSInvalidArgumentException&rsquo;, reason: &lsquo;NSConcreteMutableAttributedString addAttribute:value:range:: nil value&rsquo;
+~~~</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-171211]]></title>
@@ -299,65 +361,6 @@
   return UIStatusBarStyleLightContent;
 }
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-171113]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/11/17/ioszhi-shi-xiao-ji-171113/"/>
-    <updated>2017-11-17T17:28:01+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/11/17/ioszhi-shi-xiao-ji-171113</id>
-    <content type="html"><![CDATA[<h2>include vs. import vs. class</h2>
-
-<h3>include</h3>
-
-<p>C语言中引用头文件的语法，无法防止重复引用头文件。</p>
-
-<h3>import</h3>
-
-<p>OC中引用头文件的语法，可以防止重复引用头文件，无法防止循环引用头文件。</p>
-
-<h3>class</h3>
-
-<p>使用<code>@class</code>告知编译器有这样一个类，书写代码时不要报错，真正调用该类的方法时，再<code>#import</code>该类。
-可以防止循环引用头文件。</p>
-
-<p>一般来讲，头文件中使用<code>@class</code>引用其他类，在源文件中<code>#import</code>该类。</p>
-
-<!-- more -->
-
-
-<h2>目录结构</h2>
-
-<p>工程目录结构看出技术水平。<br/>
-高内聚，低耦合原则。</p>
-
-<h2>Group vs. Folder</h2>
-
-<p>Group创建引用，并不会创建实际文件夹，方便工程内移动；<br/>
-Folder会创建实际文件夹，方便磁盘文件与工程文件对应；</p>
-
-<h2>下拉刷新</h2>
-
-<p><code>-scrollViewDidScroll:</code>，下拉播放header view的动画；<br/>
-<code>-scrollViewDidEndDragging:willDecelerate:</code>，松手后请求数据；<br/>
-数据返回后切换到正在状态。</p>
-
-<h2>AFNetworking 内存泄露</h2>
-
-<p>如果在一个ViewController中发起网络请求，在数据返回之前退出ViewController，网络请求持有的两个block不会被释放。</p>
-
-<h2>UIBaselineAdjustment</h2>
-
-<p>当文字缩放时的对齐方法：<br/>
-<code>UIBaselineAdjustmentNone</code>：top和top对齐；<br/>
-<code>UIBaselineAdjustmentAlignBaselines</code>：top和centerY对齐；<br/>
-<code>UIBaselineAdjustmentAlignCenters</code>：centerY和centerY对齐。</p>
-
-<h2>Generated duplicate UUIDs</h2>
-
-<p>解决CocoaPods 重复生成 UUID。<br/>
-在<code>Podfile</code>中添加<code>install! 'cocoapods', :deterministic_uuids =&gt; false</code>。</p>
 ]]></content>
   </entry>
   
