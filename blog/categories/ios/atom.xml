@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2018-03-18T18:20:48+08:00</updated>
+  <updated>2018-04-18T14:22:58+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,48 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-180319]]></title>
+    <link href="http://sxgfxm.github.io/blog/2018/04/18/ioszhi-shi-xiao-ji-180319/"/>
+    <updated>2018-04-18T14:20:28+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2018/04/18/ioszhi-shi-xiao-ji-180319</id>
+    <content type="html"><![CDATA[<h2>Today Extension 研究</h2>
+
+<h3>Layout</h3>
+
+<ol>
+<li>self.view.frame是整个屏幕大小。</li>
+</ol>
+
+
+<h3>Life cycle</h3>
+
+<ol>
+<li>滑走后，会重新创建。</li>
+</ol>
+
+
+<h2>NEVPNManager</h2>
+
+<p><code>NEVPNManager</code>是用来创建和管理VPN设置，并且处理VPN连接结果的。
+每一个应用只允许创建一个VPA设置，所以<code>NEVPNManager</code>是一个单例。
+由<code>NEVPNManager</code>创建的VPN称为私人VPN，在iOS和macOS上，非私人VPA的优先级高于私人VPN。
+使用<code>NEVPNManager</code>需要<code>com.apple.developer.networking.vpn.api entitlement</code>，需要开启应用的<code>Personal VPN</code>权限。
+在开启私人VPN前，必须从Network Extension preferences载入VPN设置，在修改VPN设置之后，必须写入Network Extension preferences。
+<code>NEVPNManager</code>的对象是线程安全的。</p>
+
+<p><code>#import &lt;NetworkExtension/NEVPNManager.h&gt;</code></p>
+
+<h2>NEVPNProtocol</h2>
+
+<p><code>NEVPNProtocol</code>用来配置VPN。</p>
+
+<h2>NEVPNConnection</h2>
+
+<p><code>NEVPNConnection</code>用来控制VPN连接。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-180312]]></title>
@@ -250,122 +292,6 @@ Terminating app due to uncaught exception &lsquo;NSInvalidArgumentException&rsqu
 }
 
 @end
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-171127]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/12/02/ioszhi-shi-xiao-ji-171127/"/>
-    <updated>2017-12-02T18:08:07+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/12/02/ioszhi-shi-xiao-ji-171127</id>
-    <content type="html"><![CDATA[<h2>ContentInset</h2>
-
-<p>内容偏移，可用于下拉刷新调整界面位置。</p>
-
-<h2>嵌套UINavigationController的UIViewController设置preferredStatusBarStyle无效</h2>
-
-<p>如果<code>UIViewController</code>有<code>UINavigationController</code>，则会先调<code>UINavigationController</code>的<code>childViewControllerForStatusBarStyle</code>方法，该方法默认返回nil，所以子<code>UIViewController</code>设置的<code>preferredStatusBarStyle</code>无效。<br/>
-解决办法，继承<code>UINavigationController</code>，并重写<code>childViewControllerForStatusBarStyle</code>方法：<br/>
-<code>objective-c
-- (UIViewController *)childViewControllerForStatusBarStyle{
-    return self.topViewController;
-}
-</code></p>
-
-<!-- more -->
-
-
-<h2>Present可Push的ViewController</h2>
-
-<p>需要在present之前用<code>UINavigationController</code>包装一下待present的<code>UIViewController</code>。</p>
-
-<h2>UITableView insert or delete or move cell</h2>
-
-<pre><code class="objective-c">#pragma mark - Edit
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
-  return YES;
-}
-
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
-  return indexPath.section ? UITableViewCellEditingStyleInsert : UITableViewCellEditingStyleDelete;
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
-  switch (editingStyle) {
-    case UITableViewCellEditingStyleDelete:{
-      NSString *item = self.selectCategoies[indexPath.row];
-      [self.selectCategoies removeObject:item];
-      [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-      [self.unselectCategoies insertObject:item atIndex:0];
-      [tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationFade];
-      break;
-    }
-    case UITableViewCellEditingStyleInsert:{
-      NSString *item = self.unselectCategoies[indexPath.row];
-      [self.unselectCategoies removeObject:item];
-      [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-      [self.selectCategoies addObject:item];
-      [tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.selectCategoies.count - 1 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
-      break;
-    }
-    case UITableViewCellEditingStyleNone:
-      break;
-  }
-  [self uploadCategorySetting];
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath{
-  return @"删除";
-}
-
-#pragma mark - Move
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath{
-  if (indexPath.section == 0) {
-    return YES;
-  }else{
-    return NO;
-  }
-}
-
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath{
-  [self.selectCategoies exchangeObjectAtIndex:sourceIndexPath.row withObjectAtIndex:destinationIndexPath.row];
-  [tableView exchangeSubviewAtIndex:sourceIndexPath.row withSubviewAtIndex:destinationIndexPath.row];
-  [self uploadCategorySetting];
-}
-</code></pre>
-
-<h2>CLLocation逆向地理编码</h2>
-
-<p>逆向地理编码是一个异步操作，如需使用解析后的地址，需要在block回调时添加代码，而不是在<code>-locationManager:didUpdateLocations:</code>时添加代码。</p>
-
-<pre><code>- (void)reverseGeocodeLocation:(CLLocation *)location {
-  // 逆向地理编码
-  CLGeocoder *geocoder = [[CLGeocoder alloc] init];
-  [geocoder reverseGeocodeLocation:location
-                 completionHandler:^(NSArray *placemarks, NSError *error) {
-                   CLLocationCoordinate2D coordinate = location.coordinate;
-                   // 中国坐标转换
-                   if (![TQLocationConverter isLocationOutOfChina:coordinate]) {
-                     coordinate = [TQLocationConverter transformFromWGSToGCJ:coordinate];
-                     coordinate = [TQLocationConverter transformFromGCJToBaidu:coordinate];
-                   }
-
-                   if (error == nil &amp;&amp; [placemarks count] &gt; 0) {
-                     CLPlacemark *placemark = [placemarks objectAtIndex:0];
-                     [self.currentLocation setLocationInfoWithPlacemark:placemark
-                                                               latitude:coordinate.latitude
-                                                              longitude:coordinate.longitude];
-                   } else {
-                     DDLogInfo(@"No results were returned.");
-                     [self.currentLocation setLocationInfoWithPlacemark:nil
-                                                               latitude:coordinate.latitude
-                                                              longitude:coordinate.longitude];
-                   }
-
-                   DDLogInfo(@"获取逆向地理编码成功 : %@", [self.currentLocation commaSeparatedAddress]);
-                 }];
-}
 </code></pre>
 ]]></content>
   </entry>
