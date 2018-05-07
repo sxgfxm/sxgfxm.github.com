@@ -105,6 +105,45 @@ $(document).bind('DOMNodeInserted', function(event) {
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2017/11/10/ioszhi-shi-xiao-ji-171030/">iOS知识小集-171030</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-11-10T16:39:04+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:39 pm</span></time>
+        
+           | <a href="/blog/2017/11/10/ioszhi-shi-xiao-ji-171030/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/11/10/ioszhi-shi-xiao-ji-171030/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>ReactiveObjC</h2>
+
+<p>To be finished.<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2017/11/10/ioszhi-shi-xiao-ji-171030/'><a href="http://sxgfxm.github.io/blog/2017/11/10/ioszhi-shi-xiao-ji-171030/">http://sxgfxm.github.io/blog/2017/11/10/ioszhi-shi-xiao-ji-171030/</a></a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
+  </p></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2017/11/02/ioszhi-shi-xiao-ji-171023/">iOS知识小集-171023</a></h1>
     
     
@@ -637,80 +676,6 @@ The <strong>RACSignal -> RACSubscriber</strong> relationship is torn down as soo
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/09/04/ioszhi-shi-xiao-ji-170828/">iOS知识小集-170828</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2017-09-04T14:12:44+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>2:12 pm</span></time>
-        
-           | <a href="/blog/2017/09/04/ioszhi-shi-xiao-ji-170828/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/09/04/ioszhi-shi-xiao-ji-170828/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>TableView Header / Footer Height</h2>
-
-<p>UITableView默认有section header/footer高度，设为0无效，最小可设为1。</p>
-
-<h2>CNContactPickerViewController</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">pickContact</span><span class="p">{</span>
-</span><span class='line'>  <span class="n">CNContactPickerViewController</span> <span class="o">*</span><span class="n">controller</span> <span class="o">=</span> <span class="p">[[</span><span class="n">CNContactPickerViewController</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'>  <span class="n">controller</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">self</span> <span class="nl">presentViewController</span><span class="p">:</span><span class="n">controller</span> <span class="nl">animated</span><span class="p">:</span><span class="nb">YES</span> <span class="nl">completion</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">contactPicker:</span><span class="p">(</span><span class="n">CNContactPickerViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">picker</span>
-</span><span class='line'>    <span class="nf">didSelectContactProperty:</span><span class="p">(</span><span class="n">CNContactProperty</span> <span class="o">*</span><span class="p">)</span><span class="nv">contactProperty</span> <span class="p">{</span>
-</span><span class='line'>  <span class="n">CNContact</span> <span class="o">*</span><span class="n">contact</span> <span class="o">=</span> <span class="n">contactProperty</span><span class="p">.</span><span class="n">contact</span><span class="p">;</span>
-</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">name</span> <span class="o">=</span> <span class="p">[</span><span class="n">CNContactFormatter</span> <span class="nl">stringFromContact</span><span class="p">:</span><span class="n">contact</span> <span class="nl">style</span><span class="p">:</span><span class="n">CNContactFormatterStyleFullName</span><span class="p">];</span>
-</span><span class='line'>  <span class="n">CNPhoneNumber</span> <span class="o">*</span><span class="n">phoneValue</span> <span class="o">=</span> <span class="n">contactProperty</span><span class="p">.</span><span class="n">value</span><span class="p">;</span>
-</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">phoneNumber</span> <span class="o">=</span> <span class="n">phoneValue</span><span class="p">.</span><span class="n">stringValue</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@--%@&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">phoneNumber</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2017/09/04/ioszhi-shi-xiao-ji-170828/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -738,7 +703,7 @@ The <strong>RACSignal -> RACSubscriber</strong> relationship is torn down as soo
  <h1>Categories</h1>
  <ul id="categories">
   <li class='category'><a href='/blog/categories/componentkit/'>componentkit (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>ios (57)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (58)</a></li>
 <li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
 <li class='category'><a href='/blog/categories/reactiveobjc/'>reactiveobjc (2)</a></li>
@@ -747,6 +712,10 @@ The <strong>RACSignal -> RACSubscriber</strong> relationship is torn down as soo
 </section><section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2018/05/07/ioszhi-shi-xiao-ji-180418/">iOS知识小集-180418</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2018/04/18/ioszhi-shi-xiao-ji-180319/">iOS知识小集-180319</a>
@@ -762,10 +731,6 @@ The <strong>RACSignal -> RACSubscriber</strong> relationship is torn down as soo
     
       <li class="post">
         <a href="/blog/2018/03/12/ioszhi-shi-xiao-ji-171211/">iOS知识小集-171211</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/12/11/ioszhi-shi-xiao-ji-171204/">iOS知识小集-171204</a>
       </li>
     
   </ul>

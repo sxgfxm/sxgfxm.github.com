@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>iOS知识小集-170508 - Light's Blog</title>
+  <title>iOS知识小集-180418 - Light's Blog</title>
   <meta name="author" content="Light">
 
   
-  <meta name="description" content="sxgfxm,Carthage,Objective-C static vs external,NavigationBar">
-  <meta name="keywords" content="sxgfxm,Carthage,Objective-C static vs external,NavigationBar">
+  <meta name="description" content="sxgfxm, UISlider, YYModel">
+  <meta name="keywords" content="sxgfxm, UISlider, YYModel">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170508/">
+  <link rel="canonical" href="http://sxgfxm.github.io/blog/2018/05/07/ioszhi-shi-xiao-ji-180418/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Light's Blog" type="application/atom+xml">
@@ -102,7 +102,7 @@ $(document).bind('DOMNodeInserted', function(event) {
   
   <header>
     
-      <h1 class="entry-title">iOS知识小集-170508</h1>
+      <h1 class="entry-title">iOS知识小集-180418</h1>
     
     
       <p class="meta">
@@ -111,7 +111,7 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 
-<time class='entry-date' datetime='2017-05-17T16:52:43+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:52 pm</span></time>
+<time class='entry-date' datetime='2018-05-07T15:52:23+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>3:52 pm</span></time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://sxgfxm.github.io">Comments</a>
@@ -121,26 +121,33 @@ $(document).bind('DOMNodeInserted', function(event) {
   </header>
 
 
-<div class="entry-content"><h2>Carthage</h2>
+<div class="entry-content"><h2>UISlider 自定义thumb大小</h2>
 
-<p>安装：<code>brew install carthage</code><br/>
-添加：<code>Cartfile</code><br/>
-运行：<code>carthage update</code><br/>
-添加：<code>Carthage/Build/.framework</code></p>
+<p>需继承<code>UISlider</code>并重写<code>- thumbRectForBounds:trackRect:value:</code>方法。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">CGRect</span><span class="p">)</span><span class="nf">thumbRectForBounds:</span><span class="p">(</span><span class="bp">CGRect</span><span class="p">)</span><span class="nv">bounds</span> <span class="nf">trackRect:</span><span class="p">(</span><span class="bp">CGRect</span><span class="p">)</span><span class="nv">rect</span> <span class="nf">value:</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="nv">value</span><span class="p">{</span>
+</span><span class='line'>  <span class="n">CGFloat</span> <span class="n">customWidth</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">CGFloat</span> <span class="n">customHeight</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">bounds</span> <span class="o">=</span> <span class="p">[</span><span class="nb">super</span> <span class="nl">thumbRectForBounds</span><span class="p">:</span><span class="n">bounds</span> <span class="nl">trackRect</span><span class="p">:</span><span class="n">rect</span> <span class="nl">value</span><span class="p">:</span><span class="n">value</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="n">bounds</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">bounds</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">customWidth</span><span class="p">,</span> <span class="n">customHeight</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
 
 <!-- more -->
 
 
-<h2>防止重复push/present类型相同的controller</h2>
+<h2>YYModel 自定义转换</h2>
 
-<ol>
-<li>找到最上层view controller；</li>
-<li>判断最上层view controller与待展示view controller是否类型相同；</li>
-<li>如果类型不同，才进行操作。
-获取最底层view controller：<code>[UIApplication sharedApplication].delegate.window.rootViewController</code>。<br/>
-获取最上层view controller：</li>
-</ol>
-
+<p>以<code>NSDate</code>与<code>NSNumber</code>转换为例。</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -165,61 +172,41 @@ $(document).bind('DOMNodeInserted', function(event) {
 <span class='line-number'>21</span>
 <span class='line-number'>22</span>
 <span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">+</span> <span class="p">(</span><span class="bp">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nf">topViewController</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">return</span> <span class="p">[</span><span class="nb">self</span>
-</span><span class='line'>      <span class="nl">topViewControllerWithRootViewController</span><span class="p">:[</span><span class="bp">UIApplication</span> <span class="n">sharedApplication</span><span class="p">].</span><span class="n">delegate</span><span class="p">.</span><span class="n">window</span><span class="p">.</span><span class="n">rootViewController</span><span class="p">];</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// JSON:</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="s">&quot;name&quot;</span><span class="o">:</span><span class="s">&quot;Harry&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s">&quot;timestamp&quot;</span> <span class="o">:</span> <span class="mi">1445534567</span>
 </span><span class='line'><span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="bp">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nf">topViewControllerWithRootViewController:</span><span class="p">(</span><span class="bp">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">rootViewController</span> <span class="p">{</span>
-</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;root to top vc:%@&quot;</span><span class="p">,</span> <span class="n">NSStringFromClass</span><span class="p">([</span><span class="n">rootViewController</span> <span class="k">class</span><span class="p">]));</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">([</span><span class="n">rootViewController</span> <span class="nl">isKindOfClass</span><span class="p">:[</span><span class="n">MMDrawerController</span> <span class="k">class</span><span class="p">]])</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">MMDrawerController</span> <span class="o">*</span><span class="n">mmdVc</span> <span class="o">=</span> <span class="p">(</span><span class="n">MMDrawerController</span> <span class="o">*</span><span class="p">)</span><span class="n">rootViewController</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="nb">self</span> <span class="nl">topViewControllerWithRootViewController</span><span class="p">:</span><span class="n">mmdVc</span><span class="p">.</span><span class="n">centerViewController</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">([</span><span class="n">rootViewController</span> <span class="nl">isKindOfClass</span><span class="p">:[</span><span class="bp">UITabBarController</span> <span class="k">class</span><span class="p">]])</span> <span class="p">{</span>
-</span><span class='line'>    <span class="bp">UITabBarController</span> <span class="o">*</span><span class="n">tabBarController</span> <span class="o">=</span> <span class="p">(</span><span class="bp">UITabBarController</span> <span class="o">*</span><span class="p">)</span><span class="n">rootViewController</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="nb">self</span> <span class="nl">topViewControllerWithRootViewController</span><span class="p">:</span><span class="n">tabBarController</span><span class="p">.</span><span class="n">selectedViewController</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">([</span><span class="n">rootViewController</span> <span class="nl">isKindOfClass</span><span class="p">:[</span><span class="bp">UINavigationController</span> <span class="k">class</span><span class="p">]])</span> <span class="p">{</span>
-</span><span class='line'>    <span class="bp">UINavigationController</span> <span class="o">*</span><span class="n">navigationController</span> <span class="o">=</span> <span class="p">(</span><span class="bp">UINavigationController</span> <span class="o">*</span><span class="p">)</span><span class="n">rootViewController</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="nb">self</span> <span class="nl">topViewControllerWithRootViewController</span><span class="p">:</span><span class="n">navigationController</span><span class="p">.</span><span class="n">visibleViewController</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">rootViewController</span><span class="p">.</span><span class="n">presentedViewController</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="bp">UIViewController</span> <span class="o">*</span><span class="n">presentedViewController</span> <span class="o">=</span> <span class="n">rootViewController</span><span class="p">.</span><span class="n">presentedViewController</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="nb">self</span> <span class="nl">topViewControllerWithRootViewController</span><span class="p">:</span><span class="n">presentedViewController</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">rootViewController</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="c1">// Model:</span>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">User</span>
+</span><span class='line'><span class="k">@property</span> <span class="bp">NSString</span> <span class="o">*</span><span class="n">name</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="bp">NSDate</span> <span class="o">*</span><span class="n">createdAt</span><span class="p">;</span>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">User</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">modelCustomTransformFromDictionary:</span><span class="p">(</span><span class="bp">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">dic</span> <span class="p">{</span>
+</span><span class='line'>    <span class="bp">NSNumber</span> <span class="o">*</span><span class="n">timestamp</span> <span class="o">=</span> <span class="n">dic</span><span class="p">[</span><span class="s">@&quot;timestamp&quot;</span><span class="p">];</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">[</span><span class="n">timestamp</span> <span class="nl">isKindOfClass</span><span class="p">:[</span><span class="bp">NSNumber</span> <span class="k">class</span><span class="p">]])</span> <span class="k">return</span> <span class="nb">NO</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">_createdAt</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSDate</span> <span class="nl">dateWithTimeIntervalSince1970</span><span class="p">:</span><span class="n">timestamp</span><span class="p">.</span><span class="n">floatValue</span><span class="p">];</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">modelCustomTransformToDictionary:</span><span class="p">(</span><span class="bp">NSMutableDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">dic</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">_createdAt</span><span class="p">)</span> <span class="k">return</span> <span class="nb">NO</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">dic</span><span class="p">[</span><span class="s">@&quot;timestamp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="l">@(</span><span class="n">n</span><span class="p">.</span><span class="n">timeIntervalSince1970</span><span class="l">)</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@end</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h2>Create Groups vs Create Folder References</h2>
 
-<p>Group：不创建文件夹，不能同名； <br/>
-Folder：创建文件夹，可以重名；</p>
-
-<h2>拉伸Image</h2>
-
-<p>代码：<code>- (UIImage *)resizableImageWithCapInsets:(UIEdgeInsets)capInsets resizingMode:(UIImageResizingMode)resizingMode NS_AVAILABLE_IOS(6_0);</code><br/>
-设置：Assets -> Attributes Inspector -> Slicing</p>
-
-<h2>隐藏文件</h2>
-
-<p>显示隐藏文件：<code>defaults write com.apple.finder AppleShowAllFiles -bool true</code><br/>
-隐藏隐藏文件：<code>defaults write com.apple.finder AppleShowAllFiles -bool false</code>
-重启finder：<code>killall Finder</code></p>
-
-<h2>NavigationBar &amp; ScrollView</h2>
-
-<p>自动：<code>contentOffset.y == -64</code><br/>
-手动：<code>self.edgesForExtendedLayout = UIRectEdgeNone;</code>，y轴0点下移64。</p>
-
-<h2>Objective-C static vs external</h2>
-
-<p>static: In C and Objective-C, a static variable or function at global scope means that that symbol has internal linkage.<br/>
-external: If you want to have a single global variable, you can&rsquo;t have it in class scope like in C++. One option is to create a global variable with external linkage: declare the variable with the extern keyword in a header file, and then in one source file, define it at global scope without the extern keyword.</p>
 
 <p class='post-footer'>
   原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170508/'>http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170508/</a><br/>
+  <a href='http://sxgfxm.github.io/blog/2018/05/07/ioszhi-shi-xiao-ji-180418/'>http://sxgfxm.github.io/blog/2018/05/07/ioszhi-shi-xiao-ji-180418/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>
@@ -239,7 +226,7 @@ external: If you want to have a single global variable, you can&rsquo;t have it 
 
 
 
-<time class='entry-date' datetime='2017-05-17T16:52:43+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:52 pm</span></time>
+<time class='entry-date' datetime='2018-05-07T15:52:23+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>3:52 pm</span></time>
       
 
 <span class="categories">
@@ -261,10 +248,8 @@ external: If you want to have a single global variable, you can&rsquo;t have it 
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170501/" title="Previous Post: iOS知识小集-170501">&laquo; iOS知识小集-170501</a>
+        <a class="basic-alignment left" href="/blog/2018/04/18/ioszhi-shi-xiao-ji-180319/" title="Previous Post: iOS知识小集-180319">&laquo; iOS知识小集-180319</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170515/" title="Next Post: iOS知识小集-170515">iOS知识小集-170515 &raquo;</a>
       
     </p>
   </footer>
@@ -405,8 +390,8 @@ external: If you want to have a single global variable, you can&rsquo;t have it 
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170508/';
-        var disqus_url = 'http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170508/';
+        var disqus_identifier = 'http://sxgfxm.github.io/blog/2018/05/07/ioszhi-shi-xiao-ji-180418/';
+        var disqus_url = 'http://sxgfxm.github.io/blog/2018/05/07/ioszhi-shi-xiao-ji-180418/';
         var disqus_script = 'embed.js';
       
     (function () {

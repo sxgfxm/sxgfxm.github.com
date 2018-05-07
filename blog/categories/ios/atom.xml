@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2018-04-18T14:22:58+08:00</updated>
+  <updated>2018-05-07T15:56:03+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,83 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-180418]]></title>
+    <link href="http://sxgfxm.github.io/blog/2018/05/07/ioszhi-shi-xiao-ji-180418/"/>
+    <updated>2018-05-07T15:52:23+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2018/05/07/ioszhi-shi-xiao-ji-180418</id>
+    <content type="html"><![CDATA[<h2>UISlider 自定义thumb大小</h2>
+
+<p>需继承<code>UISlider</code>并重写<code>- thumbRectForBounds:trackRect:value:</code>方法。</p>
+
+<pre><code class="objective-c">- (CGRect)thumbRectForBounds:(CGRect)bounds trackRect:(CGRect)rect value:(float)value{
+  CGFloat customWidth = 20;
+  CGFloat customHeight = 20;
+  bounds = [super thumbRectForBounds:bounds trackRect:rect value:value];
+  return CGRectMake(bounds.origin.x, bounds.origin.y, customWidth, customHeight);
+}
+</code></pre>
+
+<!-- more -->
+
+
+<h2>YYModel 自定义转换</h2>
+
+<p>以<code>NSDate</code>与<code>NSNumber</code>转换为例。
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// JSON:</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">name</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span><span class="o">:&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Harry</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;,</span>
+</span><span class='line'>    <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">timestamp</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="o">:</span> <span class="mi">1445534567</span>
+</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">// Model:</span>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">User</span>
+</span><span class='line'><span class="k">@property</span> <span class="bp">NSString</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">name</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="bp">NSDate</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">createdAt</span><span class="p">;</span>
+</span><span class='line'><span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@implementation</span> <span class="nc">User</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">modelCustomTransformFromDictionary:</span><span class="p">(</span><span class="bp">NSDictionary</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">dic</span> <span class="p">{</span>
+</span><span class='line'>    <span class="bp">NSNumber</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">timestamp</span> <span class="o">=</span> <span class="n">dic</span><span class="p">[@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">timestamp</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;];</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">[</span><span class="n">timestamp</span> <span class="nl">isKindOfClass</span><span class="p">:[</span><span class="bp">NSNumber</span> <span class="k">class</span><span class="p">]])</span> <span class="k">return</span> <span class="nb">NO</span><span class="p">;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">createdAt</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSDate</span> <span class="nl">dateWithTimeIntervalSince1970</span><span class="p">:</span><span class="n">timestamp</span><span class="p">.</span><span class="n">floatValue</span><span class="p">];</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">modelCustomTransformToDictionary:</span><span class="p">(</span><span class="bp">NSMutableDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">dic</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">createdAt</span><span class="p">)</span> <span class="k">return</span> <span class="nb">NO</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">dic</span><span class="p">[@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">timestamp</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;]</span> <span class="o">=</span> <span class="l">@(</span><span class="n">n</span><span class="p">.</span><span class="n">timeIntervalSince1970</span><span class="l">)</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-180319]]></title>
@@ -180,119 +257,6 @@ Terminating app due to uncaught exception &lsquo;NSInvalidArgumentException&rsqu
 <h2>UITableView Move Cell</h2>
 
 <h2>数据与界面同步</h2>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-171204]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/12/11/ioszhi-shi-xiao-ji-171204/"/>
-    <updated>2017-12-11T16:49:04+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/12/11/ioszhi-shi-xiao-ji-171204</id>
-    <content type="html"><![CDATA[<h2>UIViewController Transition</h2>
-
-<p>自定义Present和Dismiss动画。</p>
-
-<!-- more -->
-
-
-<h3>设置待Present的UIViewController的transitioningDelegate</h3>
-
-<p><code>modalPresentationStyle</code>为<code>FullScreen</code>时，dismiss时会自动移除<code>fromView</code>。<br/>
-<code>modalPresentationStyle</code>为<code>Custom</code>时，dismiss时会需手动移除<code>fromView</code>。</p>
-
-<pre><code class="objective-c">@interface ViewController : UIViewController &lt;UIViewControllerTransitioningDelegate&gt;
-
-@end
-
-@implementation ViewController
-
-- (instancetype)init{
-  if (self = [super init]) {
-    self.modalPresentationStyle = UIModalPresentationOverFullScreen;
-    self.transitioningDelegate = self;
-  }
-  return self;
-}
-
-#pragma mark - UIViewControllerTransitioningDelegate
-- (id&lt;UIViewControllerAnimatedTransitioning&gt;)animationControllerForPresentedController:(UIViewController *)presented
-                                                                  presentingController:(UIViewController *)presenting
-                                                                      sourceController:(UIViewController *)source {
-  return [PresentAnimator new];
-}
-
-- (id&lt;UIViewControllerAnimatedTransitioning&gt;)animationControllerForDismissedController:(UIViewController *)dismissed{
-  return [DismissAnimator new];
-}
-
-@end
-</code></pre>
-
-<h3>创建PresentAnimator</h3>
-
-<pre><code class="objective-c">@interface PresentAnimator : NSObject &lt;UIViewControllerAnimatedTransitioning&gt;
-
-@end
-
-@implementation PresentAnimator
-
-#pragma mark - UIViewControllerContextTransitioning
-- (void)animateTransition:(nonnull id&lt;UIViewControllerContextTransitioning&gt;)transitionContext {
-  //  from -&gt; to
-  UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
-  UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-  //  contrainer
-  UIView *containerView = transitionContext.containerView;
-  //  from -&gt; to
-  UIView *fromView = [transitionContext viewForKey:UITransitionContextFromViewKey];
-  UIView *toView = [transitionContext viewForKey:UITransitionContextToViewKey];
-  //  add
-  [containerView addSubview:toView];
-  //  animation
-  toView.alpha = 0;
-  toView.frame = CGRectMake(fromView.frame.origin.x, CGRectGetMaxY(fromView.frame) / 2, fromView.frame.size.width, fromView.frame.size.height);
-  [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
-    toView.alpha = 1;
-    toView.frame = [transitionContext finalFrameForViewController:toViewController];
-  } completion:^(BOOL finished) {
-    [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
-  }];
-}
-
-- (NSTimeInterval)transitionDuration:(nullable id&lt;UIViewControllerContextTransitioning&gt;)transitionContext {
-  return 0.25;
-}
-
-@end
-</code></pre>
-
-<h3>创建DismissAnimator</h3>
-
-<pre><code class="objective-c">@interface DismissAnimator : NSObject &lt;UIViewControllerAnimatedTransitioning&gt;
-
-@end
-
-@implementation DismissAnimator
-
-#pragma mark - UIViewControllerContextTransitioning
-- (void)animateTransition:(nonnull id&lt;UIViewControllerContextTransitioning&gt;)transitionContext {
-  //  from -&gt; to
-  UIView *fromView = [transitionContext viewForKey:UITransitionContextFromViewKey];
-  //  animation
-  fromView.alpha = 1;
-  [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
-    fromView.alpha = 0;
-  } completion:^(BOOL finished) {
-    [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
-  }];
-}
-
-- (NSTimeInterval)transitionDuration:(nullable id&lt;UIViewControllerContextTransitioning&gt;)transitionContext {
-  return 0.25;
-}
-
-@end
-</code></pre>
 ]]></content>
   </entry>
   
