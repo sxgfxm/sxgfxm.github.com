@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>iOS知识小集-171120 - Light's Blog</title>
+  <title>iOS知识小集-180507 - Light's Blog</title>
   <meta name="author" content="Light">
 
   
-  <meta name="description" content="sxgfxm,NSStrikethroughStyleAttributeName,NSBaselineOffsetAttributeName,preferredStatusBarStyle">
-  <meta name="keywords" content="sxgfxm,NSStrikethroughStyleAttributeName,NSBaselineOffsetAttributeName,preferredStatusBarStyle">
+  <meta name="description" content="sxgfxm, WXApi, proto">
+  <meta name="keywords" content="sxgfxm, WXApi, proto">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://sxgfxm.github.io/blog/2017/11/27/ioszhi-shi-xiao-ji-171120/">
+  <link rel="canonical" href="http://sxgfxm.github.io/blog/2018/05/14/ioszhi-shi-xiao-ji-180507/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Light's Blog" type="application/atom+xml">
@@ -102,7 +102,7 @@ $(document).bind('DOMNodeInserted', function(event) {
   
   <header>
     
-      <h1 class="entry-title">iOS知识小集-171120</h1>
+      <h1 class="entry-title">iOS知识小集-180507</h1>
     
     
       <p class="meta">
@@ -111,7 +111,7 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 
-<time class='entry-date' datetime='2017-11-27T11:25:53+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>11:25 am</span></time>
+<time class='entry-date' datetime='2018-05-14T10:21:18+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>10:21 am</span></time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://sxgfxm.github.io">Comments</a>
@@ -121,63 +121,26 @@ $(document).bind('DOMNodeInserted', function(event) {
   </header>
 
 
-<div class="entry-content"><h2>iOS 10.3之后删除线失效解决办法</h2>
+<div class="entry-content"><h2>WXApi无法分享</h2>
 
-<p>iOS 10.3之前写法：</p>
+<p>原因：WXApi针对不同分享内容有各种限制因素，必须符合要求才能分享。实际运用中可能影响分享的主要因素是thumbData的大小。
+WXMediaMessage
+  thumbData大小不能超过32k</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">attr</span> <span class="nl">addAttributes</span><span class="p">:</span><span class="l">@{</span>
-</span><span class='line'>    <span class="nl">NSStrikethroughStyleAttributeName</span><span class="p">:</span> <span class="l">@(</span><span class="n">NSUnderlineStyleSingle</span><span class="l">)</span>
-</span><span class='line'>  <span class="l">}</span>
-</span><span class='line'>              <span class="nl">range</span><span class="p">:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">string</span><span class="p">.</span><span class="n">length</span><span class="p">)];</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>可以通过压缩图片来达到WXApi的要求。</p>
 
+<h2>添加proto文件至工程</h2>
 
-<p>iOS 10.3之后写法：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">attr</span> <span class="nl">addAttributes</span><span class="p">:</span><span class="l">@{</span>
-</span><span class='line'>    <span class="nl">NSStrikethroughStyleAttributeName</span><span class="p">:</span> <span class="l">@(</span><span class="n">NSUnderlineStyleSingle</span><span class="l">)</span><span class="p">,</span>
-</span><span class='line'>    <span class="nl">NSBaselineOffsetAttributeName</span><span class="p">:</span> <span class="l">@(</span><span class="n">NSUnderlineStyleNone</span><span class="l">)</span>
-</span><span class='line'>  <span class="l">}</span>
-</span><span class='line'>              <span class="nl">range</span><span class="p">:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">string</span><span class="p">.</span><span class="n">length</span><span class="p">)];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<!-- more -->
-
-
-<h2>设置状态栏style</h2>
-
-<p>在<code>info.plist</code>文件中设置<code>View controller-based status bar appearance</code>为<code>YES</code>。<br/>
-在对应ViewController中添加下面的方法：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="n">UIStatusBarStyle</span><span class="p">)</span><span class="nf">preferredStatusBarStyle</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">UIStatusBarStyleLightContent</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/11/27/ioszhi-shi-xiao-ji-171120/'>http://sxgfxm.github.io/blog/2017/11/27/ioszhi-shi-xiao-ji-171120/</a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
+<ol>
+<li>把proto文件拖入工程目录中；</li>
+<li>在 <strong>Compile Sources</strong> 中添加对应proto文件，否则在link时会出现<code>symbol(s) not found for architecture arm64</code>错误，无法找到对应的<code>.o</code>文件；</li>
+<li>编译获得proto对应的类文件。<p class='post-footer'>
+原始地址：
+<a href='http://sxgfxm.github.io/blog/2018/05/14/ioszhi-shi-xiao-ji-180507/'><a href="http://sxgfxm.github.io/blog/2018/05/14/ioszhi-shi-xiao-ji-180507/">http://sxgfxm.github.io/blog/2018/05/14/ioszhi-shi-xiao-ji-180507/</a></a><br/>
+written by <a href='http://sxgfxm.github.io'>Light</a>
+&nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
+</p></li>
+</ol>
 
 </div>
 
@@ -194,7 +157,7 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 
-<time class='entry-date' datetime='2017-11-27T11:25:53+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>11:25 am</span></time>
+<time class='entry-date' datetime='2018-05-14T10:21:18+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>10:21 am</span></time>
       
 
 <span class="categories">
@@ -216,10 +179,8 @@ $(document).bind('DOMNodeInserted', function(event) {
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2017/11/17/ioszhi-shi-xiao-ji-171113/" title="Previous Post: iOS知识小集-171113">&laquo; iOS知识小集-171113</a>
+        <a class="basic-alignment left" href="/blog/2018/05/07/ioszhi-shi-xiao-ji-180418/" title="Previous Post: iOS知识小集-180418">&laquo; iOS知识小集-180418</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2017/12/02/ioszhi-shi-xiao-ji-171127/" title="Next Post: iOS知识小集-171127">iOS知识小集-171127 &raquo;</a>
       
     </p>
   </footer>
@@ -360,8 +321,8 @@ $(document).bind('DOMNodeInserted', function(event) {
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://sxgfxm.github.io/blog/2017/11/27/ioszhi-shi-xiao-ji-171120/';
-        var disqus_url = 'http://sxgfxm.github.io/blog/2017/11/27/ioszhi-shi-xiao-ji-171120/';
+        var disqus_identifier = 'http://sxgfxm.github.io/blog/2018/05/14/ioszhi-shi-xiao-ji-180507/';
+        var disqus_url = 'http://sxgfxm.github.io/blog/2018/05/14/ioszhi-shi-xiao-ji-180507/';
         var disqus_script = 'embed.js';
       
     (function () {
