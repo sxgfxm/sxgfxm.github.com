@@ -105,6 +105,144 @@ $(document).bind('DOMNodeInserted', function(event) {
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2017/09/15/ioszhi-shi-xiao-ji-170911/">iOS知识小集-170911</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-09-15T17:20:49+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>5:20 pm</span></time>
+        
+           | <a href="/blog/2017/09/15/ioszhi-shi-xiao-ji-170911/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/09/15/ioszhi-shi-xiao-ji-170911/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>长按语音控制</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="o">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">setupBtn</span><span class="p">{</span>
+</span><span class='line'>  <span class="c1">//  按下按钮</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">voiceBtn</span> <span class="nl">addTarget</span><span class="p">:</span><span class="n">self</span> <span class="nl">action</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="nl">btnTouchBegin</span><span class="p">:)</span> <span class="nl">forControlEvents</span><span class="p">:</span><span class="n">UIControlEventTouchDown</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  立刻松开</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">voiceBtn</span> <span class="nl">addTarget</span><span class="p">:</span><span class="n">self</span> <span class="nl">action</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="nl">btnTouchEnd</span><span class="p">:)</span> <span class="nl">forControlEvents</span><span class="p">:</span><span class="n">UIControlEventTouchUpInside</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  上划取消</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">voiceBtn</span> <span class="nl">addTarget</span><span class="p">:</span><span class="n">self</span> <span class="nl">action</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">cancelSpeak</span><span class="p">)</span> <span class="nl">forControlEvents</span><span class="p">:</span><span class="n">UIControlEventTouchDragExit</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  外部松开</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">voiceBtn</span> <span class="nl">addTarget</span><span class="p">:</span><span class="n">self</span> <span class="nl">action</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="nl">btnTouchEnd</span><span class="p">:)</span> <span class="nl">forControlEvents</span><span class="p">:</span><span class="n">UIControlEventTouchUpOutside</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//  通过计时器区分“点击”还是“长按”</span>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">btnTouchBegin</span><span class="p">:(</span><span class="n">UIButton</span> <span class="o">*</span><span class="p">)</span><span class="n">button</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">countNum</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">=</span>
+</span><span class='line'>      <span class="p">[</span><span class="n">NSTimer</span> <span class="nl">scheduledTimerWithTimeInterval</span><span class="p">:</span><span class="mf">0.1</span> <span class="nl">target</span><span class="p">:</span><span class="n">self</span> <span class="nl">selector</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">handleTimer</span><span class="p">)</span> <span class="nl">userInfo</span><span class="p">:</span><span class="n">nil</span> <span class="nl">repeats</span><span class="p">:</span><span class="n">YES</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="n">fire</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">btnTouchEnd</span><span class="p">:(</span><span class="n">UIButton</span> <span class="o">*</span><span class="p">)</span><span class="n">button</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="n">invalidate</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="p">([</span><span class="n">self</span> <span class="n">isLongPressGesture</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">//  执行长按操作</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">//  执行点击操作</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 处理时间</span>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">handleTimer</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">countNum</span> <span class="o">+=</span> <span class="mf">0.1</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="p">([</span><span class="n">self</span> <span class="n">isLongPressGesture</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="n">invalidate</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span> <span class="n">longPressVoiceBegin</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 判断是否为长按手势</span>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">isLongPressGesture</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="n">countNum</span> <span class="o">&gt;=</span> <span class="mf">0.5</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 上划取消语音输入</span>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">cancelSpeak</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">self</span> <span class="n">voiceEnd</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/09/15/ioszhi-shi-xiao-ji-170911/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2017/09/15/ioszhi-shi-xiao-ji-170904/">iOS知识小集-170904</a></h1>
     
     
@@ -570,100 +708,6 @@ Common Animations</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/07/10/ioszhi-shi-xiao-ji-170703/">iOS知识小集-170703</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2017-07-10T11:09:16+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>11:09 am</span></time>
-        
-           | <a href="/blog/2017/07/10/ioszhi-shi-xiao-ji-170703/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/07/10/ioszhi-shi-xiao-ji-170703/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>CAKeyFrameAnimation</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">CAKeyframeAnimation</span> <span class="o">*</span><span class="p">)</span><span class="nf">circleShake</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">_circleShake</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">CGFloat</span> <span class="n">baseX</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">circleMask</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">_circleShake</span> <span class="o">=</span> <span class="p">[</span><span class="bp">CAKeyframeAnimation</span> <span class="nl">animationWithKeyPath</span><span class="p">:</span><span class="s">@&quot;position.x&quot;</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">_circleShake</span><span class="p">.</span><span class="n">keyTimes</span> <span class="o">=</span> <span class="l">@[</span>
-</span><span class='line'>      <span class="mi">@0</span><span class="p">,</span>
-</span><span class='line'>      <span class="l">@(</span><span class="mf">0.1</span> <span class="o">/</span> <span class="mf">0.8</span><span class="l">)</span><span class="p">,</span>
-</span><span class='line'>      <span class="l">@(</span><span class="mf">0.2</span> <span class="o">/</span> <span class="mf">0.8</span><span class="l">)</span><span class="p">,</span>
-</span><span class='line'>      <span class="l">@(</span><span class="mf">0.3</span> <span class="o">/</span> <span class="mf">0.8</span><span class="l">)</span><span class="p">,</span>
-</span><span class='line'>      <span class="l">@(</span><span class="mf">0.5</span> <span class="o">/</span> <span class="mf">0.8</span><span class="l">)</span><span class="p">,</span>
-</span><span class='line'>      <span class="l">@(</span><span class="mf">0.76</span> <span class="o">/</span> <span class="mf">0.8</span><span class="l">)</span>
-</span><span class='line'>    <span class="l">]</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">_circleShake</span><span class="p">.</span><span class="n">values</span> <span class="o">=</span> <span class="l">@[</span>
-</span><span class='line'>      <span class="l">@(</span><span class="n">baseX</span><span class="l">)</span><span class="p">,</span>
-</span><span class='line'>      <span class="l">@(</span><span class="n">baseX</span> <span class="o">-</span> <span class="mi">11</span><span class="l">)</span><span class="p">,</span>
-</span><span class='line'>      <span class="l">@(</span><span class="n">baseX</span> <span class="o">+</span> <span class="mi">11</span><span class="l">)</span><span class="p">,</span>
-</span><span class='line'>      <span class="l">@(</span><span class="n">baseX</span> <span class="o">-</span> <span class="mi">11</span><span class="l">)</span><span class="p">,</span>
-</span><span class='line'>      <span class="l">@(</span><span class="n">baseX</span> <span class="o">+</span> <span class="mi">11</span><span class="l">)</span><span class="p">,</span>
-</span><span class='line'>      <span class="l">@(</span><span class="n">baseX</span><span class="l">)</span>
-</span><span class='line'>    <span class="l">]</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">_circleShake</span><span class="p">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">_circleShake</span><span class="p">.</span><span class="n">removedOnCompletion</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">_circleShake</span><span class="p">.</span><span class="n">fillMode</span> <span class="o">=</span> <span class="n">kCAFillModeForwards</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">_circleShake</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2017/07/10/ioszhi-shi-xiao-ji-170703/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/4">&larr; Older</a>
@@ -691,7 +735,7 @@ Common Animations</p>
  <h1>Categories</h1>
  <ul id="categories">
   <li class='category'><a href='/blog/categories/componentkit/'>componentkit (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>ios (59)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (60)</a></li>
 <li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
 <li class='category'><a href='/blog/categories/reactiveobjc/'>reactiveobjc (2)</a></li>
@@ -700,6 +744,10 @@ Common Animations</p>
 </section><section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2018/05/22/ioszhi-shi-xiao-ji-180514/">iOS知识小集-180514</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2018/05/14/ioszhi-shi-xiao-ji-180507/">iOS知识小集-180507</a>
@@ -715,10 +763,6 @@ Common Animations</p>
     
       <li class="post">
         <a href="/blog/2018/03/18/ioszhi-shi-xiao-ji-180312/">iOS知识小集-180312</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/03/12/ioszhi-shi-xiao-ji-180129/">iOS知识小集-180129</a>
       </li>
     
   </ul>

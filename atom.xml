@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2018-05-14T10:22:08+08:00</updated>
+  <updated>2018-05-22T11:54:44+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,88 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-180514]]></title>
+    <link href="http://sxgfxm.github.io/blog/2018/05/22/ioszhi-shi-xiao-ji-180514/"/>
+    <updated>2018-05-22T11:52:58+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2018/05/22/ioszhi-shi-xiao-ji-180514</id>
+    <content type="html"><![CDATA[<h2>GradientButton</h2>
+
+<p>创建渐变背景颜色的Button，如果直接添加CAGradientLayer，会覆盖Button的Image，所以需要创建一张渐变颜色的图片设置为Button的backgroundImage。</p>
+
+<h2>UICollectionViewCell Select Effect</h2>
+
+<p>为UICollectionViewCell添加选中效果。<br/>
+方法一：<br/>
+重写Cell的<code>-setSelected:</code>方法，在这个方法中增加动画效果。<br/>
+The selected state is toggled when the user lifts up from a highlighted cell.
+Override these methods to provide custom UI for a selected or highlighted state.<br/>
+方法二：<br/>
+在CollectionView回调方法<code>-collectionView:didHighlightItemAtIndexPath:</code>和<code>-collectionView:didUnhighlightItemAtIndexPath:</code>中添加动画效果。<br/>
+方法三：<br/>
+为CollectionViewCell添加<code>-performSelectAnimation</code>方法展示选中的动画效果，当<code>-collectionView:didSelectItemAtIndexPath:</code>时调用该方法。</p>
+
+<!-- more -->
+
+
+<h2>绘制渐变颜色图片</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nf">gradientImageFromColors:</span><span class="p">(</span><span class="bp">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nv">colors</span> <span class="nf">startPoint:</span><span class="p">(</span><span class="bp">CGPoint</span><span class="p">)</span><span class="nv">startPoint</span> <span class="nf">endPoint:</span><span class="p">(</span><span class="bp">CGPoint</span><span class="p">)</span><span class="nv">endPoint</span> <span class="nf">frame:</span><span class="p">(</span><span class="bp">CGRect</span><span class="p">)</span><span class="nv">frame</span><span class="p">{</span>
+</span><span class='line'>  <span class="bp">NSMutableArray</span> <span class="o">*</span><span class="n">mutColors</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableArray</span> <span class="n">array</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">for</span> <span class="p">(</span><span class="bp">UIColor</span> <span class="o">*</span><span class="n">color</span> <span class="k">in</span> <span class="n">colors</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">mutColors</span> <span class="nl">addObject</span><span class="p">:(</span><span class="kt">id</span><span class="p">)</span><span class="n">color</span><span class="p">.</span><span class="bp">CGColor</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="n">UIGraphicsBeginImageContextWithOptions</span><span class="p">(</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">,</span> <span class="nb">YES</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">CGContextRef</span> <span class="n">context</span> <span class="o">=</span> <span class="n">UIGraphicsGetCurrentContext</span><span class="p">();</span>
+</span><span class='line'>  <span class="n">CGContextSaveGState</span><span class="p">(</span><span class="n">context</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">CGColorSpaceRef</span> <span class="n">colorSpace</span> <span class="o">=</span> <span class="n">CGColorGetColorSpace</span><span class="p">([[</span><span class="n">colors</span> <span class="n">lastObject</span><span class="p">]</span> <span class="bp">CGColor</span><span class="p">]);</span>
+</span><span class='line'>  <span class="n">CGGradientRef</span> <span class="n">gradient</span> <span class="o">=</span> <span class="n">CGGradientCreateWithColors</span><span class="p">(</span><span class="n">colorSpace</span><span class="p">,</span> <span class="p">(</span><span class="n">CFArrayRef</span><span class="p">)</span><span class="n">mutColors</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span><span class='line'>  <span class="bp">CGPoint</span> <span class="n">start</span> <span class="o">=</span> <span class="n">startPoint</span><span class="p">;</span>
+</span><span class='line'>  <span class="bp">CGPoint</span> <span class="n">end</span> <span class="o">=</span> <span class="n">endPoint</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">CGContextDrawLinearGradient</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">gradient</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span>
+</span><span class='line'>                              <span class="n">kCGGradientDrawsBeforeStartLocation</span> <span class="o">|</span> <span class="n">kCGGradientDrawsAfterEndLocation</span><span class="p">);</span>
+</span><span class='line'>  <span class="bp">UIImage</span> <span class="o">*</span><span class="n">image</span> <span class="o">=</span> <span class="n">UIGraphicsGetImageFromCurrentImageContext</span><span class="p">();</span>
+</span><span class='line'>  <span class="n">CGGradientRelease</span><span class="p">(</span><span class="n">gradient</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">CGContextRestoreGState</span><span class="p">(</span><span class="n">context</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">CGColorSpaceRelease</span><span class="p">(</span><span class="n">colorSpace</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">UIGraphicsEndImageContext</span><span class="p">();</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">image</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Masonry Update Constrains</h2>
+
+<p>使用Masonry更新约束时，需要更新已经存在的约束条件，不能<code>make top</code>却<code>update bottom</code>，这样约束会冲突报错。<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2018/05/22/ioszhi-shi-xiao-ji-180514/'><a href="http://sxgfxm.github.io/blog/2018/05/22/ioszhi-shi-xiao-ji-180514/">http://sxgfxm.github.io/blog/2018/05/22/ioszhi-shi-xiao-ji-180514/</a></a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
+  </p></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-180507]]></title>
@@ -2076,191 +2158,6 @@ written by <a href='http://sxgfxm.github.io'>Light</a>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
   </p></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-170911]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/09/15/ioszhi-shi-xiao-ji-170911/"/>
-    <updated>2017-09-15T17:20:49+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/09/15/ioszhi-shi-xiao-ji-170911</id>
-    <content type="html"><![CDATA[<h2>长按语音控制</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="o">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">setupBtn</span><span class="p">{</span>
-</span><span class='line'>  <span class="c1">//  按下按钮</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">voiceBtn</span> <span class="nl">addTarget</span><span class="p">:</span><span class="n">self</span> <span class="nl">action</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="nl">btnTouchBegin</span><span class="p">:)</span> <span class="nl">forControlEvents</span><span class="p">:</span><span class="n">UIControlEventTouchDown</span><span class="p">];</span>
-</span><span class='line'>  <span class="c1">//  立刻松开</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">voiceBtn</span> <span class="nl">addTarget</span><span class="p">:</span><span class="n">self</span> <span class="nl">action</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="nl">btnTouchEnd</span><span class="p">:)</span> <span class="nl">forControlEvents</span><span class="p">:</span><span class="n">UIControlEventTouchUpInside</span><span class="p">];</span>
-</span><span class='line'>  <span class="c1">//  上划取消</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">voiceBtn</span> <span class="nl">addTarget</span><span class="p">:</span><span class="n">self</span> <span class="nl">action</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">cancelSpeak</span><span class="p">)</span> <span class="nl">forControlEvents</span><span class="p">:</span><span class="n">UIControlEventTouchDragExit</span><span class="p">];</span>
-</span><span class='line'>  <span class="c1">//  外部松开</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">voiceBtn</span> <span class="nl">addTarget</span><span class="p">:</span><span class="n">self</span> <span class="nl">action</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="nl">btnTouchEnd</span><span class="p">:)</span> <span class="nl">forControlEvents</span><span class="p">:</span><span class="n">UIControlEventTouchUpOutside</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//  通过计时器区分“点击”还是“长按”</span>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">btnTouchBegin</span><span class="p">:(</span><span class="n">UIButton</span> <span class="o">*</span><span class="p">)</span><span class="n">button</span> <span class="p">{</span>
-</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">countNum</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">=</span>
-</span><span class='line'>      <span class="p">[</span><span class="n">NSTimer</span> <span class="nl">scheduledTimerWithTimeInterval</span><span class="p">:</span><span class="mf">0.1</span> <span class="nl">target</span><span class="p">:</span><span class="n">self</span> <span class="nl">selector</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">handleTimer</span><span class="p">)</span> <span class="nl">userInfo</span><span class="p">:</span><span class="n">nil</span> <span class="nl">repeats</span><span class="p">:</span><span class="n">YES</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="n">fire</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">btnTouchEnd</span><span class="p">:(</span><span class="n">UIButton</span> <span class="o">*</span><span class="p">)</span><span class="n">button</span> <span class="p">{</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="n">invalidate</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">if</span> <span class="p">([</span><span class="n">self</span> <span class="n">isLongPressGesture</span><span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>    <span class="c1">//  执行长按操作</span>
-</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span><span class='line'>    <span class="c1">//  执行点击操作</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 处理时间</span>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">handleTimer</span> <span class="p">{</span>
-</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">countNum</span> <span class="o">+=</span> <span class="mf">0.1</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">if</span> <span class="p">([</span><span class="n">self</span> <span class="n">isLongPressGesture</span><span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="n">invalidate</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">self</span> <span class="n">longPressVoiceBegin</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 判断是否为长按手势</span>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">isLongPressGesture</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="n">countNum</span> <span class="o">&gt;=</span> <span class="mf">0.5</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 上划取消语音输入</span>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">cancelSpeak</span> <span class="p">{</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">self</span> <span class="n">voiceEnd</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<!-- more -->
-
-
-<h2>长按手势控制</h2>
-
-<p>添加长按手势</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addLongPressGesture</span><span class="p">{</span>
-</span><span class='line'>  <span class="bp">UILongPressGestureRecognizer</span> <span class="o">*</span><span class="n">longPressGesture</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UILongPressGestureRecognizer</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget</span><span class="p">:</span><span class="nb">self</span> <span class="nl">action</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">longPressGestureAction</span><span class="p">:)];</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">voiceBtn</span> <span class="nl">addGestureRecognizer</span><span class="p">:</span><span class="n">longPressGesture</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>处理长按手势</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">longPressGestureAction:</span><span class="p">(</span><span class="bp">UILongPressGestureRecognizer</span> <span class="o">*</span><span class="p">)</span><span class="nv">longPress</span> <span class="p">{</span>
-</span><span class='line'>  <span class="bp">CGPoint</span> <span class="n">point</span> <span class="o">=</span> <span class="p">[</span><span class="n">longPress</span> <span class="nl">locationInView</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">voiceBtn</span><span class="p">];</span>
-</span><span class='line'>  <span class="k">switch</span> <span class="p">(</span><span class="n">longPress</span><span class="p">.</span><span class="n">state</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">case</span> <span class="nl">UIGestureRecognizerStateBegan</span><span class="p">:</span>
-</span><span class='line'>      <span class="c1">//  长按手势开始</span>
-</span><span class='line'>      <span class="k">break</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">case</span> <span class="nl">UIGestureRecognizerStateChanged</span><span class="p">:</span>
-</span><span class='line'>      <span class="c1">//  长按滑动</span>
-</span><span class='line'>      <span class="k">break</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">case</span> <span class="nl">UIGestureRecognizerStateEnded</span><span class="p">:</span>
-</span><span class='line'>      <span class="c1">//  长按手势结束</span>
-</span><span class='line'>      <span class="k">break</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">default</span><span class="o">:</span>
-</span><span class='line'>      <span class="k">break</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//  判断触点是否在特定区域内</span>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">isInViewAreaWithTouchPoint:</span><span class="p">(</span><span class="bp">CGPoint</span><span class="p">)</span><span class="nv">touchPoint</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">touchPoint</span><span class="p">.</span><span class="n">y</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/09/15/ioszhi-shi-xiao-ji-170911/'>http://sxgfxm.github.io/blog/2017/09/15/ioszhi-shi-xiao-ji-170911/</a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
-
 ]]></content>
   </entry>
   
