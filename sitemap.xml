@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://sxgfxm.github.io/blog/2018/06/19/ioszhi-shi-xiao-ji-180619/</loc>
+<lastmod>2018-06-19T17:49:55+08:00</lastmod>
+</url>
+<url>
 <loc>http://sxgfxm.github.io/blog/2018/05/22/ioszhi-shi-xiao-ji-180514/</loc>
 <lastmod>2018-05-22T11:52:58+08:00</lastmod>
 </url>
@@ -292,23 +296,5 @@
 </url>
 <url>
 <loc>http://sxgfxm.github.io/blog/categories/reactiveobjc/</loc>
-</url>
-<url>
-<loc>http://sxgfxm.github.io/posts/2/</loc>
-</url>
-<url>
-<loc>http://sxgfxm.github.io/posts/3/</loc>
-</url>
-<url>
-<loc>http://sxgfxm.github.io/posts/4/</loc>
-</url>
-<url>
-<loc>http://sxgfxm.github.io/posts/5/</loc>
-</url>
-<url>
-<loc>http://sxgfxm.github.io/posts/6/</loc>
-</url>
-<url>
-<loc>http://sxgfxm.github.io/posts/7/</loc>
 </url>
 </urlset>

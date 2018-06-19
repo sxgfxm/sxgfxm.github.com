@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2018-05-22T11:54:44+08:00</updated>
+  <updated>2018-06-19T17:51:31+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,62 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-180619]]></title>
+    <link href="http://sxgfxm.github.io/blog/2018/06/19/ioszhi-shi-xiao-ji-180619/"/>
+    <updated>2018-06-19T17:49:55+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2018/06/19/ioszhi-shi-xiao-ji-180619</id>
+    <content type="html"><![CDATA[<h2>UITextView关闭输入修正</h2>
+
+<p><code>textView.autocorrectionType = UITextAutocorrectionTypeNo</code>
+<code>textFiled.autocorrectionType = UITextAutocorrectionTypeNo</code></p>
+
+<h2>NSDateFormatter</h2>
+
+<p>&ldquo;yyyy-MM-dd HH:mm:ss&rdquo;</p>
+
+<h2>UIGraphicsBeginImageContextWithOptions</h2>
+
+<p>传入<code>opaque</code>参数值为<code>NO</code>时可以创建透明的图层。</p>
+
+<h2>load方法、initialize方法</h2>
+
+<p><a href="https://www.jianshu.com/p/872447c6dc3f">https://www.jianshu.com/p/872447c6dc3f</a></p>
+
+<!-- more -->
+
+
+<h2>UIFont to CFTypeRef</h2>
+
+<p><code>CGFontRef cgFont = CGFontCreateWithFontName((CFStringRef)uiFont.fontName);</code></p>
+
+<h2>fsCachedData</h2>
+
+<p>在查看Cache文件夹下缓存时，发现fsCachedData文件夹过大，便查了下这个文件夹是如何生成的。</p>
+
+<p>在使用NSURLSession进行网络请求时可以设置缓存策略，可以参考<a href="https://www.cnblogs.com/ludashi/p/5556088.html">iOS开发之Alamofire源码解析前奏&ndash;NSURLSession全家桶</a>。当设置缓存策略后，会在默认为"~/Library/Caches/[Boundle ID]/fsCachedData/&ldquo;的目录下生成缓存文件。</p>
+
+<h2>CADisplayLink</h2>
+
+<h3>什么是CADisplayLink</h3>
+
+<p><code>CADisplayLink</code>是一个定时器，其调用周期和屏幕刷新频率有关。每秒调用频率 = 60 / frameInterval。</p>
+
+<h3>适用范围</h3>
+
+<p>检测fps，绘制动画。</p>
+
+<h3>与NSTimer区别</h3>
+
+<p><code>NSTimer</code>调用周期更加灵活，适用范围更广，但准确性不如<code>CADisplayLink</code>。<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2018/06/19/ioszhi-shi-xiao-ji-180619/'><a href="http://sxgfxm.github.io/blog/2018/06/19/ioszhi-shi-xiao-ji-180619/">http://sxgfxm.github.io/blog/2018/06/19/ioszhi-shi-xiao-ji-180619/</a></a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
+  </p></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-180514]]></title>
@@ -2008,156 +2064,6 @@ written by <a href='http://sxgfxm.github.io'>Light</a>
 </p></li>
 </ol>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-170918]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/09/22/ioszhi-shi-xiao-ji-170918/"/>
-    <updated>2017-09-22T10:50:20+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/09/22/ioszhi-shi-xiao-ji-170918</id>
-    <content type="html"><![CDATA[<h2>UIButton Gestures</h2>
-
-<p><code>UIControlEventTouchDown</code>：按下button；<br/>
-<code>UIControlEventTouchDragExit</code>：拖动至button范围（button四周有一定范围）外；<br/>
-<code>UIControlEventTouchDragEnter</code>：拖动至button范围（button四周有一定范围）内。<br/>
-<code>UIControlEventTouchUpInside</code>：在button内松手；<br/>
-<code>UIControlEventTouchUpOutside</code>：在button外松手；<br/>
-<code>UIControlEventTouchDragOutside</code>：在button外拖动。<br/>
-<code>UIControlEventTouchDragInside</code>：在button内拖动；<br/>
-<code>UIControlEventTouchCancel</code>：系统行为取消touch；</p>
-
-<!-- more -->
-
-
-<h2>UIGraphics Image Context</h2>
-
-<p>参考<a href="https://onevcat.com/2013/04/using-blending-in-ios/">这篇文章</a>。</p>
-
-<p>关于blend mode参数解释：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>R is the premultiplied result
-</span><span class='line'>S is the source color, and includes alpha
-</span><span class='line'>D is the destination color, and includes alpha
-</span><span class='line'>Ra, Sa, and Da are the alpha components of R, S, and D</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">//  UIImage+Tint.m</span>
-</span><span class='line'>
-</span><span class='line'><span class="cp">#import &quot;UIImage+Tint.h&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@implementation</span> <span class="bp">UIImage</span> <span class="nl">(Tint)</span>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="p">)</span> <span class="nf">imageWithTintColor:</span><span class="p">(</span><span class="bp">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="nv">tintColor</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="nb">self</span> <span class="nl">imageWithTintColor</span><span class="p">:</span><span class="n">tintColor</span> <span class="nl">blendMode</span><span class="p">:</span><span class="n">kCGBlendModeDestinationIn</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="p">)</span> <span class="nf">imageWithGradientTintColor:</span><span class="p">(</span><span class="bp">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="nv">tintColor</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="nb">self</span> <span class="nl">imageWithTintColor</span><span class="p">:</span><span class="n">tintColor</span> <span class="nl">blendMode</span><span class="p">:</span><span class="n">kCGBlendModeOverlay</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="p">)</span> <span class="nf">imageWithTintColor:</span><span class="p">(</span><span class="bp">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="nv">tintColor</span> <span class="nf">blendMode:</span><span class="p">(</span><span class="bp">CGBlendMode</span><span class="p">)</span><span class="nv">blendMode</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="c1">//We want to keep alpha, set opaque to NO; Use 0.0f for scale to use the scale factor of the device’s main screen.</span>
-</span><span class='line'>    <span class="n">UIGraphicsBeginImageContextWithOptions</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">size</span><span class="p">,</span> <span class="nb">NO</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">tintColor</span> <span class="n">setFill</span><span class="p">];</span>
-</span><span class='line'>    <span class="bp">CGRect</span> <span class="n">bounds</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">self</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">,</span> <span class="nb">self</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">UIRectFill</span><span class="p">(</span><span class="n">bounds</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">//Draw the tinted image in context</span>
-</span><span class='line'>    <span class="p">[</span><span class="nb">self</span> <span class="nl">drawInRect</span><span class="p">:</span><span class="n">bounds</span> <span class="nl">blendMode</span><span class="p">:</span><span class="n">blendMode</span> <span class="nl">alpha</span><span class="p">:</span><span class="mf">1.0f</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">blendMode</span> <span class="o">!=</span> <span class="n">kCGBlendModeDestinationIn</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="p">[</span><span class="nb">self</span> <span class="nl">drawInRect</span><span class="p">:</span><span class="n">bounds</span> <span class="nl">blendMode</span><span class="p">:</span><span class="n">kCGBlendModeDestinationIn</span> <span class="nl">alpha</span><span class="p">:</span><span class="mf">1.0f</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="bp">UIImage</span> <span class="o">*</span><span class="n">tintedImage</span> <span class="o">=</span> <span class="n">UIGraphicsGetImageFromCurrentImageContext</span><span class="p">();</span>
-</span><span class='line'>    <span class="n">UIGraphicsEndImageContext</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">return</span> <span class="n">tintedImage</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>正五边形</h2>
-
-<p>绘制正五边形步骤：</p>
-
-<ol>
-<li>初始化数据；</li>
-<li>计算各个顶点坐标，18° + 54° = 72°，通过三角函数计算；</li>
-<li>使用UIBezierPath绘制五边形path，使用CAShapeLayer渲染五边形；</li>
-</ol>
-
-
-<p>注：可使用matrix优化缩放。</p>
-
-<h2>返回手势</h2>
-
-<ol>
-<li>如果无leftBarButtonItem，点击返回及右滑返回均系统支持；</li>
-<li>如果有leftBarButtonItem，点击返回逻辑需自己添加，右滑返回默认不支持。如果想支持右滑返回，需要设置<code>navigationController.interactivePopGestureRecognizer.delegate</code>，并实现<code>-gestureRecognizerShouldBegin</code>代理方法。注意右滑时需要判断当前栈中是否有足够的viewController以供pop。</li>
-</ol>
-
-
-<h2>View与View的参数分离</h2>
-
-<p>自定义view时，将参数与view本身分离，并用常量定义参数，节省代码量，且易于统一修改处理。</p>
-
-<h2>UIWebView</h2>
-
-<p>如果webView加载的内容被卡住，<code>[self.webView canGoBack]</code>不能立即返回，如果使用该方法判断是否可以pop页面，可能会造成卡顿。<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/09/22/ioszhi-shi-xiao-ji-170918/'><a href="http://sxgfxm.github.io/blog/2017/09/22/ioszhi-shi-xiao-ji-170918/">http://sxgfxm.github.io/blog/2017/09/22/ioszhi-shi-xiao-ji-170918/</a></a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
-  </p></p>
 ]]></content>
   </entry>
   

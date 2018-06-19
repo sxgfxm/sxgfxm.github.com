@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>iOS System Authorization - Light's Blog</title>
+  <title>iOS知识小集-180619 - Light's Blog</title>
   <meta name="author" content="Light">
 
   
-  <meta name="description" content="iOS authorization">
-  <meta name="keywords" content="sxgfxm, iOS authorization">
+  <meta name="description" content="sxgfxm, fsCachedData, CADisplayLink, autocorrectionType, load, initialize">
+  <meta name="keywords" content="sxgfxm, fsCachedData, CADisplayLink, autocorrectionType, load, initialize">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://sxgfxm.github.io/blog/2017/02/25/ios-system-authorization/">
+  <link rel="canonical" href="http://sxgfxm.github.io/blog/2018/06/19/ioszhi-shi-xiao-ji-180619/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Light's Blog" type="application/atom+xml">
@@ -102,7 +102,7 @@ $(document).bind('DOMNodeInserted', function(event) {
   
   <header>
     
-      <h1 class="entry-title">iOS System Authorization</h1>
+      <h1 class="entry-title">iOS知识小集-180619</h1>
     
     
       <p class="meta">
@@ -111,7 +111,7 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 
-<time class='entry-date' datetime='2017-02-25T14:17:43+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>2:17 pm</span></time>
+<time class='entry-date' datetime='2018-06-19T17:49:55+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>5:49 pm</span></time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://sxgfxm.github.io">Comments</a>
@@ -121,44 +121,54 @@ $(document).bind('DOMNodeInserted', function(event) {
   </header>
 
 
-<div class="entry-content"><p>iOS 10开始，获取<strong>隐私</strong>敏感数据需要在<strong>plist.info</strong>文件中配置，否则app会crash。<br/>
-配置方法：添加对应权限的key和value，value不许为空。<br/>
-常用权限：</p>
+<div class="entry-content"><h2>UITextView关闭输入修正</h2>
 
-<ul>
-<li>Network：无需添加key</li>
-<li>Location：Privacy - Location Always Usage Description</li>
-<li>Photo：Privacy - Photo Library Usage Description</li>
-<li>Camera：Privacy - Camera Usage Description</li>
-<li>Microphone：Privacy - Microphone Usage Description</li>
-<li>Contact：Privacy - Contacts Usage Description</li>
-<li>Media：Privacy - Media Library Usage Description</li>
-</ul>
+<p><code>textView.autocorrectionType = UITextAutocorrectionTypeNo</code>
+<code>textFiled.autocorrectionType = UITextAutocorrectionTypeNo</code></p>
 
+<h2>NSDateFormatter</h2>
 
-<p>手动请求权限：当用户拒绝授权某权限时，需要手动再次请求。<br/>
-跳转至权限设置界面：</p>
+<p>&ldquo;yyyy-MM-dd HH:mm:ss&rdquo;</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[[</span><span class="bp">UIApplication</span> <span class="n">sharedApplication</span><span class="p">]</span>
-</span><span class='line'>                <span class="nl">openURL</span><span class="p">:[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="n">UIApplicationOpenSettingsURLString</span><span class="p">]</span>
-</span><span class='line'>                <span class="nl">options</span><span class="p">:</span><span class="l">@{}</span>
-</span><span class='line'>      <span class="nl">completionHandler</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
+<h2>UIGraphicsBeginImageContextWithOptions</h2>
+
+<p>传入<code>opaque</code>参数值为<code>NO</code>时可以创建透明的图层。</p>
+
+<h2>load方法、initialize方法</h2>
+
+<p><a href="https://www.jianshu.com/p/872447c6dc3f">https://www.jianshu.com/p/872447c6dc3f</a></p>
+
+<!-- more -->
 
 
-<p><a href="https://github.com/sxgfxm/AuthorizationDemo">Demo地址</a></p>
+<h2>UIFont to CFTypeRef</h2>
 
-<p class='post-footer'>
+<p><code>CGFontRef cgFont = CGFontCreateWithFontName((CFStringRef)uiFont.fontName);</code></p>
+
+<h2>fsCachedData</h2>
+
+<p>在查看Cache文件夹下缓存时，发现fsCachedData文件夹过大，便查了下这个文件夹是如何生成的。</p>
+
+<p>在使用NSURLSession进行网络请求时可以设置缓存策略，可以参考<a href="https://www.cnblogs.com/ludashi/p/5556088.html">iOS开发之Alamofire源码解析前奏&ndash;NSURLSession全家桶</a>。当设置缓存策略后，会在默认为"~/Library/Caches/[Boundle ID]/fsCachedData/&ldquo;的目录下生成缓存文件。</p>
+
+<h2>CADisplayLink</h2>
+
+<h3>什么是CADisplayLink</h3>
+
+<p><code>CADisplayLink</code>是一个定时器，其调用周期和屏幕刷新频率有关。每秒调用频率 = 60 / frameInterval。</p>
+
+<h3>适用范围</h3>
+
+<p>检测fps，绘制动画。</p>
+
+<h3>与NSTimer区别</h3>
+
+<p><code>NSTimer</code>调用周期更加灵活，适用范围更广，但准确性不如<code>CADisplayLink</code>。<p class='post-footer'>
   原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/02/25/ios-system-authorization/'>http://sxgfxm.github.io/blog/2017/02/25/ios-system-authorization/</a><br/>
+  <a href='http://sxgfxm.github.io/blog/2018/06/19/ioszhi-shi-xiao-ji-180619/'><a href="http://sxgfxm.github.io/blog/2018/06/19/ioszhi-shi-xiao-ji-180619/">http://sxgfxm.github.io/blog/2018/06/19/ioszhi-shi-xiao-ji-180619/</a></a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
-
+  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
+  </p></p>
 </div>
 
 
@@ -174,7 +184,7 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 
-<time class='entry-date' datetime='2017-02-25T14:17:43+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>2:17 pm</span></time>
+<time class='entry-date' datetime='2018-06-19T17:49:55+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>5:49 pm</span></time>
       
 
 <span class="categories">
@@ -196,10 +206,8 @@ $(document).bind('DOMNodeInserted', function(event) {
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2017/02/20/ios-core-animation-advanced-techniques/" title="Previous Post: iOS Core Animation Advanced Techniques">&laquo; iOS Core Animation Advanced Techniques</a>
+        <a class="basic-alignment left" href="/blog/2018/05/22/ioszhi-shi-xiao-ji-180514/" title="Previous Post: iOS知识小集-180514">&laquo; iOS知识小集-180514</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2017/03/06/ioszhi-shi-xiao-ji-170220/" title="Next Post: iOS知识小集-170220">iOS知识小集-170220 &raquo;</a>
       
     </p>
   </footer>
@@ -340,8 +348,8 @@ $(document).bind('DOMNodeInserted', function(event) {
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://sxgfxm.github.io/blog/2017/02/25/ios-system-authorization/';
-        var disqus_url = 'http://sxgfxm.github.io/blog/2017/02/25/ios-system-authorization/';
+        var disqus_identifier = 'http://sxgfxm.github.io/blog/2018/06/19/ioszhi-shi-xiao-ji-180619/';
+        var disqus_url = 'http://sxgfxm.github.io/blog/2018/06/19/ioszhi-shi-xiao-ji-180619/';
         var disqus_script = 'embed.js';
       
     (function () {

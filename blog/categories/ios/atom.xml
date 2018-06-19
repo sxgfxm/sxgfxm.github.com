@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2018-05-22T11:54:44+08:00</updated>
+  <updated>2018-06-19T17:51:31+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,57 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-180619]]></title>
+    <link href="http://sxgfxm.github.io/blog/2018/06/19/ioszhi-shi-xiao-ji-180619/"/>
+    <updated>2018-06-19T17:49:55+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2018/06/19/ioszhi-shi-xiao-ji-180619</id>
+    <content type="html"><![CDATA[<h2>UITextView关闭输入修正</h2>
+
+<p><code>textView.autocorrectionType = UITextAutocorrectionTypeNo</code>
+<code>textFiled.autocorrectionType = UITextAutocorrectionTypeNo</code></p>
+
+<h2>NSDateFormatter</h2>
+
+<p>&ldquo;yyyy-MM-dd HH:mm:ss&rdquo;</p>
+
+<h2>UIGraphicsBeginImageContextWithOptions</h2>
+
+<p>传入<code>opaque</code>参数值为<code>NO</code>时可以创建透明的图层。</p>
+
+<h2>load方法、initialize方法</h2>
+
+<p><a href="https://www.jianshu.com/p/872447c6dc3f">https://www.jianshu.com/p/872447c6dc3f</a></p>
+
+<!-- more -->
+
+
+<h2>UIFont to CFTypeRef</h2>
+
+<p><code>CGFontRef cgFont = CGFontCreateWithFontName((CFStringRef)uiFont.fontName);</code></p>
+
+<h2>fsCachedData</h2>
+
+<p>在查看Cache文件夹下缓存时，发现fsCachedData文件夹过大，便查了下这个文件夹是如何生成的。</p>
+
+<p>在使用NSURLSession进行网络请求时可以设置缓存策略，可以参考<a href="https://www.cnblogs.com/ludashi/p/5556088.html">iOS开发之Alamofire源码解析前奏&ndash;NSURLSession全家桶</a>。当设置缓存策略后，会在默认为"~/Library/Caches/[Boundle ID]/fsCachedData/&ldquo;的目录下生成缓存文件。</p>
+
+<h2>CADisplayLink</h2>
+
+<h3>什么是CADisplayLink</h3>
+
+<p><code>CADisplayLink</code>是一个定时器，其调用周期和屏幕刷新频率有关。每秒调用频率 = 60 / frameInterval。</p>
+
+<h3>适用范围</h3>
+
+<p>检测fps，绘制动画。</p>
+
+<h3>与NSTimer区别</h3>
+
+<p><code>NSTimer</code>调用周期更加灵活，适用范围更广，但准确性不如<code>CADisplayLink</code>。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-180514]]></title>
@@ -208,51 +259,6 @@ WXMediaMessage
 <h2>NEVPNConnection</h2>
 
 <p><code>NEVPNConnection</code>用来控制VPN连接。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-180312]]></title>
-    <link href="http://sxgfxm.github.io/blog/2018/03/18/ioszhi-shi-xiao-ji-180312/"/>
-    <updated>2018-03-18T18:19:33+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2018/03/18/ioszhi-shi-xiao-ji-180312</id>
-    <content type="html"><![CDATA[<h2>embed pods frameworks error</h2>
-
-<p><code>rm -rf ~/Library/Developer/Xcode/DerivedData</code></p>
-
-<h2>armv7、armv7s、arm64、i386、x86_64指令集</h2>
-
-<p>armv7 | armv7s | arm64 是ARM处理器指令集；
-i386 | x86_64 是Intel处理器指令集。</p>
-
-<p>设备相关
-arm64： iPhone6s | iPhone5s | iPad Air
-armv7s：iPhone5 | iPhone5c | iPad4
-armv7： iPhone4 | iPhone4s | iPad3</p>
-
-<p>模拟器32位处理器：i386架构；
-模拟器64位处理器：x86_64架构；
-真机32位处理器：armv7或armv7架构；
-真机64位处理器：arm64架构。</p>
-
-<p>而编译出哪种指令集的包，将由 <strong>Architectures</strong> 与 <strong>Valid Architectures</strong>（因此这个不能为空）的交集来确定。
-<strong>Build Active Architecture Only</strong> 指定是否只对当前连接设备所支持的指令集编译。</p>
-
-<h2>Git拉取远程分支</h2>
-
-<p><code>git checkout -b branch_name remote_branch_name</code></p>
-
-<h2>Today Extension 研究</h2>
-
-<ol>
-<li>self.view.frame是整个屏幕大小。</li>
-<li>滑走后，会重新创建。</li>
-</ol>
-
-
-<h2>NEVPNManager</h2>
-
-<p><code>#import &lt;NetworkExtension/NEVPNManager.h&gt;</code></p>
 ]]></content>
   </entry>
   

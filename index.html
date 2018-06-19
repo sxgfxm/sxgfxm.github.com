@@ -105,6 +105,58 @@ $(document).bind('DOMNodeInserted', function(event) {
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2018/06/19/ioszhi-shi-xiao-ji-180619/">iOS知识小集-180619</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2018-06-19T17:49:55+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>5:49 pm</span></time>
+        
+           | <a href="/blog/2018/06/19/ioszhi-shi-xiao-ji-180619/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2018/06/19/ioszhi-shi-xiao-ji-180619/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>UITextView关闭输入修正</h2>
+
+<p><code>textView.autocorrectionType = UITextAutocorrectionTypeNo</code>
+<code>textFiled.autocorrectionType = UITextAutocorrectionTypeNo</code></p>
+
+<h2>NSDateFormatter</h2>
+
+<p>&ldquo;yyyy-MM-dd HH:mm:ss&rdquo;</p>
+
+<h2>UIGraphicsBeginImageContextWithOptions</h2>
+
+<p>传入<code>opaque</code>参数值为<code>NO</code>时可以创建透明的图层。</p>
+
+<h2>load方法、initialize方法</h2>
+
+<p><a href="https://www.jianshu.com/p/872447c6dc3f">https://www.jianshu.com/p/872447c6dc3f</a></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2018/06/19/ioszhi-shi-xiao-ji-180619/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2018/05/22/ioszhi-shi-xiao-ji-180514/">iOS知识小集-180514</a></h1>
     
     
@@ -636,73 +688,6 @@ Terminating app due to uncaught exception &lsquo;NSInvalidArgumentException&rsqu
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/11/27/ioszhi-shi-xiao-ji-171120/">iOS知识小集-171120</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2017-11-27T11:25:53+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>11:25 am</span></time>
-        
-           | <a href="/blog/2017/11/27/ioszhi-shi-xiao-ji-171120/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/11/27/ioszhi-shi-xiao-ji-171120/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>iOS 10.3之后删除线失效解决办法</h2>
-
-<p>iOS 10.3之前写法：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">attr</span> <span class="nl">addAttributes</span><span class="p">:</span><span class="l">@{</span>
-</span><span class='line'>    <span class="nl">NSStrikethroughStyleAttributeName</span><span class="p">:</span> <span class="l">@(</span><span class="n">NSUnderlineStyleSingle</span><span class="l">)</span>
-</span><span class='line'>  <span class="l">}</span>
-</span><span class='line'>              <span class="nl">range</span><span class="p">:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">string</span><span class="p">.</span><span class="n">length</span><span class="p">)];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>iOS 10.3之后写法：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">attr</span> <span class="nl">addAttributes</span><span class="p">:</span><span class="l">@{</span>
-</span><span class='line'>    <span class="nl">NSStrikethroughStyleAttributeName</span><span class="p">:</span> <span class="l">@(</span><span class="n">NSUnderlineStyleSingle</span><span class="l">)</span><span class="p">,</span>
-</span><span class='line'>    <span class="nl">NSBaselineOffsetAttributeName</span><span class="p">:</span> <span class="l">@(</span><span class="n">NSUnderlineStyleNone</span><span class="l">)</span>
-</span><span class='line'>  <span class="l">}</span>
-</span><span class='line'>              <span class="nl">range</span><span class="p">:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">string</span><span class="p">.</span><span class="n">length</span><span class="p">)];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2017/11/27/ioszhi-shi-xiao-ji-171120/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -728,7 +713,7 @@ Terminating app due to uncaught exception &lsquo;NSInvalidArgumentException&rsqu
  <h1>Categories</h1>
  <ul id="categories">
   <li class='category'><a href='/blog/categories/componentkit/'>componentkit (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>ios (60)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (61)</a></li>
 <li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
 <li class='category'><a href='/blog/categories/reactiveobjc/'>reactiveobjc (2)</a></li>
@@ -737,6 +722,10 @@ Terminating app due to uncaught exception &lsquo;NSInvalidArgumentException&rsqu
 </section><section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2018/06/19/ioszhi-shi-xiao-ji-180619/">iOS知识小集-180619</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2018/05/22/ioszhi-shi-xiao-ji-180514/">iOS知识小集-180514</a>
@@ -752,10 +741,6 @@ Terminating app due to uncaught exception &lsquo;NSInvalidArgumentException&rsqu
     
       <li class="post">
         <a href="/blog/2018/04/18/ioszhi-shi-xiao-ji-180319/">iOS知识小集-180319</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/03/18/ioszhi-shi-xiao-ji-180312/">iOS知识小集-180312</a>
       </li>
     
   </ul>
