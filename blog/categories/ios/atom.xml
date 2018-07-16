@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2018-06-19T17:52:49+08:00</updated>
+  <updated>2018-07-16T10:22:50+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,125 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-180619]]></title>
+    <link href="http://sxgfxm.github.io/blog/2018/07/16/ioszhi-shi-xiao-ji-180619/"/>
+    <updated>2018-07-16T10:20:28+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2018/07/16/ioszhi-shi-xiao-ji-180619</id>
+    <content type="html"><![CDATA[<h2>清除UIWebView JavaScript缓存</h2>
+
+<pre><code class="objective-c">[webView stringByEvaluatingJavaScriptFromString:@"localStorage.clear();"];
+</code></pre>
+
+<h2>类似网易新闻下拉刷新后的展开动画</h2>
+
+<p>修改<code>anchorPoint</code>为<code>(1, 0.5)</code>。 <br/>
+<code>objective-c
+- (void)spreadFromCenterAnimation{
+  CGRect rectFrom = CGRectMake(kScreen_Width / 2, 300, 0, 60);
+  CGRect rectTo = CGRectMake(0, 300, kScreen_Width, 60);
+  self.testView = [[UIView alloc] initWithFrame:rectFrom];
+  self.testView.backgroundColor = [UIColor blueColor];
+  self.testView.layer.anchorPoint = CGPointMake(1, 0.5);
+  [self.view addSubview:self.testView];
+  [UIView animateWithDuration:1 animations:^{
+    self.testView.frame = rectTo;
+  } completion:^(BOOL finished) {
+    self.testView.frame = rectFrom;
+  }];
+}
+</code></p>
+
+<!-- more -->
+
+
+<h2>长按移动UITableViewCell</h2>
+
+<pre><code class="objective-c">- (void)addLongPressGesture{
+  UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressGestureRecognized:)];
+  [self.tableView addGestureRecognizer:longPress];
+}
+
+- (void)longPressGestureRecognized:(UILongPressGestureRecognizer*)longPress{
+  //  关键点：通过长按手势获取点击位置，进而获取到对应的indexPath，从而操作对应的cell
+  CGPoint location = [longPress locationInView:self.tableView];
+  NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
+  static UIView *snapshot = nil;
+  static NSIndexPath *sourceIndexPath = nil;
+  UIGestureRecognizerState state = longPress.state;
+  switch (state) {
+    case UIGestureRecognizerStateBegan:{
+      if (indexPath) {
+        //  移动开始时，截取对应的cell的snapshot，隐藏对应的cell
+        sourceIndexPath = indexPath;
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        snapshot = [self customSnapshotFromView:cell];
+        __block CGPoint center = cell.center;
+        snapshot.center = center;
+        snapshot.alpha = 0;
+        [self.tableView addSubview:snapshot];
+        [UIView animateWithDuration:0.25 animations:^{
+          center.y = location.y;
+          snapshot.center = center;
+          snapshot.transform = CGAffineTransformMakeScale(1.05, 1.05);
+          snapshot.alpha = 0.98;
+          cell.alpha = 0;
+          cell.hidden = YES;
+        }];
+      }
+      break;
+    }
+    case UIGestureRecognizerStateChanged:{
+      //  移动时，不断修改snapshot的位置，并交换数据和cell
+      CGPoint center = snapshot.center;
+      center.y = location.y;
+      snapshot.center = center;
+      if (indexPath &amp;&amp; ![indexPath isEqual:sourceIndexPath]) {
+        [self.dataSource exchangeObjectAtIndex:indexPath.row withObjectAtIndex:sourceIndexPath.row];
+        [self.tableView moveRowAtIndexPath:sourceIndexPath toIndexPath:indexPath];
+        sourceIndexPath = indexPath;
+      }
+      break;
+    }
+    default:{
+      //  移动完成后，显示被移动的cell，移除snapshot
+      UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:sourceIndexPath];
+      cell.alpha = 0;
+      [UIView animateWithDuration:0.25 animations:^{
+        snapshot.center = cell.center;
+        snapshot.transform = CGAffineTransformIdentity;
+        snapshot.alpha = 0.0;
+        cell.alpha = 1.0;
+      } completion:^(BOOL finished) {
+        cell.hidden = NO;
+        sourceIndexPath = nil;
+        [snapshot removeFromSuperview];
+        snapshot = nil;
+      }];
+      break;
+    }
+  }
+}
+
+- (UIView *)customSnapshotFromView:(UIView *)inputView {
+  // Make an image from the input view.
+  UIGraphicsBeginImageContextWithOptions(inputView.bounds.size, NO, 0);
+  [inputView.layer renderInContext:UIGraphicsGetCurrentContext()];
+  UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+  UIGraphicsEndImageContext();
+  // Create an image view.
+  UIView *snapshot = [[UIImageView alloc] initWithImage:image];
+  snapshot.layer.masksToBounds = NO;
+  snapshot.layer.cornerRadius = 0.0;
+  snapshot.layer.shadowOffset = CGSizeMake(-5.0, 0.0);
+  snapshot.layer.shadowRadius = 5.0;
+  snapshot.layer.shadowOpacity = 0.4;
+  return snapshot;
+}
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-180522]]></title>
@@ -217,48 +336,6 @@ WXMediaMessage
 </span><span class='line'><span class="p">}</span>
 </span><span class='line'><span class="k">@end</span>
 </span></code></pre></td></tr></table></div></figure></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-180319]]></title>
-    <link href="http://sxgfxm.github.io/blog/2018/04/18/ioszhi-shi-xiao-ji-180319/"/>
-    <updated>2018-04-18T14:20:28+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2018/04/18/ioszhi-shi-xiao-ji-180319</id>
-    <content type="html"><![CDATA[<h2>Today Extension 研究</h2>
-
-<h3>Layout</h3>
-
-<ol>
-<li>self.view.frame是整个屏幕大小。</li>
-</ol>
-
-
-<h3>Life cycle</h3>
-
-<ol>
-<li>滑走后，会重新创建。</li>
-</ol>
-
-
-<h2>NEVPNManager</h2>
-
-<p><code>NEVPNManager</code>是用来创建和管理VPN设置，并且处理VPN连接结果的。
-每一个应用只允许创建一个VPA设置，所以<code>NEVPNManager</code>是一个单例。
-由<code>NEVPNManager</code>创建的VPN称为私人VPN，在iOS和macOS上，非私人VPA的优先级高于私人VPN。
-使用<code>NEVPNManager</code>需要<code>com.apple.developer.networking.vpn.api entitlement</code>，需要开启应用的<code>Personal VPN</code>权限。
-在开启私人VPN前，必须从Network Extension preferences载入VPN设置，在修改VPN设置之后，必须写入Network Extension preferences。
-<code>NEVPNManager</code>的对象是线程安全的。</p>
-
-<p><code>#import &lt;NetworkExtension/NEVPNManager.h&gt;</code></p>
-
-<h2>NEVPNProtocol</h2>
-
-<p><code>NEVPNProtocol</code>用来配置VPN。</p>
-
-<h2>NEVPNConnection</h2>
-
-<p><code>NEVPNConnection</code>用来控制VPN连接。</p>
 ]]></content>
   </entry>
   
