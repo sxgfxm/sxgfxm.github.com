@@ -105,6 +105,60 @@ $(document).bind('DOMNodeInserted', function(event) {
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2017/09/30/reactiveobjc-framework-overview/">ReactiveObjC Framework Overview</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-09-30T15:04:20+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>3:04 pm</span></time>
+        
+           | <a href="/blog/2017/09/30/reactiveobjc-framework-overview/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/09/30/reactiveobjc-framework-overview/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>Streams</h1>
+
+<p>A <strong>stream</strong>, represented by the <strong>RACStream</strong> abstract class, is any series of object values.</p>
+
+<h2>Signals</h2>
+
+<p>A <strong>signal</strong>, represented by the <strong>RACSignal</strong> class, is a push-driven stream.</p>
+
+<p>Signals generally represent data that will be delivered <strong>in the future</strong>. Users must <strong>subscribe</strong> to a signal in order to access its values.</p>
+
+<p>Signals send three different types of events to their subscribers:</p>
+
+<ol>
+<li>The <strong>next</strong> event provides a new value from the stream.</li>
+<li>The <strong>error</strong> event indicates that an error occurred before the signal could finish.</li>
+<li>The completed event indicates that the signal finished successfully, and that no more values will be added to the stream.</li>
+</ol>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/09/30/reactiveobjc-framework-overview/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2017/09/29/ioszhi-shi-xiao-ji-170925/">iOS知识小集-170925</a></h1>
     
     
@@ -660,50 +714,6 @@ AVAudioSessionCategoryOptionMixWithOthers：不打断其他App音频播放。</p
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/07/31/ioszhi-shi-xiao-ji-170724/">iOS知识小集-170724</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2017-07-31T10:17:32+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2017</span></span> <span class='time'>10:17 am</span></time>
-        
-           | <a href="/blog/2017/07/31/ioszhi-shi-xiao-ji-170724/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/07/31/ioszhi-shi-xiao-ji-170724/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>JavaScriptCore</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString</span><span class="p">:</span><span class="s">@&quot;document.getElementsByTagName(&#39;audio&#39;)[0].play()&quot;</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2017/07/31/ioszhi-shi-xiao-ji-170724/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/4">&larr; Older</a>
@@ -731,7 +741,7 @@ AVAudioSessionCategoryOptionMixWithOthers：不打断其他App音频播放。</p
  <h1>Categories</h1>
  <ul id="categories">
   <li class='category'><a href='/blog/categories/componentkit/'>componentkit (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>ios (62)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (63)</a></li>
 <li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
 <li class='category'><a href='/blog/categories/reactiveobjc/'>reactiveobjc (2)</a></li>
@@ -740,6 +750,10 @@ AVAudioSessionCategoryOptionMixWithOthers：不打断其他App音频播放。</p
 </section><section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2018/07/23/ioszhi-shi-xiao-ji-180716/">iOS知识小集-180716</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2018/07/16/ioszhi-shi-xiao-ji-180619/">iOS知识小集-180619</a>
@@ -755,10 +769,6 @@ AVAudioSessionCategoryOptionMixWithOthers：不打断其他App音频播放。</p
     
       <li class="post">
         <a href="/blog/2018/05/14/ioszhi-shi-xiao-ji-180507/">iOS知识小集-180507</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/05/07/ioszhi-shi-xiao-ji-180418/">iOS知识小集-180418</a>
       </li>
     
   </ul>

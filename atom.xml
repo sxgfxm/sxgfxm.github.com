@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2018-07-16T10:22:50+08:00</updated>
+  <updated>2018-07-23T10:19:49+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,67 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-180716]]></title>
+    <link href="http://sxgfxm.github.io/blog/2018/07/23/ioszhi-shi-xiao-ji-180716/"/>
+    <updated>2018-07-23T10:17:06+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2018/07/23/ioszhi-shi-xiao-ji-180716</id>
+    <content type="html"><![CDATA[<h2>UIScrollView+EmptyDataSet</h2>
+
+<p>当状态变化时才会触发；<br/>
+当列表内无元素时才会显示。</p>
+
+<h2>Update CocoaPods</h2>
+
+<p><code>[sudo] gem install cocoapods</code></p>
+
+<h2>UITableViewCell左滑删除出现后，TableView编辑状态失效</h2>
+
+<p>UITableViewCell需要按规则初始化。</p>
+
+<h2>Masonry、Autolayout断点调试</h2>
+
+<p>1、添加symbolic break point<code>UIViewAlertForUnsatisfiableConstraints</code>；<br/>
+2、添加action<code>po [[UIWindow keyWindow] _autolayoutTrace]</code>；<br/>
+3、修改出错界面背景颜色<code>e id $myView = (id) 0x10a005a90</code>，<code>e (void)[$myView setBackgroundColor:[UIColor blueColor]]</code>。（0x10a005a90为问题界面地址）</p>
+
+<h2>添加pch文件</h2>
+
+<p>1、创建<code>.pch</code>文件，引入需要全局引入的头文件；<br/>
+2、在<code>Build Settings</code>中<code>Prefix Header</code>添加pch文件路径<code>$SRCROOT/工程名/pch文件名</code>，并设置<code>Precompile Prefix Header = YES</code>。<br/>
+3、优点：全局导入头文件，不必重复导入；预编译头文件被缓存，提高编译速度；<br/>
+4、缺点：非必要全局引入的头文件会带来麻烦；</p>
+
+<!-- more -->
+
+
+<h2>导航栏相关</h2>
+
+<h3>UIBarButtonItem</h3>
+
+<p>1、非custom view创建的UIBarButtonItem会被<code>UINavigationBar.tintColor</code>渲染，可以根据需求确定；<br/>
+2、用custom view创建的UIBarButtonItem更加灵活，表现方式更加多样，且可以添加多种手势控制；<br/>
+3、<code>UIBarButtonSystemItemFixedSpace</code>UIBarButtonItem可以用于调整items间距；<br/>
+4、使用自定义返回按钮会使左滑退出失效，可设置<code>self.navigationController.interactivePopGestureRecognizer.delegate = self;</code>恢复；</p>
+
+<h3>UINavigationBar</h3>
+
+<p>1、<code>translucent = YES</code>半透明，不自动下移；<code>translucent = NO</code>不透明，自动下移，bar会变为白色；<br/>
+2、<code>barTintColor = nil</code>是透明的，<code>barTintColor = [UIColor clearColor]</code>是黑色的；<br/>
+3、<code>setBackgroundImage</code>会移除<code>UIVisualEffectView</code>，并且<code>barTintColor</code>失效；<br/>
+4、<code>tintColor</code>会渲染非custom view的UIBarButtonItem；</p>
+
+<h3>UINavigationController</h3>
+
+<p>1、Push至一个透明UIViewController会卡顿，初始动画瞬间进行，透明的话会看到，感觉卡顿；  <p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2018/07/23/ioszhi-shi-xiao-ji-180716/'><a href="http://sxgfxm.github.io/blog/2018/07/23/ioszhi-shi-xiao-ji-180716/">http://sxgfxm.github.io/blog/2018/07/23/ioszhi-shi-xiao-ji-180716/</a></a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
+  </p></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-180619]]></title>
@@ -2056,86 +2117,6 @@ This commonly occurs when using <strong>RACObserve()</strong> on a key path that
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ReactiveObjC Framework Overview]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/09/30/reactiveobjc-framework-overview/"/>
-    <updated>2017-09-30T15:04:20+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/09/30/reactiveobjc-framework-overview</id>
-    <content type="html"><![CDATA[<h1>Streams</h1>
-
-<p>A <strong>stream</strong>, represented by the <strong>RACStream</strong> abstract class, is any series of object values.</p>
-
-<h2>Signals</h2>
-
-<p>A <strong>signal</strong>, represented by the <strong>RACSignal</strong> class, is a push-driven stream.</p>
-
-<p>Signals generally represent data that will be delivered <strong>in the future</strong>. Users must <strong>subscribe</strong> to a signal in order to access its values.</p>
-
-<p>Signals send three different types of events to their subscribers:</p>
-
-<ol>
-<li>The <strong>next</strong> event provides a new value from the stream.</li>
-<li>The <strong>error</strong> event indicates that an error occurred before the signal could finish.</li>
-<li>The completed event indicates that the signal finished successfully, and that no more values will be added to the stream.</li>
-</ol>
-
-
-<!-- more -->
-
-
-<h3>Subscription</h3>
-
-<p>A subscriber is anything that is waiting or capable of waiting for events from a signal.<br/>
-A subscription is created through any call to <code>-subscribeNext:error:completed:</code>, or one of the corresponding convenience methods.</p>
-
-<h3>Subjects</h3>
-
-<p>A <strong>subject</strong>, represented by the <strong>RACSubject</strong> class, is a signal that can be manually controlled.<br/>
-Subjects are extremely useful for bridging non-RAC code into the world of signals.</p>
-
-<h3>Commands</h3>
-
-<p>A <strong>command</strong>, represented by the <strong>RACCommand</strong> class, creates and subscribes to a signal in response to some action.<br/>
-This makes it easy to perform side-effecting work as the user interacts with the app.</p>
-
-<h3>Connections</h3>
-
-<p>A <strong>connection</strong>, represented by the <strong>RACMulticastConnection</strong> class, is a subscription that is shared between any number of subscribers.<br/>
-A connection is created through the <code>-publish</code> or <code>-multicast:</code> methods on RACSignal, and ensures that only one underlying subscription is created, no matter how many times the connection is subscribed to.</p>
-
-<h2>Sequences</h2>
-
-<p>A <strong>sequence</strong>, represented by the <strong>RACSequence</strong> class, is a pull-driven stream.<br/>
-Sequences are a kind of collection, sequences cannot contain <code>nil</code>.</p>
-
-<h2>Disposables</h2>
-
-<p>The <strong>RACDisposable</strong> class is used for cancellation and resource cleanup.</p>
-
-<h2>Schedulers</h2>
-
-<p>A <strong>scheduler</strong>, represented by the <strong>RACScheduler</strong> class, is a serial execution queue for signals to perform work or deliver their results upon.<br/>
-Schedulers are similar to Grand Central Dispatch queues, but schedulers support cancellation (via disposables), and always execute serially.<br/>
-RACScheduler is also somewhat similar to NSOperationQueue, but schedulers do not allow tasks to be reordered or depend on one another.</p>
-
-<h2>Value types</h2>
-
-<p>RAC offers a few miscellaneous classes for conveniently representing values in a stream:</p>
-
-<ol>
-<li><strong>RACTuple</strong> is a small, constant-sized collection that can contain nil (represented by RACTupleNil). It is generally used to represent the combined values of multiple streams.</li>
-<li><strong>RACUnit</strong> is a singleton &ldquo;empty&rdquo; value. It is used as a value in a stream for those times when more meaningful data doesn&rsquo;t exist.</li>
-<li><strong>RACEvent</strong> represents any signal event as a single value. It is primarily used by the -materialize method of RACSignal.  <p class='post-footer'>
-原始地址：
-<a href='http://sxgfxm.github.io/blog/2017/09/30/reactiveobjc-framework-overview/'><a href="http://sxgfxm.github.io/blog/2017/09/30/reactiveobjc-framework-overview/">http://sxgfxm.github.io/blog/2017/09/30/reactiveobjc-framework-overview/</a></a><br/>
-written by <a href='http://sxgfxm.github.io'>Light</a>
-&nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
-</p></li>
-</ol>
 
 ]]></content>
   </entry>

@@ -105,6 +105,67 @@ $(document).bind('DOMNodeInserted', function(event) {
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2018/07/23/ioszhi-shi-xiao-ji-180716/">iOS知识小集-180716</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2018-07-23T10:17:06+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2018</span></span> <span class='time'>10:17 am</span></time>
+        
+           | <a href="/blog/2018/07/23/ioszhi-shi-xiao-ji-180716/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2018/07/23/ioszhi-shi-xiao-ji-180716/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>UIScrollView+EmptyDataSet</h2>
+
+<p>当状态变化时才会触发；<br/>
+当列表内无元素时才会显示。</p>
+
+<h2>Update CocoaPods</h2>
+
+<p><code>[sudo] gem install cocoapods</code></p>
+
+<h2>UITableViewCell左滑删除出现后，TableView编辑状态失效</h2>
+
+<p>UITableViewCell需要按规则初始化。</p>
+
+<h2>Masonry、Autolayout断点调试</h2>
+
+<p>1、添加symbolic break point<code>UIViewAlertForUnsatisfiableConstraints</code>；<br/>
+2、添加action<code>po [[UIWindow keyWindow] _autolayoutTrace]</code>；<br/>
+3、修改出错界面背景颜色<code>e id $myView = (id) 0x10a005a90</code>，<code>e (void)[$myView setBackgroundColor:[UIColor blueColor]]</code>。（0x10a005a90为问题界面地址）</p>
+
+<h2>添加pch文件</h2>
+
+<p>1、创建<code>.pch</code>文件，引入需要全局引入的头文件；<br/>
+2、在<code>Build Settings</code>中<code>Prefix Header</code>添加pch文件路径<code>$SRCROOT/工程名/pch文件名</code>，并设置<code>Precompile Prefix Header = YES</code>。<br/>
+3、优点：全局导入头文件，不必重复导入；预编译头文件被缓存，提高编译速度；<br/>
+4、缺点：非必要全局引入的头文件会带来麻烦；</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2018/07/23/ioszhi-shi-xiao-ji-180716/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2018/07/16/ioszhi-shi-xiao-ji-180619/">iOS知识小集-180619</a></h1>
     
     
@@ -669,45 +730,6 @@ Terminating app due to uncaught exception &lsquo;NSInvalidArgumentException&rsqu
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/12/11/ioszhi-shi-xiao-ji-171204/">iOS知识小集-171204</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2017-12-11T16:49:04+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:49 pm</span></time>
-        
-           | <a href="/blog/2017/12/11/ioszhi-shi-xiao-ji-171204/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/12/11/ioszhi-shi-xiao-ji-171204/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>UIViewController Transition</h2>
-
-<p>自定义Present和Dismiss动画。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2017/12/11/ioszhi-shi-xiao-ji-171204/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -733,7 +755,7 @@ Terminating app due to uncaught exception &lsquo;NSInvalidArgumentException&rsqu
  <h1>Categories</h1>
  <ul id="categories">
   <li class='category'><a href='/blog/categories/componentkit/'>componentkit (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>ios (62)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (63)</a></li>
 <li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
 <li class='category'><a href='/blog/categories/reactiveobjc/'>reactiveobjc (2)</a></li>
@@ -742,6 +764,10 @@ Terminating app due to uncaught exception &lsquo;NSInvalidArgumentException&rsqu
 </section><section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2018/07/23/ioszhi-shi-xiao-ji-180716/">iOS知识小集-180716</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2018/07/16/ioszhi-shi-xiao-ji-180619/">iOS知识小集-180619</a>
@@ -757,10 +783,6 @@ Terminating app due to uncaught exception &lsquo;NSInvalidArgumentException&rsqu
     
       <li class="post">
         <a href="/blog/2018/05/14/ioszhi-shi-xiao-ji-180507/">iOS知识小集-180507</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/05/07/ioszhi-shi-xiao-ji-180418/">iOS知识小集-180418</a>
       </li>
     
   </ul>

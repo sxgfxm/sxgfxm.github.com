@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>iOS知识小集-180319 - Light's Blog</title>
+  <title>iOS知识小集-180716 - Light's Blog</title>
   <meta name="author" content="Light">
 
   
-  <meta name="description" content="Today Extentsion, NEVPNManager">
-  <meta name="keywords" content="sxgfxm">
+  <meta name="description" content="sxgfxm,UIScrollView+EmptyDataSet,Update CocoaPods,UIViewAlertForUnsatisfiableConstraints,Prefix Header,UIBarButtonItem">
+  <meta name="keywords" content="sxgfxm,UIScrollView+EmptyDataSet,Update CocoaPods,UIViewAlertForUnsatisfiableConstraints,Prefix Header,UIBarButtonItem">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://sxgfxm.github.io/blog/2018/04/18/ioszhi-shi-xiao-ji-180319/">
+  <link rel="canonical" href="http://sxgfxm.github.io/blog/2018/07/23/ioszhi-shi-xiao-ji-180716/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Light's Blog" type="application/atom+xml">
@@ -102,7 +102,7 @@ $(document).bind('DOMNodeInserted', function(event) {
   
   <header>
     
-      <h1 class="entry-title">iOS知识小集-180319</h1>
+      <h1 class="entry-title">iOS知识小集-180716</h1>
     
     
       <p class="meta">
@@ -111,7 +111,7 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 
-<time class='entry-date' datetime='2018-04-18T14:20:28+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>2:20 pm</span></time>
+<time class='entry-date' datetime='2018-07-23T10:17:06+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2018</span></span> <span class='time'>10:17 am</span></time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://sxgfxm.github.io">Comments</a>
@@ -121,42 +121,56 @@ $(document).bind('DOMNodeInserted', function(event) {
   </header>
 
 
-<div class="entry-content"><h2>Today Extension 研究</h2>
+<div class="entry-content"><h2>UIScrollView+EmptyDataSet</h2>
 
-<h3>Layout</h3>
+<p>当状态变化时才会触发；<br/>
+当列表内无元素时才会显示。</p>
 
-<ol>
-<li>self.view.frame是整个屏幕大小。</li>
-</ol>
+<h2>Update CocoaPods</h2>
+
+<p><code>[sudo] gem install cocoapods</code></p>
+
+<h2>UITableViewCell左滑删除出现后，TableView编辑状态失效</h2>
+
+<p>UITableViewCell需要按规则初始化。</p>
+
+<h2>Masonry、Autolayout断点调试</h2>
+
+<p>1、添加symbolic break point<code>UIViewAlertForUnsatisfiableConstraints</code>；<br/>
+2、添加action<code>po [[UIWindow keyWindow] _autolayoutTrace]</code>；<br/>
+3、修改出错界面背景颜色<code>e id $myView = (id) 0x10a005a90</code>，<code>e (void)[$myView setBackgroundColor:[UIColor blueColor]]</code>。（0x10a005a90为问题界面地址）</p>
+
+<h2>添加pch文件</h2>
+
+<p>1、创建<code>.pch</code>文件，引入需要全局引入的头文件；<br/>
+2、在<code>Build Settings</code>中<code>Prefix Header</code>添加pch文件路径<code>$SRCROOT/工程名/pch文件名</code>，并设置<code>Precompile Prefix Header = YES</code>。<br/>
+3、优点：全局导入头文件，不必重复导入；预编译头文件被缓存，提高编译速度；<br/>
+4、缺点：非必要全局引入的头文件会带来麻烦；</p>
+
+<!-- more -->
 
 
-<h3>Life cycle</h3>
+<h2>导航栏相关</h2>
 
-<ol>
-<li>滑走后，会重新创建。</li>
-</ol>
+<h3>UIBarButtonItem</h3>
 
+<p>1、非custom view创建的UIBarButtonItem会被<code>UINavigationBar.tintColor</code>渲染，可以根据需求确定；<br/>
+2、用custom view创建的UIBarButtonItem更加灵活，表现方式更加多样，且可以添加多种手势控制；<br/>
+3、<code>UIBarButtonSystemItemFixedSpace</code>UIBarButtonItem可以用于调整items间距；<br/>
+4、使用自定义返回按钮会使左滑退出失效，可设置<code>self.navigationController.interactivePopGestureRecognizer.delegate = self;</code>恢复；</p>
 
-<h2>NEVPNManager</h2>
+<h3>UINavigationBar</h3>
 
-<p><code>NEVPNManager</code>是用来创建和管理VPN设置，并且处理VPN连接结果的。
-每一个应用只允许创建一个VPA设置，所以<code>NEVPNManager</code>是一个单例。
-由<code>NEVPNManager</code>创建的VPN称为私人VPN，在iOS和macOS上，非私人VPA的优先级高于私人VPN。
-使用<code>NEVPNManager</code>需要<code>com.apple.developer.networking.vpn.api entitlement</code>，需要开启应用的<code>Personal VPN</code>权限。
-在开启私人VPN前，必须从Network Extension preferences载入VPN设置，在修改VPN设置之后，必须写入Network Extension preferences。
-<code>NEVPNManager</code>的对象是线程安全的。</p>
+<p>1、<code>translucent = YES</code>半透明，不自动下移；<code>translucent = NO</code>不透明，自动下移，bar会变为白色；<br/>
+2、<code>barTintColor = nil</code>是透明的，<code>barTintColor = [UIColor clearColor]</code>是黑色的；<br/>
+3、<code>setBackgroundImage</code>会移除<code>UIVisualEffectView</code>，并且<code>barTintColor</code>失效；<br/>
+4、<code>tintColor</code>会渲染非custom view的UIBarButtonItem；</p>
 
-<p><code>#import &lt;NetworkExtension/NEVPNManager.h&gt;</code></p>
+<h3>UINavigationController</h3>
 
-<h2>NEVPNProtocol</h2>
-
-<p><code>NEVPNProtocol</code>用来配置VPN。</p>
-
-<h2>NEVPNConnection</h2>
-
-<p><code>NEVPNConnection</code>用来控制VPN连接。<p class='post-footer'>
+<p>1、Push至一个透明UIViewController会卡顿，初始动画瞬间进行，透明的话会看到，感觉卡顿；  <p class='post-footer'>
   原始地址：
-  <a href='http://sxgfxm.github.io/blog/2018/04/18/ioszhi-shi-xiao-ji-180319/'><a href="http://sxgfxm.github.io/blog/2018/04/18/ioszhi-shi-xiao-ji-180319/">http://sxgfxm.github.io/blog/2018/04/18/ioszhi-shi-xiao-ji-180319/</a></a><br/>
+  <a href='http://sxgfxm.github.io/blog/2018/07/23/ioszhi-shi-xiao-ji-180716/'><a href="http://sxgfxm.github.io/blog/2018/07/23/ioszhi-shi-xiao-ji-180716/">http://sxgfxm.github.io/blog/2018/07/23/ioszhi-shi-xiao-ji-180716/</a></a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
   </p></p>
@@ -175,7 +189,7 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 
-<time class='entry-date' datetime='2018-04-18T14:20:28+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>2:20 pm</span></time>
+<time class='entry-date' datetime='2018-07-23T10:17:06+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2018</span></span> <span class='time'>10:17 am</span></time>
       
 
 <span class="categories">
@@ -197,10 +211,8 @@ $(document).bind('DOMNodeInserted', function(event) {
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2018/03/18/ioszhi-shi-xiao-ji-180312/" title="Previous Post: iOS知识小集-180312">&laquo; iOS知识小集-180312</a>
+        <a class="basic-alignment left" href="/blog/2018/07/16/ioszhi-shi-xiao-ji-180619/" title="Previous Post: iOS知识小集-180619">&laquo; iOS知识小集-180619</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2018/05/07/ioszhi-shi-xiao-ji-180418/" title="Next Post: iOS知识小集-180418">iOS知识小集-180418 &raquo;</a>
       
     </p>
   </footer>
@@ -341,8 +353,8 @@ $(document).bind('DOMNodeInserted', function(event) {
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://sxgfxm.github.io/blog/2018/04/18/ioszhi-shi-xiao-ji-180319/';
-        var disqus_url = 'http://sxgfxm.github.io/blog/2018/04/18/ioszhi-shi-xiao-ji-180319/';
+        var disqus_identifier = 'http://sxgfxm.github.io/blog/2018/07/23/ioszhi-shi-xiao-ji-180716/';
+        var disqus_url = 'http://sxgfxm.github.io/blog/2018/07/23/ioszhi-shi-xiao-ji-180716/';
         var disqus_script = 'embed.js';
       
     (function () {
