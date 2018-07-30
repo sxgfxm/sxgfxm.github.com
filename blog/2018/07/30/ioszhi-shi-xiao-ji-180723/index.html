@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>iOS知识小集-171113 - Light's Blog</title>
+  <title>iOS知识小集-180723 - Light's Blog</title>
   <meta name="author" content="Light">
 
   
-  <meta name="description" content="sxgfxm, UIBaselineAdjustment,Generated duplicate UUIDs,AFNetworking 内存泄露,include vs. import vs. class, 下拉刷新">
-  <meta name="keywords" content="sxgfxm, UIBaselineAdjustment,Generated duplicate UUIDs,AFNetworking 内存泄露,include vs. import vs. class, 下拉刷新">
+  <meta name="description" content="sxgfxm, UITableView Delete Cell,UITableViewCell highlighted">
+  <meta name="keywords" content="sxgfxm, UITableView Delete Cell,UITableViewCell highlighted">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://sxgfxm.github.io/blog/2017/11/17/ioszhi-shi-xiao-ji-171113/">
+  <link rel="canonical" href="http://sxgfxm.github.io/blog/2018/07/30/ioszhi-shi-xiao-ji-180723/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Light's Blog" type="application/atom+xml">
@@ -102,7 +102,7 @@ $(document).bind('DOMNodeInserted', function(event) {
   
   <header>
     
-      <h1 class="entry-title">iOS知识小集-171113</h1>
+      <h1 class="entry-title">iOS知识小集-180723</h1>
     
     
       <p class="meta">
@@ -111,7 +111,7 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 
-<time class='entry-date' datetime='2017-11-17T17:28:01+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>5:28 pm</span></time>
+<time class='entry-date' datetime='2018-07-30T11:10:55+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>11:10 am</span></time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://sxgfxm.github.io">Comments</a>
@@ -121,59 +121,51 @@ $(document).bind('DOMNodeInserted', function(event) {
   </header>
 
 
-<div class="entry-content"><h2>include vs. import vs. class</h2>
+<div class="entry-content"><h2>UITableView Delete Cell</h2>
 
-<h3>include</h3>
+<p>调用<code>deleteRowsAtIndexPaths:withRowAnimation:</code>时界面出现诡异问题，删除一个cell之后无法继续删除下面的cell。<br/>
+暂时解决办法是在数据源中删除对应数据后，直接<code>reloadData</code>而不再调用上述方法。</p>
 
-<p>C语言中引用头文件的语法，无法防止重复引用头文件。</p>
+<h2>UITableViewCell高亮效果</h2>
 
-<h3>import</h3>
+<p>重写<code>-setHighlighted:animated:</code>方法，当highlighted时改变背景颜色，非highlighted时通过动画修改回去。</p>
 
-<p>OC中引用头文件的语法，可以防止重复引用头文件，无法防止循环引用头文件。</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setHighlighted:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">highlighted</span> <span class="nf">animated:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">animated</span><span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">super</span> <span class="nl">setHighlighted</span><span class="p">:</span><span class="n">highlighted</span> <span class="nl">animated</span><span class="p">:</span><span class="n">animated</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span> <span class="nl">xg_setHighlighted</span><span class="p">:</span><span class="n">highlighted</span> <span class="nl">animated</span><span class="p">:</span><span class="n">animated</span> <span class="nl">color</span><span class="p">:[</span><span class="bp">UIColor</span> <span class="n">lightGrayColor</span><span class="p">]];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">xg_setHighlighted:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">highlighted</span> <span class="nf">animated:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">animated</span> <span class="nf">color:</span><span class="p">(</span><span class="bp">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="nv">highlightedColor</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">highlighted</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nb">self</span><span class="p">.</span><span class="n">contentView</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="n">highlightedColor</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mf">0.25</span> <span class="nl">delay</span><span class="p">:</span><span class="mi">0</span> <span class="nl">options</span><span class="p">:</span><span class="n">UIViewAnimationOptionCurveEaseInOut</span> <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+</span><span class='line'>      <span class="nb">self</span><span class="p">.</span><span class="n">contentView</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span> <span class="nl">completion</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<h3>class</h3>
 
-<p>使用<code>@class</code>告知编译器有这样一个类，书写代码时不要报错，真正调用该类的方法时，再<code>#import</code>该类。
-可以防止循环引用头文件。</p>
+<h2>Attempt to present UIViewController on UIViewController whose view is not in the window hierarchy</h2>
 
-<p>一般来讲，头文件中使用<code>@class</code>引用其他类，在源文件中<code>#import</code>该类。</p>
-
-<!-- more -->
-
-
-<h2>目录结构</h2>
-
-<p>工程目录结构看出技术水平。<br/>
-高内聚，低耦合原则。</p>
-
-<h2>Group vs. Folder</h2>
-
-<p>Group创建引用，并不会创建实际文件夹，方便工程内移动；<br/>
-Folder会创建实际文件夹，方便磁盘文件与工程文件对应；</p>
-
-<h2>下拉刷新</h2>
-
-<p><code>-scrollViewDidScroll:</code>，下拉播放header view的动画；<br/>
-<code>-scrollViewDidEndDragging:willDecelerate:</code>，松手后请求数据；<br/>
-数据返回后切换到正在状态。</p>
-
-<h2>AFNetworking 内存泄露</h2>
-
-<p>如果在一个ViewController中发起网络请求，在数据返回之前退出ViewController，网络请求持有的两个block不会被释放。</p>
-
-<h2>UIBaselineAdjustment</h2>
-
-<p>当文字缩放时的对齐方法：<br/>
-<code>UIBaselineAdjustmentNone</code>：top和top对齐；<br/>
-<code>UIBaselineAdjustmentAlignBaselines</code>：top和centerY对齐；<br/>
-<code>UIBaselineAdjustmentAlignCenters</code>：centerY和centerY对齐。</p>
-
-<h2>Generated duplicate UUIDs</h2>
-
-<p>解决CocoaPods 重复生成 UUID。<br/>
-在<code>Podfile</code>中添加<code>install! 'cocoapods', :deterministic_uuids =&gt; false</code>。<p class='post-footer'>
+<p><code>viewDidLoad:</code>时不能present viewController，改写为<code>viewDidAppear:</code>时进行操作。<p class='post-footer'>
   原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/11/17/ioszhi-shi-xiao-ji-171113/'><a href="http://sxgfxm.github.io/blog/2017/11/17/ioszhi-shi-xiao-ji-171113/">http://sxgfxm.github.io/blog/2017/11/17/ioszhi-shi-xiao-ji-171113/</a></a><br/>
+  <a href='http://sxgfxm.github.io/blog/2018/07/30/ioszhi-shi-xiao-ji-180723/'><a href="http://sxgfxm.github.io/blog/2018/07/30/ioszhi-shi-xiao-ji-180723/">http://sxgfxm.github.io/blog/2018/07/30/ioszhi-shi-xiao-ji-180723/</a></a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
   </p></p>
@@ -192,7 +184,7 @@ Folder会创建实际文件夹，方便磁盘文件与工程文件对应；</p>
 
 
 
-<time class='entry-date' datetime='2017-11-17T17:28:01+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>5:28 pm</span></time>
+<time class='entry-date' datetime='2018-07-30T11:10:55+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>11:10 am</span></time>
       
 
 <span class="categories">
@@ -214,10 +206,8 @@ Folder会创建实际文件夹，方便磁盘文件与工程文件对应；</p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2017/11/10/ioszhi-shi-xiao-ji-171106/" title="Previous Post: iOS知识小集-171106">&laquo; iOS知识小集-171106</a>
+        <a class="basic-alignment left" href="/blog/2018/07/23/ioszhi-shi-xiao-ji-180716/" title="Previous Post: iOS知识小集-180716">&laquo; iOS知识小集-180716</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2017/11/27/ioszhi-shi-xiao-ji-171120/" title="Next Post: iOS知识小集-171120">iOS知识小集-171120 &raquo;</a>
       
     </p>
   </footer>
@@ -358,8 +348,8 @@ Folder会创建实际文件夹，方便磁盘文件与工程文件对应；</p>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://sxgfxm.github.io/blog/2017/11/17/ioszhi-shi-xiao-ji-171113/';
-        var disqus_url = 'http://sxgfxm.github.io/blog/2017/11/17/ioszhi-shi-xiao-ji-171113/';
+        var disqus_identifier = 'http://sxgfxm.github.io/blog/2018/07/30/ioszhi-shi-xiao-ji-180723/';
+        var disqus_url = 'http://sxgfxm.github.io/blog/2018/07/30/ioszhi-shi-xiao-ji-180723/';
         var disqus_script = 'embed.js';
       
     (function () {
