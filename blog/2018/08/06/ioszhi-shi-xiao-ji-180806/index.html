@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>iOS知识小集-170605 - Light's Blog</title>
+  <title>iOS知识小集-180806 - Light's Blog</title>
   <meta name="author" content="Light">
 
   
-  <meta name="description" content="sxgfxm, fopen, font, DDLog">
-  <meta name="keywords" content="sxgfxm, fopen, font, DDLog">
+  <meta name="description" content="sxgfxm,UIImpactFeedbackGenerator,OS_ACTIVITY_MODE,Today Extension">
+  <meta name="keywords" content="sxgfxm,UIImpactFeedbackGenerator,OS_ACTIVITY_MODE,Today Extension">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://sxgfxm.github.io/blog/2017/06/12/ioszhi-shi-xiao-ji-170605/">
+  <link rel="canonical" href="http://sxgfxm.github.io/blog/2018/08/06/ioszhi-shi-xiao-ji-180806/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Light's Blog" type="application/atom+xml">
@@ -102,7 +102,7 @@ $(document).bind('DOMNodeInserted', function(event) {
   
   <header>
     
-      <h1 class="entry-title">iOS知识小集-170605</h1>
+      <h1 class="entry-title">iOS知识小集-180806</h1>
     
     
       <p class="meta">
@@ -111,7 +111,7 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 
-<time class='entry-date' datetime='2017-06-12T09:42:42+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>9:42 am</span></time>
+<time class='entry-date' datetime='2018-08-06T11:50:21+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>11:50 am</span></time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://sxgfxm.github.io">Comments</a>
@@ -121,16 +121,7 @@ $(document).bind('DOMNodeInserted', function(event) {
   </header>
 
 
-<div class="entry-content"><h2>fopen时路径名为日文时崩溃</h2>
-
-<p>路径中尽量不要出现特殊字符。</p>
-
-<!-- more -->
-
-
-<h2>显示 &lt; 号</h2>
-
-<p>居然因为是字体原因</p>
+<div class="entry-content"><h2>UIImpactFeedbackGenerator</h2>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -145,48 +136,106 @@ $(document).bind('DOMNodeInserted', function(event) {
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="n">CGFloat</span> <span class="n">width</span> <span class="o">=</span> <span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
-</span><span class='line'>  <span class="bp">CAShapeLayer</span> <span class="o">*</span><span class="n">shapeLayer</span> <span class="o">=</span> <span class="p">[</span><span class="bp">CAShapeLayer</span> <span class="n">layer</span><span class="p">];</span>
-</span><span class='line'>  <span class="n">shapeLayer</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="n">CGRectGetMinX</span><span class="p">(</span><span class="n">textLayer</span><span class="p">.</span><span class="n">frame</span><span class="p">)</span> <span class="o">-</span> <span class="n">kScaleFrom_iPhone6_Desgin</span><span class="p">(</span><span class="mi">9</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">width</span><span class="p">);</span>
-</span><span class='line'>  <span class="n">shapeLayer</span><span class="p">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="n">shapeLayer</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">point</span><span class="p">.</span><span class="n">y</span><span class="p">);</span>
-</span><span class='line'>  <span class="bp">UIBezierPath</span> <span class="o">*</span><span class="n">path</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIBezierPath</span> <span class="n">bezierPath</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">path</span> <span class="nl">moveToPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)];</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">path</span> <span class="nl">addLineToPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="mi">0</span><span class="p">)];</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">path</span> <span class="nl">moveToPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)];</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">path</span> <span class="nl">addLineToPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">width</span><span class="p">)];</span>
-</span><span class='line'>  <span class="n">shapeLayer</span><span class="p">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span><span class="p">.</span><span class="bp">CGPath</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">shapeLayer</span><span class="p">.</span><span class="n">strokeColor</span> <span class="o">=</span> <span class="n">UIColorFromRGBA</span><span class="p">(</span><span class="mh">0xff959595</span><span class="p">).</span><span class="bp">CGColor</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">shapeLayer</span><span class="p">.</span><span class="n">fillColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">clearColor</span><span class="p">].</span><span class="bp">CGColor</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">shapeLayer</span><span class="p">.</span><span class="n">lineWidth</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">shapeLayer</span><span class="p">.</span><span class="n">lineCap</span> <span class="o">=</span> <span class="n">kCALineCapButt</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">shapeLayer</span><span class="p">.</span><span class="n">lineJoin</span> <span class="o">=</span> <span class="n">kCALineJoinMiter</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">yAxisLayer</span> <span class="nl">addSublayer</span><span class="p">:</span><span class="n">shapeLayer</span><span class="p">];</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="n">UIImpactFeedbackGenerator</span> <span class="o">*</span><span class="p">)</span><span class="nf">impactFeedback</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">_impactFeedback</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">_impactFeedback</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIImpactFeedbackGenerator</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithStyle</span><span class="p">:</span><span class="n">UIImpactFeedbackStyleLight</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">_impactFeedback</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">occurImpactFeedback</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(@</span><span class="n">available</span><span class="p">(</span><span class="n">iOS</span> <span class="mf">10.0</span><span class="p">,</span> <span class="o">*</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">impactFeedback</span> <span class="n">prepare</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">impactFeedback</span> <span class="n">impactOccurred</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h2>Register DDLog</h2>
+<h2>XCode屏蔽控制台多余系统信息</h2>
+
+<p><code>Edit Scheme</code> &ndash;> <code>Arguments</code> &ndash;> <code>Environment Variables</code> &ndash;> <code>OS_ACTIVITY_MODE = disable</code></p>
+
+<!-- more -->
+
+
+<h2>NSString查找重复子串</h2>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="c1">// Register DDLog</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">DDLog</span> <span class="nl">addLogger</span><span class="p">:[</span><span class="n">DDTTYLogger</span> <span class="n">sharedInstance</span><span class="p">]];</span>  <span class="c1">// TTY = Xcode console</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">DDLog</span> <span class="nl">addLogger</span><span class="p">:[</span><span class="n">DDASLLogger</span> <span class="n">sharedInstance</span><span class="p">]];</span>  <span class="c1">// ASL = File log</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">NSArray</span><span class="o">&lt;</span><span class="bp">NSTextCheckingResult</span><span class="o">*&gt;*</span><span class="p">)</span><span class="nf">rangesOfString:</span><span class="p">(</span><span class="bp">NSString</span><span class="o">*</span><span class="p">)</span><span class="nv">subString</span> <span class="nf">inString:</span><span class="p">(</span><span class="bp">NSString</span><span class="o">*</span><span class="p">)</span><span class="nv">string</span><span class="p">{</span>
+</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">parten</span> <span class="o">=</span> <span class="n">subString</span><span class="p">;</span>
+</span><span class='line'>  <span class="bp">NSError</span><span class="o">*</span> <span class="n">error</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span><span class='line'>  <span class="bp">NSRegularExpression</span> <span class="o">*</span><span class="n">reg</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSRegularExpression</span> <span class="nl">regularExpressionWithPattern</span><span class="p">:</span><span class="n">parten</span> <span class="nl">options</span><span class="p">:</span><span class="n">NSRegularExpressionCaseInsensitive</span> <span class="nl">error</span><span class="p">:</span><span class="o">&amp;</span><span class="n">error</span><span class="p">];</span>
+</span><span class='line'>  <span class="bp">NSArray</span><span class="o">&lt;</span><span class="bp">NSTextCheckingResult</span><span class="o">*&gt;*</span> <span class="n">match</span> <span class="o">=</span> <span class="p">[</span><span class="n">reg</span> <span class="nl">matchesInString</span><span class="p">:</span><span class="n">string</span> <span class="nl">options</span><span class="p">:</span><span class="n">NSMatchingReportCompletion</span> <span class="nl">range</span><span class="p">:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">[</span><span class="n">string</span> <span class="n">length</span><span class="p">])];</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">match</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
+<h2>inherit! :search_paths</h2>
 
+<p>继承上述依赖。</p>
 
-<p class='post-footer'>
+<h2>Today Extension</h2>
+
+<h3>添加Today Extension Target</h3>
+
+<p><code>Editor</code> &ndash;> <code>Add Target...</code> &ndash;> <code>Today Extension</code></p>
+
+<h3>podfile增加target</h3>
+
+<pre><code>  target 'CardFlow' do
+    inherit! :search_paths
+  end
+</code></pre>
+
+<h3>Embedded binary&rsquo;s bundle identifier is not prefixed with the parent app&rsquo;s bundle identifier</h3>
+
+<p>修改bundle ID；<br/>
+修改scheme 参数；</p>
+
+<h3>disable bitcode</h3>
+
+<p>在today extension的<code>Build Settings</code>中禁用<code>bitcode</code>。</p>
+
+<h3>视图布局和展开，纯代码约束</h3>
+
+<p>需要运行一次主APP，才能显示出来today extension；<br/>
+在<code>info.plist</code>中删除NSExtensionMainStoryboard；<br/>
+在<code>info.plist</code>中添加NSExtensionPrincipalClass；<br/>
+添加支持展开<code>[self.extensionContext setWidgetLargestAvailableDisplayMode:NCWidgetDisplayModeExpanded];</code>并在<code>-widgetActiveDisplayModeDidChange:withMaximumSize:</code>方法中返回相应大小；<br/>
+header高度固定，折叠高度固定，展开高度有最大值限制；</p>
+
+<h3>跳转至主APP</h3>
+
+<p>1、在主APP<code>info</code>中添加URL Scheme入“TodayExtension”，并在<code>-application:openURL:sourceApplication:annotation:</code>判断跳转信息是否来自today extension；<br/>
+2、在today extension需要跳转到主APP添加<br/>
+<code>[self.extensionContext openURL:[NSURL URLWithString:@"TodayExtension://"] completionHandler:nil];</code>；</p>
+
+<h3>与主APP共享数据</h3>
+
+<p>1、创建APP group，为主APP和widget的APP ID添加对应的组；<br/>
+2、为主APP和widget APP添加APP group capability；<br/>
+3、使用<code>NSUserDefault</code>，suiteName需和groupName一致，
+<code>[[NSUserDefaults alloc] initWithSuiteName:@"group.com.mobvoi.One"]</code>；<br/>
+4、使用<code>NSFileManager</code>，
+<code>[[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:@"group.com.mobvoi.One"]</code>；<br/>
+5、<code>[User Defaults] Couldn't read values in CFPrefsPlistSource</code>。</p>
+
+<h3>与主APP共享文件</h3>
+
+<p>需要再次添加compile files。<p class='post-footer'>
   原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/06/12/ioszhi-shi-xiao-ji-170605/'>http://sxgfxm.github.io/blog/2017/06/12/ioszhi-shi-xiao-ji-170605/</a><br/>
+  <a href='http://sxgfxm.github.io/blog/2018/08/06/ioszhi-shi-xiao-ji-180806/'><a href="http://sxgfxm.github.io/blog/2018/08/06/ioszhi-shi-xiao-ji-180806/">http://sxgfxm.github.io/blog/2018/08/06/ioszhi-shi-xiao-ji-180806/</a></a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
-
+  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
+  </p></p>
 </div>
 
 
@@ -202,7 +251,7 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 
-<time class='entry-date' datetime='2017-06-12T09:42:42+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>9:42 am</span></time>
+<time class='entry-date' datetime='2018-08-06T11:50:21+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>11:50 am</span></time>
       
 
 <span class="categories">
@@ -224,10 +273,8 @@ $(document).bind('DOMNodeInserted', function(event) {
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2017/06/09/ioszhi-shi-xiao-ji-170529/" title="Previous Post: iOS知识小集-170529">&laquo; iOS知识小集-170529</a>
+        <a class="basic-alignment left" href="/blog/2018/07/30/ioszhi-shi-xiao-ji-180723/" title="Previous Post: iOS知识小集-180723">&laquo; iOS知识小集-180723</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2017/06/13/componentkit-tutorial/" title="Next Post: ComponentKit Tutorial">ComponentKit Tutorial &raquo;</a>
       
     </p>
   </footer>
@@ -368,8 +415,8 @@ $(document).bind('DOMNodeInserted', function(event) {
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://sxgfxm.github.io/blog/2017/06/12/ioszhi-shi-xiao-ji-170605/';
-        var disqus_url = 'http://sxgfxm.github.io/blog/2017/06/12/ioszhi-shi-xiao-ji-170605/';
+        var disqus_identifier = 'http://sxgfxm.github.io/blog/2018/08/06/ioszhi-shi-xiao-ji-180806/';
+        var disqus_url = 'http://sxgfxm.github.io/blog/2018/08/06/ioszhi-shi-xiao-ji-180806/';
         var disqus_script = 'embed.js';
       
     (function () {

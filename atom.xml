@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2018-07-30T11:12:32+08:00</updated>
+  <updated>2018-08-06T11:55:01+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,129 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-180806]]></title>
+    <link href="http://sxgfxm.github.io/blog/2018/08/06/ioszhi-shi-xiao-ji-180806/"/>
+    <updated>2018-08-06T11:50:21+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2018/08/06/ioszhi-shi-xiao-ji-180806</id>
+    <content type="html"><![CDATA[<h2>UIImpactFeedbackGenerator</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="n">UIImpactFeedbackGenerator</span> <span class="o">*</span><span class="p">)</span><span class="nf">impactFeedback</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">_impactFeedback</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">_impactFeedback</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIImpactFeedbackGenerator</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithStyle</span><span class="p">:</span><span class="n">UIImpactFeedbackStyleLight</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">_impactFeedback</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">occurImpactFeedback</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(@</span><span class="n">available</span><span class="p">(</span><span class="n">iOS</span> <span class="mf">10.0</span><span class="p">,</span> <span class="o">*</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">impactFeedback</span> <span class="n">prepare</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">impactFeedback</span> <span class="n">impactOccurred</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>XCode屏蔽控制台多余系统信息</h2>
+
+<p><code>Edit Scheme</code> &ndash;> <code>Arguments</code> &ndash;> <code>Environment Variables</code> &ndash;> <code>OS_ACTIVITY_MODE = disable</code></p>
+
+<!-- more -->
+
+
+<h2>NSString查找重复子串</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">NSArray</span><span class="o">&lt;</span><span class="bp">NSTextCheckingResult</span><span class="o">*&gt;*</span><span class="p">)</span><span class="nf">rangesOfString:</span><span class="p">(</span><span class="bp">NSString</span><span class="o">*</span><span class="p">)</span><span class="nv">subString</span> <span class="nf">inString:</span><span class="p">(</span><span class="bp">NSString</span><span class="o">*</span><span class="p">)</span><span class="nv">string</span><span class="p">{</span>
+</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">parten</span> <span class="o">=</span> <span class="n">subString</span><span class="p">;</span>
+</span><span class='line'>  <span class="bp">NSError</span><span class="o">*</span> <span class="n">error</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span><span class='line'>  <span class="bp">NSRegularExpression</span> <span class="o">*</span><span class="n">reg</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSRegularExpression</span> <span class="nl">regularExpressionWithPattern</span><span class="p">:</span><span class="n">parten</span> <span class="nl">options</span><span class="p">:</span><span class="n">NSRegularExpressionCaseInsensitive</span> <span class="nl">error</span><span class="p">:</span><span class="o">&amp;</span><span class="n">error</span><span class="p">];</span>
+</span><span class='line'>  <span class="bp">NSArray</span><span class="o">&lt;</span><span class="bp">NSTextCheckingResult</span><span class="o">*&gt;*</span> <span class="n">match</span> <span class="o">=</span> <span class="p">[</span><span class="n">reg</span> <span class="nl">matchesInString</span><span class="p">:</span><span class="n">string</span> <span class="nl">options</span><span class="p">:</span><span class="n">NSMatchingReportCompletion</span> <span class="nl">range</span><span class="p">:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">[</span><span class="n">string</span> <span class="n">length</span><span class="p">])];</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">match</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>inherit! :search_paths</h2>
+
+<p>继承上述依赖。</p>
+
+<h2>Today Extension</h2>
+
+<h3>添加Today Extension Target</h3>
+
+<p><code>Editor</code> &ndash;> <code>Add Target...</code> &ndash;> <code>Today Extension</code></p>
+
+<h3>podfile增加target</h3>
+
+<pre><code>  target 'CardFlow' do
+    inherit! :search_paths
+  end
+</code></pre>
+
+<h3>Embedded binary&rsquo;s bundle identifier is not prefixed with the parent app&rsquo;s bundle identifier</h3>
+
+<p>修改bundle ID；<br/>
+修改scheme 参数；</p>
+
+<h3>disable bitcode</h3>
+
+<p>在today extension的<code>Build Settings</code>中禁用<code>bitcode</code>。</p>
+
+<h3>视图布局和展开，纯代码约束</h3>
+
+<p>需要运行一次主APP，才能显示出来today extension；<br/>
+在<code>info.plist</code>中删除NSExtensionMainStoryboard；<br/>
+在<code>info.plist</code>中添加NSExtensionPrincipalClass；<br/>
+添加支持展开<code>[self.extensionContext setWidgetLargestAvailableDisplayMode:NCWidgetDisplayModeExpanded];</code>并在<code>-widgetActiveDisplayModeDidChange:withMaximumSize:</code>方法中返回相应大小；<br/>
+header高度固定，折叠高度固定，展开高度有最大值限制；</p>
+
+<h3>跳转至主APP</h3>
+
+<p>1、在主APP<code>info</code>中添加URL Scheme入“TodayExtension”，并在<code>-application:openURL:sourceApplication:annotation:</code>判断跳转信息是否来自today extension；<br/>
+2、在today extension需要跳转到主APP添加<br/>
+<code>[self.extensionContext openURL:[NSURL URLWithString:@"TodayExtension://"] completionHandler:nil];</code>；</p>
+
+<h3>与主APP共享数据</h3>
+
+<p>1、创建APP group，为主APP和widget的APP ID添加对应的组；<br/>
+2、为主APP和widget APP添加APP group capability；<br/>
+3、使用<code>NSUserDefault</code>，suiteName需和groupName一致，
+<code>[[NSUserDefaults alloc] initWithSuiteName:@"group.com.mobvoi.One"]</code>；<br/>
+4、使用<code>NSFileManager</code>，
+<code>[[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:@"group.com.mobvoi.One"]</code>；<br/>
+5、<code>[User Defaults] Couldn't read values in CFPrefsPlistSource</code>。</p>
+
+<h3>与主APP共享文件</h3>
+
+<p>需要再次添加compile files。<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2018/08/06/ioszhi-shi-xiao-ji-180806/'><a href="http://sxgfxm.github.io/blog/2018/08/06/ioszhi-shi-xiao-ji-180806/">http://sxgfxm.github.io/blog/2018/08/06/ioszhi-shi-xiao-ji-180806/</a></a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
+  </p></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-180723]]></title>
@@ -1931,170 +2054,6 @@ iOS DeviceSupport 目录路径<code>[User]/Library/Developer/Xcode/iOS DeviceSup
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-171009]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/10/13/ioszhi-shi-xiao-ji-171009/"/>
-    <updated>2017-10-13T17:04:25+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/10/13/ioszhi-shi-xiao-ji-171009</id>
-    <content type="html"><![CDATA[<h2>NSInteger to NSData</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="o">-</span><span class="p">(</span><span class="bp">NSData</span><span class="o">*</span><span class="p">)</span><span class="nl">dataWithInteger</span><span class="p">:(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="n">integer</span><span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="bp">NSData</span> <span class="nl">dataWithBytes</span><span class="p">:</span><span class="o">&amp;</span><span class="n">integer</span> <span class="nl">length</span><span class="p">:</span><span class="k">sizeof</span><span class="p">(</span><span class="n">integer</span><span class="p">)];</span>
-</span><span class='line'>  <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>UICollectionView contentInset</h2>
-
-<p>设置内容距离上下左右的间距。</p>
-
-<!-- more -->
-
-
-<h2>Snapshot CKComponent</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &quot;CKComponentSnapshotTestCase.h&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="cp">#import &lt;ComponentKitTestHelpers/CKComponentLifecycleTestHelper.h&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">const</span> <span class="n">CKComponentLayout</span> <span class="n">componentLayout</span> <span class="o">=</span> <span class="p">[</span><span class="n">component</span> <span class="nl">layoutThatFits</span><span class="p">:</span><span class="n">sizeRange</span> <span class="nl">parentSize</span><span class="p">:</span><span class="n">sizeRange</span><span class="p">.</span><span class="n">max</span><span class="p">];</span>
-</span><span class='line'><span class="n">CKComponentLifecycleTestHelper</span> <span class="o">*</span><span class="n">componentLifecycleTestController</span> <span class="o">=</span> <span class="p">[[</span><span class="n">CKComponentLifecycleTestHelper</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithComponentProvider</span><span class="p">:</span><span class="nb">nil</span> <span class="nl">sizeRangeProvider</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="n">componentLifecycleTestController</span> <span class="nl">updateWithState</span><span class="p">:(</span><span class="n">CKComponentLifecycleTestHelperState</span><span class="p">){</span>
-</span><span class='line'>  <span class="p">.</span><span class="n">componentLayout</span> <span class="o">=</span> <span class="n">componentLayout</span>
-</span><span class='line'><span class="p">}];</span>
-</span><span class='line'><span class="bp">UIView</span> <span class="o">*</span><span class="n">view</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UIView</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:{</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="n">componentLayout</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">,</span> <span class="n">componentLayout</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">}];</span>
-</span><span class='line'><span class="p">[</span><span class="n">componentLifecycleTestController</span> <span class="nl">attachToView</span><span class="p">:</span><span class="n">view</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nf">_imageForViewOrLayer:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">viewOrLayer</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">([</span><span class="n">viewOrLayer</span> <span class="nl">isKindOfClass</span><span class="p">:[</span><span class="bp">UIView</span> <span class="k">class</span><span class="p">]])</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">_usesDrawViewHierarchyInRect</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>      <span class="k">return</span> <span class="p">[</span><span class="bp">UIImage</span> <span class="nl">fb_imageForView</span><span class="p">:</span><span class="n">viewOrLayer</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span><span class='line'>      <span class="k">return</span> <span class="p">[</span><span class="bp">UIImage</span> <span class="nl">fb_imageForViewLayer</span><span class="p">:</span><span class="n">viewOrLayer</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">([</span><span class="n">viewOrLayer</span> <span class="nl">isKindOfClass</span><span class="p">:[</span><span class="bp">CALayer</span> <span class="k">class</span><span class="p">]])</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="bp">UIImage</span> <span class="nl">fb_imageForLayer</span><span class="p">:</span><span class="n">viewOrLayer</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span><span class='line'>    <span class="p">[</span><span class="bp">NSException</span> <span class="nl">raise</span><span class="p">:</span><span class="s">@&quot;Only UIView and CALayer classes can be snapshotted&quot;</span> <span class="nl">format</span><span class="p">:</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span> <span class="n">viewOrLayer</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">+</span> <span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nf">fb_imageForView:</span><span class="p">(</span><span class="bp">UIView</span> <span class="o">*</span><span class="p">)</span><span class="nv">view</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="bp">CGRect</span> <span class="n">bounds</span> <span class="o">=</span> <span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">NSAssert1</span><span class="p">(</span><span class="n">CGRectGetWidth</span><span class="p">(</span><span class="n">bounds</span><span class="p">),</span> <span class="s">@&quot;Zero width for view %@&quot;</span><span class="p">,</span> <span class="n">view</span><span class="p">);</span>
-</span><span class='line'>  <span class="n">NSAssert1</span><span class="p">(</span><span class="n">CGRectGetHeight</span><span class="p">(</span><span class="n">bounds</span><span class="p">),</span> <span class="s">@&quot;Zero height for view %@&quot;</span><span class="p">,</span> <span class="n">view</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1">// If the input view is already a UIWindow, then just use that. Otherwise wrap in a window.</span>
-</span><span class='line'>  <span class="bp">UIWindow</span> <span class="o">*</span><span class="n">window</span> <span class="o">=</span> <span class="p">[</span><span class="n">view</span> <span class="nl">isKindOfClass</span><span class="p">:[</span><span class="bp">UIWindow</span> <span class="k">class</span><span class="p">]]</span> <span class="o">?</span> <span class="p">(</span><span class="bp">UIWindow</span> <span class="o">*</span><span class="p">)</span><span class="nl">view</span> <span class="p">:</span> <span class="n">view</span><span class="p">.</span><span class="n">window</span><span class="p">;</span>
-</span><span class='line'>  <span class="kt">BOOL</span> <span class="n">removeFromSuperview</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">window</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">window</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UIApplication</span> <span class="n">sharedApplication</span><span class="p">]</span> <span class="n">fb_strictKeyWindow</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">view</span><span class="p">.</span><span class="n">window</span> <span class="o">&amp;&amp;</span> <span class="n">view</span> <span class="o">!=</span> <span class="n">window</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">window</span> <span class="nl">addSubview</span><span class="p">:</span><span class="n">view</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">removeFromSuperview</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">UIGraphicsBeginImageContextWithOptions</span><span class="p">(</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">,</span> <span class="nb">NO</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">view</span> <span class="n">layoutIfNeeded</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">view</span> <span class="nl">drawViewHierarchyInRect</span><span class="p">:</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span> <span class="nl">afterScreenUpdates</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="bp">UIImage</span> <span class="o">*</span><span class="n">snapshot</span> <span class="o">=</span> <span class="n">UIGraphicsGetImageFromCurrentImageContext</span><span class="p">();</span>
-</span><span class='line'>  <span class="n">UIGraphicsEndImageContext</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">removeFromSuperview</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">view</span> <span class="n">removeFromSuperview</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">return</span> <span class="n">snapshot</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Border &amp;&amp; Shadow</h2>
-
-<p>圆角可以和Border并存，Border属于bounds里面，不会被剪切掉；
-圆角不能和Shadow并存，<code>maskToBounds</code>会剪切掉Shadow；<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/10/13/ioszhi-shi-xiao-ji-171009/'><a href="http://sxgfxm.github.io/blog/2017/10/13/ioszhi-shi-xiao-ji-171009/">http://sxgfxm.github.io/blog/2017/10/13/ioszhi-shi-xiao-ji-171009/</a></a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
-  </p></p>
 ]]></content>
   </entry>
   
