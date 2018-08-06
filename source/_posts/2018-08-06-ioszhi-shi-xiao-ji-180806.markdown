@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "iOS知识小集-180806"
+title: "iOS知识小集-180730"
 date: 2018-08-06 11:50:21 +0800
 comments: true
 categories: iOS
@@ -75,15 +75,15 @@ header高度固定，折叠高度固定，展开高度有最大值限制；
 ### 跳转至主APP
 1、在主APP`info`中添加URL Scheme入“TodayExtension”，并在`-application:openURL:sourceApplication:annotation:`判断跳转信息是否来自today extension；  
 2、在today extension需要跳转到主APP添加  
-`[self.extensionContext openURL:[NSURL URLWithString:@"TodayExtension://"] completionHandler:nil];`；
+`[self.extensionContext openURL:[NSURL URLWithString:@"TodayExtension://"] completionHandler:nil];`
 
 ### 与主APP共享数据
 1、创建APP group，为主APP和widget的APP ID添加对应的组；  
 2、为主APP和widget APP添加APP group capability；  
 3、使用`NSUserDefault`，suiteName需和groupName一致，
-`[[NSUserDefaults alloc] initWithSuiteName:@"group.com.mobvoi.One"]`；  
+`[[NSUserDefaults alloc] initWithSuiteName:@"group.com.mobvoi.One"]`  
 4、使用`NSFileManager`，
-`[[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:@"group.com.mobvoi.One"]`；  
+`[[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:@"group.com.mobvoi.One"]`  
 5、`[User Defaults] Couldn't read values in CFPrefsPlistSource`。  
 
 ### 与主APP共享文件
