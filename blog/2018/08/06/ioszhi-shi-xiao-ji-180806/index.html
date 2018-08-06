@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>iOS知识小集-180806 - Light's Blog</title>
+  <title>iOS知识小集-180730 - Light's Blog</title>
   <meta name="author" content="Light">
 
   
@@ -102,7 +102,7 @@ $(document).bind('DOMNodeInserted', function(event) {
   
   <header>
     
-      <h1 class="entry-title">iOS知识小集-180806</h1>
+      <h1 class="entry-title">iOS知识小集-180730</h1>
     
     
       <p class="meta">
@@ -216,16 +216,16 @@ header高度固定，折叠高度固定，展开高度有最大值限制；</p>
 
 <p>1、在主APP<code>info</code>中添加URL Scheme入“TodayExtension”，并在<code>-application:openURL:sourceApplication:annotation:</code>判断跳转信息是否来自today extension；<br/>
 2、在today extension需要跳转到主APP添加<br/>
-<code>[self.extensionContext openURL:[NSURL URLWithString:@"TodayExtension://"] completionHandler:nil];</code>；</p>
+<code>[self.extensionContext openURL:[NSURL URLWithString:@"TodayExtension://"] completionHandler:nil];</code></p>
 
 <h3>与主APP共享数据</h3>
 
 <p>1、创建APP group，为主APP和widget的APP ID添加对应的组；<br/>
 2、为主APP和widget APP添加APP group capability；<br/>
 3、使用<code>NSUserDefault</code>，suiteName需和groupName一致，
-<code>[[NSUserDefaults alloc] initWithSuiteName:@"group.com.mobvoi.One"]</code>；<br/>
+<code>[[NSUserDefaults alloc] initWithSuiteName:@"group.com.mobvoi.One"]</code><br/>
 4、使用<code>NSFileManager</code>，
-<code>[[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:@"group.com.mobvoi.One"]</code>；<br/>
+<code>[[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:@"group.com.mobvoi.One"]</code><br/>
 5、<code>[User Defaults] Couldn't read values in CFPrefsPlistSource</code>。</p>
 
 <h3>与主APP共享文件</h3>
@@ -316,7 +316,7 @@ header高度固定，折叠高度固定，展开高度有最大值限制；</p>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2018/08/06/ioszhi-shi-xiao-ji-180806/">iOS知识小集-180806</a>
+        <a href="/blog/2018/08/06/ioszhi-shi-xiao-ji-180806/">iOS知识小集-180730</a>
       </li>
     
       <li class="post">
