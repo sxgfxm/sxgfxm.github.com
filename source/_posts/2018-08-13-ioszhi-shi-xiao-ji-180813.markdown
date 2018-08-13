@@ -1,14 +1,12 @@
 ---
 layout: post
-title: "iOS知识小集-180813"
+title: "iOS知识小集-180806"
 date: 2018-08-13 14:46:12 +0800
 comments: true
 categories: iOS
 keywords: sxgfxm，灰度发布，widget
 description: sxgfxm，灰度发布，widget
 ---
-
-# iOS知识小集-180806
 
 ## APP灰度发布
 可以配置APP灰度发布。
