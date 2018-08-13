@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2018-08-13T14:47:39+08:00</updated>
+  <updated>2018-08-13T14:49:16+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -14,13 +14,11 @@
 
   
   <entry>
-    <title type="html"><![CDATA[iOS知识小集-180813]]></title>
+    <title type="html"><![CDATA[iOS知识小集-180806]]></title>
     <link href="http://sxgfxm.github.io/blog/2018/08/13/ioszhi-shi-xiao-ji-180813/"/>
     <updated>2018-08-13T14:46:12+08:00</updated>
     <id>http://sxgfxm.github.io/blog/2018/08/13/ioszhi-shi-xiao-ji-180813</id>
-    <content type="html"><![CDATA[<h1>iOS知识小集-180806</h1>
-
-<h2>APP灰度发布</h2>
+    <content type="html"><![CDATA[<h2>APP灰度发布</h2>
 
 <p>可以配置APP灰度发布。</p>
 
