@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2018-08-06T14:10:20+08:00</updated>
+  <updated>2018-08-13T14:47:39+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,47 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-180813]]></title>
+    <link href="http://sxgfxm.github.io/blog/2018/08/13/ioszhi-shi-xiao-ji-180813/"/>
+    <updated>2018-08-13T14:46:12+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2018/08/13/ioszhi-shi-xiao-ji-180813</id>
+    <content type="html"><![CDATA[<h1>iOS知识小集-180806</h1>
+
+<h2>APP灰度发布</h2>
+
+<p>可以配置APP灰度发布。</p>
+
+<h2>Today Extension</h2>
+
+<h3>scroll is disabled</h3>
+
+<p>Adding scrolls into a widget, both vertical and horizontal, is not possible. Or more precisely, adding a scroll view is possible but scrolling won’t work. Horizontal scrolling gesture in a scroll view in the Today extension will be intercepted by the notification center which will cause scrolling from Today to the Notification center. Scrolling vertically a scroll view inside a Today extension will be interrupted by scrolling the Today’s View.<br/>
+<a href="https://www.toptal.com/ios/ios-8-app-extensions">A Tutorial on iOS 8 App Extensions</a></p>
+
+<h3>数据共享</h3>
+
+<p>需要在主工程的entitlements中添加APP groups</p>
+
+<h3>资源共享</h3>
+
+<p>在today extension target中 copy bundle resources</p>
+
+<h3>高度</h3>
+
+<p>折叠高度110，展开高度最大值限制。</p>
+
+<h2>Can&rsquo;t add self as subview</h2>
+
+<p>连续push两次会导致该问题。<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2018/08/13/ioszhi-shi-xiao-ji-180813/'><a href="http://sxgfxm.github.io/blog/2018/08/13/ioszhi-shi-xiao-ji-180813/">http://sxgfxm.github.io/blog/2018/08/13/ioszhi-shi-xiao-ji-180813/</a></a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
+  </p></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-180730]]></title>
@@ -1809,247 +1850,6 @@ UIPageViewController滑动时获取的contentOffset不够准确，需要特殊�
 <p class='post-footer'>
   原始地址：
   <a href='http://sxgfxm.github.io/blog/2017/11/02/ioszhi-shi-xiao-ji-171023/'>http://sxgfxm.github.io/blog/2017/11/02/ioszhi-shi-xiao-ji-171023/</a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-171016]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/10/17/ioszhi-shi-xiao-ji-171016/"/>
-    <updated>2017-10-17T19:06:22+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/10/17/ioszhi-shi-xiao-ji-171016</id>
-    <content type="html"><![CDATA[<h2>Clear iOS DeviceSupport to free disk storage</h2>
-
-<p>真机调试时，不同系统的手机会生成不同的Device Support文件，每个大概3GB左右，占用大量磁盘空间。删除不需要的Device Support文件，可以释放大量磁盘空间。
-iOS DeviceSupport 目录路径<code>[User]/Library/Developer/Xcode/iOS DeviceSupport</code></p>
-
-<h2>Compute CKComponent size</h2>
-
-<p>获取component的size。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="cp">#import &lt;ComponentKit/CKComponentSubclass.h&gt;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="o">-</span> <span class="p">(</span><span class="bp">CGSize</span><span class="p">)</span><span class="nl">sizeOfComponent</span><span class="p">:(</span><span class="n">CKComponent</span><span class="o">*</span><span class="p">)</span><span class="n">component</span><span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="n">component</span> <span class="nl">computeLayoutThatFits</span><span class="p">:</span> <span class="n">CKSizeRange</span><span class="p">()].</span><span class="n">size</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<!-- more -->
-
-
-<h2>CKComponentRootView</h2>
-
-<p>获取component对应的根视图，在CKComponentController中可以自定义根视图。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="n">CKComponentRootView</span> <span class="o">*</span><span class="n">rootView</span> <span class="o">=</span> <span class="n">component</span><span class="p">.</span><span class="n">viewContext</span><span class="p">.</span><span class="n">view</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>CKComponentController</h2>
-
-<ol>
-<li>命名必须为<strong>ComponentName+Controller</strong>，继承至CKComponentController；</li>
-<li>Component必须添加<strong>Scope</strong>，<code>CKComponentScope scope(self, model)</code>；</li>
-<li>ComponentController可以监控component的生命周期，进行设置；</li>
-<li><code>-didMount</code>，已经加载完成，包括所有的子component；</li>
-<li><code>-willUpdateComponent</code>，component即将更新时调用；</li>
-<li><code>-willRemount</code>，component正在update或root component被关联到其他root view时调用；</li>
-<li><code>-componentTreeWillAppear</code>，当调用<code>-willDisplayCell:for{Row|Item}AtIndexPath:</code>时调用；</li>
-</ol>
-
-
-<h2><a href="https://github.com/lefex/TCZLocalizableTool">TCZLocalizableTool</a></h2>
-
-<p>通过Python脚本检查本地化文件中语法错误。</p>
-
-<h2>Horizontal ScrollComponent of CKComponent</h2>
-
-<p>Add a horizontal UIScrollView to a vertical UICollectionView by ComponentKit.</p>
-
-<ol>
-<li>Create a <strong>CKStackLayoutComponent</strong> component and set [<strong>UIScrollView</strong> class] in block newWithView;</li>
-<li>In <code>-didMount</code>, get the scroll view and set its <code>contentSize</code>;</li>
-<li>In <code>-didUpdateComponent</code>, update its <code>contentSize</code> if the component has changed.</li>
-</ol>
-
-
-<p>.h</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &lt;ComponentKit/ComponentKit.h&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@interface</span> <span class="nc">XGHorizontalScrollComponent</span> : <span class="nc">CKCompositeComponent</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">newWithChildren:</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">CKStackLayoutComponentChild</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">children</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@interface</span> <span class="nc">XGHorizontalScrollComponentController</span> : <span class="nc">CKComponentController</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>.mm</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#import &quot;XGHorizontalScrollComponent.h&quot;</span>
-</span><span class='line'><span class="cp">#import &lt;ComponentKit/CKComponentSubclass.h&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@interface</span> <span class="nc">XGHorizontalScrollComponent</span><span class="p">()</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="n">CKComponent</span> <span class="o">*</span><span class="n">scrollComponent</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@implementation</span> <span class="nc">XGHorizontalScrollComponent</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">newWithChildren:</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">CKStackLayoutComponentChild</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">children</span><span class="p">{</span>
-</span><span class='line'>  <span class="n">CKComponentScope</span> <span class="n">scope</span><span class="p">(</span><span class="nb">self</span><span class="p">);</span>
-</span><span class='line'>  <span class="n">CKComponent</span> <span class="o">*</span><span class="n">content</span> <span class="o">=</span> <span class="p">[</span><span class="n">CKStackLayoutComponent</span>
-</span><span class='line'>                          <span class="nl">newWithView</span><span class="p">:{</span>
-</span><span class='line'>                            <span class="p">[</span><span class="bp">UIScrollView</span> <span class="k">class</span><span class="p">]</span>
-</span><span class='line'>                          <span class="p">}</span>
-</span><span class='line'>                          <span class="nl">size</span><span class="p">:{}</span>
-</span><span class='line'>                          <span class="nl">style</span><span class="p">:{</span>
-</span><span class='line'>                            <span class="p">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">CKStackLayoutDirectionHorizontal</span><span class="p">,</span>
-</span><span class='line'>                            <span class="p">.</span><span class="n">alignItems</span> <span class="o">=</span> <span class="n">CKStackLayoutAlignItemsStretch</span>
-</span><span class='line'>                          <span class="p">}</span>
-</span><span class='line'>                          <span class="nl">children</span><span class="p">:{</span><span class="n">children</span><span class="p">}];</span>
-</span><span class='line'>  <span class="n">XGHorizontalScrollComponent</span> <span class="o">*</span><span class="n">component</span> <span class="o">=</span> <span class="p">[</span><span class="nb">super</span> <span class="nl">newWithComponent</span><span class="p">:</span><span class="n">content</span><span class="p">];</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">component</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">component</span><span class="o">-&gt;</span><span class="n">_scrollComponent</span> <span class="o">=</span> <span class="n">content</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">component</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@implementation</span> <span class="nc">XGHorizontalScrollComponentController</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">didMount</span> <span class="p">{</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">super</span> <span class="n">didMount</span><span class="p">];</span>
-</span><span class='line'>  <span class="c1">//  Get scroll component</span>
-</span><span class='line'>  <span class="n">XGHorizontalScrollComponent</span> <span class="o">*</span><span class="n">component</span> <span class="o">=</span> <span class="p">(</span><span class="n">XGHorizontalScrollComponent</span><span class="o">*</span><span class="p">)</span><span class="nb">self</span><span class="p">.</span><span class="n">component</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">CKComponent</span> <span class="o">*</span><span class="n">scrollComponent</span> <span class="o">=</span> <span class="n">component</span><span class="p">.</span><span class="n">scrollComponent</span><span class="p">;</span>
-</span><span class='line'>  <span class="c1">//  Get component size</span>
-</span><span class='line'>  <span class="n">CKSizeRange</span> <span class="n">range</span> <span class="o">=</span> <span class="n">CKSizeRange</span><span class="p">();</span>
-</span><span class='line'>  <span class="n">CKComponentLayout</span> <span class="n">layout</span> <span class="o">=</span> <span class="p">[</span><span class="n">scrollComponent</span> <span class="nl">computeLayoutThatFits</span><span class="p">:</span><span class="n">range</span><span class="p">];</span>
-</span><span class='line'>  <span class="c1">//  Get scroll view</span>
-</span><span class='line'>  <span class="bp">UIScrollView</span> <span class="o">*</span><span class="n">scrollView</span> <span class="o">=</span> <span class="p">(</span><span class="bp">UIScrollView</span> <span class="o">*</span><span class="p">)</span><span class="n">scrollComponent</span><span class="p">.</span><span class="n">viewContext</span><span class="p">.</span><span class="n">view</span><span class="p">;</span>
-</span><span class='line'>  <span class="c1">//  Set scroll view properties, you can custom scrollView here</span>
-</span><span class='line'>  <span class="n">scrollView</span><span class="p">.</span><span class="n">showsHorizontalScrollIndicator</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">scrollView</span><span class="p">.</span><span class="n">showsVerticalScrollIndicator</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
-</span><span class='line'>  <span class="c1">//  Set contentSize</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">scrollView</span> <span class="nl">setContentSize</span><span class="p">:</span><span class="n">layout</span><span class="p">.</span><span class="n">size</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//  Invoked when the component is updated</span>
-</span><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">didUpdateComponent</span><span class="p">{</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">super</span> <span class="n">didUpdateComponent</span><span class="p">];</span>
-</span><span class='line'>  <span class="c1">//  Update contentSize</span>
-</span><span class='line'>  <span class="n">XGHorizontalScrollComponent</span> <span class="o">*</span><span class="n">component</span> <span class="o">=</span> <span class="p">(</span><span class="n">XGHorizontalScrollComponent</span><span class="o">*</span><span class="p">)</span><span class="nb">self</span><span class="p">.</span><span class="n">component</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">CKComponent</span> <span class="o">*</span><span class="n">scrollComponent</span> <span class="o">=</span> <span class="n">component</span><span class="p">.</span><span class="n">scrollComponent</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">CKSizeRange</span> <span class="n">range</span> <span class="o">=</span> <span class="n">CKSizeRange</span><span class="p">();</span>
-</span><span class='line'>  <span class="n">CKComponentLayout</span> <span class="n">layout</span> <span class="o">=</span> <span class="p">[</span><span class="n">scrollComponent</span> <span class="nl">computeLayoutThatFits</span><span class="p">:</span><span class="n">range</span><span class="p">];</span>
-</span><span class='line'>  <span class="bp">UIScrollView</span> <span class="o">*</span><span class="n">scrollView</span> <span class="o">=</span> <span class="p">(</span><span class="bp">UIScrollView</span> <span class="o">*</span><span class="p">)</span><span class="n">scrollComponent</span><span class="p">.</span><span class="n">viewContext</span><span class="p">.</span><span class="n">view</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">scrollView</span> <span class="nl">setContentSize</span><span class="p">:</span><span class="n">layout</span><span class="p">.</span><span class="n">size</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/10/17/ioszhi-shi-xiao-ji-171016/'>http://sxgfxm.github.io/blog/2017/10/17/ioszhi-shi-xiao-ji-171016/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>
