@@ -105,6 +105,45 @@ $(document).bind('DOMNodeInserted', function(event) {
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2018/08/20/ioszhi-shi-xiao-ji-180813/">iOS知识小集-180813</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2018-08-20T11:43:27+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>11:43 am</span></time>
+        
+           | <a href="/blog/2018/08/20/ioszhi-shi-xiao-ji-180813/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2018/08/20/ioszhi-shi-xiao-ji-180813/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>动画结束后使layer保持动画后的状态</h2>
+
+<p>需要同时设置<code>animation.removedOnCompletion = NO</code>和<code>animation.fillMode = kCAFillModeForwards</code>。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2018/08/20/ioszhi-shi-xiao-ji-180813/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2018/08/13/ioszhi-shi-xiao-ji-180813/">iOS知识小集-180806</a></h1>
     
     
@@ -658,76 +697,6 @@ written by <a href='http://sxgfxm.github.io'>Light</a>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/04/18/ioszhi-shi-xiao-ji-180319/">iOS知识小集-180319</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2018-04-18T14:20:28+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>2:20 pm</span></time>
-        
-           | <a href="/blog/2018/04/18/ioszhi-shi-xiao-ji-180319/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2018/04/18/ioszhi-shi-xiao-ji-180319/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Today Extension 研究</h2>
-
-<h3>Layout</h3>
-
-<ol>
-<li>self.view.frame是整个屏幕大小。</li>
-</ol>
-
-
-<h3>Life cycle</h3>
-
-<ol>
-<li>滑走后，会重新创建。</li>
-</ol>
-
-
-<h2>NEVPNManager</h2>
-
-<p><code>NEVPNManager</code>是用来创建和管理VPN设置，并且处理VPN连接结果的。
-每一个应用只允许创建一个VPA设置，所以<code>NEVPNManager</code>是一个单例。
-由<code>NEVPNManager</code>创建的VPN称为私人VPN，在iOS和macOS上，非私人VPA的优先级高于私人VPN。
-使用<code>NEVPNManager</code>需要<code>com.apple.developer.networking.vpn.api entitlement</code>，需要开启应用的<code>Personal VPN</code>权限。
-在开启私人VPN前，必须从Network Extension preferences载入VPN设置，在修改VPN设置之后，必须写入Network Extension preferences。
-<code>NEVPNManager</code>的对象是线程安全的。</p>
-
-<p><code>#import &lt;NetworkExtension/NEVPNManager.h&gt;</code></p>
-
-<h2>NEVPNProtocol</h2>
-
-<p><code>NEVPNProtocol</code>用来配置VPN。</p>
-
-<h2>NEVPNConnection</h2>
-
-<p><code>NEVPNConnection</code>用来控制VPN连接。<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2018/04/18/ioszhi-shi-xiao-ji-180319/'><a href="http://sxgfxm.github.io/blog/2018/04/18/ioszhi-shi-xiao-ji-180319/">http://sxgfxm.github.io/blog/2018/04/18/ioszhi-shi-xiao-ji-180319/</a></a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
-  </p></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -753,7 +722,7 @@ written by <a href='http://sxgfxm.github.io'>Light</a>
  <h1>Categories</h1>
  <ul id="categories">
   <li class='category'><a href='/blog/categories/componentkit/'>componentkit (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>ios (66)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (67)</a></li>
 <li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
 <li class='category'><a href='/blog/categories/reactiveobjc/'>reactiveobjc (2)</a></li>
@@ -762,6 +731,10 @@ written by <a href='http://sxgfxm.github.io'>Light</a>
 </section><section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2018/08/20/ioszhi-shi-xiao-ji-180813/">iOS知识小集-180813</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2018/08/13/ioszhi-shi-xiao-ji-180813/">iOS知识小集-180806</a>
@@ -777,10 +750,6 @@ written by <a href='http://sxgfxm.github.io'>Light</a>
     
       <li class="post">
         <a href="/blog/2018/07/23/ioszhi-shi-xiao-ji-180716/">iOS知识小集-180716</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/07/16/ioszhi-shi-xiao-ji-180619/">iOS知识小集-180619</a>
       </li>
     
   </ul>
