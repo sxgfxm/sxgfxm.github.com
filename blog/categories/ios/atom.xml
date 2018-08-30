@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2018-08-20T11:46:03+08:00</updated>
+  <updated>2018-08-30T10:26:57+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,106 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-180820]]></title>
+    <link href="http://sxgfxm.github.io/blog/2018/08/30/ioszhi-shi-xiao-ji-180820/"/>
+    <updated>2018-08-30T10:24:16+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2018/08/30/ioszhi-shi-xiao-ji-180820</id>
+    <content type="html"><![CDATA[<h2>获取textview光标所在位置</h2>
+
+<pre><code class="objective-c">- (NSUInteger)currentLocation:(UITextView*)textView{
+  NSRange range = textView.selectionRange;
+  if (range.location == NSNotFound) {
+    return textView.text.length;
+  }
+  return range.location;
+}
+</code></pre>
+
+<!-- more -->
+
+
+<h2>超出父视图的子视图响应手势事件</h2>
+
+<pre><code class="objective-c">- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    UIView *view = [super hitTest:point withEvent:event];
+    if (view == nil) {
+        for (UIView *subView in self.subviews) {
+            CGPoint tp = [subView convertPoint:point fromView:self];
+            if (CGRectContainsPoint(subView.bounds, tp)) {
+                view = subView;
+            }
+        }
+    }
+    return view;
+}
+
+- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event{
+    //if内的条件应该为，触摸点属于子视图范围
+    if (.....){
+     return YES;
+    }
+    return NO;
+}
+</code></pre>
+
+<h2>CALayer阴影</h2>
+
+<p>默认<code>shadowOpacity = 0</code>，需要手动设置才能显示出来阴影。</p>
+
+<h2>Macbook Pro触摸板突然失效</h2>
+
+<p>键盘检测出现问题，盒盖过一会儿再打开即可。</p>
+
+<h2>ARKit</h2>
+
+<h3>什么是AR</h3>
+
+<p>VR，Virtual Reality，虚拟现实，纯虚拟数字画面；<br/>
+AR，Augmented Reality，现实增强，裸眼现实 + 虚拟数字画面；<br/>
+MR，Mediated Reality，介导现实，数字化现实 + 虚拟数字画面；</p>
+
+<h3>什么是ARKit</h3>
+
+<p>ARKit 是一个移动端 AR 平台，用于在 iOS 上开发增强现实 APP；<br/>
+ARKit 提供了接口简单的高级 API，有一系列强大的功能，从 iOS11 开始支持；</p>
+
+<h3>ARKit有哪些功能</h3>
+
+<h4>追踪</h4>
+
+<p>世界追踪；</p>
+
+<h4>场景理解</h4>
+
+<p>平面识别，命中测试；</p>
+
+<h4>渲染</h4>
+
+<p>整合任意渲染程序；</p>
+
+<h3>如何使用ARKit</h3>
+
+<h4>ARSession</h4>
+
+<p>1、管理增强现实所有处理流程的类：可带参数配置，且可以开始处理流程或暂停处理流程或切换处理流程；<br/>
+2、重置追踪；<br/>
+3、获取处理结果ARFrame，通过代理或者直接获取currentFrame；</p>
+
+<h4>ARSessionConfiguration</h4>
+
+<h4>ARFrame</h4>
+
+<p>1、相机图像作为渲染场景背景；<br/>
+2、提供设备追踪信息，如设备角度、位置、追踪状态；<br/>
+3、提供场景理解，如特征点、空间物理位置及光线估算；</p>
+
+<h4>ARAnchor</h4>
+
+<p>空间中先对真实世界的位置和角度。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-180813]]></title>
@@ -263,62 +363,6 @@ header高度固定，折叠高度固定，展开高度有最大值限制；</p>
 <h2>Attempt to present UIViewController on UIViewController whose view is not in the window hierarchy</h2>
 
 <p><code>viewDidLoad:</code>时不能present viewController，改写为<code>viewDidAppear:</code>时进行操作。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-180716]]></title>
-    <link href="http://sxgfxm.github.io/blog/2018/07/23/ioszhi-shi-xiao-ji-180716/"/>
-    <updated>2018-07-23T10:17:06+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2018/07/23/ioszhi-shi-xiao-ji-180716</id>
-    <content type="html"><![CDATA[<h2>UIScrollView+EmptyDataSet</h2>
-
-<p>当状态变化时才会触发；<br/>
-当列表内无元素时才会显示。</p>
-
-<h2>Update CocoaPods</h2>
-
-<p><code>[sudo] gem install cocoapods</code></p>
-
-<h2>UITableViewCell左滑删除出现后，TableView编辑状态失效</h2>
-
-<p>UITableViewCell需要按规则初始化。</p>
-
-<h2>Masonry、Autolayout断点调试</h2>
-
-<p>1、添加symbolic break point<code>UIViewAlertForUnsatisfiableConstraints</code>；<br/>
-2、添加action<code>po [[UIWindow keyWindow] _autolayoutTrace]</code>；<br/>
-3、修改出错界面背景颜色<code>e id $myView = (id) 0x10a005a90</code>，<code>e (void)[$myView setBackgroundColor:[UIColor blueColor]]</code>。（0x10a005a90为问题界面地址）</p>
-
-<h2>添加pch文件</h2>
-
-<p>1、创建<code>.pch</code>文件，引入需要全局引入的头文件；<br/>
-2、在<code>Build Settings</code>中<code>Prefix Header</code>添加pch文件路径<code>$SRCROOT/工程名/pch文件名</code>，并设置<code>Precompile Prefix Header = YES</code>。<br/>
-3、优点：全局导入头文件，不必重复导入；预编译头文件被缓存，提高编译速度；<br/>
-4、缺点：非必要全局引入的头文件会带来麻烦；</p>
-
-<!-- more -->
-
-
-<h2>导航栏相关</h2>
-
-<h3>UIBarButtonItem</h3>
-
-<p>1、非custom view创建的UIBarButtonItem会被<code>UINavigationBar.tintColor</code>渲染，可以根据需求确定；<br/>
-2、用custom view创建的UIBarButtonItem更加灵活，表现方式更加多样，且可以添加多种手势控制；<br/>
-3、<code>UIBarButtonSystemItemFixedSpace</code>UIBarButtonItem可以用于调整items间距；<br/>
-4、使用自定义返回按钮会使左滑退出失效，可设置<code>self.navigationController.interactivePopGestureRecognizer.delegate = self;</code>恢复；</p>
-
-<h3>UINavigationBar</h3>
-
-<p>1、<code>translucent = YES</code>半透明，不自动下移；<code>translucent = NO</code>不透明，自动下移，bar会变为白色；<br/>
-2、<code>barTintColor = nil</code>是透明的，<code>barTintColor = [UIColor clearColor]</code>是黑色的；<br/>
-3、<code>setBackgroundImage</code>会移除<code>UIVisualEffectView</code>，并且<code>barTintColor</code>失效；<br/>
-4、<code>tintColor</code>会渲染非custom view的UIBarButtonItem；</p>
-
-<h3>UINavigationController</h3>
-
-<p>1、Push至一个透明UIViewController会卡顿，初始动画瞬间进行，透明的话会看到，感觉卡顿；</p>
 ]]></content>
   </entry>
   
