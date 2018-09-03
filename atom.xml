@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2018-08-30T10:26:57+08:00</updated>
+  <updated>2018-09-03T11:38:11+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,160 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-180827]]></title>
+    <link href="http://sxgfxm.github.io/blog/2018/09/03/ioszhi-shi-xiao-ji-180827/"/>
+    <updated>2018-09-03T11:36:54+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2018/09/03/ioszhi-shi-xiao-ji-180827</id>
+    <content type="html"><![CDATA[<h2>lldb</h2>
+
+<h3>什么是lldb</h3>
+
+<p>LLDB是个开源的内置于XCode的具有REPL(read-eval-print-loop)特征的Debugger，其可以安装C++或者Python插件。</p>
+
+<!-- more -->
+
+
+<h3>expression</h3>
+
+<p>执行一个表达式，并将结果输出。</p>
+
+<h4>expression</h4>
+
+<p><code>expression -- self.view.backgroundColor = [UIColor redColor]</code>
+<code>expression -- (void)[CATransaction flush]</code></p>
+
+<h4>print、p、call</h4>
+
+<p>expression的别名，常用与输出某个变量。</p>
+
+<h4>po</h4>
+
+<p>等价于<code>expression -O -- variable</code>，输出对象本身的信息，而非对象地址。</p>
+
+<h3>thread</h3>
+
+<p>与线程相关操作，可以查看调用栈信息，修改返回值。</p>
+
+<h4>thread backtrace、bt</h4>
+
+<p>打印当前线程的调用栈信息，可以设置打印帧数，从哪个帧开始打印，是否额外显示回溯。</p>
+
+<h4>thread return</h4>
+
+<p>修改某个函数的返回值。</p>
+
+<h4>c、n、s、finish</h4>
+
+<p>continue、next、step in、step out。</p>
+
+<h3>breakpoint</h3>
+
+<p>与断点相关操作，可以设置单个断点、批量设置断点、为断点增加命令，删除断点及断点命令。</p>
+
+<h4>breakpoint set</h4>
+
+<p>设置断点，可以指定<code>-n</code>方法名，<code>-f</code>文件名，<code>-l</code>行数，<code>-o</code>单次断点。</p>
+
+<h4>breakpoint list</h4>
+
+<p>查看断点。</p>
+
+<h4>breakpoint disable/enable</h4>
+
+<p>设置断点可用、不可用。</p>
+
+<h4>breakpoint delete</h4>
+
+<p>删除断点。</p>
+
+<h4>breakpoint command add</h4>
+
+<p>设置断点命令，可以指定<code>-o</code>单行命令，或多行命令。</p>
+
+<h4>breakpoint command list</h4>
+
+<p>查看断点命令。</p>
+
+<h4>breakpoint command delete</h4>
+
+<p>删除断点命令。</p>
+
+<h3>watchpoint</h3>
+
+<p>为地址设置断点。</p>
+
+<h4>watchpoint set</h4>
+
+<p>添加观察点，只可接受变量。</p>
+
+<h4>watchpoint list</h4>
+
+<p>查看观察点。</p>
+
+<h4>breakpoint disable/enable</h4>
+
+<p>设置观察点可用、不可用。</p>
+
+<h4>watchpoint delete</h4>
+
+<p>删除观察点。</p>
+
+<h4>watchpoint command add</h4>
+
+<p>设置观察点命令。</p>
+
+<h4>watchpoint command list</h4>
+
+<p>查看观察点命令。</p>
+
+<h4>watchpoint command delete</h4>
+
+<p>删除观察点命令。</p>
+
+<h3>target</h3>
+
+<p>查找地址对应代码位置。</p>
+
+<h4>target modules lookup、image lookup</h4>
+
+<p>查找地址对应代码位置。</p>
+
+<h4>target stop-hook</h4>
+
+<p>停止时执行代码。</p>
+
+<h3>extension</h3>
+
+<p><code>~/.lldbinit</code>中设置扩展。</p>
+
+<h3>help</h3>
+
+<p>查看命令帮助，如<code>help</code>，<code>apropos</code>。</p>
+
+<h3>shortcut</h3>
+
+<p>快捷键。<br/>
+暂停/继续   cmd + ctrl + Y<br/>
+断点失效/生效 cmd + Y<br/>
+控制台显示/隐藏    cmd + shift + Y<br/>
+光标切换到控制台    cmd + shift + C<br/>
+清空控制台   cmd + K<br/>
+step over   F6<br/>
+step into   F7<br/>
+step out    F8</p>
+
+<h3>script</h3>
+
+<p>执行Python脚本<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2018/09/03/ioszhi-shi-xiao-ji-180827/'><a href="http://sxgfxm.github.io/blog/2018/09/03/ioszhi-shi-xiao-ji-180827/">http://sxgfxm.github.io/blog/2018/09/03/ioszhi-shi-xiao-ji-180827/</a></a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
+  </p></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-180820]]></title>
@@ -1820,125 +1974,6 @@ Folder会创建实际文件夹，方便磁盘文件与工程文件对应；</p>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
   </p></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-171106]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/11/10/ioszhi-shi-xiao-ji-171106/"/>
-    <updated>2017-11-10T17:01:04+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/11/10/ioszhi-shi-xiao-ji-171106</id>
-    <content type="html"><![CDATA[<h2>UIViewController modalPresentationStyle</h2>
-
-<p>当present controller时，可以设置这个属性来控制present时的效果，可用于透明显示被遮盖的conroller，此情况下被遮盖的conroller不会调用viewDidDisappear。</p>
-
-<!-- more -->
-
-
-<h2>UIPageViewController vs. UIScrollView</h2>
-
-<p>两者都可添加controller，实现滑动切换conroller切换的效果。<br/>
-UIPageViewController支持子controller生命周期函数调用，添加到UIScrollView上的controller滑动时不会调用生命周期函数。<br/>
-UIPageViewController便于代码分离。<br/>
-UIPageViewController没有暴露bounces属性，无法通过系统API禁用，需要特殊操作才可以，这一点UIScrollView有优势。<br/>
-UIPageViewController滑动时获取的contentOffset不够准确，需要特殊处理，这一点UIScrollView有优势。<br/>
-特殊处理方法：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">//  设置UIPageViewController的scrollView的代理为self</span>
-</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="kt">id</span> <span class="n">view</span> <span class="k">in</span> <span class="nb">self</span><span class="p">.</span><span class="n">pageController</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">subviews</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">([</span><span class="n">view</span> <span class="nl">isKindOfClass</span><span class="p">:[</span><span class="bp">UIScrollView</span> <span class="k">class</span><span class="p">]])</span> <span class="p">{</span>
-</span><span class='line'>      <span class="bp">UIScrollView</span> <span class="o">*</span><span class="n">scrollView</span> <span class="o">=</span> <span class="p">(</span><span class="bp">UIScrollView</span> <span class="o">*</span><span class="p">)</span><span class="n">view</span><span class="p">;</span>
-</span><span class='line'>      <span class="n">scrollView</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'> <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setOffset:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">offset</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">_offset</span> <span class="o">=</span> <span class="n">offset</span><span class="p">;</span>
-</span><span class='line'>    <span class="c1">//  Do something with offsetX</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">scrollViewDidScroll:</span><span class="p">(</span><span class="bp">UIScrollView</span> <span class="o">*</span><span class="p">)</span><span class="nv">scrollView</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">CGFloat</span> <span class="n">width</span> <span class="o">=</span> <span class="n">scrollView</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">CGFloat</span> <span class="n">offset</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">offset</span><span class="p">;</span>
-</span><span class='line'>    <span class="bp">NSInteger</span> <span class="n">childCount</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">childControllers</span><span class="p">.</span><span class="n">count</span><span class="p">;</span>
-</span><span class='line'>    <span class="c1">// 将当前滑动显示的view 的坐标 =&gt; self.view 的坐标</span>
-</span><span class='line'>    <span class="k">for</span> <span class="p">(</span><span class="bp">UIViewController</span> <span class="o">*</span><span class="n">vc</span> <span class="k">in</span> <span class="nb">self</span><span class="p">.</span><span class="n">childControllers</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>      <span class="bp">CGPoint</span> <span class="n">p</span> <span class="o">=</span> <span class="p">[</span><span class="n">vc</span><span class="p">.</span><span class="n">view</span> <span class="nl">convertPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="nl">toView</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">];</span>
-</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">p</span><span class="p">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">width</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="bp">NSInteger</span> <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">childControllers</span> <span class="nl">indexOfObject</span><span class="p">:</span><span class="n">vc</span><span class="p">];</span>
-</span><span class='line'>        <span class="n">offset</span> <span class="o">=</span> <span class="n">index</span> <span class="o">*</span> <span class="n">width</span> <span class="o">-</span> <span class="n">p</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
-</span><span class='line'>      <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">offset</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="n">childCount</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">width</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>      <span class="bp">CGPoint</span> <span class="n">p</span> <span class="o">=</span> <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">childControllers</span><span class="p">.</span><span class="n">lastObject</span><span class="p">.</span><span class="n">view</span> <span class="nl">convertPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="nl">toView</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">];</span>
-</span><span class='line'>      <span class="n">offset</span> <span class="o">=</span> <span class="p">(</span><span class="n">childCount</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">width</span> <span class="o">-</span> <span class="n">p</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="nb">self</span><span class="p">.</span><span class="n">offset</span> <span class="o">=</span> <span class="n">offset</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">scrollViewDidEndDecelerating:</span><span class="p">(</span><span class="bp">UIScrollView</span> <span class="o">*</span><span class="p">)</span><span class="nv">scrollView</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">CGFloat</span> <span class="n">width</span> <span class="o">=</span> <span class="n">scrollView</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">;</span>
-</span><span class='line'>    <span class="bp">NSInteger</span> <span class="n">index</span> <span class="o">=</span> <span class="n">round</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">offset</span> <span class="o">/</span> <span class="n">width</span><span class="p">);</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">index</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>      <span class="n">index</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">childControllers</span><span class="p">.</span><span class="n">count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="nb">self</span><span class="p">.</span><span class="n">offset</span> <span class="o">=</span> <span class="n">index</span> <span class="o">*</span> <span class="n">width</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/11/10/ioszhi-shi-xiao-ji-171106/'>http://sxgfxm.github.io/blog/2017/11/10/ioszhi-shi-xiao-ji-171106/</a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
-
 ]]></content>
   </entry>
   

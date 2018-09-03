@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2018-08-30T10:26:57+08:00</updated>
+  <updated>2018-09-03T11:38:11+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,155 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-180827]]></title>
+    <link href="http://sxgfxm.github.io/blog/2018/09/03/ioszhi-shi-xiao-ji-180827/"/>
+    <updated>2018-09-03T11:36:54+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2018/09/03/ioszhi-shi-xiao-ji-180827</id>
+    <content type="html"><![CDATA[<h2>lldb</h2>
+
+<h3>什么是lldb</h3>
+
+<p>LLDB是个开源的内置于XCode的具有REPL(read-eval-print-loop)特征的Debugger，其可以安装C++或者Python插件。</p>
+
+<!-- more -->
+
+
+<h3>expression</h3>
+
+<p>执行一个表达式，并将结果输出。</p>
+
+<h4>expression</h4>
+
+<p><code>expression -- self.view.backgroundColor = [UIColor redColor]</code>
+<code>expression -- (void)[CATransaction flush]</code></p>
+
+<h4>print、p、call</h4>
+
+<p>expression的别名，常用与输出某个变量。</p>
+
+<h4>po</h4>
+
+<p>等价于<code>expression -O -- variable</code>，输出对象本身的信息，而非对象地址。</p>
+
+<h3>thread</h3>
+
+<p>与线程相关操作，可以查看调用栈信息，修改返回值。</p>
+
+<h4>thread backtrace、bt</h4>
+
+<p>打印当前线程的调用栈信息，可以设置打印帧数，从哪个帧开始打印，是否额外显示回溯。</p>
+
+<h4>thread return</h4>
+
+<p>修改某个函数的返回值。</p>
+
+<h4>c、n、s、finish</h4>
+
+<p>continue、next、step in、step out。</p>
+
+<h3>breakpoint</h3>
+
+<p>与断点相关操作，可以设置单个断点、批量设置断点、为断点增加命令，删除断点及断点命令。</p>
+
+<h4>breakpoint set</h4>
+
+<p>设置断点，可以指定<code>-n</code>方法名，<code>-f</code>文件名，<code>-l</code>行数，<code>-o</code>单次断点。</p>
+
+<h4>breakpoint list</h4>
+
+<p>查看断点。</p>
+
+<h4>breakpoint disable/enable</h4>
+
+<p>设置断点可用、不可用。</p>
+
+<h4>breakpoint delete</h4>
+
+<p>删除断点。</p>
+
+<h4>breakpoint command add</h4>
+
+<p>设置断点命令，可以指定<code>-o</code>单行命令，或多行命令。</p>
+
+<h4>breakpoint command list</h4>
+
+<p>查看断点命令。</p>
+
+<h4>breakpoint command delete</h4>
+
+<p>删除断点命令。</p>
+
+<h3>watchpoint</h3>
+
+<p>为地址设置断点。</p>
+
+<h4>watchpoint set</h4>
+
+<p>添加观察点，只可接受变量。</p>
+
+<h4>watchpoint list</h4>
+
+<p>查看观察点。</p>
+
+<h4>breakpoint disable/enable</h4>
+
+<p>设置观察点可用、不可用。</p>
+
+<h4>watchpoint delete</h4>
+
+<p>删除观察点。</p>
+
+<h4>watchpoint command add</h4>
+
+<p>设置观察点命令。</p>
+
+<h4>watchpoint command list</h4>
+
+<p>查看观察点命令。</p>
+
+<h4>watchpoint command delete</h4>
+
+<p>删除观察点命令。</p>
+
+<h3>target</h3>
+
+<p>查找地址对应代码位置。</p>
+
+<h4>target modules lookup、image lookup</h4>
+
+<p>查找地址对应代码位置。</p>
+
+<h4>target stop-hook</h4>
+
+<p>停止时执行代码。</p>
+
+<h3>extension</h3>
+
+<p><code>~/.lldbinit</code>中设置扩展。</p>
+
+<h3>help</h3>
+
+<p>查看命令帮助，如<code>help</code>，<code>apropos</code>。</p>
+
+<h3>shortcut</h3>
+
+<p>快捷键。<br/>
+暂停/继续   cmd + ctrl + Y<br/>
+断点失效/生效 cmd + Y<br/>
+控制台显示/隐藏    cmd + shift + Y<br/>
+光标切换到控制台    cmd + shift + C<br/>
+清空控制台   cmd + K<br/>
+step over   F6<br/>
+step into   F7<br/>
+step out    F8</p>
+
+<h3>script</h3>
+
+<p>执行Python脚本</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-180820]]></title>
@@ -327,42 +476,6 @@ header高度固定，折叠高度固定，展开高度有最大值限制；</p>
 <h3>与主APP共享文件</h3>
 
 <p>需要再次添加compile files。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-180723]]></title>
-    <link href="http://sxgfxm.github.io/blog/2018/07/30/ioszhi-shi-xiao-ji-180723/"/>
-    <updated>2018-07-30T11:10:55+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2018/07/30/ioszhi-shi-xiao-ji-180723</id>
-    <content type="html"><![CDATA[<h2>UITableView Delete Cell</h2>
-
-<p>调用<code>deleteRowsAtIndexPaths:withRowAnimation:</code>时界面出现诡异问题，删除一个cell之后无法继续删除下面的cell。<br/>
-暂时解决办法是在数据源中删除对应数据后，直接<code>reloadData</code>而不再调用上述方法。</p>
-
-<h2>UITableViewCell高亮效果</h2>
-
-<p>重写<code>-setHighlighted:animated:</code>方法，当highlighted时改变背景颜色，非highlighted时通过动画修改回去。</p>
-
-<pre><code class="objective-c">- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated{
-  [super setHighlighted:highlighted animated:animated];
-  [self xg_setHighlighted:highlighted animated:animated color:[UIColor lightGrayColor]];
-}
-
-- (void)xg_setHighlighted:(BOOL)highlighted animated:(BOOL)animated color:(UIColor *)highlightedColor{
-  if (highlighted) {
-    self.contentView.backgroundColor = highlightedColor;
-  } else {
-    [UIView animateWithDuration:0.25 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-      self.contentView.backgroundColor = [UIColor whiteColor];
-    } completion:nil];
-  }
-}
-</code></pre>
-
-<h2>Attempt to present UIViewController on UIViewController whose view is not in the window hierarchy</h2>
-
-<p><code>viewDidLoad:</code>时不能present viewController，改写为<code>viewDidAppear:</code>时进行操作。</p>
 ]]></content>
   </entry>
   
