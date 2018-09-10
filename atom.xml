@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2018-09-03T11:38:11+08:00</updated>
+  <updated>2018-09-10T14:36:13+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,227 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-180903]]></title>
+    <link href="http://sxgfxm.github.io/blog/2018/09/10/ioszhi-shi-xiao-ji-180903/"/>
+    <updated>2018-09-10T14:34:51+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2018/09/10/ioszhi-shi-xiao-ji-180903</id>
+    <content type="html"><![CDATA[<h2>集成Apple Pay</h2>
+
+<h3>权限配置</h3>
+
+<p>按官方指导配置权限。</p>
+
+<h3>调用过程</h3>
+
+<p>引入<code>&lt;PassKit/PassKit.h&gt;</code>，权限判断，支付卡判断，设置商品参数，创建支付请求，显示支付界面，代理接收结果。</p>
+
+<!-- more -->
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">useApplePay</span><span class="p">{</span>
+</span><span class='line'>  <span class="c1">//  权限判断</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">([</span><span class="n">PKPaymentAuthorizationViewController</span> <span class="n">canMakePayments</span><span class="p">]){</span>
+</span><span class='line'>    <span class="c1">//  支付卡判断</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">([</span><span class="n">PKPaymentAuthorizationViewController</span> <span class="nl">canMakePaymentsUsingNetworks</span><span class="p">:</span><span class="l">@[</span><span class="n">PKPaymentNetworkVisa</span><span class="p">,</span> <span class="n">PKPaymentNetworkChinaUnionPay</span><span class="p">,</span> <span class="n">PKPaymentNetworkDiscover</span><span class="l">]</span><span class="p">]){</span>
+</span><span class='line'>      <span class="c1">//  设置商品参数</span>
+</span><span class='line'>      <span class="bp">NSDecimalNumber</span> <span class="o">*</span><span class="n">amount</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSDecimalNumber</span> <span class="nl">decimalNumberWithString</span><span class="p">:</span><span class="s">@&quot;2.33&quot;</span><span class="p">]</span>
+</span><span class='line'>      <span class="n">PKPaymentSummaryItem</span> <span class="o">*</span><span class="n">item</span> <span class="o">=</span> <span class="p">[</span><span class="n">PKPaymentSummaryItem</span> <span class="nl">summaryItemWithLabel</span><span class="p">:</span><span class="s">@&quot;PJChao&quot;</span> <span class="nl">amount</span><span class="p">:</span><span class="n">amount</span><span class="p">];</span>
+</span><span class='line'>      <span class="c1">//  支付请求</span>
+</span><span class='line'>      <span class="n">PKPaymentRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span> <span class="p">[[</span><span class="n">PKPaymentRequest</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>      <span class="c1">// 设置商户ID（merchant IDs）</span>
+</span><span class='line'>      <span class="n">request</span><span class="p">.</span><span class="n">merchantIdentifier</span> <span class="o">=</span> <span class="s">@&quot;com.mobvoi.ApplePayTest&quot;</span><span class="p">;</span>
+</span><span class='line'>      <span class="c1">// 设置国家代码(中国大陆)</span>
+</span><span class='line'>      <span class="n">request</span><span class="p">.</span><span class="n">countryCode</span> <span class="o">=</span> <span class="s">@&quot;CN&quot;</span><span class="p">;</span>
+</span><span class='line'>      <span class="c1">// 设置支付货币(人民币)</span>
+</span><span class='line'>      <span class="n">request</span><span class="p">.</span><span class="n">currencyCode</span> <span class="o">=</span> <span class="s">@&quot;CNY&quot;</span><span class="p">;</span>
+</span><span class='line'>      <span class="c1">// 设置商户的支付标准(3DS支付方式必须支持，其他方式可选)</span>
+</span><span class='line'>      <span class="n">request</span><span class="p">.</span><span class="n">merchantCapabilities</span> <span class="o">=</span> <span class="n">PKMerchantCapability3DS</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">request</span><span class="p">.</span><span class="n">paymentSummaryItems</span> <span class="o">=</span> <span class="l">@[</span><span class="n">item</span><span class="l">]</span><span class="p">;</span>
+</span><span class='line'>      <span class="cm">/**</span>
+</span><span class='line'><span class="cm">       *  以上参数都是必须的</span>
+</span><span class='line'><span class="cm">       *  以下参数不是必须的</span>
+</span><span class='line'><span class="cm">       */</span>
+</span><span class='line'>      <span class="c1">// 设置收据内容</span>
+</span><span class='line'>      <span class="n">request</span><span class="p">.</span><span class="n">requiredBillingAddressFields</span> <span class="o">=</span> <span class="n">PKAddressFieldAll</span><span class="p">;</span>
+</span><span class='line'>      <span class="c1">// 设置送货内容</span>
+</span><span class='line'>      <span class="n">request</span><span class="p">.</span><span class="n">requiredShippingAddressFields</span> <span class="o">=</span> <span class="n">PKAddressFieldAll</span><span class="p">;</span>
+</span><span class='line'>      <span class="c1">// 设置送货方式</span>
+</span><span class='line'>      <span class="n">PKShippingMethod</span> <span class="o">*</span><span class="n">method</span> <span class="o">=</span> <span class="p">[</span><span class="n">PKShippingMethod</span> <span class="nl">summaryItemWithLabel</span><span class="p">:</span><span class="s">@&quot;顺丰&quot;</span> <span class="nl">amount</span><span class="p">:[</span><span class="bp">NSDecimalNumber</span> <span class="nl">decimalNumberWithString</span><span class="p">:</span><span class="s">@&quot;10.00&quot;</span><span class="p">]];</span>
+</span><span class='line'>      <span class="n">method</span><span class="p">.</span><span class="n">identifier</span> <span class="o">=</span> <span class="s">@&quot;顺丰物流&quot;</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">method</span><span class="p">.</span><span class="n">detail</span> <span class="o">=</span> <span class="s">@&quot;12小时到达&quot;</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">request</span><span class="p">.</span><span class="n">shippingMethods</span> <span class="o">=</span> <span class="l">@[</span><span class="n">method</span><span class="l">]</span><span class="p">;</span>
+</span><span class='line'>      <span class="c1">//  显示支付页面</span>
+</span><span class='line'>      <span class="n">PKPaymentAuthorizationViewController</span> <span class="o">*</span><span class="n">paymentVC</span> <span class="o">=</span> <span class="p">[[</span><span class="n">PKPaymentAuthorizationViewController</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithPaymentRequest</span><span class="p">:</span><span class="n">request</span><span class="p">];</span>
+</span><span class='line'>      <span class="n">paymentVC</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="n">paymentVC</span> <span class="o">==</span> <span class="nb">nil</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">[</span><span class="nb">self</span> <span class="nl">presentViewController</span><span class="p">:</span><span class="n">paymentVC</span> <span class="nl">animated</span><span class="p">:</span><span class="nb">YES</span> <span class="nl">completion</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>      <span class="c1">//  跳转至银行卡设置界面</span>
+</span><span class='line'>      <span class="p">[[[</span><span class="bp">PKPassLibrary</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">]</span> <span class="n">openPaymentSetup</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//  代理方法</span>
+</span><span class='line'><span class="cp">#pragma mark - PKPaymentAuthorizationViewControllerDelegate</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">paymentAuthorizationViewController:</span><span class="p">(</span><span class="n">PKPaymentAuthorizationViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">controller</span>
+</span><span class='line'>                       <span class="nf">didAuthorizePayment:</span><span class="p">(</span><span class="n">PKPayment</span> <span class="o">*</span><span class="p">)</span><span class="nv">payment</span>
+</span><span class='line'>                                <span class="nf">completion:</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">PKPaymentAuthorizationStatus</span> <span class="n">status</span><span class="p">))</span><span class="nv">completion</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     *  在这里支付信息应发送给服务器/第三方的SDK（银联SDK/易宝支付SDK/易智付SDK等）</span>
+</span><span class='line'><span class="cm">     *  再根据服务器返回的支付成功与否进行不同处理</span>
+</span><span class='line'><span class="cm">     *  这里直接返回支付成功</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="n">completion</span><span class="p">(</span><span class="n">PKPaymentAuthorizationStatusSuccess</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">paymentAuthorizationViewControllerDidFinish:</span><span class="p">(</span><span class="n">PKPaymentAuthorizationViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">controller</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="c1">// 点击支付/取消按钮隐藏界面</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">controller</span> <span class="nl">dismissViewControllerAnimated</span><span class="p">:</span><span class="nb">YES</span> <span class="nl">completion</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>集成Touch ID</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">startLocalAuthentication</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">NSFoundationVersionNumber</span> <span class="o">&lt;</span> <span class="n">NSFoundationVersionNumber_iOS_8_0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;系统版本不支持TouchID&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">LAContext</span> <span class="o">*</span><span class="n">context</span> <span class="o">=</span> <span class="p">[[</span><span class="n">LAContext</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">context</span><span class="p">.</span><span class="n">localizedFallbackTitle</span> <span class="o">=</span> <span class="s">@&quot;请输入密码&quot;</span><span class="p">;</span>
+</span><span class='line'>    <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">([</span><span class="n">context</span> <span class="nl">canEvaluatePolicy</span><span class="p">:</span><span class="n">LAPolicyDeviceOwnerAuthenticationWithBiometrics</span> <span class="nl">error</span><span class="p">:</span><span class="o">&amp;</span><span class="n">error</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>      <span class="p">[</span><span class="n">context</span> <span class="nl">evaluatePolicy</span><span class="p">:</span><span class="n">LAPolicyDeviceOwnerAuthenticationWithBiometrics</span> <span class="nl">localizedReason</span><span class="p">:</span><span class="s">@&quot;通过指纹登录&quot;</span> <span class="nl">reply</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">success</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span> <span class="n">_Nullable</span> <span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">success</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>          <span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_main_queue</span><span class="p">(),</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>            <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;验证成功&quot;</span><span class="p">);</span>
+</span><span class='line'>          <span class="p">});</span>
+</span><span class='line'>        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>          <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;验证失败&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>      <span class="p">}];</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;当前设备不支持TouchID&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2018/09/10/ioszhi-shi-xiao-ji-180903/'>http://sxgfxm.github.io/blog/2018/09/10/ioszhi-shi-xiao-ji-180903/</a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
+  </p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[]]></title>
+    <link href="http://sxgfxm.github.io/blog/2018/09/10/"/>
+    <updated>2018-09-10T14:34:23+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2018/09/</id>
+    <content type="html"><![CDATA[<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2018/09/10/'>http://sxgfxm.github.io/blog/2018/09/10/</a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
+  </p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-180827]]></title>
@@ -1844,136 +2065,6 @@ Terminating app due to uncaught exception &lsquo;NSInvalidArgumentException&rsqu
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-171120]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/11/27/ioszhi-shi-xiao-ji-171120/"/>
-    <updated>2017-11-27T11:25:53+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/11/27/ioszhi-shi-xiao-ji-171120</id>
-    <content type="html"><![CDATA[<h2>iOS 10.3之后删除线失效解决办法</h2>
-
-<p>iOS 10.3之前写法：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">attr</span> <span class="nl">addAttributes</span><span class="p">:</span><span class="l">@{</span>
-</span><span class='line'>    <span class="nl">NSStrikethroughStyleAttributeName</span><span class="p">:</span> <span class="l">@(</span><span class="n">NSUnderlineStyleSingle</span><span class="l">)</span>
-</span><span class='line'>  <span class="l">}</span>
-</span><span class='line'>              <span class="nl">range</span><span class="p">:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">string</span><span class="p">.</span><span class="n">length</span><span class="p">)];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>iOS 10.3之后写法：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">attr</span> <span class="nl">addAttributes</span><span class="p">:</span><span class="l">@{</span>
-</span><span class='line'>    <span class="nl">NSStrikethroughStyleAttributeName</span><span class="p">:</span> <span class="l">@(</span><span class="n">NSUnderlineStyleSingle</span><span class="l">)</span><span class="p">,</span>
-</span><span class='line'>    <span class="nl">NSBaselineOffsetAttributeName</span><span class="p">:</span> <span class="l">@(</span><span class="n">NSUnderlineStyleNone</span><span class="l">)</span>
-</span><span class='line'>  <span class="l">}</span>
-</span><span class='line'>              <span class="nl">range</span><span class="p">:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">string</span><span class="p">.</span><span class="n">length</span><span class="p">)];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<!-- more -->
-
-
-<h2>设置状态栏style</h2>
-
-<p>在<code>info.plist</code>文件中设置<code>View controller-based status bar appearance</code>为<code>YES</code>。<br/>
-在对应ViewController中添加下面的方法：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="n">UIStatusBarStyle</span><span class="p">)</span><span class="nf">preferredStatusBarStyle</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">UIStatusBarStyleLightContent</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/11/27/ioszhi-shi-xiao-ji-171120/'>http://sxgfxm.github.io/blog/2017/11/27/ioszhi-shi-xiao-ji-171120/</a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-171113]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/11/17/ioszhi-shi-xiao-ji-171113/"/>
-    <updated>2017-11-17T17:28:01+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/11/17/ioszhi-shi-xiao-ji-171113</id>
-    <content type="html"><![CDATA[<h2>include vs. import vs. class</h2>
-
-<h3>include</h3>
-
-<p>C语言中引用头文件的语法，无法防止重复引用头文件。</p>
-
-<h3>import</h3>
-
-<p>OC中引用头文件的语法，可以防止重复引用头文件，无法防止循环引用头文件。</p>
-
-<h3>class</h3>
-
-<p>使用<code>@class</code>告知编译器有这样一个类，书写代码时不要报错，真正调用该类的方法时，再<code>#import</code>该类。
-可以防止循环引用头文件。</p>
-
-<p>一般来讲，头文件中使用<code>@class</code>引用其他类，在源文件中<code>#import</code>该类。</p>
-
-<!-- more -->
-
-
-<h2>目录结构</h2>
-
-<p>工程目录结构看出技术水平。<br/>
-高内聚，低耦合原则。</p>
-
-<h2>Group vs. Folder</h2>
-
-<p>Group创建引用，并不会创建实际文件夹，方便工程内移动；<br/>
-Folder会创建实际文件夹，方便磁盘文件与工程文件对应；</p>
-
-<h2>下拉刷新</h2>
-
-<p><code>-scrollViewDidScroll:</code>，下拉播放header view的动画；<br/>
-<code>-scrollViewDidEndDragging:willDecelerate:</code>，松手后请求数据；<br/>
-数据返回后切换到正在状态。</p>
-
-<h2>AFNetworking 内存泄露</h2>
-
-<p>如果在一个ViewController中发起网络请求，在数据返回之前退出ViewController，网络请求持有的两个block不会被释放。</p>
-
-<h2>UIBaselineAdjustment</h2>
-
-<p>当文字缩放时的对齐方法：<br/>
-<code>UIBaselineAdjustmentNone</code>：top和top对齐；<br/>
-<code>UIBaselineAdjustmentAlignBaselines</code>：top和centerY对齐；<br/>
-<code>UIBaselineAdjustmentAlignCenters</code>：centerY和centerY对齐。</p>
-
-<h2>Generated duplicate UUIDs</h2>
-
-<p>解决CocoaPods 重复生成 UUID。<br/>
-在<code>Podfile</code>中添加<code>install! 'cocoapods', :deterministic_uuids =&gt; false</code>。<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/11/17/ioszhi-shi-xiao-ji-171113/'><a href="http://sxgfxm.github.io/blog/2017/11/17/ioszhi-shi-xiao-ji-171113/">http://sxgfxm.github.io/blog/2017/11/17/ioszhi-shi-xiao-ji-171113/</a></a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
-  </p></p>
 ]]></content>
   </entry>
   

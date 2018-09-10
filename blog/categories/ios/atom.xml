@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2018-09-03T11:38:11+08:00</updated>
+  <updated>2018-09-10T14:36:13+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,117 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-180903]]></title>
+    <link href="http://sxgfxm.github.io/blog/2018/09/10/ioszhi-shi-xiao-ji-180903/"/>
+    <updated>2018-09-10T14:34:51+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2018/09/10/ioszhi-shi-xiao-ji-180903</id>
+    <content type="html"><![CDATA[<h2>集成Apple Pay</h2>
+
+<h3>权限配置</h3>
+
+<p>按官方指导配置权限。</p>
+
+<h3>调用过程</h3>
+
+<p>引入<code>&lt;PassKit/PassKit.h&gt;</code>，权限判断，支付卡判断，设置商品参数，创建支付请求，显示支付界面，代理接收结果。</p>
+
+<!-- more -->
+
+
+<pre><code class="objective-c">- (void)useApplePay{
+  //  权限判断
+  if ([PKPaymentAuthorizationViewController canMakePayments]){
+    //  支付卡判断
+    if ([PKPaymentAuthorizationViewController canMakePaymentsUsingNetworks:@[PKPaymentNetworkVisa, PKPaymentNetworkChinaUnionPay, PKPaymentNetworkDiscover]]){
+      //  设置商品参数
+      NSDecimalNumber *amount = [NSDecimalNumber decimalNumberWithString:@"2.33"]
+      PKPaymentSummaryItem *item = [PKPaymentSummaryItem summaryItemWithLabel:@"PJChao" amount:amount];
+      //  支付请求
+      PKPaymentRequest *request = [[PKPaymentRequest alloc] init];
+      // 设置商户ID（merchant IDs）
+      request.merchantIdentifier = @"com.mobvoi.ApplePayTest";
+      // 设置国家代码(中国大陆)
+      request.countryCode = @"CN";
+      // 设置支付货币(人民币)
+      request.currencyCode = @"CNY";
+      // 设置商户的支付标准(3DS支付方式必须支持，其他方式可选)
+      request.merchantCapabilities = PKMerchantCapability3DS;
+      request.paymentSummaryItems = @[item];
+      /**
+       *  以上参数都是必须的
+       *  以下参数不是必须的
+       */
+      // 设置收据内容
+      request.requiredBillingAddressFields = PKAddressFieldAll;
+      // 设置送货内容
+      request.requiredShippingAddressFields = PKAddressFieldAll;
+      // 设置送货方式
+      PKShippingMethod *method = [PKShippingMethod summaryItemWithLabel:@"顺丰" amount:[NSDecimalNumber decimalNumberWithString:@"10.00"]];
+      method.identifier = @"顺丰物流";
+      method.detail = @"12小时到达";
+      request.shippingMethods = @[method];
+      //  显示支付页面
+      PKPaymentAuthorizationViewController *paymentVC = [[PKPaymentAuthorizationViewController alloc] initWithPaymentRequest:request];
+      paymentVC.delegate = self;
+      if (paymentVC == nil) return;
+      [self presentViewController:paymentVC animated:YES completion:nil];
+    } else {
+      //  跳转至银行卡设置界面
+      [[[PKPassLibrary alloc] init] openPaymentSetup];
+    }
+  }
+}
+
+//  代理方法
+#pragma mark - PKPaymentAuthorizationViewControllerDelegate
+- (void)paymentAuthorizationViewController:(PKPaymentAuthorizationViewController *)controller
+                       didAuthorizePayment:(PKPayment *)payment
+                                completion:(void (^)(PKPaymentAuthorizationStatus status))completion
+{
+    /**
+     *  在这里支付信息应发送给服务器/第三方的SDK（银联SDK/易宝支付SDK/易智付SDK等）
+     *  再根据服务器返回的支付成功与否进行不同处理
+     *  这里直接返回支付成功
+     */
+    completion(PKPaymentAuthorizationStatusSuccess);
+}
+
+- (void)paymentAuthorizationViewControllerDidFinish:(PKPaymentAuthorizationViewController *)controller
+{
+    // 点击支付/取消按钮隐藏界面
+    [controller dismissViewControllerAnimated:YES completion:nil];
+}
+</code></pre>
+
+<h2>集成Touch ID</h2>
+
+<pre><code class="objective-c">- (void)startLocalAuthentication{
+  if (NSFoundationVersionNumber &lt; NSFoundationVersionNumber_iOS_8_0) {
+    NSLog(@"系统版本不支持TouchID");
+  } else {
+    LAContext *context = [[LAContext alloc] init];
+    context.localizedFallbackTitle = @"请输入密码";
+    NSError *error = nil;
+    if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&amp;error]) {
+      [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:@"通过指纹登录" reply:^(BOOL success, NSError * _Nullable error) {
+        if (success) {
+          dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"验证成功");
+          });
+        } else {
+          NSLog(@"验证失败");
+        }
+      }];
+    } else {
+      NSLog(@"当前设备不支持TouchID");
+    }
+  }
+}
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-180827]]></title>
@@ -380,102 +491,6 @@ ARKit 提供了接口简单的高级 API，有一系列强大的功能，从 iOS
 <h2>Can&rsquo;t add self as subview</h2>
 
 <p>连续push两次会导致该问题。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-180730]]></title>
-    <link href="http://sxgfxm.github.io/blog/2018/08/06/ioszhi-shi-xiao-ji-180806/"/>
-    <updated>2018-08-06T11:50:21+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2018/08/06/ioszhi-shi-xiao-ji-180806</id>
-    <content type="html"><![CDATA[<h2>UIImpactFeedbackGenerator</h2>
-
-<pre><code class="objective-c">- (UIImpactFeedbackGenerator *)impactFeedback{
-  if (!_impactFeedback) {
-    _impactFeedback = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleLight];
-  }
-  return _impactFeedback;
-}
-
-- (void)occurImpactFeedback{
-  if (@available(iOS 10.0, *)) {
-    [self.impactFeedback prepare];
-    [self.impactFeedback impactOccurred];
-  }
-}
-</code></pre>
-
-<h2>XCode屏蔽控制台多余系统信息</h2>
-
-<p><code>Edit Scheme</code> &ndash;> <code>Arguments</code> &ndash;> <code>Environment Variables</code> &ndash;> <code>OS_ACTIVITY_MODE = disable</code></p>
-
-<!-- more -->
-
-
-<h2>NSString查找重复子串</h2>
-
-<pre><code class="objective-c">- (NSArray&lt;NSTextCheckingResult*&gt;*)rangesOfString:(NSString*)subString inString:(NSString*)string{
-  NSString *parten = subString;
-  NSError* error = NULL;
-  NSRegularExpression *reg = [NSRegularExpression regularExpressionWithPattern:parten options:NSRegularExpressionCaseInsensitive error:&amp;error];
-  NSArray&lt;NSTextCheckingResult*&gt;* match = [reg matchesInString:string options:NSMatchingReportCompletion range:NSMakeRange(0, [string length])];
-  return match;
-}
-</code></pre>
-
-<h2>inherit! :search_paths</h2>
-
-<p>继承上述依赖。</p>
-
-<h2>Today Extension</h2>
-
-<h3>添加Today Extension Target</h3>
-
-<p><code>Editor</code> &ndash;> <code>Add Target...</code> &ndash;> <code>Today Extension</code></p>
-
-<h3>podfile增加target</h3>
-
-<pre><code>  target 'CardFlow' do
-    inherit! :search_paths
-  end
-</code></pre>
-
-<h3>Embedded binary&rsquo;s bundle identifier is not prefixed with the parent app&rsquo;s bundle identifier</h3>
-
-<p>修改bundle ID；<br/>
-修改scheme 参数；</p>
-
-<h3>disable bitcode</h3>
-
-<p>在today extension的<code>Build Settings</code>中禁用<code>bitcode</code>。</p>
-
-<h3>视图布局和展开，纯代码约束</h3>
-
-<p>需要运行一次主APP，才能显示出来today extension；<br/>
-在<code>info.plist</code>中删除NSExtensionMainStoryboard；<br/>
-在<code>info.plist</code>中添加NSExtensionPrincipalClass；<br/>
-添加支持展开<code>[self.extensionContext setWidgetLargestAvailableDisplayMode:NCWidgetDisplayModeExpanded];</code>并在<code>-widgetActiveDisplayModeDidChange:withMaximumSize:</code>方法中返回相应大小；<br/>
-header高度固定，折叠高度固定，展开高度有最大值限制；</p>
-
-<h3>跳转至主APP</h3>
-
-<p>1、在主APP<code>info</code>中添加URL Scheme入“TodayExtension”，并在<code>-application:openURL:sourceApplication:annotation:</code>判断跳转信息是否来自today extension；<br/>
-2、在today extension需要跳转到主APP添加<br/>
-<code>[self.extensionContext openURL:[NSURL URLWithString:@"TodayExtension://"] completionHandler:nil];</code></p>
-
-<h3>与主APP共享数据</h3>
-
-<p>1、创建APP group，为主APP和widget的APP ID添加对应的组；<br/>
-2、为主APP和widget APP添加APP group capability；<br/>
-3、使用<code>NSUserDefault</code>，suiteName需和groupName一致，
-<code>[[NSUserDefaults alloc] initWithSuiteName:@"group.com.mobvoi.One"]</code><br/>
-4、使用<code>NSFileManager</code>，
-<code>[[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:@"group.com.mobvoi.One"]</code><br/>
-5、<code>[User Defaults] Couldn't read values in CFPrefsPlistSource</code>。</p>
-
-<h3>与主APP共享文件</h3>
-
-<p>需要再次添加compile files。</p>
 ]]></content>
   </entry>
   
