@@ -1,0 +1,328 @@
+---
+layout: post
+title: "LeetCode Problems 之 数组"
+date: 2018-09-10 21:49:03 +0800
+comments: true
+categories: LeetCode
+keywords: sxgfxm, 数组
+description: sxgfxm, 数组
+---
+
+## 数组
+以下为 LeetCode 数组 相关问题解法记录。  
+<!-- more -->
+
+### [167. 两数之和 II - 输入有序数组](https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted/description/)
+问题分析：因为已按升序排序，只需前后两个指针移动即可。  
+```swift
+class Solution {
+    func twoSum(_ numbers: [Int], _ target: Int) -> [Int] {
+        var i = 0, j = numbers.count - 1
+        while i < j {
+            let value = numbers[i] + numbers[j]
+            if value > target {
+                j -= 1
+            } else if value < target {
+                i += 1
+            } else {
+                return [i + 1, j + 1]
+            }
+        }
+        return []
+    }
+}
+```
+启发：依据已有条件找出效率更高的解法，而非直接双重循环。  
+状态：优于66%的提交。
+
+### [121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/description/)
+问题分析：枚举所有情况求值。  
+代码：  
+```
+class Solution {
+    func maxProfit(_ prices: [Int]) -> Int {
+        var maxProfit = 0
+        for i in 0..<prices.count {
+            for j in (i+1)..<prices.count {
+                let profit = prices[j] - prices[i]
+                if maxProfit < profit {
+                    maxProfit = profit
+                }
+            }
+        }
+        return maxProfit
+    }
+}
+```
+
+### [661. 图片平滑器](https://leetcode-cn.com/problems/image-smoother/description/)
+问题分析：图片滤波器，构造转换方式。  
+代码：  
+```
+class Solution {
+
+    let transform = [[-1, -1], [0, -1], [1, -1],
+                     [-1, 0], [0, 0], [1, 0],
+                     [-1, 1], [0, 1], [1, 1]]
+
+    func imageSmoother(_ M: [[Int]]) -> [[Int]] {
+        var N: [[Int]] = []
+        let row = M.count
+        let colum = M[0].count
+        for i in 0..<row {
+            var array: [Int] = []
+            for j in 0..<colum {
+                var value = 0
+                var count = 0
+                for k in 0..<9 {
+                    let xx = i + transform[k][0]
+                    let yy = j + transform[k][1]
+                    if xx >= 0 && xx < row && yy >= 0 && yy < colum {
+                        value = value + M[xx][yy]
+                        count = count + 1
+                    }
+                }
+                array.append(Int(value / count))
+            }
+            N.append(array)
+        }
+        return N
+    }
+}
+```
+思考：有没有更简洁的写法？  
+状态：优于75%的提交。
+
+### [867. 转置矩阵](https://leetcode-cn.com/problems/transpose-matrix/description/)
+问题分析：模拟矩阵转置过程，AT[i][j] = A[j][i]，i ~ [0,m]，j ~ [0,n]。  
+代码：  
+```
+class Solution {
+    func transpose(_ A: [[Int]]) -> [[Int]] {
+        var AT: [[Int]] = []
+        for i in 0..<A[0].count {
+            var row: [Int] = []
+            for j in 0..<A.count {
+                row.append(A[j][i])
+            }
+            AT.append(row)
+        }
+        return AT
+    }
+}
+```
+
+### [118. 杨辉三角](https://leetcode-cn.com/problems/pascals-triangle/description/)
+问题分析：a[i,j] = a[i-1,j-1] + a[i-1,j]，i ~ [0,numRows)，j ~ [0,i]，超出边界为0。  
+代码：  
+```
+class Solution {
+    func generate(_ numRows: Int) -> [[Int]] {
+        var rows: [[Int]] = []
+        for i in 0..<numRows {
+            var row: [Int] = []
+            for j in 0...i {
+                var left = 0
+                var right = 0
+                if i - 1 < 0 {
+                    left = 1
+                } else {
+                    if j - 1 < 0 {
+                        left = 0
+                    } else {
+                        left = rows[i-1][j-1]
+                    }
+                    if j >= rows[i-1].count {
+                        right = 0
+                    } else {
+                        right = rows[i-1][j]
+                    }
+                }
+                row.append(left + right)
+            }
+            rows.append(row)
+        }
+        return rows
+    }
+}
+```
+**还有更简洁的写法吗？**
+
+### [119. 杨辉三角 II](https://leetcode-cn.com/problems/pascals-triangle-ii/description/)
+问题分析：模拟，压缩空间，倒序生成。  
+代码：  
+```
+class Solution {
+    func getRow(_ rowIndex: Int) -> [Int] {
+        if rowIndex == 0 {
+            return [1]
+        }
+        var nums: [Int] = []
+        for i in 0...rowIndex {
+            nums.append(0)
+        }
+        nums[0] = 1
+        for i in 1...rowIndex {
+            for j in stride(from: i, to: 0, by: -1) {
+                nums[j] = nums[j] + nums[j - 1]
+            }
+        }
+        return nums
+    }
+}
+```
+积累：倒序遍历数组。
+
+### [566. 重塑矩阵](https://leetcode-cn.com/problems/reshape-the-matrix/description/)
+问题分析：reshapeNums[i,j] = nums[index / colums, index % colums], index++。  
+边界情况：nums.count * nums[0].count = r * c，nums为空的情况。  
+代码：  
+```
+class Solution {
+    func matrixReshape(_ nums: [[Int]], _ r: Int, _ c: Int) -> [[Int]] {
+        let row: Int = nums.count
+        if row == 0 {
+            return nums
+        }
+        let colum: Int = nums[0].count
+        if colum == 0 {
+            return nums
+        }
+        //  不可以转换
+        if row * colum != r * c {
+            return nums
+        }
+        //  转换
+        var index: Int = 0;
+        var reshapeNums: [[Int]] = []
+        for _ in 0..<r {
+            var rowArray: [Int] = []
+            for _ in 0..<c {
+                rowArray.append(nums[index / colum][index % colum])
+                index = index + 1
+            }
+            reshapeNums.append(rowArray)
+        }
+        return reshapeNums
+    }
+}
+```
+积累：未使用循环变量可以用`_`代替。
+
+### [766. 托普利茨矩阵](https://leetcode-cn.com/problems/toeplitz-matrix/description/)
+问题分析：保持对角线相同，观察特征，每行右移一位与下一行除第一位开始完全相同，按此方法检测，且空间复杂度为O(n)。  
+代码：  
+```
+class Solution {
+    func isToeplitzMatrix(_ matrix: [[Int]]) -> Bool {
+        //  初始化
+        var testRow = matrix[0]
+        if matrix.count == 1 {
+            return true
+        }
+        //  依次检测每行
+        for i in 1..<matrix.count {
+            testRow.remove(at:testRow.count - 1)
+            testRow.insert(matrix[i][0], at:0)
+            for j in 0..<matrix[i].count {
+                if testRow[j] != matrix[i][j] {
+                    return false
+                }
+            }
+        }
+        return true
+    }
+}
+```
+积累：`array.insert(value, at:index)`插入数组元素，`array.remove(at:index)`删除数组元素。
+
+### [169. 求众数](https://leetcode-cn.com/problems/majority-element/description/)
+问题分析：统计元素出现个数，并找出出现个数大于n/2的元素。  
+方法一：从小到大排序，然后统计个数。  
+方法二：由于众数个数大于n/2，所以中间位置必为众数，直接返回即可。  
+代码：  
+```
+class Solution {
+    func majorityElement(_ nums: [Int]) -> Int {
+        //  排序
+        let sortedNums = nums.sorted{$0 < $1}
+        //  取中位数
+        return sortedNums[nums.count / 2]
+    }
+}
+```
+
+### [283. 移动零](https://leetcode-cn.com/problems/move-zeroes/description/)
+问题分析：模拟移动零的过程，如果第i位为0，则用第i位后第一个非0值交换。  
+代码：  
+```
+class Solution {
+    func moveZeroes(_ nums: inout [Int]) {
+        for i in 0..<nums.count {
+            if nums[i] == 0 {
+                var index = i
+                for j in (i+1)..<nums.count {
+                    if nums[j] != 0 {
+                        index = j
+                        break
+                    }
+                }
+                if index != i {
+                    var temp = nums[i]
+                    nums[i] = nums[index]
+                    nums[index] = temp
+                }
+            }
+        }
+    }
+}
+```
+
+### [485. 最大连续1的个数](https://leetcode-cn.com/problems/max-consecutive-ones/description/)
+问题分析：统计连续1的个数并取最大值
+代码：  
+```
+class Solution {
+    func findMaxConsecutiveOnes(_ nums: [Int]) -> Int {
+        var maxCount = 0
+        var currentCount = 0
+        for i in nums {
+            if i == 0 {
+                currentCount = 0
+            } else {
+                currentCount += 1
+            }
+            if maxCount < currentCount {
+                maxCount = currentCount
+            }
+        }
+        return maxCount
+    }
+}
+```
+
+### [896. 单调数列](https://leetcode-cn.com/problems/monotonic-array/description/)
+问题分析：同时记录是否为单调递增或者单调递减。  
+代码：  
+```
+class Solution {
+    func isMonotonic(_ A: [Int]) -> Bool {
+        var isIncrease = true
+        var isDecrease = true
+        for i in 1..<A.count {
+            if A[i-1] > A[i] {
+                isIncrease = false
+                break
+            }
+        }
+        for i in 1..<A.count {
+            if A[i-1] < A[i] {
+                isDecrease = false
+                break
+            }
+        }
+        return isIncrease || isDecrease
+
+    }
+}
+```
