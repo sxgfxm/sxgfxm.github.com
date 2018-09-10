@@ -105,6 +105,353 @@ $(document).bind('DOMNodeInserted', function(event) {
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2018/08/13/ioszhi-shi-xiao-ji-180813/">iOS知识小集-180806</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2018-08-13T14:46:12+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>2:46 pm</span></time>
+        
+           | <a href="/blog/2018/08/13/ioszhi-shi-xiao-ji-180813/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2018/08/13/ioszhi-shi-xiao-ji-180813/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>APP灰度发布</h2>
+
+<p>可以配置APP灰度发布。</p>
+
+<h2>Today Extension</h2>
+
+<h3>scroll is disabled</h3>
+
+<p>Adding scrolls into a widget, both vertical and horizontal, is not possible. Or more precisely, adding a scroll view is possible but scrolling won’t work. Horizontal scrolling gesture in a scroll view in the Today extension will be intercepted by the notification center which will cause scrolling from Today to the Notification center. Scrolling vertically a scroll view inside a Today extension will be interrupted by scrolling the Today’s View.<br/>
+<a href="https://www.toptal.com/ios/ios-8-app-extensions">A Tutorial on iOS 8 App Extensions</a></p>
+
+<h3>数据共享</h3>
+
+<p>需要在主工程的entitlements中添加APP groups</p>
+
+<h3>资源共享</h3>
+
+<p>在today extension target中 copy bundle resources</p>
+
+<h3>高度</h3>
+
+<p>折叠高度110，展开高度最大值限制。</p>
+
+<h2>Can&rsquo;t add self as subview</h2>
+
+<p>连续push两次会导致该问题。<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2018/08/13/ioszhi-shi-xiao-ji-180813/'><a href="http://sxgfxm.github.io/blog/2018/08/13/ioszhi-shi-xiao-ji-180813/">http://sxgfxm.github.io/blog/2018/08/13/ioszhi-shi-xiao-ji-180813/</a></a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
+  </p></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/08/06/ioszhi-shi-xiao-ji-180806/">iOS知识小集-180730</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2018-08-06T11:50:21+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>11:50 am</span></time>
+        
+           | <a href="/blog/2018/08/06/ioszhi-shi-xiao-ji-180806/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2018/08/06/ioszhi-shi-xiao-ji-180806/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>UIImpactFeedbackGenerator</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="n">UIImpactFeedbackGenerator</span> <span class="o">*</span><span class="p">)</span><span class="nf">impactFeedback</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">_impactFeedback</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">_impactFeedback</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIImpactFeedbackGenerator</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithStyle</span><span class="p">:</span><span class="n">UIImpactFeedbackStyleLight</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">_impactFeedback</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">occurImpactFeedback</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(@</span><span class="n">available</span><span class="p">(</span><span class="n">iOS</span> <span class="mf">10.0</span><span class="p">,</span> <span class="o">*</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">impactFeedback</span> <span class="n">prepare</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">impactFeedback</span> <span class="n">impactOccurred</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>XCode屏蔽控制台多余系统信息</h2>
+
+<p><code>Edit Scheme</code> &ndash;> <code>Arguments</code> &ndash;> <code>Environment Variables</code> &ndash;> <code>OS_ACTIVITY_MODE = disable</code></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2018/08/06/ioszhi-shi-xiao-ji-180806/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/07/30/ioszhi-shi-xiao-ji-180723/">iOS知识小集-180723</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2018-07-30T11:10:55+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>11:10 am</span></time>
+        
+           | <a href="/blog/2018/07/30/ioszhi-shi-xiao-ji-180723/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2018/07/30/ioszhi-shi-xiao-ji-180723/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>UITableView Delete Cell</h2>
+
+<p>调用<code>deleteRowsAtIndexPaths:withRowAnimation:</code>时界面出现诡异问题，删除一个cell之后无法继续删除下面的cell。<br/>
+暂时解决办法是在数据源中删除对应数据后，直接<code>reloadData</code>而不再调用上述方法。</p>
+
+<h2>UITableViewCell高亮效果</h2>
+
+<p>重写<code>-setHighlighted:animated:</code>方法，当highlighted时改变背景颜色，非highlighted时通过动画修改回去。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setHighlighted:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">highlighted</span> <span class="nf">animated:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">animated</span><span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">super</span> <span class="nl">setHighlighted</span><span class="p">:</span><span class="n">highlighted</span> <span class="nl">animated</span><span class="p">:</span><span class="n">animated</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span> <span class="nl">xg_setHighlighted</span><span class="p">:</span><span class="n">highlighted</span> <span class="nl">animated</span><span class="p">:</span><span class="n">animated</span> <span class="nl">color</span><span class="p">:[</span><span class="bp">UIColor</span> <span class="n">lightGrayColor</span><span class="p">]];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">xg_setHighlighted:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">highlighted</span> <span class="nf">animated:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">animated</span> <span class="nf">color:</span><span class="p">(</span><span class="bp">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="nv">highlightedColor</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">highlighted</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nb">self</span><span class="p">.</span><span class="n">contentView</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="n">highlightedColor</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mf">0.25</span> <span class="nl">delay</span><span class="p">:</span><span class="mi">0</span> <span class="nl">options</span><span class="p">:</span><span class="n">UIViewAnimationOptionCurveEaseInOut</span> <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+</span><span class='line'>      <span class="nb">self</span><span class="p">.</span><span class="n">contentView</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span> <span class="nl">completion</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Attempt to present UIViewController on UIViewController whose view is not in the window hierarchy</h2>
+
+<p><code>viewDidLoad:</code>时不能present viewController，改写为<code>viewDidAppear:</code>时进行操作。<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2018/07/30/ioszhi-shi-xiao-ji-180723/'><a href="http://sxgfxm.github.io/blog/2018/07/30/ioszhi-shi-xiao-ji-180723/">http://sxgfxm.github.io/blog/2018/07/30/ioszhi-shi-xiao-ji-180723/</a></a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
+  </p></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/07/23/ioszhi-shi-xiao-ji-180716/">iOS知识小集-180716</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2018-07-23T10:17:06+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2018</span></span> <span class='time'>10:17 am</span></time>
+        
+           | <a href="/blog/2018/07/23/ioszhi-shi-xiao-ji-180716/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2018/07/23/ioszhi-shi-xiao-ji-180716/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>UIScrollView+EmptyDataSet</h2>
+
+<p>当状态变化时才会触发；<br/>
+当列表内无元素时才会显示。</p>
+
+<h2>Update CocoaPods</h2>
+
+<p><code>[sudo] gem install cocoapods</code></p>
+
+<h2>UITableViewCell左滑删除出现后，TableView编辑状态失效</h2>
+
+<p>UITableViewCell需要按规则初始化。</p>
+
+<h2>Masonry、Autolayout断点调试</h2>
+
+<p>1、添加symbolic break point<code>UIViewAlertForUnsatisfiableConstraints</code>；<br/>
+2、添加action<code>po [[UIWindow keyWindow] _autolayoutTrace]</code>；<br/>
+3、修改出错界面背景颜色<code>e id $myView = (id) 0x10a005a90</code>，<code>e (void)[$myView setBackgroundColor:[UIColor blueColor]]</code>。（0x10a005a90为问题界面地址）</p>
+
+<h2>添加pch文件</h2>
+
+<p>1、创建<code>.pch</code>文件，引入需要全局引入的头文件；<br/>
+2、在<code>Build Settings</code>中<code>Prefix Header</code>添加pch文件路径<code>$SRCROOT/工程名/pch文件名</code>，并设置<code>Precompile Prefix Header = YES</code>。<br/>
+3、优点：全局导入头文件，不必重复导入；预编译头文件被缓存，提高编译速度；<br/>
+4、缺点：非必要全局引入的头文件会带来麻烦；</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2018/07/23/ioszhi-shi-xiao-ji-180716/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/07/16/ioszhi-shi-xiao-ji-180619/">iOS知识小集-180619</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2018-07-16T10:20:28+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>10:20 am</span></time>
+        
+           | <a href="/blog/2018/07/16/ioszhi-shi-xiao-ji-180619/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2018/07/16/ioszhi-shi-xiao-ji-180619/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>清除UIWebView JavaScript缓存</h2>
+
+<pre><code class="objective-c">[webView stringByEvaluatingJavaScriptFromString:@"localStorage.clear();"];
+</code></pre>
+
+<h2>类似网易新闻下拉刷新后的展开动画</h2>
+
+<p>修改<code>anchorPoint</code>为<code>(1, 0.5)</code>。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">spreadFromCenterAnimation</span><span class="p">{</span>
+</span><span class='line'>  <span class="bp">CGRect</span> <span class="n">rectFrom</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="n">kScreen_Width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">60</span><span class="p">);</span>
+</span><span class='line'>  <span class="bp">CGRect</span> <span class="n">rectTo</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="n">kScreen_Width</span><span class="p">,</span> <span class="mi">60</span><span class="p">);</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">testView</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UIView</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">rectFrom</span><span class="p">];</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">testView</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">blueColor</span><span class="p">];</span>
+</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">testView</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">anchorPoint</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">testView</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mi">1</span> <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+</span><span class='line'>    <span class="nb">self</span><span class="p">.</span><span class="n">testView</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">rectTo</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span> <span class="nl">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">finished</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nb">self</span><span class="p">.</span><span class="n">testView</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">rectFrom</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2018/07/16/ioszhi-shi-xiao-ji-180619/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2018/06/19/ioszhi-shi-xiao-ji-180619/">iOS知识小集-180522</a></h1>
     
     
@@ -381,313 +728,6 @@ written by <a href='http://sxgfxm.github.io'>Light</a>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/03/18/ioszhi-shi-xiao-ji-180312/">iOS知识小集-180312</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2018-03-18T18:19:33+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>6:19 pm</span></time>
-        
-           | <a href="/blog/2018/03/18/ioszhi-shi-xiao-ji-180312/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2018/03/18/ioszhi-shi-xiao-ji-180312/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>embed pods frameworks error</h2>
-
-<p><code>rm -rf ~/Library/Developer/Xcode/DerivedData</code></p>
-
-<h2>armv7、armv7s、arm64、i386、x86_64指令集</h2>
-
-<p>armv7 | armv7s | arm64 是ARM处理器指令集；
-i386 | x86_64 是Intel处理器指令集。</p>
-
-<p>设备相关
-arm64： iPhone6s | iPhone5s | iPad Air
-armv7s：iPhone5 | iPhone5c | iPad4
-armv7： iPhone4 | iPhone4s | iPad3</p>
-
-<p>模拟器32位处理器：i386架构；
-模拟器64位处理器：x86_64架构；
-真机32位处理器：armv7或armv7架构；
-真机64位处理器：arm64架构。</p>
-
-<p>而编译出哪种指令集的包，将由 <strong>Architectures</strong> 与 <strong>Valid Architectures</strong>（因此这个不能为空）的交集来确定。
-<strong>Build Active Architecture Only</strong> 指定是否只对当前连接设备所支持的指令集编译。</p>
-
-<h2>Git拉取远程分支</h2>
-
-<p><code>git checkout -b branch_name remote_branch_name</code></p>
-
-<h2>Today Extension 研究</h2>
-
-<ol>
-<li>self.view.frame是整个屏幕大小。</li>
-<li>滑走后，会重新创建。</li>
-</ol>
-
-
-<h2>NEVPNManager</h2>
-
-<p><code>#import &lt;NetworkExtension/NEVPNManager.h&gt;</code><p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2018/03/18/ioszhi-shi-xiao-ji-180312/'><a href="http://sxgfxm.github.io/blog/2018/03/18/ioszhi-shi-xiao-ji-180312/">http://sxgfxm.github.io/blog/2018/03/18/ioszhi-shi-xiao-ji-180312/</a></a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
-  </p></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/03/12/ioszhi-shi-xiao-ji-180129/">iOS知识小集-180129</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2018-03-12T15:28:49+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>3:28 pm</span></time>
-        
-           | <a href="/blog/2018/03/12/ioszhi-shi-xiao-ji-180129/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-180129/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>圆角动画与圆角定制</h2>
-
-<pre><code>  UIView *view = [[UIView alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
-  view.backgroundColor = [UIColor redColor];
-  view.layer.cornerRadius = 20;
-  //  圆角定制
-  view.layer.maskedCorners = kCALayerMinXMaxYCorner | kCALayerMaxXMaxYCorner;
-  [self.view addSubview:view];
-  //  圆角动画
-  [UIView animateWithDuration:0.5 animations:^{
-    view.layer.cornerRadius = 0;
-  }];
-</code></pre>
-
-<h2>NSMutableAttributedString crash</h2>
-
-<pre><code>- (void)testAttributedStringInitCrash
-{
-  NSString *nilStr = nil;
-  NSAttributedString *attributedStr = [[NSAttributedString alloc] initWithString:nilStr];
-}
-</code></pre>
-
-<p>Crash Log
-~~~
-Terminating app due to uncaught exception &lsquo;NSInvalidArgumentException&rsquo;, reason: &lsquo;NSConcreteAttributedString initWithString:: nil value&rsquo;
-~~~</p>
-
-<pre><code>- (void)testMutableAttributedStringInitCrash
-{
-  NSString *nilStr = nil;
-  NSMutableAttributedString *attributedStr = [[NSMutableAttributedString alloc] initWithString:nilStr];
-}
-</code></pre>
-
-<p>Crash Log
-~~~
-Terminating app due to uncaught exception &lsquo;NSInvalidArgumentException&rsquo;, reason: &lsquo;NSConcreteMutableAttributedString initWithString:: nil value&rsquo;
-~~~</p>
-
-<pre><code>- (void)testMutableAttributedStringAddAttributeCrash
-{
-  NSString *nonnullStr = @"str";
-  NSMutableAttributedString *attributedStr = [[NSMutableAttributedString alloc] initWithString:nonnullStr];
-
-  NSString *nilValue = nil;
-  [attributedStr addAttribute:NSAttachmentAttributeName value:nilValue range:NSMakeRange(0, 1)];
-}
-</code></pre>
-
-<p>Crash Log
-~~~
-Terminating app due to uncaught exception &lsquo;NSInvalidArgumentException&rsquo;, reason: &lsquo;NSConcreteMutableAttributedString addAttribute:value:range:: nil value&rsquo;
-~~~<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-180129/'><a href="http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-180129/">http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-180129/</a></a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
-  </p></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/03/12/ioszhi-shi-xiao-ji-171211/">iOS知识小集-171211</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2018-03-12T15:26:20+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>3:26 pm</span></time>
-        
-           | <a href="/blog/2018/03/12/ioszhi-shi-xiao-ji-171211/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-171211/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>layoutIfNeeded</h2>
-
-<p>布局其子视图。</p>
-
-<h2>UIViewContentModeScaleAspectFill</h2>
-
-<p>需要设置<code>clipsToBounds</code>为<code>YES</code>，否则图片显示可能会溢出。</p>
-
-<h2>UITableView Edit Cell</h2>
-
-<h2>UITableView Move Cell</h2>
-
-<h2>数据与界面同步<p class='post-footer'></h2>
-
-<p>  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-171211/'><a href="http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-171211/">http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-171211/</a></a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
-  </p></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/12/11/ioszhi-shi-xiao-ji-171204/">iOS知识小集-171204</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2017-12-11T16:49:04+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:49 pm</span></time>
-        
-           | <a href="/blog/2017/12/11/ioszhi-shi-xiao-ji-171204/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/12/11/ioszhi-shi-xiao-ji-171204/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>UIViewController Transition</h2>
-
-<p>自定义Present和Dismiss动画。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2017/12/11/ioszhi-shi-xiao-ji-171204/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/12/02/ioszhi-shi-xiao-ji-171127/">iOS知识小集-171127</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2017-12-02T18:08:07+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2017</span></span> <span class='time'>6:08 pm</span></time>
-        
-           | <a href="/blog/2017/12/02/ioszhi-shi-xiao-ji-171127/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/12/02/ioszhi-shi-xiao-ji-171127/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>ContentInset</h2>
-
-<p>内容偏移，可用于下拉刷新调整界面位置。</p>
-
-<h2>嵌套UINavigationController的UIViewController设置preferredStatusBarStyle无效</h2>
-
-<p>如果<code>UIViewController</code>有<code>UINavigationController</code>，则会先调<code>UINavigationController</code>的<code>childViewControllerForStatusBarStyle</code>方法，该方法默认返回nil，所以子<code>UIViewController</code>设置的<code>preferredStatusBarStyle</code>无效。<br/>
-解决办法，继承<code>UINavigationController</code>，并重写<code>childViewControllerForStatusBarStyle</code>方法：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nf">childViewControllerForStatusBarStyle</span><span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nb">self</span><span class="p">.</span><span class="n">topViewController</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2017/12/02/ioszhi-shi-xiao-ji-171127/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -716,6 +756,7 @@ Terminating app due to uncaught exception &lsquo;NSInvalidArgumentException&rsqu
  <ul id="categories">
   <li class='category'><a href='/blog/categories/componentkit/'>componentkit (1)</a></li>
 <li class='category'><a href='/blog/categories/ios/'>ios (70)</a></li>
+<li class='category'><a href='/blog/categories/leetcode/'>leetcode (6)</a></li>
 <li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
 <li class='category'><a href='/blog/categories/reactiveobjc/'>reactiveobjc (2)</a></li>
@@ -726,23 +767,23 @@ Terminating app due to uncaught exception &lsquo;NSInvalidArgumentException&rsqu
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2018/09/10/ioszhi-shi-xiao-ji-180903/">iOS知识小集-180903</a>
+        <a href="/blog/2018/09/10/leetcode-problems-zhi-shen-du-you-xian-sou-suo/">LeetCode Problems 之 深度优先搜索</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2018/09/10/"></a>
+        <a href="/blog/2018/09/10/leetcode-problems-zhi-shu-xue/">LeetCode Problems 之 数学</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2018/09/03/ioszhi-shi-xiao-ji-180827/">iOS知识小集-180827</a>
+        <a href="/blog/2018/09/10/leetcode-problems-zhi-wei-yun-suan/">LeetCode Problems 之 位运算</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2018/08/30/ioszhi-shi-xiao-ji-180820/">iOS知识小集-180820</a>
+        <a href="/blog/2018/09/10/leetcode-problems-zhi-pai-xu/">LeetCode Problems 之 排序</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2018/08/20/ioszhi-shi-xiao-ji-180813/">iOS知识小集-180813</a>
+        <a href="/blog/2018/09/10/leetcode-problems-zhi-ha-xi/">LeetCode Problems 之 哈希</a>
       </li>
     
   </ul>

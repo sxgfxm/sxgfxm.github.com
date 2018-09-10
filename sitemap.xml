@@ -1,12 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
-<loc>http://sxgfxm.github.io/blog/2018/09/10/ioszhi-shi-xiao-ji-180903/</loc>
-<lastmod>2018-09-10T14:34:51+08:00</lastmod>
+<loc>http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-shen-du-you-xian-sou-suo/</loc>
+<lastmod>2018-09-10T21:55:31+08:00</lastmod>
 </url>
 <url>
-<loc>http://sxgfxm.github.io/blog/2018/09/10/</loc>
-<lastmod>2018-09-10T14:34:23+08:00</lastmod>
+<loc>http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-shu-xue/</loc>
+<lastmod>2018-09-10T21:54:51+08:00</lastmod>
+</url>
+<url>
+<loc>http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-wei-yun-suan/</loc>
+<lastmod>2018-09-10T21:53:58+08:00</lastmod>
+</url>
+<url>
+<loc>http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-pai-xu/</loc>
+<lastmod>2018-09-10T21:53:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-ha-xi/</loc>
+<lastmod>2018-09-10T21:51:54+08:00</lastmod>
+</url>
+<url>
+<loc>http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-shu-zu/</loc>
+<lastmod>2018-09-10T21:49:03+08:00</lastmod>
+</url>
+<url>
+<loc>http://sxgfxm.github.io/blog/2018/09/10/ioszhi-shi-xiao-ji-180903/</loc>
+<lastmod>2018-09-10T14:34:51+08:00</lastmod>
 </url>
 <url>
 <loc>http://sxgfxm.github.io/blog/2018/09/03/ioszhi-shi-xiao-ji-180827/</loc>
@@ -336,5 +356,8 @@
 </url>
 <url>
 <loc>http://sxgfxm.github.io/blog/categories/reactiveobjc/</loc>
+</url>
+<url>
+<loc>http://sxgfxm.github.io/blog/categories/leetcode/</loc>
 </url>
 </urlset>

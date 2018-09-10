@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2018-09-10T14:36:13+08:00</updated>
+  <updated>2018-09-10T21:56:26+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,1111 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[LeetCode Problems 之 深度优先搜索]]></title>
+    <link href="http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-shen-du-you-xian-sou-suo/"/>
+    <updated>2018-09-10T21:55:31+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-shen-du-you-xian-sou-suo</id>
+    <content type="html"><![CDATA[<h2>深度优先搜索</h2>
+
+<p>以下为 LeetCode 深度优先搜索 相关问题解法记录。</p>
+
+<!-- more -->
+
+
+<h3><a href="https://leetcode-cn.com/problems/max-area-of-island/description/">695. 岛屿的最大面积</a></h3>
+
+<p>问题分析：非回溯4个方向求和。<br/>
+代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">var</span> <span class="n">maxCount</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">let</span> <span class="n">transform</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">func</span> <span class="n">maxAreaOfIsland</span><span class="p">(</span><span class="n">_</span> <span class="nl">grid</span><span class="p">:</span> <span class="p">[[</span><span class="n">Int</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">grid</span> <span class="o">=</span> <span class="n">grid</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">grid</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">if</span> <span class="n">grid</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="k">let</span> <span class="n">count</span> <span class="o">=</span> <span class="n">dfs</span><span class="p">(</span><span class="o">&amp;</span><span class="n">grid</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
+</span><span class='line'>                    <span class="k">if</span> <span class="n">maxCount</span> <span class="o">&lt;</span> <span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>                        <span class="n">maxCount</span> <span class="o">=</span> <span class="n">count</span>
+</span><span class='line'>                    <span class="p">}</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">maxCount</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">func</span> <span class="n">dfs</span><span class="p">(</span><span class="n">_</span> <span class="nl">grid</span><span class="p">:</span> <span class="k">inout</span> <span class="p">[[</span><span class="n">Int</span><span class="p">]],</span> <span class="n">_</span> <span class="nl">x</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="n">_</span> <span class="nl">y</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">grid</span><span class="p">.</span><span class="n">count</span> <span class="o">&amp;&amp;</span> <span class="n">y</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">count</span> <span class="o">&amp;&amp;</span> <span class="n">grid</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">grid</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>            <span class="k">var</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>            <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="mi">4</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">let</span> <span class="n">xx</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">transform</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+</span><span class='line'>                <span class="k">let</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">transform</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+</span><span class='line'>                <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="n">dfs</span><span class="p">(</span><span class="o">&amp;</span><span class="n">grid</span><span class="p">,</span> <span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">count</span>
+</span><span class='line'>        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="mi">0</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3><a href="https://leetcode-cn.com/problems/number-of-islands/description/">200. 岛屿的个数</a></h3>
+
+<p>问题分析：深度优先遍历，遇到0置为1，非回溯。<br/>
+代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">var</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="k">let</span> <span class="n">transform</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">func</span> <span class="n">numIslands</span><span class="p">(</span><span class="n">_</span> <span class="nl">grid</span><span class="p">:</span> <span class="p">[[</span><span class="n">Character</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">grid</span> <span class="o">=</span> <span class="n">grid</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">grid</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">if</span> <span class="n">grid</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;1&quot;</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="n">dfs</span><span class="p">(</span><span class="o">&amp;</span><span class="n">grid</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
+</span><span class='line'>                    <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">count</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">func</span> <span class="n">dfs</span><span class="p">(</span><span class="n">_</span> <span class="nl">grid</span><span class="p">:</span> <span class="k">inout</span> <span class="p">[[</span><span class="n">Character</span><span class="p">]],</span> <span class="n">_</span> <span class="nl">x</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="n">_</span> <span class="nl">y</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">grid</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;0&quot;</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="mi">4</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">let</span> <span class="n">xx</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">transform</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+</span><span class='line'>            <span class="k">let</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">transform</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">xx</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">xx</span> <span class="o">&lt;</span> <span class="n">grid</span><span class="p">.</span><span class="n">count</span> <span class="o">&amp;&amp;</span> <span class="n">yy</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">yy</span> <span class="o">&lt;</span> <span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">count</span> <span class="o">&amp;&amp;</span> <span class="n">grid</span><span class="p">[</span><span class="n">xx</span><span class="p">][</span><span class="n">yy</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;1&quot;</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">dfs</span><span class="p">(</span><span class="o">&amp;</span><span class="n">grid</span><span class="p">,</span> <span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-shen-du-you-xian-sou-suo/'>http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-shen-du-you-xian-sou-suo/</a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
+  </p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[LeetCode Problems 之 数学]]></title>
+    <link href="http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-shu-xue/"/>
+    <updated>2018-09-10T21:54:51+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-shu-xue</id>
+    <content type="html"><![CDATA[<h2>数学</h2>
+
+<p>以下为 LeetCode 数学 相关问题解法记录。</p>
+
+<!-- more -->
+
+
+<h3><a href="https://leetcode-cn.com/problems/power-of-three/description/">326. 3的幂</a></h3>
+
+<p>方法一：模拟3的幂的过程，直到等于或超过给定的值，<strong>时间复杂度为多少？</strong>。<br/>
+方法二：通过数学公式转化，3<sup>m</sup> = n，log(3<sup>m</sup>) = logn，mlog3 = logn，m = logn / log3，判断m是否为整数即可，时间复杂度 O(1)。<br/>
+代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">isPowerOfThree</span><span class="p">(</span><span class="n">_</span> <span class="nl">n</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nb">false</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">m</span> <span class="o">=</span> <span class="n">log10</span><span class="p">(</span><span class="n">Double</span><span class="p">(</span><span class="n">n</span><span class="p">))</span> <span class="o">/</span> <span class="n">log10</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">m</span> <span class="o">-</span> <span class="n">floor</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>启发：通过数学公式简单的变化，将原问题转化为可直接计算的问题，降低复杂度。<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-shu-xue/'><a href="http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-shu-xue/">http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-shu-xue/</a></a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
+  </p></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[LeetCode Problems 之 位运算]]></title>
+    <link href="http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-wei-yun-suan/"/>
+    <updated>2018-09-10T21:53:58+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-wei-yun-suan</id>
+    <content type="html"><![CDATA[<h2>位运算</h2>
+
+<p>以下为 LeetCode 位运算 相关问题解法记录。</p>
+
+<!-- more -->
+
+
+<h3><a href="https://leetcode-cn.com/problems/power-of-two/description/">231. 2的幂</a></h3>
+
+<p>方法一、二：同题目<a href="https://leetcode-cn.com/problems/power-of-three/description/">326. 3的幂</a>。<br/>
+方法三：考察2的幂的特性，转化为二进制形式为1后面n个0，可以通过位运算来判断是否符合该形式。<br/>
+代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">isPowerOfTwo</span><span class="p">(</span><span class="n">_</span> <span class="nl">n</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nb">false</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>启发：有时候可以考察数字的二进制、八进制、十六进制形式，从中寻找规律。</p>
+
+<h3><a href="https://leetcode-cn.com/problems/power-of-four/description/">342. 4的幂</a></h3>
+
+<p>方法一、二、三：同题目<a href="https://leetcode-cn.com/problems/power-of-two/description/">231. 2的幂</a>，位运算方式稍微改变。<br/>
+代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">isPowerOfFour</span><span class="p">(</span><span class="n">_</span> <span class="nl">n</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>积累：负数的位运算操作。格式化输出。<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-wei-yun-suan/'><a href="http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-wei-yun-suan/">http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-wei-yun-suan/</a></a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
+  </p></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[LeetCode Problems 之 排序]]></title>
+    <link href="http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-pai-xu/"/>
+    <updated>2018-09-10T21:53:00+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-pai-xu</id>
+    <content type="html"><![CDATA[<h2>排序</h2>
+
+<p>以下为 LeetCode 排序 相关问题解法记录。</p>
+
+<!-- more -->
+
+
+<h3><a href="https://leetcode-cn.com/problems/largest-number/description/">179. 最大数</a></h3>
+
+<p>问题分析：为组成最大的数，即数字大的排序靠前，问题转化为一种特殊的排序。<br/>
+边界情况：当数组中元素全部为0时，转换为字符串后只有一个0。<br/>
+代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">largestNumber</span><span class="p">(</span><span class="n">_</span> <span class="nl">nums</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">String</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">nums</span> <span class="o">=</span> <span class="n">nums</span>
+</span><span class='line'>        <span class="n">nums</span><span class="p">.</span><span class="n">sort</span><span class="p">{</span> <span class="n">String</span><span class="p">(</span><span class="err">$</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">String</span><span class="p">(</span><span class="err">$</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">String</span><span class="p">(</span><span class="err">$</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">String</span><span class="p">(</span><span class="err">$</span><span class="mi">0</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">result</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">flag</span> <span class="o">=</span> <span class="nb">false</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">nums</span><span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">flag</span> <span class="o">=</span> <span class="nb">true</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">flag</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">+</span> <span class="n">String</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">result</span><span class="p">.</span><span class="n">count</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">result</span> <span class="o">=</span> <span class="s">&quot;0&quot;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">result</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>启发：当数字转换为字符串时，尤其是拼接的情况，需要特殊处理开头连续的0。</p>
+
+<h3><a href="https://leetcode-cn.com/problems/array-partition-i/description/">561. 数组拆分 I</a></h3>
+
+<p>问题分析：若a&lt;b&lt;c&lt;d，则min(a,b) + min(c,d) > min(a,c) + min(b,d)，所以按从小到大排序再求和。<br/>
+代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">arrayPairSum</span><span class="p">(</span><span class="n">_</span> <span class="nl">nums</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">array</span> <span class="o">=</span> <span class="n">nums</span><span class="p">.</span><span class="n">sorted</span><span class="p">{</span><span class="err">$</span><span class="mi">0</span> <span class="o">&lt;</span> <span class="err">$</span><span class="mi">1</span><span class="p">}</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">array</span><span class="p">.</span><span class="n">count</span> <span class="o">/</span> <span class="mi">2</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">sum</span> <span class="o">+=</span> <span class="n">array</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="mi">2</span><span class="p">]</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">sum</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>积累：<code>array.sort()</code>排序自身，<code>array.sorted()</code>返回排序后数组。<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-pai-xu/'><a href="http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-pai-xu/">http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-pai-xu/</a></a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
+  </p></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[LeetCode Problems 之 哈希]]></title>
+    <link href="http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-ha-xi/"/>
+    <updated>2018-09-10T21:51:54+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-ha-xi</id>
+    <content type="html"><![CDATA[<h2>哈希</h2>
+
+<p>以下为 LeetCode 哈希 相关问题解法记录。</p>
+
+<!-- more -->
+
+
+<h3><a href="https://leetcode-cn.com/problems/two-sum/description/">1. 两数之和</a></h3>
+
+<p>问题分析：该问题可转化为给定一个数，查找与另一个数的差是否存在，即查找问题。<br/>
+方法一：每次遍历查找，时间复杂度O(n<sup>2</sup>)。<br/>
+方法二：将数组元素i标记为 <code>map[num[i]] = i</code> ，通过下标索引，将查找复杂度由 O(n) 将为 O(1) ，空间复杂度为 O(n) 。<br/>
+方法三：边建立哈希表边检查是否存在对应元素，因为是成对的，开始没有找到，之后也会找到，一遍循环搞定。<br/>
+代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">twoSum</span><span class="p">(</span><span class="n">_</span> <span class="nl">nums</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">],</span> <span class="n">_</span> <span class="nl">target</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>启发：需要对 <strong>查找</strong> 常用方法进行加深学习。</p>
+
+<h3><a href="https://leetcode-cn.com/problems/contains-duplicate/description/">217. 存在重复元素</a></h3>
+
+<p>问题分析：哈希。<br/>
+代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">containsDuplicate</span><span class="p">(</span><span class="n">_</span> <span class="nl">nums</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="nl">dict</span><span class="p">:</span> <span class="p">[</span><span class="nl">Int</span> <span class="p">:</span> <span class="n">Int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">:</span><span class="p">]</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">nums</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">dict</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="nb">nil</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">dict</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">dict</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">!</span> <span class="o">=</span> <span class="n">dict</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">!</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">dict</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">!</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">return</span> <span class="nb">true</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nb">false</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>启发：字典取值需要判断是否为空。<br/>
+状态：优于52%的提交。</p>
+
+<h3><a href="https://leetcode-cn.com/problems/missing-number/description/">268. 缺失数字</a></h3>
+
+<p>问题分析：哈希表。<br/>
+代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">missingNumber</span><span class="p">(</span><span class="n">_</span> <span class="nl">nums</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="nl">hash</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">..</span><span class="n">nums</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">hash</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">nums</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">hash</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">value</span><span class="p">)</span> <span class="k">in</span> <span class="n">hash</span><span class="p">.</span><span class="n">enumerated</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">return</span> <span class="n">i</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>思考：如何用常数额外空间O(n)时间复杂度解决？<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-ha-xi/'><a href="http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-ha-xi/">http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-ha-xi/</a></a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
+  </p></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[LeetCode Problems 之 数组]]></title>
+    <link href="http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-shu-zu/"/>
+    <updated>2018-09-10T21:49:03+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-shu-zu</id>
+    <content type="html"><![CDATA[<h2>数组</h2>
+
+<p>以下为 LeetCode 数组 相关问题解法记录。</p>
+
+<!-- more -->
+
+
+<h3><a href="https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted/description/">167. 两数之和 II - 输入有序数组</a></h3>
+
+<p>问题分析：因为已按升序排序，只需前后两个指针移动即可。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">twoSum</span><span class="p">(</span><span class="n">_</span> <span class="nl">numbers</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">],</span> <span class="n">_</span> <span class="nl">target</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">.</span><span class="n">count</span> <span class="o">-</span> <span class="mi">1</span>
+</span><span class='line'>        <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">j</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">let</span> <span class="n">value</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="n">target</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">j</span> <span class="o">-=</span> <span class="mi">1</span>
+</span><span class='line'>            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="n">target</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">return</span> <span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="p">[]</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>启发：依据已有条件找出效率更高的解法，而非直接双重循环。<br/>
+状态：优于66%的提交。</p>
+
+<h3><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/description/">121. 买卖股票的最佳时机</a></h3>
+
+<p>问题分析：枚举所有情况求值。<br/>
+代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">maxProfit</span><span class="p">(</span><span class="n">_</span> <span class="nl">prices</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">maxProfit</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">prices</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)..</span><span class="o">&lt;</span><span class="n">prices</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">let</span> <span class="n">profit</span> <span class="o">=</span> <span class="n">prices</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">prices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</span><span class='line'>                <span class="k">if</span> <span class="n">maxProfit</span> <span class="o">&lt;</span> <span class="n">profit</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="n">maxProfit</span> <span class="o">=</span> <span class="n">profit</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">maxProfit</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3><a href="https://leetcode-cn.com/problems/image-smoother/description/">661. 图片平滑器</a></h3>
+
+<p>问题分析：图片滤波器，构造转换方式。<br/>
+代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">let</span> <span class="n">transform</span> <span class="o">=</span> <span class="p">[[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+</span><span class='line'>                     <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+</span><span class='line'>                     <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">func</span> <span class="n">imageSmoother</span><span class="p">(</span><span class="n">_</span> <span class="nl">M</span><span class="p">:</span> <span class="p">[[</span><span class="n">Int</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="p">[[</span><span class="n">Int</span><span class="p">]]</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="nl">N</span><span class="p">:</span> <span class="p">[[</span><span class="n">Int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">row</span> <span class="o">=</span> <span class="n">M</span><span class="p">.</span><span class="n">count</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">colum</span> <span class="o">=</span> <span class="n">M</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">count</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">row</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">var</span> <span class="nl">array</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'>            <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">colum</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">var</span> <span class="n">value</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>                <span class="k">var</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>                <span class="k">for</span> <span class="n">k</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="mi">9</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="k">let</span> <span class="n">xx</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="n">transform</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+</span><span class='line'>                    <span class="k">let</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="n">transform</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+</span><span class='line'>                    <span class="k">if</span> <span class="n">xx</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">xx</span> <span class="o">&lt;</span> <span class="n">row</span> <span class="o">&amp;&amp;</span> <span class="n">yy</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">yy</span> <span class="o">&lt;</span> <span class="n">colum</span> <span class="p">{</span>
+</span><span class='line'>                        <span class="n">value</span> <span class="o">=</span> <span class="n">value</span> <span class="o">+</span> <span class="n">M</span><span class="p">[</span><span class="n">xx</span><span class="p">][</span><span class="n">yy</span><span class="p">]</span>
+</span><span class='line'>                        <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span class='line'>                    <span class="p">}</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>                <span class="n">array</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">Int</span><span class="p">(</span><span class="n">value</span> <span class="o">/</span> <span class="n">count</span><span class="p">))</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="n">N</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">N</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>思考：有没有更简洁的写法？<br/>
+状态：优于75%的提交。</p>
+
+<h3><a href="https://leetcode-cn.com/problems/transpose-matrix/description/">867. 转置矩阵</a></h3>
+
+<p>问题分析：模拟矩阵转置过程，AT[i][j] = A[j][i]，i ~ [0,m]，j ~ [0,n]。<br/>
+代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">transpose</span><span class="p">(</span><span class="n">_</span> <span class="nl">A</span><span class="p">:</span> <span class="p">[[</span><span class="n">Int</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="p">[[</span><span class="n">Int</span><span class="p">]]</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="nl">AT</span><span class="p">:</span> <span class="p">[[</span><span class="n">Int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">var</span> <span class="nl">row</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'>            <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">A</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">row</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="n">AT</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">AT</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3><a href="https://leetcode-cn.com/problems/pascals-triangle/description/">118. 杨辉三角</a></h3>
+
+<p>问题分析：a[i,j] = a[i-1,j-1] + a[i-1,j]，i ~ [0,numRows)，j ~ [0,i]，超出边界为0。<br/>
+代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">generate</span><span class="p">(</span><span class="n">_</span> <span class="nl">numRows</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[[</span><span class="n">Int</span><span class="p">]]</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="nl">rows</span><span class="p">:</span> <span class="p">[[</span><span class="n">Int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">numRows</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">var</span> <span class="nl">row</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'>            <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">..</span><span class="n">i</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">var</span> <span class="kr">left</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>                <span class="k">var</span> <span class="kr">right</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>                <span class="k">if</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="kr">left</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="k">if</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>                        <span class="kr">left</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>                    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>                        <span class="kr">left</span> <span class="o">=</span> <span class="n">rows</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</span><span class='line'>                    <span class="p">}</span>
+</span><span class='line'>                    <span class="k">if</span> <span class="n">j</span> <span class="o">&gt;=</span> <span class="n">rows</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">].</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>                        <span class="kr">right</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>                    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>                        <span class="kr">right</span> <span class="o">=</span> <span class="n">rows</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
+</span><span class='line'>                    <span class="p">}</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>                <span class="n">row</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="kr">left</span> <span class="o">+</span> <span class="kr">right</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="n">rows</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">rows</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>还有更简洁的写法吗？</strong></p>
+
+<h3><a href="https://leetcode-cn.com/problems/pascals-triangle-ii/description/">119. 杨辉三角 II</a></h3>
+
+<p>问题分析：模拟，压缩空间，倒序生成。<br/>
+代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">getRow</span><span class="p">(</span><span class="n">_</span> <span class="nl">rowIndex</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">rowIndex</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">var</span> <span class="nl">nums</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">..</span><span class="n">rowIndex</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">nums</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">1.</span><span class="p">..</span><span class="n">rowIndex</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="n">stride</span><span class="p">(</span><span class="nl">from</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span> <span class="nl">to</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nl">by</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">nums</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>积累：倒序遍历数组。</p>
+
+<h3><a href="https://leetcode-cn.com/problems/reshape-the-matrix/description/">566. 重塑矩阵</a></h3>
+
+<p>问题分析：reshapeNums[i,j] = nums[index / colums, index % colums], index++。<br/>
+边界情况：nums.count * nums[0].count = r * c，nums为空的情况。<br/>
+代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">matrixReshape</span><span class="p">(</span><span class="n">_</span> <span class="nl">nums</span><span class="p">:</span> <span class="p">[[</span><span class="n">Int</span><span class="p">]],</span> <span class="n">_</span> <span class="nl">r</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="n">_</span> <span class="nl">c</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[[</span><span class="n">Int</span><span class="p">]]</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">let</span> <span class="nl">row</span><span class="p">:</span> <span class="n">Int</span> <span class="o">=</span> <span class="n">nums</span><span class="p">.</span><span class="n">count</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">row</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">nums</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">let</span> <span class="nl">colum</span><span class="p">:</span> <span class="n">Int</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">count</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">colum</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">nums</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="c1">//  不可以转换</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">row</span> <span class="o">*</span> <span class="n">colum</span> <span class="o">!=</span> <span class="n">r</span> <span class="o">*</span> <span class="n">c</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">nums</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="c1">//  转换</span>
+</span><span class='line'>        <span class="k">var</span> <span class="nl">index</span><span class="p">:</span> <span class="n">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">var</span> <span class="nl">reshapeNums</span><span class="p">:</span> <span class="p">[[</span><span class="n">Int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">_</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">r</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">var</span> <span class="nl">rowArray</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'>            <span class="k">for</span> <span class="n">_</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">c</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">rowArray</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">index</span> <span class="o">/</span> <span class="n">colum</span><span class="p">][</span><span class="n">index</span> <span class="o">%</span> <span class="n">colum</span><span class="p">])</span>
+</span><span class='line'>                <span class="n">index</span> <span class="o">=</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="n">reshapeNums</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">rowArray</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">reshapeNums</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>积累：未使用循环变量可以用<code>_</code>代替。</p>
+
+<h3><a href="https://leetcode-cn.com/problems/toeplitz-matrix/description/">766. 托普利茨矩阵</a></h3>
+
+<p>问题分析：保持对角线相同，观察特征，每行右移一位与下一行除第一位开始完全相同，按此方法检测，且空间复杂度为O(n)。<br/>
+代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">isToeplitzMatrix</span><span class="p">(</span><span class="n">_</span> <span class="nl">matrix</span><span class="p">:</span> <span class="p">[[</span><span class="n">Int</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">//  初始化</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">testRow</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">matrix</span><span class="p">.</span><span class="n">count</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nb">true</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="c1">//  依次检测每行</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">1.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">matrix</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">testRow</span><span class="p">.</span><span class="n">remove</span><span class="p">(</span><span class="nl">at</span><span class="p">:</span><span class="n">testRow</span><span class="p">.</span><span class="n">count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">testRow</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">matrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="nl">at</span><span class="p">:</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">matrix</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">if</span> <span class="n">testRow</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">!=</span> <span class="n">matrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="k">return</span> <span class="nb">false</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nb">true</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>积累：<code>array.insert(value, at:index)</code>插入数组元素，<code>array.remove(at:index)</code>删除数组元素。</p>
+
+<h3><a href="https://leetcode-cn.com/problems/majority-element/description/">169. 求众数</a></h3>
+
+<p>问题分析：统计元素出现个数，并找出出现个数大于n/2的元素。<br/>
+方法一：从小到大排序，然后统计个数。<br/>
+方法二：由于众数个数大于n/2，所以中间位置必为众数，直接返回即可。<br/>
+代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">majorityElement</span><span class="p">(</span><span class="n">_</span> <span class="nl">nums</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">//  排序</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">sortedNums</span> <span class="o">=</span> <span class="n">nums</span><span class="p">.</span><span class="n">sorted</span><span class="p">{</span><span class="err">$</span><span class="mi">0</span> <span class="o">&lt;</span> <span class="err">$</span><span class="mi">1</span><span class="p">}</span>
+</span><span class='line'>        <span class="c1">//  取中位数</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">sortedNums</span><span class="p">[</span><span class="n">nums</span><span class="p">.</span><span class="n">count</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3><a href="https://leetcode-cn.com/problems/move-zeroes/description/">283. 移动零</a></h3>
+
+<p>问题分析：模拟移动零的过程，如果第i位为0，则用第i位后第一个非0值交换。<br/>
+代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">moveZeroes</span><span class="p">(</span><span class="n">_</span> <span class="nl">nums</span><span class="p">:</span> <span class="k">inout</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">nums</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">var</span> <span class="n">index</span> <span class="o">=</span> <span class="n">i</span>
+</span><span class='line'>                <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)..</span><span class="o">&lt;</span><span class="n">nums</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>                        <span class="n">index</span> <span class="o">=</span> <span class="n">j</span>
+</span><span class='line'>                        <span class="k">break</span>
+</span><span class='line'>                    <span class="p">}</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>                <span class="k">if</span> <span class="n">index</span> <span class="o">!=</span> <span class="n">i</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="k">var</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</span><span class='line'>                    <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+</span><span class='line'>                    <span class="n">nums</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3><a href="https://leetcode-cn.com/problems/max-consecutive-ones/description/">485. 最大连续1的个数</a></h3>
+
+<p>问题分析：统计连续1的个数并取最大值
+代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">findMaxConsecutiveOnes</span><span class="p">(</span><span class="n">_</span> <span class="nl">nums</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">maxCount</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">currentCount</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">nums</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">currentCount</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">currentCount</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">maxCount</span> <span class="o">&lt;</span> <span class="n">currentCount</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">maxCount</span> <span class="o">=</span> <span class="n">currentCount</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">maxCount</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3><a href="https://leetcode-cn.com/problems/monotonic-array/description/">896. 单调数列</a></h3>
+
+<p>问题分析：同时记录是否为单调递增或者单调递减。<br/>
+代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">isMonotonic</span><span class="p">(</span><span class="n">_</span> <span class="nl">A</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">isIncrease</span> <span class="o">=</span> <span class="nb">true</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">isDecrease</span> <span class="o">=</span> <span class="nb">true</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">1.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">A</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">isIncrease</span> <span class="o">=</span> <span class="nb">false</span>
+</span><span class='line'>                <span class="k">break</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">1.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">A</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">isDecrease</span> <span class="o">=</span> <span class="nb">false</span>
+</span><span class='line'>                <span class="k">break</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">isIncrease</span> <span class="o">||</span> <span class="n">isDecrease</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-shu-zu/'>http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-shu-zu/</a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
+  </p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-180903]]></title>
@@ -212,21 +1317,6 @@
 <p class='post-footer'>
   原始地址：
   <a href='http://sxgfxm.github.io/blog/2018/09/10/ioszhi-shi-xiao-ji-180903/'>http://sxgfxm.github.io/blog/2018/09/10/ioszhi-shi-xiao-ji-180903/</a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[]]></title>
-    <link href="http://sxgfxm.github.io/blog/2018/09/10/"/>
-    <updated>2018-09-10T14:34:23+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2018/09/</id>
-    <content type="html"><![CDATA[<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2018/09/10/'>http://sxgfxm.github.io/blog/2018/09/10/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>
@@ -1499,572 +2589,6 @@ written by <a href='http://sxgfxm.github.io'>Light</a>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
   </p></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-180312]]></title>
-    <link href="http://sxgfxm.github.io/blog/2018/03/18/ioszhi-shi-xiao-ji-180312/"/>
-    <updated>2018-03-18T18:19:33+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2018/03/18/ioszhi-shi-xiao-ji-180312</id>
-    <content type="html"><![CDATA[<h2>embed pods frameworks error</h2>
-
-<p><code>rm -rf ~/Library/Developer/Xcode/DerivedData</code></p>
-
-<h2>armv7、armv7s、arm64、i386、x86_64指令集</h2>
-
-<p>armv7 | armv7s | arm64 是ARM处理器指令集；
-i386 | x86_64 是Intel处理器指令集。</p>
-
-<p>设备相关
-arm64： iPhone6s | iPhone5s | iPad Air
-armv7s：iPhone5 | iPhone5c | iPad4
-armv7： iPhone4 | iPhone4s | iPad3</p>
-
-<p>模拟器32位处理器：i386架构；
-模拟器64位处理器：x86_64架构；
-真机32位处理器：armv7或armv7架构；
-真机64位处理器：arm64架构。</p>
-
-<p>而编译出哪种指令集的包，将由 <strong>Architectures</strong> 与 <strong>Valid Architectures</strong>（因此这个不能为空）的交集来确定。
-<strong>Build Active Architecture Only</strong> 指定是否只对当前连接设备所支持的指令集编译。</p>
-
-<h2>Git拉取远程分支</h2>
-
-<p><code>git checkout -b branch_name remote_branch_name</code></p>
-
-<h2>Today Extension 研究</h2>
-
-<ol>
-<li>self.view.frame是整个屏幕大小。</li>
-<li>滑走后，会重新创建。</li>
-</ol>
-
-
-<h2>NEVPNManager</h2>
-
-<p><code>#import &lt;NetworkExtension/NEVPNManager.h&gt;</code><p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2018/03/18/ioszhi-shi-xiao-ji-180312/'><a href="http://sxgfxm.github.io/blog/2018/03/18/ioszhi-shi-xiao-ji-180312/">http://sxgfxm.github.io/blog/2018/03/18/ioszhi-shi-xiao-ji-180312/</a></a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
-  </p></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-180129]]></title>
-    <link href="http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-180129/"/>
-    <updated>2018-03-12T15:28:49+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-180129</id>
-    <content type="html"><![CDATA[<h2>圆角动画与圆角定制</h2>
-
-<pre><code>  UIView *view = [[UIView alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
-  view.backgroundColor = [UIColor redColor];
-  view.layer.cornerRadius = 20;
-  //  圆角定制
-  view.layer.maskedCorners = kCALayerMinXMaxYCorner | kCALayerMaxXMaxYCorner;
-  [self.view addSubview:view];
-  //  圆角动画
-  [UIView animateWithDuration:0.5 animations:^{
-    view.layer.cornerRadius = 0;
-  }];
-</code></pre>
-
-<h2>NSMutableAttributedString crash</h2>
-
-<pre><code>- (void)testAttributedStringInitCrash
-{
-  NSString *nilStr = nil;
-  NSAttributedString *attributedStr = [[NSAttributedString alloc] initWithString:nilStr];
-}
-</code></pre>
-
-<p>Crash Log
-~~~
-Terminating app due to uncaught exception &lsquo;NSInvalidArgumentException&rsquo;, reason: &lsquo;NSConcreteAttributedString initWithString:: nil value&rsquo;
-~~~</p>
-
-<pre><code>- (void)testMutableAttributedStringInitCrash
-{
-  NSString *nilStr = nil;
-  NSMutableAttributedString *attributedStr = [[NSMutableAttributedString alloc] initWithString:nilStr];
-}
-</code></pre>
-
-<p>Crash Log
-~~~
-Terminating app due to uncaught exception &lsquo;NSInvalidArgumentException&rsquo;, reason: &lsquo;NSConcreteMutableAttributedString initWithString:: nil value&rsquo;
-~~~</p>
-
-<pre><code>- (void)testMutableAttributedStringAddAttributeCrash
-{
-  NSString *nonnullStr = @"str";
-  NSMutableAttributedString *attributedStr = [[NSMutableAttributedString alloc] initWithString:nonnullStr];
-
-  NSString *nilValue = nil;
-  [attributedStr addAttribute:NSAttachmentAttributeName value:nilValue range:NSMakeRange(0, 1)];
-}
-</code></pre>
-
-<p>Crash Log
-~~~
-Terminating app due to uncaught exception &lsquo;NSInvalidArgumentException&rsquo;, reason: &lsquo;NSConcreteMutableAttributedString addAttribute:value:range:: nil value&rsquo;
-~~~<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-180129/'><a href="http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-180129/">http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-180129/</a></a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
-  </p></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-171211]]></title>
-    <link href="http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-171211/"/>
-    <updated>2018-03-12T15:26:20+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-171211</id>
-    <content type="html"><![CDATA[<h2>layoutIfNeeded</h2>
-
-<p>布局其子视图。</p>
-
-<h2>UIViewContentModeScaleAspectFill</h2>
-
-<p>需要设置<code>clipsToBounds</code>为<code>YES</code>，否则图片显示可能会溢出。</p>
-
-<h2>UITableView Edit Cell</h2>
-
-<h2>UITableView Move Cell</h2>
-
-<h2>数据与界面同步<p class='post-footer'></h2>
-
-<p>  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-171211/'><a href="http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-171211/">http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-171211/</a></a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
-  </p></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-171204]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/12/11/ioszhi-shi-xiao-ji-171204/"/>
-    <updated>2017-12-11T16:49:04+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/12/11/ioszhi-shi-xiao-ji-171204</id>
-    <content type="html"><![CDATA[<h2>UIViewController Transition</h2>
-
-<p>自定义Present和Dismiss动画。</p>
-
-<!-- more -->
-
-
-<h3>设置待Present的UIViewController的transitioningDelegate</h3>
-
-<p><code>modalPresentationStyle</code>为<code>FullScreen</code>时，dismiss时会自动移除<code>fromView</code>。<br/>
-<code>modalPresentationStyle</code>为<code>Custom</code>时，dismiss时会需手动移除<code>fromView</code>。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@interface</span> <span class="nc">ViewController</span> : <span class="bp">UIViewController</span> <span class="o">&lt;</span><span class="bp">UIViewControllerTransitioningDelegate</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@implementation</span> <span class="nc">ViewController</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">init</span><span class="p">{</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nb">self</span> <span class="o">=</span> <span class="p">[</span><span class="nb">super</span> <span class="n">init</span><span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nb">self</span><span class="p">.</span><span class="n">modalPresentationStyle</span> <span class="o">=</span> <span class="n">UIModalPresentationOverFullScreen</span><span class="p">;</span>
-</span><span class='line'>    <span class="nb">self</span><span class="p">.</span><span class="n">transitioningDelegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="k">return</span> <span class="nb">self</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="cp">#pragma mark - UIViewControllerTransitioningDelegate</span>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="bp">UIViewControllerAnimatedTransitioning</span><span class="o">&gt;</span><span class="p">)</span><span class="nf">animationControllerForPresentedController:</span><span class="p">(</span><span class="bp">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">presented</span>
-</span><span class='line'>                                                                  <span class="nf">presentingController:</span><span class="p">(</span><span class="bp">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">presenting</span>
-</span><span class='line'>                                                                      <span class="nf">sourceController:</span><span class="p">(</span><span class="bp">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">source</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">return</span> <span class="p">[</span><span class="n">PresentAnimator</span> <span class="n">new</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="bp">UIViewControllerAnimatedTransitioning</span><span class="o">&gt;</span><span class="p">)</span><span class="nf">animationControllerForDismissedController:</span><span class="p">(</span><span class="bp">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">dismissed</span><span class="p">{</span>
-</span><span class='line'>  <span class="k">return</span> <span class="p">[</span><span class="n">DismissAnimator</span> <span class="n">new</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>创建PresentAnimator</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@interface</span> <span class="nc">PresentAnimator</span> : <span class="bp">NSObject</span> <span class="o">&lt;</span><span class="bp">UIViewControllerAnimatedTransitioning</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@implementation</span> <span class="nc">PresentAnimator</span>
-</span><span class='line'>
-</span><span class='line'><span class="cp">#pragma mark - UIViewControllerContextTransitioning</span>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">animateTransition:</span><span class="p">(</span><span class="n">nonnull</span> <span class="kt">id</span><span class="o">&lt;</span><span class="bp">UIViewControllerContextTransitioning</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">transitionContext</span> <span class="p">{</span>
-</span><span class='line'>  <span class="c1">//  from -&gt; to</span>
-</span><span class='line'>  <span class="bp">UIViewController</span> <span class="o">*</span><span class="n">fromViewController</span> <span class="o">=</span> <span class="p">[</span><span class="n">transitionContext</span> <span class="nl">viewControllerForKey</span><span class="p">:</span><span class="n">UITransitionContextFromViewControllerKey</span><span class="p">];</span>
-</span><span class='line'>  <span class="bp">UIViewController</span> <span class="o">*</span><span class="n">toViewController</span> <span class="o">=</span> <span class="p">[</span><span class="n">transitionContext</span> <span class="nl">viewControllerForKey</span><span class="p">:</span><span class="n">UITransitionContextToViewControllerKey</span><span class="p">];</span>
-</span><span class='line'>  <span class="c1">//  contrainer</span>
-</span><span class='line'>  <span class="bp">UIView</span> <span class="o">*</span><span class="n">containerView</span> <span class="o">=</span> <span class="n">transitionContext</span><span class="p">.</span><span class="n">containerView</span><span class="p">;</span>
-</span><span class='line'>  <span class="c1">//  from -&gt; to</span>
-</span><span class='line'>  <span class="bp">UIView</span> <span class="o">*</span><span class="n">fromView</span> <span class="o">=</span> <span class="p">[</span><span class="n">transitionContext</span> <span class="nl">viewForKey</span><span class="p">:</span><span class="n">UITransitionContextFromViewKey</span><span class="p">];</span>
-</span><span class='line'>  <span class="bp">UIView</span> <span class="o">*</span><span class="n">toView</span> <span class="o">=</span> <span class="p">[</span><span class="n">transitionContext</span> <span class="nl">viewForKey</span><span class="p">:</span><span class="n">UITransitionContextToViewKey</span><span class="p">];</span>
-</span><span class='line'>  <span class="c1">//  add</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">containerView</span> <span class="nl">addSubview</span><span class="p">:</span><span class="n">toView</span><span class="p">];</span>
-</span><span class='line'>  <span class="c1">//  animation</span>
-</span><span class='line'>  <span class="n">toView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">toView</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="n">fromView</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">CGRectGetMaxY</span><span class="p">(</span><span class="n">fromView</span><span class="p">.</span><span class="n">frame</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">fromView</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">,</span> <span class="n">fromView</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:[</span><span class="nb">self</span> <span class="nl">transitionDuration</span><span class="p">:</span><span class="n">transitionContext</span><span class="p">]</span> <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
-</span><span class='line'>    <span class="n">toView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">toView</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="p">[</span><span class="n">transitionContext</span> <span class="nl">finalFrameForViewController</span><span class="p">:</span><span class="n">toViewController</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">}</span> <span class="nl">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">finished</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">transitionContext</span> <span class="nl">completeTransition</span><span class="p">:</span><span class="o">!</span><span class="p">[</span><span class="n">transitionContext</span> <span class="n">transitionWasCancelled</span><span class="p">]];</span>
-</span><span class='line'>  <span class="p">}];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="n">NSTimeInterval</span><span class="p">)</span><span class="nf">transitionDuration:</span><span class="p">(</span><span class="n">nullable</span> <span class="kt">id</span><span class="o">&lt;</span><span class="bp">UIViewControllerContextTransitioning</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">transitionContext</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">return</span> <span class="mf">0.25</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>创建DismissAnimator</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@interface</span> <span class="nc">DismissAnimator</span> : <span class="bp">NSObject</span> <span class="o">&lt;</span><span class="bp">UIViewControllerAnimatedTransitioning</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@implementation</span> <span class="nc">DismissAnimator</span>
-</span><span class='line'>
-</span><span class='line'><span class="cp">#pragma mark - UIViewControllerContextTransitioning</span>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">animateTransition:</span><span class="p">(</span><span class="n">nonnull</span> <span class="kt">id</span><span class="o">&lt;</span><span class="bp">UIViewControllerContextTransitioning</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">transitionContext</span> <span class="p">{</span>
-</span><span class='line'>  <span class="c1">//  from -&gt; to</span>
-</span><span class='line'>  <span class="bp">UIView</span> <span class="o">*</span><span class="n">fromView</span> <span class="o">=</span> <span class="p">[</span><span class="n">transitionContext</span> <span class="nl">viewForKey</span><span class="p">:</span><span class="n">UITransitionContextFromViewKey</span><span class="p">];</span>
-</span><span class='line'>  <span class="c1">//  animation</span>
-</span><span class='line'>  <span class="n">fromView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:[</span><span class="nb">self</span> <span class="nl">transitionDuration</span><span class="p">:</span><span class="n">transitionContext</span><span class="p">]</span> <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
-</span><span class='line'>    <span class="n">fromView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span> <span class="nl">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">finished</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">transitionContext</span> <span class="nl">completeTransition</span><span class="p">:</span><span class="o">!</span><span class="p">[</span><span class="n">transitionContext</span> <span class="n">transitionWasCancelled</span><span class="p">]];</span>
-</span><span class='line'>  <span class="p">}];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="n">NSTimeInterval</span><span class="p">)</span><span class="nf">transitionDuration:</span><span class="p">(</span><span class="n">nullable</span> <span class="kt">id</span><span class="o">&lt;</span><span class="bp">UIViewControllerContextTransitioning</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">transitionContext</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">return</span> <span class="mf">0.25</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/12/11/ioszhi-shi-xiao-ji-171204/'>http://sxgfxm.github.io/blog/2017/12/11/ioszhi-shi-xiao-ji-171204/</a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-171127]]></title>
-    <link href="http://sxgfxm.github.io/blog/2017/12/02/ioszhi-shi-xiao-ji-171127/"/>
-    <updated>2017-12-02T18:08:07+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2017/12/02/ioszhi-shi-xiao-ji-171127</id>
-    <content type="html"><![CDATA[<h2>ContentInset</h2>
-
-<p>内容偏移，可用于下拉刷新调整界面位置。</p>
-
-<h2>嵌套UINavigationController的UIViewController设置preferredStatusBarStyle无效</h2>
-
-<p>如果<code>UIViewController</code>有<code>UINavigationController</code>，则会先调<code>UINavigationController</code>的<code>childViewControllerForStatusBarStyle</code>方法，该方法默认返回nil，所以子<code>UIViewController</code>设置的<code>preferredStatusBarStyle</code>无效。<br/>
-解决办法，继承<code>UINavigationController</code>，并重写<code>childViewControllerForStatusBarStyle</code>方法：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nf">childViewControllerForStatusBarStyle</span><span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nb">self</span><span class="p">.</span><span class="n">topViewController</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<!-- more -->
-
-
-<h2>Present可Push的ViewController</h2>
-
-<p>需要在present之前用<code>UINavigationController</code>包装一下待present的<code>UIViewController</code>。</p>
-
-<h2>UITableView insert or delete or move cell</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="cp">#pragma mark - Edit</span>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">tableView:</span><span class="p">(</span><span class="bp">UITableView</span> <span class="o">*</span><span class="p">)</span><span class="nv">tableView</span> <span class="nf">canEditRowAtIndexPath:</span><span class="p">(</span><span class="bp">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">indexPath</span><span class="p">{</span>
-</span><span class='line'>  <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="n">UITableViewCellEditingStyle</span><span class="p">)</span><span class="nf">tableView:</span><span class="p">(</span><span class="bp">UITableView</span> <span class="o">*</span><span class="p">)</span><span class="nv">tableView</span> <span class="nf">editingStyleForRowAtIndexPath:</span><span class="p">(</span><span class="bp">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">indexPath</span><span class="p">{</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">indexPath</span><span class="p">.</span><span class="n">section</span> <span class="o">?</span> <span class="nl">UITableViewCellEditingStyleInsert</span> <span class="p">:</span> <span class="n">UITableViewCellEditingStyleDelete</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">tableView:</span><span class="p">(</span><span class="bp">UITableView</span> <span class="o">*</span><span class="p">)</span><span class="nv">tableView</span> <span class="nf">commitEditingStyle:</span><span class="p">(</span><span class="n">UITableViewCellEditingStyle</span><span class="p">)</span><span class="nv">editingStyle</span> <span class="nf">forRowAtIndexPath:</span><span class="p">(</span><span class="bp">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">indexPath</span><span class="p">{</span>
-</span><span class='line'>  <span class="k">switch</span> <span class="p">(</span><span class="n">editingStyle</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">case</span> <span class="nl">UITableViewCellEditingStyleDelete</span><span class="p">:{</span>
-</span><span class='line'>      <span class="bp">NSString</span> <span class="o">*</span><span class="n">item</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">selectCategoies</span><span class="p">[</span><span class="n">indexPath</span><span class="p">.</span><span class="n">row</span><span class="p">];</span>
-</span><span class='line'>      <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">selectCategoies</span> <span class="nl">removeObject</span><span class="p">:</span><span class="n">item</span><span class="p">];</span>
-</span><span class='line'>      <span class="p">[</span><span class="n">tableView</span> <span class="nl">deleteRowsAtIndexPaths</span><span class="p">:</span><span class="l">@[</span><span class="n">indexPath</span><span class="l">]</span> <span class="nl">withRowAnimation</span><span class="p">:</span><span class="n">UITableViewRowAnimationFade</span><span class="p">];</span>
-</span><span class='line'>      <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">unselectCategoies</span> <span class="nl">insertObject</span><span class="p">:</span><span class="n">item</span> <span class="nl">atIndex</span><span class="p">:</span><span class="mi">0</span><span class="p">];</span>
-</span><span class='line'>      <span class="p">[</span><span class="n">tableView</span> <span class="nl">insertRowsAtIndexPaths</span><span class="p">:</span><span class="l">@[</span><span class="p">[</span><span class="bp">NSIndexPath</span> <span class="nl">indexPathForRow</span><span class="p">:</span><span class="mi">0</span> <span class="nl">inSection</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span><span class="l">]</span> <span class="nl">withRowAnimation</span><span class="p">:</span><span class="n">UITableViewRowAnimationFade</span><span class="p">];</span>
-</span><span class='line'>      <span class="k">break</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">case</span> <span class="nl">UITableViewCellEditingStyleInsert</span><span class="p">:{</span>
-</span><span class='line'>      <span class="bp">NSString</span> <span class="o">*</span><span class="n">item</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">unselectCategoies</span><span class="p">[</span><span class="n">indexPath</span><span class="p">.</span><span class="n">row</span><span class="p">];</span>
-</span><span class='line'>      <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">unselectCategoies</span> <span class="nl">removeObject</span><span class="p">:</span><span class="n">item</span><span class="p">];</span>
-</span><span class='line'>      <span class="p">[</span><span class="n">tableView</span> <span class="nl">deleteRowsAtIndexPaths</span><span class="p">:</span><span class="l">@[</span><span class="n">indexPath</span><span class="l">]</span> <span class="nl">withRowAnimation</span><span class="p">:</span><span class="n">UITableViewRowAnimationFade</span><span class="p">];</span>
-</span><span class='line'>      <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">selectCategoies</span> <span class="nl">addObject</span><span class="p">:</span><span class="n">item</span><span class="p">];</span>
-</span><span class='line'>      <span class="p">[</span><span class="n">tableView</span> <span class="nl">insertRowsAtIndexPaths</span><span class="p">:</span><span class="l">@[</span><span class="p">[</span><span class="bp">NSIndexPath</span> <span class="nl">indexPathForRow</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">selectCategoies</span><span class="p">.</span><span class="n">count</span> <span class="o">-</span> <span class="mi">1</span> <span class="nl">inSection</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span><span class="l">]</span> <span class="nl">withRowAnimation</span><span class="p">:</span><span class="n">UITableViewRowAnimationFade</span><span class="p">];</span>
-</span><span class='line'>      <span class="k">break</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">case</span> <span class="nl">UITableViewCellEditingStyleNone</span><span class="p">:</span>
-</span><span class='line'>      <span class="k">break</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">self</span> <span class="n">uploadCategorySetting</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nf">tableView:</span><span class="p">(</span><span class="bp">UITableView</span> <span class="o">*</span><span class="p">)</span><span class="nv">tableView</span> <span class="nf">titleForDeleteConfirmationButtonForRowAtIndexPath:</span><span class="p">(</span><span class="bp">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">indexPath</span><span class="p">{</span>
-</span><span class='line'>  <span class="k">return</span> <span class="s">@&quot;删除&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="cp">#pragma mark - Move</span>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">tableView:</span><span class="p">(</span><span class="bp">UITableView</span> <span class="o">*</span><span class="p">)</span><span class="nv">tableView</span> <span class="nf">canMoveRowAtIndexPath:</span><span class="p">(</span><span class="bp">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">indexPath</span><span class="p">{</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">indexPath</span><span class="p">.</span><span class="n">section</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span><span class="k">else</span><span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nb">NO</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">tableView:</span><span class="p">(</span><span class="bp">UITableView</span> <span class="o">*</span><span class="p">)</span><span class="nv">tableView</span> <span class="nf">moveRowAtIndexPath:</span><span class="p">(</span><span class="bp">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">sourceIndexPath</span> <span class="nf">toIndexPath:</span><span class="p">(</span><span class="bp">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">destinationIndexPath</span><span class="p">{</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">selectCategoies</span> <span class="nl">exchangeObjectAtIndex</span><span class="p">:</span><span class="n">sourceIndexPath</span><span class="p">.</span><span class="n">row</span> <span class="nl">withObjectAtIndex</span><span class="p">:</span><span class="n">destinationIndexPath</span><span class="p">.</span><span class="n">row</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">tableView</span> <span class="nl">exchangeSubviewAtIndex</span><span class="p">:</span><span class="n">sourceIndexPath</span><span class="p">.</span><span class="n">row</span> <span class="nl">withSubviewAtIndex</span><span class="p">:</span><span class="n">destinationIndexPath</span><span class="p">.</span><span class="n">row</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">self</span> <span class="n">uploadCategorySetting</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>CLLocation逆向地理编码</h2>
-
-<p>逆向地理编码是一个异步操作，如需使用解析后的地址，需要在block回调时添加代码，而不是在<code>-locationManager:didUpdateLocations:</code>时添加代码。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">reverseGeocodeLocation:</span><span class="p">(</span><span class="bp">CLLocation</span> <span class="o">*</span><span class="p">)</span><span class="nv">location</span> <span class="p">{</span>
-</span><span class='line'>  <span class="c1">// 逆向地理编码</span>
-</span><span class='line'>  <span class="bp">CLGeocoder</span> <span class="o">*</span><span class="n">geocoder</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">CLGeocoder</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">geocoder</span> <span class="nl">reverseGeocodeLocation</span><span class="p">:</span><span class="n">location</span>
-</span><span class='line'>                 <span class="nl">completionHandler</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSArray</span> <span class="o">*</span><span class="n">placemarks</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>                   <span class="n">CLLocationCoordinate2D</span> <span class="n">coordinate</span> <span class="o">=</span> <span class="n">location</span><span class="p">.</span><span class="n">coordinate</span><span class="p">;</span>
-</span><span class='line'>                   <span class="c1">// 中国坐标转换</span>
-</span><span class='line'>                   <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">[</span><span class="n">TQLocationConverter</span> <span class="nl">isLocationOutOfChina</span><span class="p">:</span><span class="n">coordinate</span><span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>                     <span class="n">coordinate</span> <span class="o">=</span> <span class="p">[</span><span class="n">TQLocationConverter</span> <span class="nl">transformFromWGSToGCJ</span><span class="p">:</span><span class="n">coordinate</span><span class="p">];</span>
-</span><span class='line'>                     <span class="n">coordinate</span> <span class="o">=</span> <span class="p">[</span><span class="n">TQLocationConverter</span> <span class="nl">transformFromGCJToBaidu</span><span class="p">:</span><span class="n">coordinate</span><span class="p">];</span>
-</span><span class='line'>                   <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>                   <span class="k">if</span> <span class="p">(</span><span class="n">error</span> <span class="o">==</span> <span class="nb">nil</span> <span class="o">&amp;&amp;</span> <span class="p">[</span><span class="n">placemarks</span> <span class="n">count</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>                     <span class="bp">CLPlacemark</span> <span class="o">*</span><span class="n">placemark</span> <span class="o">=</span> <span class="p">[</span><span class="n">placemarks</span> <span class="nl">objectAtIndex</span><span class="p">:</span><span class="mi">0</span><span class="p">];</span>
-</span><span class='line'>                     <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">currentLocation</span> <span class="nl">setLocationInfoWithPlacemark</span><span class="p">:</span><span class="n">placemark</span>
-</span><span class='line'>                                                               <span class="nl">latitude</span><span class="p">:</span><span class="n">coordinate</span><span class="p">.</span><span class="n">latitude</span>
-</span><span class='line'>                                                              <span class="nl">longitude</span><span class="p">:</span><span class="n">coordinate</span><span class="p">.</span><span class="n">longitude</span><span class="p">];</span>
-</span><span class='line'>                   <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span><span class='line'>                     <span class="n">DDLogInfo</span><span class="p">(</span><span class="s">@&quot;No results were returned.&quot;</span><span class="p">);</span>
-</span><span class='line'>                     <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">currentLocation</span> <span class="nl">setLocationInfoWithPlacemark</span><span class="p">:</span><span class="nb">nil</span>
-</span><span class='line'>                                                               <span class="nl">latitude</span><span class="p">:</span><span class="n">coordinate</span><span class="p">.</span><span class="n">latitude</span>
-</span><span class='line'>                                                              <span class="nl">longitude</span><span class="p">:</span><span class="n">coordinate</span><span class="p">.</span><span class="n">longitude</span><span class="p">];</span>
-</span><span class='line'>                   <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>                   <span class="n">DDLogInfo</span><span class="p">(</span><span class="s">@&quot;获取逆向地理编码成功 : %@&quot;</span><span class="p">,</span> <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">currentLocation</span> <span class="n">commaSeparatedAddress</span><span class="p">]);</span>
-</span><span class='line'>                 <span class="p">}];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/12/02/ioszhi-shi-xiao-ji-171127/'>http://sxgfxm.github.io/blog/2017/12/02/ioszhi-shi-xiao-ji-171127/</a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
-
 ]]></content>
   </entry>
   
