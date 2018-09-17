@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2018-09-10T22:07:42+08:00</updated>
+  <updated>2018-09-17T20:43:35+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,30 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-180910]]></title>
+    <link href="http://sxgfxm.github.io/blog/2018/09/17/ioszhi-shi-xiao-ji-180910/"/>
+    <updated>2018-09-17T20:42:43+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2018/09/17/ioszhi-shi-xiao-ji-180910</id>
+    <content type="html"><![CDATA[<h2>Siri Kit</h2>
+
+<h3>Siri Kit作用</h3>
+
+<p>通过语音完成第三方应用功能，偏向于工具型操作。</p>
+
+<h3>实现机制</h3>
+
+<p><strong>Domain</strong>：业务领域；<br/>
+<strong>Intent</strong>：领域中的任务或指令；<br/>
+语音识别 &ndash;> Domain / Intent &ndash;> 下发到已注册的Extension进行处理。<br/>
+接近固定形式的表述更容易被识别。</p>
+
+<h3>集成</h3>
+
+<p>需要注意develop target系统版本问题。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-180903]]></title>
@@ -457,40 +481,6 @@ ARKit 提供了接口简单的高级 API，有一系列强大的功能，从 iOS
   [gradientLayer addAnimation:animation forKey:@"animation"];
 }
 </code></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-180806]]></title>
-    <link href="http://sxgfxm.github.io/blog/2018/08/13/ioszhi-shi-xiao-ji-180813/"/>
-    <updated>2018-08-13T14:46:12+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2018/08/13/ioszhi-shi-xiao-ji-180813</id>
-    <content type="html"><![CDATA[<h2>APP灰度发布</h2>
-
-<p>可以配置APP灰度发布。</p>
-
-<h2>Today Extension</h2>
-
-<h3>scroll is disabled</h3>
-
-<p>Adding scrolls into a widget, both vertical and horizontal, is not possible. Or more precisely, adding a scroll view is possible but scrolling won’t work. Horizontal scrolling gesture in a scroll view in the Today extension will be intercepted by the notification center which will cause scrolling from Today to the Notification center. Scrolling vertically a scroll view inside a Today extension will be interrupted by scrolling the Today’s View.<br/>
-<a href="https://www.toptal.com/ios/ios-8-app-extensions">A Tutorial on iOS 8 App Extensions</a></p>
-
-<h3>数据共享</h3>
-
-<p>需要在主工程的entitlements中添加APP groups</p>
-
-<h3>资源共享</h3>
-
-<p>在today extension target中 copy bundle resources</p>
-
-<h3>高度</h3>
-
-<p>折叠高度110，展开高度最大值限制。</p>
-
-<h2>Can&rsquo;t add self as subview</h2>
-
-<p>连续push两次会导致该问题。</p>
 ]]></content>
   </entry>
   
