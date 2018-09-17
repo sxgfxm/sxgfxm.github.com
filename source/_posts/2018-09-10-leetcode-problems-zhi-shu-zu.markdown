@@ -12,6 +12,180 @@ description: sxgfxm, 数组
 以下为 LeetCode 数组 相关问题解法记录。  
 <!-- more -->
 
+### [830. 较大分组的位置](https://leetcode-cn.com/problems/positions-of-large-groups/description/)
+问题分析：模拟，注意考虑边界情况。  
+代码：  
+```swift
+class Solution {
+    func largeGroupPositions(_ S: String) -> [[Int]] {
+        var result: [[Int]] = []
+        var left = 0, right = 0, count = 0
+        while left < S.count {
+            right = left + 1
+            count = 1
+            while right < S.count {
+                if S[S.index(S.startIndex, offsetBy: right)] == S[S.index(S.startIndex, offsetBy: left)] {
+                    count = count + 1
+                    right = right + 1
+                } else {
+                    if count >= 3 {
+                        result.append([left, right - 1])
+                    }
+                    break
+                }
+                if count >= 3 && right == S.count - 1{
+                    result.append([left, right])
+                }
+            }
+            left = right
+
+        }
+        return result
+    }
+}
+```
+启发：注意边界条件。  
+状态：优于25%的提交。
+
+### [904. 水果成篮](https://leetcode-cn.com/contest/weekly-contest-102/problems/fruit-into-baskets/)
+问题分析：最长连续子序列长度，且子序列不同个数最多为2。  
+代码：  
+```swift
+class Solution {
+    func totalFruit(_ tree: [Int]) -> Int {
+        var set = Set<Int>()
+        for i in tree {
+            set.insert(i)
+        }
+        if set.count <= 2 {
+            return tree.count
+        }
+        var maxLength = 0
+        for i in 0..<tree.count {
+            var set = Set<Int>()
+            set.insert(tree[i])
+            var count = 1
+            for j in (i+1)..<tree.count {
+                if set.count == 1 {
+                    set.insert(tree[j])
+                    count = count + 1
+                } else if set.contains(tree[j]){
+                    count = count + 1
+                } else {
+                    break
+                }
+            }
+            if maxLength < count {
+                maxLength = count
+            }
+        }
+        return maxLength
+    }
+}
+```
+启发：**不是最佳解法**。
+
+### [905. 按奇偶校验排序数组](https://leetcode-cn.com/contest/weekly-contest-102/problems/sort-array-by-parity/)
+问题分析：模拟。  
+代码：  
+```swift
+class Solution {
+    func sortArrayByParity(_ A: [Int]) -> [Int] {
+        var nums: [Int] = []
+        for i in A {
+            if i % 2 == 0 {
+                nums.append(i)
+            }
+        }
+        for i in A {
+            if i % 2 != 0 {
+                nums.append(i)
+            }
+        }
+        return nums
+    }
+}
+```
+
+### [35. 搜索插入位置](https://leetcode-cn.com/problems/search-insert-position/description/)
+问题分析：二分查找。  
+方法一：顺序查找，时间复杂度O(N)。  
+代码：  
+```swift
+class Solution {
+    func searchInsert(_ nums: [Int], _ target: Int) -> Int {
+        for (index, value) in nums.enumerated() {
+            if value >= target {
+                return index
+            }
+        }   
+        return nums.count
+    }
+}
+```
+方法二：二分查找，时间复杂度O(logN)。  
+代码：  
+```
+
+```
+启发：二分查找。  
+状态：；优于40%提交。
+
+### [697. 数组的度](https://leetcode-cn.com/problems/degree-of-an-array/description/)
+问题分析：//  问题分析：先找出数组的度，然后前后查找对应的值的位置。  
+代码：  
+```swift
+class Solution {
+    func findShortestSubArray(_ nums: [Int]) -> Int {
+        var hash: [Int:Int] = [:]
+        var maxCount = 0
+        for i in nums {
+            if hash[i] == nil {
+                hash[i] = 1
+            } else {
+                hash[i]! = hash[i]! + 1
+            }
+            if maxCount < hash[i]! {
+                maxCount = hash[i]!
+            }
+        }
+        if maxCount == 1 {
+            return 1
+        }
+        var dus:[Int] = []
+        for (key, value) in hash{
+            if value == maxCount {
+                dus.append(key)
+            }
+        }
+        var minLength = 50000
+        for maxValue in dus {
+            var left = 0
+            var right = nums.count - 1
+            for (index, value) in nums.enumerated() {
+                if value == maxValue {
+                    left = index
+                    break
+                }
+            }
+            for (index, value) in nums.enumerated().reversed() {
+                if value == maxValue {
+                    right = index
+                    break
+                }
+            }
+            if minLength > right - left + 1 {
+                minLength = right - left + 1
+            }
+        }
+        return minLength
+
+    }
+}
+```
+启发：审清题目。  
+状态：优于80%的提交。
+
 ### [167. 两数之和 II - 输入有序数组](https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted/description/)
 问题分析：因为已按升序排序，只需前后两个指针移动即可。  
 ```swift

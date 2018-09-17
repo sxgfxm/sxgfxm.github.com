@@ -12,6 +12,42 @@ description: sxgfxm, 深度优先搜索
 以下为 LeetCode 深度优先搜索 相关问题解法记录。  
 <!-- more -->
 
+### [717. 1比特与2比特字符](https://leetcode-cn.com/problems/1-bit-and-2-bit-characters/description/)
+问题分析：深度优先搜索，按状态转移搜索。  
+代码：  
+```swift
+class Solution {
+    func isOneBitCharacter(_ bits: [Int]) -> Bool {
+        return dfs(bits, 0)
+    }
+
+    func dfs(_ bits:[Int], _ index: Int) -> Bool {
+        if index == bits.count - 1 && bits[index] == 0 {
+            return true
+        }
+        if index >= bits.count {
+            return false
+        }
+        if index < bits.count {
+            if bits[index] == 0{
+                return dfs(bits, index + 1)
+            }
+            if index + 1 < bits.count {
+                if bits[index] == 1 && bits[index + 1] == 0 {
+                    return dfs(bits, index + 2)
+                }
+                if bits[index] == 1 && bits[index + 1] == 1 {
+                    return dfs(bits, index + 2)
+                }
+            }
+        }
+        return false   
+    }
+}
+```
+启发：按状态转移搜索。  
+状态：优于100%的提交。  
+
 ### [695. 岛屿的最大面积](https://leetcode-cn.com/problems/max-area-of-island/description/)
 问题分析：非回溯4个方向求和。  
 代码：  

@@ -12,6 +12,31 @@ description: sxgfxm, 哈希
 以下为 LeetCode 哈希 相关问题解法记录。  
 <!-- more -->
 
+### [448. 找到所有数组中消失的数字](https://leetcode-cn.com/problems/find-all-numbers-disappeared-in-an-array/description/)
+问题分析：**暂时未找到最优解法**。  
+代码：  
+```swift
+class Solution {
+    func findDisappearedNumbers(_ nums: [Int]) -> [Int] {
+        var hash: [Int] = []
+        for _ in 0..<nums.count {
+            hash.append(0)
+        }
+        for i in nums {
+            hash[i - 1] = 1
+        }
+        var result: [Int] = []
+        for (index, value) in hash.enumerated() {
+            if value == 0 {
+                result.append(index + 1)
+            }
+        }
+        return result
+    }
+}
+```
+状态：优于40%的提交。
+
 ### [1. 两数之和](https://leetcode-cn.com/problems/two-sum/description/)
 问题分析：该问题可转化为给定一个数，查找与另一个数的差是否存在，即查找问题。  
 方法一：每次遍历查找，时间复杂度O(n^2)。  
