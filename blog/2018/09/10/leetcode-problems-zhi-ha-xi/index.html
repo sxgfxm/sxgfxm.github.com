@@ -128,6 +128,52 @@ $(document).bind('DOMNodeInserted', function(event) {
 <!-- more -->
 
 
+<h3><a href="https://leetcode-cn.com/problems/find-all-numbers-disappeared-in-an-array/description/">448. 找到所有数组中消失的数字</a></h3>
+
+<p>问题分析：<strong>暂时未找到最优解法</strong>。<br/>
+代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">findDisappearedNumbers</span><span class="p">(</span><span class="n">_</span> <span class="nl">nums</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="nl">hash</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">_</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">nums</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">hash</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">nums</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">hash</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">var</span> <span class="nl">result</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="k">in</span> <span class="n">hash</span><span class="p">.</span><span class="n">enumerated</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">result</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">result</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>状态：优于40%的提交。</p>
+
 <h3><a href="https://leetcode-cn.com/problems/two-sum/description/">1. 两数之和</a></h3>
 
 <p>问题分析：该问题可转化为给定一个数，查找与另一个数的差是否存在，即查找问题。<br/>
@@ -236,12 +282,15 @@ $(document).bind('DOMNodeInserted', function(event) {
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>思考：如何用常数额外空间O(n)时间复杂度解决？<p class='post-footer'>
+<p>思考：如何用常数额外空间O(n)时间复杂度解决？</p>
+
+<p class='post-footer'>
   原始地址：
-  <a href='http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-ha-xi/'><a href="http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-ha-xi/">http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-ha-xi/</a></a><br/>
+  <a href='http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-ha-xi/'>http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-ha-xi/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
-  </p></p>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
+  </p>
+
 </div>
 
 
@@ -314,7 +363,7 @@ $(document).bind('DOMNodeInserted', function(event) {
  <ul id="categories">
    <li class='category'><a href='/blog/categories/componentkit/'>componentkit (1)</a></li>
 <li class='category'><a href='/blog/categories/ios/'>ios (71)</a></li>
-<li class='category'><a href='/blog/categories/leetcode/'>leetcode (6)</a></li>
+<li class='category'><a href='/blog/categories/leetcode/'>leetcode (7)</a></li>
 <li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
 <li class='category'><a href='/blog/categories/reactiveobjc/'>reactiveobjc (2)</a></li>
@@ -324,6 +373,10 @@ $(document).bind('DOMNodeInserted', function(event) {
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2018/09/17/leetcode-problems-lian-biao/">LeetCode Problems 链表</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2018/09/17/ioszhi-shi-xiao-ji-180910/">iOS知识小集-180910</a>
@@ -339,10 +392,6 @@ $(document).bind('DOMNodeInserted', function(event) {
     
       <li class="post">
         <a href="/blog/2018/09/10/leetcode-problems-zhi-wei-yun-suan/">LeetCode Problems 之 位运算</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/09/10/leetcode-problems-zhi-pai-xu/">LeetCode Problems 之 排序</a>
       </li>
     
   </ul>

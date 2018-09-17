@@ -105,6 +105,53 @@ $(document).bind('DOMNodeInserted', function(event) {
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2017/06/26/ioszhi-shi-xiao-ji-170619/">iOS知识小集-170619</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-06-26T11:57:15+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>11:57 am</span></time>
+        
+           | <a href="/blog/2017/06/26/ioszhi-shi-xiao-ji-170619/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/06/26/ioszhi-shi-xiao-ji-170619/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Enable file sharing</h2>
+
+<p>Application Supports iTunes file sharing = YES</p>
+
+<h2>Image Slicing</h2>
+
+<p>使用Xcode Image Slicing图片需为标准的PNG图片。</p>
+
+<h2>TabBar</h2>
+
+<p>高度49</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/06/26/ioszhi-shi-xiao-ji-170619/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2017/06/16/ioszhi-shi-xiao-ji-170612/">iOS知识小集-170612</a></h1>
     
     
@@ -469,95 +516,6 @@ cross size。</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170417/">iOS知识小集-170417</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2017-05-17T16:33:08+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:33 pm</span></time>
-        
-           | <a href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170417/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170417/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>ComponentKit Tutorial - Component</h1>
-
-<h2>CKComponent</h2>
-
-<p>A component is an immutable object that specifies how to configure a view, loosely inspired by React.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">newWithView:</span><span class="p">(</span><span class="k">const</span> <span class="n">CKComponentViewConfiguration</span> <span class="o">&amp;</span><span class="p">)</span><span class="nv">view</span>
-</span><span class='line'>                       <span class="nf">size:</span><span class="p">(</span><span class="k">const</span> <span class="n">CKComponentSize</span> <span class="o">&amp;</span><span class="p">)</span><span class="nv">size</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Example:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">CKComponent</span> <span class="o">*</span><span class="n">component</span> <span class="o">=</span> <span class="p">[</span><span class="n">CKComponent</span>
-</span><span class='line'>    <span class="nl">newWithView</span><span class="p">:{</span>
-</span><span class='line'>        <span class="p">[</span><span class="bp">UIView</span> <span class="k">class</span><span class="p">],</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="p">{</span><span class="k">@selector</span><span class="p">(</span><span class="nl">setBackgroundColor</span><span class="p">:),[</span><span class="bp">UIColor</span> <span class="n">redColor</span><span class="p">]},</span>
-</span><span class='line'>            <span class="p">{</span><span class="k">@selector</span><span class="p">(</span><span class="nl">setUserInteractionEnabled</span><span class="p">:),</span> <span class="m">@YES</span><span class="p">},</span>
-</span><span class='line'>            <span class="p">{</span><span class="n">CKComponentTapGestureAttribute</span><span class="p">(</span><span class="k">@selector</span><span class="p">(</span><span class="n">didTap</span><span class="p">))},</span>
-</span><span class='line'>            <span class="p">{</span><span class="n">CKComponentViewAttribute</span><span class="o">::</span><span class="n">LayerAttribute</span><span class="p">(</span><span class="k">@selector</span><span class="p">(</span><span class="nl">setCornerRadius</span><span class="p">:)),</span> <span class="mf">@10.0</span><span class="p">}</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="nl">size</span><span class="p">:{</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">}];</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">didTap</span><span class="p">{</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">self</span> <span class="nl">updateState</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSNumber</span> <span class="o">*</span><span class="n">oldState</span><span class="p">){</span>
-</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="n">oldState</span> <span class="n">boolValue</span><span class="p">]</span> <span class="o">?</span> <span class="m">@NO</span> <span class="o">:</span> <span class="m">@YES</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span> <span class="nl">mode</span><span class="p">:</span><span class="n">CKUpdateModeSynchronous</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170417/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/7">&larr; Older</a>
@@ -586,7 +544,7 @@ cross size。</p>
  <ul id="categories">
    <li class='category'><a href='/blog/categories/componentkit/'>componentkit (1)</a></li>
 <li class='category'><a href='/blog/categories/ios/'>ios (71)</a></li>
-<li class='category'><a href='/blog/categories/leetcode/'>leetcode (6)</a></li>
+<li class='category'><a href='/blog/categories/leetcode/'>leetcode (7)</a></li>
 <li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
 <li class='category'><a href='/blog/categories/reactiveobjc/'>reactiveobjc (2)</a></li>
@@ -596,6 +554,10 @@ cross size。</p>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2018/09/17/leetcode-problems-lian-biao/">LeetCode Problems 链表</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2018/09/17/ioszhi-shi-xiao-ji-180910/">iOS知识小集-180910</a>
@@ -611,10 +573,6 @@ cross size。</p>
     
       <li class="post">
         <a href="/blog/2018/09/10/leetcode-problems-zhi-wei-yun-suan/">LeetCode Problems 之 位运算</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/09/10/leetcode-problems-zhi-pai-xu/">LeetCode Problems 之 排序</a>
       </li>
     
   </ul>

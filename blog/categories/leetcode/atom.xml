@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Leetcode | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/leetcode/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2018-09-17T20:43:35+08:00</updated>
+  <updated>2018-09-17T21:54:56+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,42 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[LeetCode Problems 链表]]></title>
+    <link href="http://sxgfxm.github.io/blog/2018/09/17/leetcode-problems-lian-biao/"/>
+    <updated>2018-09-17T21:17:45+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2018/09/17/leetcode-problems-lian-biao</id>
+    <content type="html"><![CDATA[<h2>链表</h2>
+
+<p>以下为 LeetCode 链表 相关问题解法记录。</p>
+
+<!-- more -->
+
+
+<h3><a href="https://leetcode-cn.com/problems/merge-sorted-array/description/">88. 合并两个有序数组</a></h3>
+
+<p>问题分析：链表。<br/>
+代码：<br/>
+<code>swift
+class Solution {
+    func merge(_ nums1: inout [Int], _ m: Int, _ nums2: [Int], _ n: Int) {
+        var nums: [Int] = []
+        for i in 0..&lt;m {
+            nums.append(nums1[i])
+        }
+        for i in 0..&lt;n {
+            nums.append(nums2[i])
+        }
+        nums1 = nums.sorted{$0 &lt; $1}
+        print(nums1)
+    }
+}
+</code>
+启发：需要用 <strong>链表</strong> 实现。<br/>
+状态：优于56%的提交。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[LeetCode Problems 之 深度优先搜索]]></title>
@@ -24,6 +60,74 @@
 
 <!-- more -->
 
+
+<h3><a href="https://leetcode-cn.com/problems/1-bit-and-2-bit-characters/description/">717. 1比特与2比特字符</a></h3>
+
+<p>问题分析：深度优先搜索，按状态转移搜索。<br/>
+代码：<br/>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">isOneBitCharacter</span><span class="p">(</span><span class="n">_</span> <span class="nl">bits</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">dfs</span><span class="p">(</span><span class="n">bits</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">func</span> <span class="n">dfs</span><span class="p">(</span><span class="n">_</span> <span class="nl">bits</span><span class="p">:[</span><span class="n">Int</span><span class="p">],</span> <span class="n">_</span> <span class="nl">index</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">Bool</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">index</span> <span class="o">==</span> <span class="n">bits</span><span class="p">.</span><span class="n">count</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">bits</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nb">true</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">index</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">=</span> <span class="n">bits</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nb">false</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">index</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="n">bits</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">bits</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">dfs</span><span class="p">(</span><span class="n">bits</span><span class="p">,</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="n">bits</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">bits</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">bits</span><span class="p">[</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">return</span> <span class="n">dfs</span><span class="p">(</span><span class="n">bits</span><span class="p">,</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">bits</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">bits</span><span class="p">[</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">return</span> <span class="n">dfs</span><span class="p">(</span><span class="n">bits</span><span class="p">,</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">false</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+启发：按状态转移搜索。<br/>
+状态：优于100%的提交。</p>
 
 <h3><a href="https://leetcode-cn.com/problems/max-area-of-island/description/">695. 岛屿的最大面积</a></h3>
 
@@ -306,94 +410,6 @@ class Solution {
 }
 </code>
 积累：<code>array.sort()</code>排序自身，<code>array.sorted()</code>返回排序后数组。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[LeetCode Problems 之 哈希]]></title>
-    <link href="http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-ha-xi/"/>
-    <updated>2018-09-10T21:51:54+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-ha-xi</id>
-    <content type="html"><![CDATA[<h2>哈希</h2>
-
-<p>以下为 LeetCode 哈希 相关问题解法记录。</p>
-
-<!-- more -->
-
-
-<h3><a href="https://leetcode-cn.com/problems/two-sum/description/">1. 两数之和</a></h3>
-
-<p>问题分析：该问题可转化为给定一个数，查找与另一个数的差是否存在，即查找问题。<br/>
-方法一：每次遍历查找，时间复杂度O(n<sup>2</sup>)。<br/>
-方法二：将数组元素i标记为 <code>map[num[i]] = i</code> ，通过下标索引，将查找复杂度由 O(n) 将为 O(1) ，空间复杂度为 O(n) 。<br/>
-方法三：边建立哈希表边检查是否存在对应元素，因为是成对的，开始没有找到，之后也会找到，一遍循环搞定。<br/>
-代码：<br/>
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">func</span> <span class="n">twoSum</span><span class="p">(</span><span class="n">_</span> <span class="nl">nums</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">],</span> <span class="n">_</span> <span class="nl">target</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="p">}</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-启发：需要对 <strong>查找</strong> 常用方法进行加深学习。</p>
-
-<h3><a href="https://leetcode-cn.com/problems/contains-duplicate/description/">217. 存在重复元素</a></h3>
-
-<p>问题分析：哈希。<br/>
-代码：<br/>
-<code>
-class Solution {
-    func containsDuplicate(_ nums: [Int]) -&gt; Bool {
-        var dict: [Int : Int] = [:]
-        for i in nums {
-            if dict[i] == nil {
-                dict[i] = 1
-            } else {
-                dict[i]! = dict[i]! + 1
-            }
-            if dict[i]! &gt; 1 {
-                return true
-            }
-        }
-        return false
-    }
-}
-</code>
-启发：字典取值需要判断是否为空。<br/>
-状态：优于52%的提交。</p>
-
-<h3><a href="https://leetcode-cn.com/problems/missing-number/description/">268. 缺失数字</a></h3>
-
-<p>问题分析：哈希表。<br/>
-代码：<br/>
-<code>
-class Solution {
-    func missingNumber(_ nums: [Int]) -&gt; Int {
-        var hash: [Int] = []
-        for i in 0...nums.count {
-            hash.append(0)
-        }
-        for i in nums {
-            hash[i] = 1
-        }
-        for (i,value) in hash.enumerated() {
-            if value == 0 {
-                return i
-            }
-        }
-        return 0
-    }
-}
-</code>
-思考：如何用常数额外空间O(n)时间复杂度解决？</p>
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2018-09-17T20:43:35+08:00</updated>
+  <updated>2018-09-17T21:54:56+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,65 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[LeetCode Problems 链表]]></title>
+    <link href="http://sxgfxm.github.io/blog/2018/09/17/leetcode-problems-lian-biao/"/>
+    <updated>2018-09-17T21:17:45+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2018/09/17/leetcode-problems-lian-biao</id>
+    <content type="html"><![CDATA[<h2>链表</h2>
+
+<p>以下为 LeetCode 链表 相关问题解法记录。</p>
+
+<!-- more -->
+
+
+<h3><a href="https://leetcode-cn.com/problems/merge-sorted-array/description/">88. 合并两个有序数组</a></h3>
+
+<p>问题分析：链表。<br/>
+代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">merge</span><span class="p">(</span><span class="n">_</span> <span class="nl">nums1</span><span class="p">:</span> <span class="k">inout</span> <span class="p">[</span><span class="n">Int</span><span class="p">],</span> <span class="n">_</span> <span class="nl">m</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="n">_</span> <span class="nl">nums2</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">],</span> <span class="n">_</span> <span class="nl">n</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="nl">nums</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">m</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">nums</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">nums1</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">n</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">nums</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">nums2</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="n">nums1</span> <span class="o">=</span> <span class="n">nums</span><span class="p">.</span><span class="n">sorted</span><span class="p">{</span><span class="err">$</span><span class="mi">0</span> <span class="o">&lt;</span> <span class="err">$</span><span class="mi">1</span><span class="p">}</span>
+</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="n">nums1</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>启发：需要用 <strong>链表</strong> 实现。<br/>
+状态：优于56%的提交。</p>
+
+<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2018/09/17/leetcode-problems-lian-biao/'>http://sxgfxm.github.io/blog/2018/09/17/leetcode-problems-lian-biao/</a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
+  </p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-180910]]></title>
@@ -53,6 +112,73 @@
 
 <!-- more -->
 
+
+<h3><a href="https://leetcode-cn.com/problems/1-bit-and-2-bit-characters/description/">717. 1比特与2比特字符</a></h3>
+
+<p>问题分析：深度优先搜索，按状态转移搜索。<br/>
+代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">isOneBitCharacter</span><span class="p">(</span><span class="n">_</span> <span class="nl">bits</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">dfs</span><span class="p">(</span><span class="n">bits</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">func</span> <span class="n">dfs</span><span class="p">(</span><span class="n">_</span> <span class="nl">bits</span><span class="p">:[</span><span class="n">Int</span><span class="p">],</span> <span class="n">_</span> <span class="nl">index</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">index</span> <span class="o">==</span> <span class="n">bits</span><span class="p">.</span><span class="n">count</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">bits</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nb">true</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">index</span> <span class="o">&gt;=</span> <span class="n">bits</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nb">false</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="n">bits</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">bits</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">{</span>
+</span><span class='line'>                <span class="k">return</span> <span class="n">dfs</span><span class="p">(</span><span class="n">bits</span><span class="p">,</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="n">bits</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">if</span> <span class="n">bits</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">bits</span><span class="p">[</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="k">return</span> <span class="n">dfs</span><span class="p">(</span><span class="n">bits</span><span class="p">,</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>                <span class="k">if</span> <span class="n">bits</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">bits</span><span class="p">[</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="k">return</span> <span class="n">dfs</span><span class="p">(</span><span class="n">bits</span><span class="p">,</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nb">false</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>启发：按状态转移搜索。<br/>
+状态：优于100%的提交。</p>
 
 <h3><a href="https://leetcode-cn.com/problems/max-area-of-island/description/">695. 岛屿的最大面积</a></h3>
 
@@ -245,12 +371,15 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>启发：通过数学公式简单的变化，将原问题转化为可直接计算的问题，降低复杂度。<p class='post-footer'>
+<p>启发：通过数学公式简单的变化，将原问题转化为可直接计算的问题，降低复杂度。</p>
+
+<p class='post-footer'>
   原始地址：
-  <a href='http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-shu-xue/'><a href="http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-shu-xue/">http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-shu-xue/</a></a><br/>
+  <a href='http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-shu-xue/'>http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-shu-xue/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
-  </p></p>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
+  </p>
+
 ]]></content>
   </entry>
   
@@ -430,6 +559,52 @@
 <!-- more -->
 
 
+<h3><a href="https://leetcode-cn.com/problems/find-all-numbers-disappeared-in-an-array/description/">448. 找到所有数组中消失的数字</a></h3>
+
+<p>问题分析：<strong>暂时未找到最优解法</strong>。<br/>
+代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">findDisappearedNumbers</span><span class="p">(</span><span class="n">_</span> <span class="nl">nums</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="nl">hash</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">_</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">nums</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">hash</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">nums</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">hash</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">var</span> <span class="nl">result</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="k">in</span> <span class="n">hash</span><span class="p">.</span><span class="n">enumerated</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">result</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">result</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>状态：优于40%的提交。</p>
+
 <h3><a href="https://leetcode-cn.com/problems/two-sum/description/">1. 两数之和</a></h3>
 
 <p>问题分析：该问题可转化为给定一个数，查找与另一个数的差是否存在，即查找问题。<br/>
@@ -538,12 +713,15 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>思考：如何用常数额外空间O(n)时间复杂度解决？<p class='post-footer'>
+<p>思考：如何用常数额外空间O(n)时间复杂度解决？</p>
+
+<p class='post-footer'>
   原始地址：
-  <a href='http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-ha-xi/'><a href="http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-ha-xi/">http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-ha-xi/</a></a><br/>
+  <a href='http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-ha-xi/'>http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-ha-xi/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
-  </p></p>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
+  </p>
+
 ]]></content>
   </entry>
   
@@ -559,9 +737,10 @@
 <!-- more -->
 
 
-<h3><a href="https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted/description/">167. 两数之和 II - 输入有序数组</a></h3>
+<h3><a href="https://leetcode-cn.com/problems/positions-of-large-groups/description/">830. 较大分组的位置</a></h3>
 
-<p>问题分析：因为已按升序排序，只需前后两个指针移动即可。</p>
+<p>问题分析：模拟，注意考虑边界情况。<br/>
+代码：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -579,67 +758,53 @@
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
 </pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">func</span> <span class="n">twoSum</span><span class="p">(</span><span class="n">_</span> <span class="nl">numbers</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">],</span> <span class="n">_</span> <span class="nl">target</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">var</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">.</span><span class="n">count</span> <span class="o">-</span> <span class="mi">1</span>
-</span><span class='line'>        <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">j</span> <span class="p">{</span>
-</span><span class='line'>            <span class="k">let</span> <span class="n">value</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
-</span><span class='line'>            <span class="k">if</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="n">target</span> <span class="p">{</span>
-</span><span class='line'>                <span class="n">j</span> <span class="o">-=</span> <span class="mi">1</span>
-</span><span class='line'>            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="n">target</span> <span class="p">{</span>
-</span><span class='line'>                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-</span><span class='line'>            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span><span class='line'>                <span class="k">return</span> <span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
-</span><span class='line'>            <span class="p">}</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="k">return</span> <span class="p">[]</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>启发：依据已有条件找出效率更高的解法，而非直接双重循环。<br/>
-状态：优于66%的提交。</p>
-
-<h3><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/description/">121. 买卖股票的最佳时机</a></h3>
-
-<p>问题分析：枚举所有情况求值。<br/>
-代码：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">func</span> <span class="n">maxProfit</span><span class="p">(</span><span class="n">_</span> <span class="nl">prices</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">var</span> <span class="n">maxProfit</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">prices</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
-</span><span class='line'>            <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)..</span><span class="o">&lt;</span><span class="n">prices</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
-</span><span class='line'>                <span class="k">let</span> <span class="n">profit</span> <span class="o">=</span> <span class="n">prices</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">prices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-</span><span class='line'>                <span class="k">if</span> <span class="n">maxProfit</span> <span class="o">&lt;</span> <span class="n">profit</span> <span class="p">{</span>
-</span><span class='line'>                    <span class="n">maxProfit</span> <span class="o">=</span> <span class="n">profit</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">largeGroupPositions</span><span class="p">(</span><span class="n">_</span> <span class="nl">S</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[[</span><span class="n">Int</span><span class="p">]]</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="nl">result</span><span class="p">:</span> <span class="p">[[</span><span class="n">Int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'>        <span class="k">var</span> <span class="kr">left</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="kr">right</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>        <span class="k">while</span> <span class="kr">left</span> <span class="o">&lt;</span> <span class="n">S</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>            <span class="kr">right</span> <span class="o">=</span> <span class="kr">left</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span class='line'>            <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>            <span class="k">while</span> <span class="kr">right</span> <span class="o">&lt;</span> <span class="n">S</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">if</span> <span class="n">S</span><span class="p">[</span><span class="n">S</span><span class="p">.</span><span class="n">index</span><span class="p">(</span><span class="n">S</span><span class="p">.</span><span class="n">startIndex</span><span class="p">,</span> <span class="nl">offsetBy</span><span class="p">:</span> <span class="kr">right</span><span class="p">)]</span> <span class="o">==</span> <span class="n">S</span><span class="p">[</span><span class="n">S</span><span class="p">.</span><span class="n">index</span><span class="p">(</span><span class="n">S</span><span class="p">.</span><span class="n">startIndex</span><span class="p">,</span> <span class="nl">offsetBy</span><span class="p">:</span> <span class="kr">left</span><span class="p">)]</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span class='line'>                    <span class="kr">right</span> <span class="o">=</span> <span class="kr">right</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span class='line'>                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;=</span> <span class="mi">3</span> <span class="p">{</span>
+</span><span class='line'>                        <span class="n">result</span><span class="p">.</span><span class="n">append</span><span class="p">([</span><span class="kr">left</span><span class="p">,</span> <span class="kr">right</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+</span><span class='line'>                    <span class="p">}</span>
+</span><span class='line'>                    <span class="k">break</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>                <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;=</span> <span class="mi">3</span> <span class="o">&amp;&amp;</span> <span class="kr">right</span> <span class="o">==</span> <span class="n">S</span><span class="p">.</span><span class="n">count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">{</span>
+</span><span class='line'>                    <span class="n">result</span><span class="p">.</span><span class="n">append</span><span class="p">([</span><span class="kr">left</span><span class="p">,</span> <span class="kr">right</span><span class="p">])</span>
 </span><span class='line'>                <span class="p">}</span>
 </span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="kr">left</span> <span class="o">=</span> <span class="kr">right</span>
+</span><span class='line'>
 </span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">maxProfit</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">result</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3><a href="https://leetcode-cn.com/problems/image-smoother/description/">661. 图片平滑器</a></h3>
+<p>启发：注意边界条件。<br/>
+状态：优于25%的提交。</p>
 
-<p>问题分析：图片滤波器，构造转换方式。<br/>
+<h3><a href="https://leetcode-cn.com/contest/weekly-contest-102/problems/fruit-into-baskets/">904. 水果成篮</a></h3>
+
+<p>问题分析：最长连续子序列长度，且子序列不同个数最多为2。<br/>
 代码：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -672,147 +837,46 @@
 <span class='line-number'>28</span>
 <span class='line-number'>29</span>
 <span class='line-number'>30</span>
+<span class='line-number'>31</span>
 </pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">let</span> <span class="n">transform</span> <span class="o">=</span> <span class="p">[[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-</span><span class='line'>                     <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-</span><span class='line'>                     <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">func</span> <span class="n">imageSmoother</span><span class="p">(</span><span class="n">_</span> <span class="nl">M</span><span class="p">:</span> <span class="p">[[</span><span class="n">Int</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="p">[[</span><span class="n">Int</span><span class="p">]]</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">var</span> <span class="nl">N</span><span class="p">:</span> <span class="p">[[</span><span class="n">Int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span class='line'>        <span class="k">let</span> <span class="n">row</span> <span class="o">=</span> <span class="n">M</span><span class="p">.</span><span class="n">count</span>
-</span><span class='line'>        <span class="k">let</span> <span class="n">colum</span> <span class="o">=</span> <span class="n">M</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">count</span>
-</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">row</span> <span class="p">{</span>
-</span><span class='line'>            <span class="k">var</span> <span class="nl">array</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span class='line'>            <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">colum</span> <span class="p">{</span>
-</span><span class='line'>                <span class="k">var</span> <span class="n">value</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class='line'>                <span class="k">var</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class='line'>                <span class="k">for</span> <span class="n">k</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="mi">9</span> <span class="p">{</span>
-</span><span class='line'>                    <span class="k">let</span> <span class="n">xx</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="n">transform</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-</span><span class='line'>                    <span class="k">let</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="n">transform</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
-</span><span class='line'>                    <span class="k">if</span> <span class="n">xx</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">xx</span> <span class="o">&lt;</span> <span class="n">row</span> <span class="o">&amp;&amp;</span> <span class="n">yy</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">yy</span> <span class="o">&lt;</span> <span class="n">colum</span> <span class="p">{</span>
-</span><span class='line'>                        <span class="n">value</span> <span class="o">=</span> <span class="n">value</span> <span class="o">+</span> <span class="n">M</span><span class="p">[</span><span class="n">xx</span><span class="p">][</span><span class="n">yy</span><span class="p">]</span>
-</span><span class='line'>                        <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
-</span><span class='line'>                    <span class="p">}</span>
-</span><span class='line'>                <span class="p">}</span>
-</span><span class='line'>                <span class="n">array</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">Int</span><span class="p">(</span><span class="n">value</span> <span class="o">/</span> <span class="n">count</span><span class="p">))</span>
-</span><span class='line'>            <span class="p">}</span>
-</span><span class='line'>            <span class="n">N</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">totalFruit</span><span class="p">(</span><span class="n">_</span> <span class="nl">tree</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="kr">set</span> <span class="o">=</span> <span class="n">Set</span><span class="o">&lt;</span><span class="n">Int</span><span class="o">&gt;</span><span class="p">()</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">tree</span> <span class="p">{</span>
+</span><span class='line'>            <span class="kr">set</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 </span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">N</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>思考：有没有更简洁的写法？<br/>
-状态：优于75%的提交。</p>
-
-<h3><a href="https://leetcode-cn.com/problems/transpose-matrix/description/">867. 转置矩阵</a></h3>
-
-<p>问题分析：模拟矩阵转置过程，AT[i][j] = A[j][i]，i ~ [0,m]，j ~ [0,n]。<br/>
-代码：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">func</span> <span class="n">transpose</span><span class="p">(</span><span class="n">_</span> <span class="nl">A</span><span class="p">:</span> <span class="p">[[</span><span class="n">Int</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="p">[[</span><span class="n">Int</span><span class="p">]]</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">var</span> <span class="nl">AT</span><span class="p">:</span> <span class="p">[[</span><span class="n">Int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">count</span> <span class="p">{</span>
-</span><span class='line'>            <span class="k">var</span> <span class="nl">row</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span class='line'>            <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">A</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
-</span><span class='line'>                <span class="n">row</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
-</span><span class='line'>            <span class="p">}</span>
-</span><span class='line'>            <span class="n">AT</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">if</span> <span class="kr">set</span><span class="p">.</span><span class="n">count</span> <span class="o">&lt;=</span> <span class="mi">2</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">tree</span><span class="p">.</span><span class="n">count</span>
 </span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">AT</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3><a href="https://leetcode-cn.com/problems/pascals-triangle/description/">118. 杨辉三角</a></h3>
-
-<p>问题分析：a[i,j] = a[i-1,j-1] + a[i-1,j]，i ~ [0,numRows)，j ~ [0,i]，超出边界为0。<br/>
-代码：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">func</span> <span class="n">generate</span><span class="p">(</span><span class="n">_</span> <span class="nl">numRows</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[[</span><span class="n">Int</span><span class="p">]]</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">var</span> <span class="nl">rows</span><span class="p">:</span> <span class="p">[[</span><span class="n">Int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">numRows</span> <span class="p">{</span>
-</span><span class='line'>            <span class="k">var</span> <span class="nl">row</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span class='line'>            <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">..</span><span class="n">i</span> <span class="p">{</span>
-</span><span class='line'>                <span class="k">var</span> <span class="kr">left</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class='line'>                <span class="k">var</span> <span class="kr">right</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class='line'>                <span class="k">if</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="p">{</span>
-</span><span class='line'>                    <span class="kr">left</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">maxLength</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">tree</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">var</span> <span class="kr">set</span> <span class="o">=</span> <span class="n">Set</span><span class="o">&lt;</span><span class="n">Int</span><span class="o">&gt;</span><span class="p">()</span>
+</span><span class='line'>            <span class="kr">set</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+</span><span class='line'>            <span class="k">var</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>            <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)..</span><span class="o">&lt;</span><span class="n">tree</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">if</span> <span class="kr">set</span><span class="p">.</span><span class="n">count</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="kr">set</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+</span><span class='line'>                    <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span class='line'>                <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="kr">set</span><span class="p">.</span><span class="n">contains</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="n">j</span><span class="p">]){</span>
+</span><span class='line'>                    <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
 </span><span class='line'>                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span><span class='line'>                    <span class="k">if</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="p">{</span>
-</span><span class='line'>                        <span class="kr">left</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class='line'>                    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span><span class='line'>                        <span class="kr">left</span> <span class="o">=</span> <span class="n">rows</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-</span><span class='line'>                    <span class="p">}</span>
-</span><span class='line'>                    <span class="k">if</span> <span class="n">j</span> <span class="o">&gt;=</span> <span class="n">rows</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">].</span><span class="n">count</span> <span class="p">{</span>
-</span><span class='line'>                        <span class="kr">right</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class='line'>                    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span><span class='line'>                        <span class="kr">right</span> <span class="o">=</span> <span class="n">rows</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
-</span><span class='line'>                    <span class="p">}</span>
+</span><span class='line'>                    <span class="k">break</span>
 </span><span class='line'>                <span class="p">}</span>
-</span><span class='line'>                <span class="n">row</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="kr">left</span> <span class="o">+</span> <span class="kr">right</span><span class="p">)</span>
 </span><span class='line'>            <span class="p">}</span>
-</span><span class='line'>            <span class="n">rows</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">maxLength</span> <span class="o">&lt;</span> <span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">maxLength</span> <span class="o">=</span> <span class="n">count</span>
+</span><span class='line'>            <span class="p">}</span>
 </span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">rows</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">maxLength</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p><strong>还有更简洁的写法吗？</strong></p>
+<p>启发：<strong>不是最佳解法</strong>。</p>
 
-<h3><a href="https://leetcode-cn.com/problems/pascals-triangle-ii/description/">119. 杨辉三角 II</a></h3>
+<h3><a href="https://leetcode-cn.com/contest/weekly-contest-102/problems/sort-array-by-parity/">905. 按奇偶校验排序数组</a></h3>
 
-<p>问题分析：模拟，压缩空间，倒序生成。<br/>
+<p>问题分析：模拟。<br/>
 代码：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -831,21 +895,17 @@
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
 </pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">func</span> <span class="n">getRow</span><span class="p">(</span><span class="n">_</span> <span class="nl">rowIndex</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">if</span> <span class="n">rowIndex</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
-</span><span class='line'>            <span class="k">return</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">sortArrayByParity</span><span class="p">(</span><span class="n">_</span> <span class="nl">A</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="p">{</span>
 </span><span class='line'>        <span class="k">var</span> <span class="nl">nums</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">..</span><span class="n">rowIndex</span> <span class="p">{</span>
-</span><span class='line'>            <span class="n">nums</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">A</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">nums</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">}</span>
 </span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">1.</span><span class="p">..</span><span class="n">rowIndex</span> <span class="p">{</span>
-</span><span class='line'>            <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="n">stride</span><span class="p">(</span><span class="nl">from</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span> <span class="nl">to</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nl">by</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>                <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">A</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">nums</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 </span><span class='line'>            <span class="p">}</span>
 </span><span class='line'>        <span class="p">}</span>
 </span><span class='line'>        <span class="k">return</span> <span class="n">nums</span>
@@ -854,12 +914,10 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>积累：倒序遍历数组。</p>
+<h3><a href="https://leetcode-cn.com/problems/search-insert-position/description/">35. 搜索插入位置</a></h3>
 
-<h3><a href="https://leetcode-cn.com/problems/reshape-the-matrix/description/">566. 重塑矩阵</a></h3>
-
-<p>问题分析：reshapeNums[i,j] = nums[index / colums, index % colums], index++。<br/>
-边界情况：nums.count * nums[0].count = r * c，nums为空的情况。<br/>
+<p>问题分析：二分查找。<br/>
+方法一：顺序查找，时间复杂度O(N)。<br/>
 代码：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -872,60 +930,20 @@
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
 </pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">func</span> <span class="n">matrixReshape</span><span class="p">(</span><span class="n">_</span> <span class="nl">nums</span><span class="p">:</span> <span class="p">[[</span><span class="n">Int</span><span class="p">]],</span> <span class="n">_</span> <span class="nl">r</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="n">_</span> <span class="nl">c</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[[</span><span class="n">Int</span><span class="p">]]</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">let</span> <span class="nl">row</span><span class="p">:</span> <span class="n">Int</span> <span class="o">=</span> <span class="n">nums</span><span class="p">.</span><span class="n">count</span>
-</span><span class='line'>        <span class="k">if</span> <span class="n">row</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
-</span><span class='line'>            <span class="k">return</span> <span class="n">nums</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="k">let</span> <span class="nl">colum</span><span class="p">:</span> <span class="n">Int</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">count</span>
-</span><span class='line'>        <span class="k">if</span> <span class="n">colum</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
-</span><span class='line'>            <span class="k">return</span> <span class="n">nums</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="c1">//  不可以转换</span>
-</span><span class='line'>        <span class="k">if</span> <span class="n">row</span> <span class="o">*</span> <span class="n">colum</span> <span class="o">!=</span> <span class="n">r</span> <span class="o">*</span> <span class="n">c</span> <span class="p">{</span>
-</span><span class='line'>            <span class="k">return</span> <span class="n">nums</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="c1">//  转换</span>
-</span><span class='line'>        <span class="k">var</span> <span class="nl">index</span><span class="p">:</span> <span class="n">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'>        <span class="k">var</span> <span class="nl">reshapeNums</span><span class="p">:</span> <span class="p">[[</span><span class="n">Int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span class='line'>        <span class="k">for</span> <span class="n">_</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">r</span> <span class="p">{</span>
-</span><span class='line'>            <span class="k">var</span> <span class="nl">rowArray</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span class='line'>            <span class="k">for</span> <span class="n">_</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">c</span> <span class="p">{</span>
-</span><span class='line'>                <span class="n">rowArray</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">index</span> <span class="o">/</span> <span class="n">colum</span><span class="p">][</span><span class="n">index</span> <span class="o">%</span> <span class="n">colum</span><span class="p">])</span>
-</span><span class='line'>                <span class="n">index</span> <span class="o">=</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">searchInsert</span><span class="p">(</span><span class="n">_</span> <span class="nl">nums</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">],</span> <span class="n">_</span> <span class="nl">target</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="k">in</span> <span class="n">nums</span><span class="p">.</span><span class="n">enumerated</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">value</span> <span class="o">&gt;=</span> <span class="n">target</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">return</span> <span class="n">index</span>
 </span><span class='line'>            <span class="p">}</span>
-</span><span class='line'>            <span class="n">reshapeNums</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">rowArray</span><span class="p">)</span>
 </span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">reshapeNums</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">nums</span><span class="p">.</span><span class="n">count</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>积累：未使用循环变量可以用<code>_</code>代替。</p>
-
-<h3><a href="https://leetcode-cn.com/problems/toeplitz-matrix/description/">766. 托普利茨矩阵</a></h3>
-
-<p>问题分析：保持对角线相同，观察特征，每行右移一位与下一行除第一位开始完全相同，按此方法检测，且空间复杂度为O(n)。<br/>
+<p>方法二：二分查找，时间复杂度O(logN)。<br/>
 代码：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -935,207 +953,463 @@
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">func</span> <span class="n">isToeplitzMatrix</span><span class="p">(</span><span class="n">_</span> <span class="nl">matrix</span><span class="p">:</span> <span class="p">[[</span><span class="n">Int</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
-</span><span class='line'>        <span class="c1">//  初始化</span>
-</span><span class='line'>        <span class="k">var</span> <span class="n">testRow</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</span><span class='line'>        <span class="k">if</span> <span class="n">matrix</span><span class="p">.</span><span class="n">count</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">{</span>
-</span><span class='line'>            <span class="k">return</span> <span class="nb">true</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="c1">//  依次检测每行</span>
-</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">1.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">matrix</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
-</span><span class='line'>            <span class="n">testRow</span><span class="p">.</span><span class="n">remove</span><span class="p">(</span><span class="nl">at</span><span class="p">:</span><span class="n">testRow</span><span class="p">.</span><span class="n">count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-</span><span class='line'>            <span class="n">testRow</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">matrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="nl">at</span><span class="p">:</span><span class="mi">0</span><span class="p">)</span>
-</span><span class='line'>            <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">matrix</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">count</span> <span class="p">{</span>
-</span><span class='line'>                <span class="k">if</span> <span class="n">testRow</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">!=</span> <span class="n">matrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="p">{</span>
-</span><span class='line'>                    <span class="k">return</span> <span class="nb">false</span>
-</span><span class='line'>                <span class="p">}</span>
-</span><span class='line'>            <span class="p">}</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="k">return</span> <span class="nb">true</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>积累：<code>array.insert(value, at:index)</code>插入数组元素，<code>array.remove(at:index)</code>删除数组元素。</p>
-
-<h3><a href="https://leetcode-cn.com/problems/majority-element/description/">169. 求众数</a></h3>
-
-<p>问题分析：统计元素出现个数，并找出出现个数大于n/2的元素。<br/>
-方法一：从小到大排序，然后统计个数。<br/>
-方法二：由于众数个数大于n/2，所以中间位置必为众数，直接返回即可。<br/>
-代码：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">func</span> <span class="n">majorityElement</span><span class="p">(</span><span class="n">_</span> <span class="nl">nums</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
-</span><span class='line'>        <span class="c1">//  排序</span>
-</span><span class='line'>        <span class="k">let</span> <span class="n">sortedNums</span> <span class="o">=</span> <span class="n">nums</span><span class="p">.</span><span class="n">sorted</span><span class="p">{</span><span class="err">$</span><span class="mi">0</span> <span class="o">&lt;</span> <span class="err">$</span><span class="mi">1</span><span class="p">}</span>
-</span><span class='line'>        <span class="c1">//  取中位数</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">sortedNums</span><span class="p">[</span><span class="n">nums</span><span class="p">.</span><span class="n">count</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3><a href="https://leetcode-cn.com/problems/move-zeroes/description/">283. 移动零</a></h3>
-
-<p>问题分析：模拟移动零的过程，如果第i位为0，则用第i位后第一个非0值交换。<br/>
-代码：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">func</span> <span class="n">moveZeroes</span><span class="p">(</span><span class="n">_</span> <span class="nl">nums</span><span class="p">:</span> <span class="k">inout</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">nums</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
-</span><span class='line'>            <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
-</span><span class='line'>                <span class="k">var</span> <span class="n">index</span> <span class="o">=</span> <span class="n">i</span>
-</span><span class='line'>                <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)..</span><span class="o">&lt;</span><span class="n">nums</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
-</span><span class='line'>                    <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span> <span class="p">{</span>
-</span><span class='line'>                        <span class="n">index</span> <span class="o">=</span> <span class="n">j</span>
-</span><span class='line'>                        <span class="k">break</span>
-</span><span class='line'>                    <span class="p">}</span>
-</span><span class='line'>                <span class="p">}</span>
-</span><span class='line'>                <span class="k">if</span> <span class="n">index</span> <span class="o">!=</span> <span class="n">i</span> <span class="p">{</span>
-</span><span class='line'>                    <span class="k">var</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-</span><span class='line'>                    <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
-</span><span class='line'>                    <span class="n">nums</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span>
-</span><span class='line'>                <span class="p">}</span>
-</span><span class='line'>            <span class="p">}</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3><a href="https://leetcode-cn.com/problems/max-consecutive-ones/description/">485. 最大连续1的个数</a></h3>
-
-<p>问题分析：统计连续1的个数并取最大值
-代码：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">func</span> <span class="n">findMaxConsecutiveOnes</span><span class="p">(</span><span class="n">_</span> <span class="nl">nums</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">var</span> <span class="n">maxCount</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class='line'>        <span class="k">var</span> <span class="n">currentCount</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">nums</span> <span class="p">{</span>
-</span><span class='line'>            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
-</span><span class='line'>                <span class="n">currentCount</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class='line'>            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span><span class='line'>                <span class="n">currentCount</span> <span class="o">+=</span> <span class="mi">1</span>
-</span><span class='line'>            <span class="p">}</span>
-</span><span class='line'>            <span class="k">if</span> <span class="n">maxCount</span> <span class="o">&lt;</span> <span class="n">currentCount</span> <span class="p">{</span>
-</span><span class='line'>                <span class="n">maxCount</span> <span class="o">=</span> <span class="n">currentCount</span>
-</span><span class='line'>            <span class="p">}</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">maxCount</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3><a href="https://leetcode-cn.com/problems/monotonic-array/description/">896. 单调数列</a></h3>
-
-<p>问题分析：同时记录是否为单调递增或者单调递减。<br/>
-代码：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">func</span> <span class="n">isMonotonic</span><span class="p">(</span><span class="n">_</span> <span class="nl">A</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">var</span> <span class="n">isIncrease</span> <span class="o">=</span> <span class="nb">true</span>
-</span><span class='line'>        <span class="k">var</span> <span class="n">isDecrease</span> <span class="o">=</span> <span class="nb">true</span>
-</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">1.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">A</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
-</span><span class='line'>            <span class="k">if</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">{</span>
-</span><span class='line'>                <span class="n">isIncrease</span> <span class="o">=</span> <span class="nb">false</span>
-</span><span class='line'>                <span class="k">break</span>
-</span><span class='line'>            <span class="p">}</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">1.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">A</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
-</span><span class='line'>            <span class="k">if</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">{</span>
-</span><span class='line'>                <span class="n">isDecrease</span> <span class="o">=</span> <span class="nb">false</span>
-</span><span class='line'>                <span class="k">break</span>
-</span><span class='line'>            <span class="p">}</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">isIncrease</span> <span class="o">||</span> <span class="n">isDecrease</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="err">```</span>
+</span><span class='line'><span class="err">启发：二分查找。</span>
+</span><span class='line'><span class="err">状态：；优于</span><span class="mi">40</span><span class="o">%</span><span class="err">提交。</span>
 </span><span class='line'>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="cp">### [697. 数组的度](https:</span><span class="c1">//leetcode-cn.com/problems/degree-of-an-array/description/)</span>
+</span><span class='line'><span class="err">问题分析：</span><span class="c1">//  问题分析：先找出数组的度，然后前后查找对应的值的位置。  </span>
+</span><span class='line'><span class="err">代码：</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
+<p>swift
+class Solution {
+    func findShortestSubArray(_ nums: [Int]) -> Int {
+        var hash: [Int:Int] = [:]
+        var maxCount = 0
+        for i in nums {
+            if hash[i] == nil {
+                hash[i] = 1
+            } else {
+                hash[i]! = hash[i]! + 1
+            }
+            if maxCount &lt; hash[i]! {
+                maxCount = hash[i]!
+            }
+        }
+        if maxCount == 1 {
+            return 1
+        }
+        var dus:[Int] = []
+        for (key, value) in hash{
+            if value == maxCount {
+                dus.append(key)
+            }
+        }
+        var minLength = 50000
+        for maxValue in dus {
+            var left = 0
+            var right = nums.count - 1
+            for (index, value) in nums.enumerated() {
+                if value == maxValue {
+                    left = index
+                    break
+                }
+            }
+            for (index, value) in nums.enumerated().reversed() {
+                if value == maxValue {
+                    right = index
+                    break
+                }
+            }
+            if minLength > right - left + 1 {
+                minLength = right - left + 1
+            }
+        }
+        return minLength</p>
+
+<pre><code>}
+</code></pre>
+
+<p>}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="err">启发：审清题目。</span>
+</span><span class='line'><span class="err">状态：优于</span><span class="mi">80</span><span class="o">%</span><span class="err">的提交。</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">### [167. 两数之和 II - 输入有序数组](https:</span><span class="c1">//leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted/description/)</span>
+</span><span class='line'><span class="err">问题分析：因为已按升序排序，只需前后两个指针移动即可。</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>swift
+class Solution {
+    func twoSum(_ numbers: [Int], _ target: Int) -> [Int] {
+        var i = 0, j = numbers.count - 1
+        while i &lt; j {
+            let value = numbers[i] + numbers[j]
+            if value > target {
+                j -= 1
+            } else if value &lt; target {
+                i += 1
+            } else {
+                return [i + 1, j + 1]
+            }
+        }
+        return []
+    }
+}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="err">启发：依据已有条件找出效率更高的解法，而非直接双重循环。</span>
+</span><span class='line'><span class="err">状态：优于</span><span class="mi">66</span><span class="o">%</span><span class="err">的提交。</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">### [121. 买卖股票的最佳时机](https:</span><span class="c1">//leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/description/)</span>
+</span><span class='line'><span class="err">问题分析：枚举所有情况求值。</span>
+</span><span class='line'><span class="err">代码：</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>class Solution {
+    func maxProfit(_ prices: [Int]) -> Int {
+        var maxProfit = 0
+        for i in 0..&lt;prices.count {
+            for j in (i+1)..&lt;prices.count {
+                let profit = prices[j] - prices[i]
+                if maxProfit &lt; profit {
+                    maxProfit = profit
+                }
+            }
+        }
+        return maxProfit
+    }
+}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="cp">### [661. 图片平滑器](https:</span><span class="c1">//leetcode-cn.com/problems/image-smoother/description/)</span>
+</span><span class='line'><span class="err">问题分析：图片滤波器，构造转换方式。</span>
+</span><span class='line'><span class="err">代码：</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>class Solution {</p>
+
+<pre><code>let transform = [[-1, -1], [0, -1], [1, -1],
+                 [-1, 0], [0, 0], [1, 0],
+                 [-1, 1], [0, 1], [1, 1]]
+
+func imageSmoother(_ M: [[Int]]) -&gt; [[Int]] {
+    var N: [[Int]] = []
+    let row = M.count
+    let colum = M[0].count
+    for i in 0..&lt;row {
+        var array: [Int] = []
+        for j in 0..&lt;colum {
+            var value = 0
+            var count = 0
+            for k in 0..&lt;9 {
+                let xx = i + transform[k][0]
+                let yy = j + transform[k][1]
+                if xx &gt;= 0 &amp;&amp; xx &lt; row &amp;&amp; yy &gt;= 0 &amp;&amp; yy &lt; colum {
+                    value = value + M[xx][yy]
+                    count = count + 1
+                }
+            }
+            array.append(Int(value / count))
+        }
+        N.append(array)
+    }
+    return N
+}
+</code></pre>
+
+<p>}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="err">思考：有没有更简洁的写法？</span>
+</span><span class='line'><span class="err">状态：优于</span><span class="mi">75</span><span class="o">%</span><span class="err">的提交。</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">### [867. 转置矩阵](https:</span><span class="c1">//leetcode-cn.com/problems/transpose-matrix/description/)</span>
+</span><span class='line'><span class="err">问题分析：模拟矩阵转置过程，</span><span class="n">AT</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="err">，</span><span class="n">i</span> <span class="o">~</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">m</span><span class="p">]</span><span class="err">，</span><span class="n">j</span> <span class="o">~</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="p">]</span><span class="err">。</span>
+</span><span class='line'><span class="err">代码：</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>class Solution {
+    func transpose(_ A: [[Int]]) -> [[Int]] {
+        var AT: [[Int]] = []
+        for i in 0..&lt;A[0].count {
+            var row: [Int] = []
+            for j in 0..&lt;A.count {
+                row.append(A[j][i])
+            }
+            AT.append(row)
+        }
+        return AT
+    }
+}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="cp">### [118. 杨辉三角](https:</span><span class="c1">//leetcode-cn.com/problems/pascals-triangle/description/)</span>
+</span><span class='line'><span class="err">问题分析：</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="err">，</span><span class="n">i</span> <span class="o">~</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">numRows</span><span class="p">)</span><span class="err">，</span><span class="n">j</span> <span class="o">~</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="p">]</span><span class="err">，超出边界为</span><span class="mi">0</span><span class="err">。</span>
+</span><span class='line'><span class="err">代码：</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>class Solution {
+    func generate(_ numRows: Int) -> [[Int]] {
+        var rows: [[Int]] = []
+        for i in 0..<numRows {
+            var row: [Int] = []
+            for j in 0...i {
+                var left = 0
+                var right = 0
+                if i - 1 < 0 {
+                    left = 1
+                } else {
+                    if j - 1 < 0 {
+                        left = 0
+                    } else {
+                        left = rows[i-1][j-1]
+                    }
+                    if j >= rows[i-1].count {
+                        right = 0
+                    } else {
+                        right = rows[i-1][j]
+                    }
+                }
+                row.append(left + right)
+            }
+            rows.append(row)
+        }
+        return rows
+    }
+}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="o">**</span><span class="err">还有更简洁的写法吗？</span><span class="o">**</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">### [119. 杨辉三角 II](https:</span><span class="c1">//leetcode-cn.com/problems/pascals-triangle-ii/description/)</span>
+</span><span class='line'><span class="err">问题分析：模拟，压缩空间，倒序生成。</span>
+</span><span class='line'><span class="err">代码：</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>class Solution {
+    func getRow(_ rowIndex: Int) -> [Int] {
+        if rowIndex == 0 {
+            return [1]
+        }
+        var nums: [Int] = []
+        for i in 0&hellip;rowIndex {
+            nums.append(0)
+        }
+        nums[0] = 1
+        for i in 1&hellip;rowIndex {
+            for j in stride(from: i, to: 0, by: -1) {
+                nums[j] = nums[j] + nums[j - 1]
+            }
+        }
+        return nums
+    }
+}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="err">积累：倒序遍历数组。</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">### [566. 重塑矩阵](https:</span><span class="c1">//leetcode-cn.com/problems/reshape-the-matrix/description/)</span>
+</span><span class='line'><span class="err">问题分析：</span><span class="n">reshapeNums</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">index</span> <span class="o">/</span> <span class="n">colums</span><span class="p">,</span> <span class="n">index</span> <span class="o">%</span> <span class="n">colums</span><span class="p">],</span> <span class="n">index</span><span class="o">++</span><span class="err">。</span>
+</span><span class='line'><span class="err">边界情况：</span><span class="n">nums</span><span class="p">.</span><span class="n">count</span> <span class="o">*</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">count</span> <span class="o">=</span> <span class="n">r</span> <span class="o">*</span> <span class="n">c</span><span class="err">，</span><span class="n">nums</span><span class="err">为空的情况。</span>
+</span><span class='line'><span class="err">代码：</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>class Solution {
+    func matrixReshape(_ nums: [[Int]], _ r: Int, _ c: Int) -> [[Int]] {
+        let row: Int = nums.count
+        if row == 0 {
+            return nums
+        }
+        let colum: Int = nums[0].count
+        if colum == 0 {
+            return nums
+        }
+        //  不可以转换
+        if row * colum != r * c {
+            return nums
+        }
+        //  转换
+        var index: Int = 0;
+        var reshapeNums: [[Int]] = []
+        for _ in 0..&lt;r {
+            var rowArray: [Int] = []
+            for _ in 0..&lt;c {
+                rowArray.append(nums[index / colum][index % colum])
+                index = index + 1
+            }
+            reshapeNums.append(rowArray)
+        }
+        return reshapeNums
+    }
+}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="err">积累：未使用循环变量可以用`</span><span class="n">_</span><span class="err">`代替。</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">### [766. 托普利茨矩阵](https:</span><span class="c1">//leetcode-cn.com/problems/toeplitz-matrix/description/)</span>
+</span><span class='line'><span class="err">问题分析：保持对角线相同，观察特征，每行右移一位与下一行除第一位开始完全相同，按此方法检测，且空间复杂度为</span><span class="n">O</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="err">。</span>
+</span><span class='line'><span class="err">代码：</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>class Solution {
+    func isToeplitzMatrix(_ matrix: [[Int]]) -> Bool {
+        //  初始化
+        var testRow = matrix[0]
+        if matrix.count == 1 {
+            return true
+        }
+        //  依次检测每行
+        for i in 1..&lt;matrix.count {
+            testRow.remove(at:testRow.count - 1)
+            testRow.insert(matrix[i][0], at:0)
+            for j in 0..&lt;matrix[i].count {
+                if testRow[j] != matrix[i][j] {
+                    return false
+                }
+            }
+        }
+        return true
+    }
+}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="err">积累：`</span><span class="n">array</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nl">at</span><span class="p">:</span><span class="n">index</span><span class="p">)</span><span class="err">`插入数组元素，`</span><span class="n">array</span><span class="p">.</span><span class="n">remove</span><span class="p">(</span><span class="nl">at</span><span class="p">:</span><span class="n">index</span><span class="p">)</span><span class="err">`删除数组元素。</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">### [169. 求众数](https:</span><span class="c1">//leetcode-cn.com/problems/majority-element/description/)</span>
+</span><span class='line'><span class="err">问题分析：统计元素出现个数，并找出出现个数大于</span><span class="n">n</span><span class="o">/</span><span class="mi">2</span><span class="err">的元素。</span>
+</span><span class='line'><span class="err">方法一：从小到大排序，然后统计个数。</span>
+</span><span class='line'><span class="err">方法二：由于众数个数大于</span><span class="n">n</span><span class="o">/</span><span class="mi">2</span><span class="err">，所以中间位置必为众数，直接返回即可。</span>
+</span><span class='line'><span class="err">代码：</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>class Solution {
+    func majorityElement(_ nums: [Int]) -> Int {
+        //  排序
+        let sortedNums = nums.sorted{$0 &lt; $1}
+        //  取中位数
+        return sortedNums[nums.count / 2]
+    }
+}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="cp">### [283. 移动零](https:</span><span class="c1">//leetcode-cn.com/problems/move-zeroes/description/)</span>
+</span><span class='line'><span class="err">问题分析：模拟移动零的过程，如果第</span><span class="n">i</span><span class="err">位为</span><span class="mi">0</span><span class="err">，则用第</span><span class="n">i</span><span class="err">位后第一个非</span><span class="mi">0</span><span class="err">值交换。</span>
+</span><span class='line'><span class="err">代码：</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>class Solution {
+    func moveZeroes(_ nums: inout [Int]) {
+        for i in 0..&lt;nums.count {
+            if nums[i] == 0 {
+                var index = i
+                for j in (i+1)..&lt;nums.count {
+                    if nums[j] != 0 {
+                        index = j
+                        break
+                    }
+                }
+                if index != i {
+                    var temp = nums[i]
+                    nums[i] = nums[index]
+                    nums[index] = temp
+                }
+            }
+        }
+    }
+}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="cp">### [485. 最大连续1的个数](https:</span><span class="c1">//leetcode-cn.com/problems/max-consecutive-ones/description/)</span>
+</span><span class='line'><span class="err">问题分析：统计连续</span><span class="mi">1</span><span class="err">的个数并取最大值</span>
+</span><span class='line'><span class="err">代码：</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>class Solution {
+    func findMaxConsecutiveOnes(_ nums: [Int]) -> Int {
+        var maxCount = 0
+        var currentCount = 0
+        for i in nums {
+            if i == 0 {
+                currentCount = 0
+            } else {
+                currentCount += 1
+            }
+            if maxCount &lt; currentCount {
+                maxCount = currentCount
+            }
+        }
+        return maxCount
+    }
+}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="cp">### [896. 单调数列](https:</span><span class="c1">//leetcode-cn.com/problems/monotonic-array/description/)</span>
+</span><span class='line'><span class="err">问题分析：同时记录是否为单调递增或者单调递减。</span>
+</span><span class='line'><span class="err">代码：</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>class Solution {
+    func isMonotonic(_ A: [Int]) -> Bool {
+        var isIncrease = true
+        var isDecrease = true
+        for i in 1..&lt;A.count {
+            if A[i-1] > A[i] {
+                isIncrease = false
+                break
+            }
+        }
+        for i in 1..&lt;A.count {
+            if A[i-1] &lt; A[i] {
+                isDecrease = false
+                break
+            }
+        }
+        return isIncrease || isDecrease</p>
+
+<pre><code>}
+</code></pre>
+
+<p>}
+```</p>
 
 <p class='post-footer'>
   原始地址：
@@ -2472,104 +2746,6 @@ written by <a href='http://sxgfxm.github.io'>Light</a>
 &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
 </p></li>
 </ol>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-180418]]></title>
-    <link href="http://sxgfxm.github.io/blog/2018/05/07/ioszhi-shi-xiao-ji-180418/"/>
-    <updated>2018-05-07T15:52:23+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2018/05/07/ioszhi-shi-xiao-ji-180418</id>
-    <content type="html"><![CDATA[<h2>UISlider 自定义thumb大小</h2>
-
-<p>需继承<code>UISlider</code>并重写<code>- thumbRectForBounds:trackRect:value:</code>方法。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">CGRect</span><span class="p">)</span><span class="nf">thumbRectForBounds:</span><span class="p">(</span><span class="bp">CGRect</span><span class="p">)</span><span class="nv">bounds</span> <span class="nf">trackRect:</span><span class="p">(</span><span class="bp">CGRect</span><span class="p">)</span><span class="nv">rect</span> <span class="nf">value:</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="nv">value</span><span class="p">{</span>
-</span><span class='line'>  <span class="n">CGFloat</span> <span class="n">customWidth</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">CGFloat</span> <span class="n">customHeight</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">bounds</span> <span class="o">=</span> <span class="p">[</span><span class="nb">super</span> <span class="nl">thumbRectForBounds</span><span class="p">:</span><span class="n">bounds</span> <span class="nl">trackRect</span><span class="p">:</span><span class="n">rect</span> <span class="nl">value</span><span class="p">:</span><span class="n">value</span><span class="p">];</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="n">bounds</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">bounds</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">customWidth</span><span class="p">,</span> <span class="n">customHeight</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<!-- more -->
-
-
-<h2>YYModel 自定义转换</h2>
-
-<p>以<code>NSDate</code>与<code>NSNumber</code>转换为例。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">// JSON:</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="s">&quot;name&quot;</span><span class="o">:</span><span class="s">&quot;Harry&quot;</span><span class="p">,</span>
-</span><span class='line'>  <span class="s">&quot;timestamp&quot;</span> <span class="o">:</span> <span class="mi">1445534567</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// Model:</span>
-</span><span class='line'><span class="k">@interface</span> <span class="nc">User</span>
-</span><span class='line'><span class="k">@property</span> <span class="bp">NSString</span> <span class="o">*</span><span class="n">name</span><span class="p">;</span>
-</span><span class='line'><span class="k">@property</span> <span class="bp">NSDate</span> <span class="o">*</span><span class="n">createdAt</span><span class="p">;</span>
-</span><span class='line'><span class="k">@end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@implementation</span> <span class="nc">User</span>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">modelCustomTransformFromDictionary:</span><span class="p">(</span><span class="bp">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">dic</span> <span class="p">{</span>
-</span><span class='line'>    <span class="bp">NSNumber</span> <span class="o">*</span><span class="n">timestamp</span> <span class="o">=</span> <span class="n">dic</span><span class="p">[</span><span class="s">@&quot;timestamp&quot;</span><span class="p">];</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">[</span><span class="n">timestamp</span> <span class="nl">isKindOfClass</span><span class="p">:[</span><span class="bp">NSNumber</span> <span class="k">class</span><span class="p">]])</span> <span class="k">return</span> <span class="nb">NO</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">_createdAt</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSDate</span> <span class="nl">dateWithTimeIntervalSince1970</span><span class="p">:</span><span class="n">timestamp</span><span class="p">.</span><span class="n">floatValue</span><span class="p">];</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">modelCustomTransformToDictionary:</span><span class="p">(</span><span class="bp">NSMutableDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">dic</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">_createdAt</span><span class="p">)</span> <span class="k">return</span> <span class="nb">NO</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">dic</span><span class="p">[</span><span class="s">@&quot;timestamp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="l">@(</span><span class="n">n</span><span class="p">.</span><span class="n">timeIntervalSince1970</span><span class="l">)</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2018/05/07/ioszhi-shi-xiao-ji-180418/'>http://sxgfxm.github.io/blog/2018/05/07/ioszhi-shi-xiao-ji-180418/</a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
 
 ]]></content>
   </entry>
