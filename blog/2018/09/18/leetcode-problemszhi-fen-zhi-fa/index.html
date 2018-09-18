@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>iOS知识小集-180723 - Light's Blog</title>
+  <title>LeetCode Problems之 分治法 - Light's Blog</title>
   <meta name="author" content="Light">
 
   
-  <meta name="description" content="sxgfxm, UITableView Delete Cell,UITableViewCell highlighted">
-  <meta name="keywords" content="sxgfxm, UITableView Delete Cell,UITableViewCell highlighted">
+  <meta name="description" content="sxgfxm，分治法">
+  <meta name="keywords" content="sxgfxm，分治法">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://sxgfxm.github.io/blog/2018/07/30/ioszhi-shi-xiao-ji-180723/">
+  <link rel="canonical" href="http://sxgfxm.github.io/blog/2018/09/18/leetcode-problemszhi-fen-zhi-fa/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Light's Blog" type="application/atom+xml">
@@ -102,7 +102,7 @@ $(document).bind('DOMNodeInserted', function(event) {
   
   <header>
     
-      <h1 class="entry-title">iOS知识小集-180723</h1>
+      <h1 class="entry-title">LeetCode Problems之 分治法</h1>
     
     
       <p class="meta">
@@ -111,7 +111,7 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 
-<time class='entry-date' datetime='2018-07-30T11:10:55+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>11:10 am</span></time>
+<time class='entry-date' datetime='2018-09-18T21:11:05+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>9:11 pm</span></time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://sxgfxm.github.io">Comments</a>
@@ -121,14 +121,18 @@ $(document).bind('DOMNodeInserted', function(event) {
   </header>
 
 
-<div class="entry-content"><h2>UITableView Delete Cell</h2>
+<div class="entry-content"><h2>分治法</h2>
 
-<p>调用<code>deleteRowsAtIndexPaths:withRowAnimation:</code>时界面出现诡异问题，删除一个cell之后无法继续删除下面的cell。<br/>
-暂时解决办法是在数据源中删除对应数据后，直接<code>reloadData</code>而不再调用上述方法。</p>
+<p>以下为 LeetCode 分治法 相关问题解法记录。</p>
 
-<h2>UITableViewCell高亮效果</h2>
+<!-- more -->
 
-<p>重写<code>-setHighlighted:animated:</code>方法，当highlighted时改变背景颜色，非highlighted时通过动画修改回去。</p>
+
+<h3><a href="https://leetcode-cn.com/problems/maximum-subarray/description/">53. 最大子序和</a></h3>
+
+<p>问题分析：求连续子序列最大和。<br/>
+方法一：模拟。<br/>
+代码：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -144,31 +148,51 @@ $(document).bind('DOMNodeInserted', function(event) {
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setHighlighted:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">highlighted</span> <span class="nf">animated:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">animated</span><span class="p">{</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">super</span> <span class="nl">setHighlighted</span><span class="p">:</span><span class="n">highlighted</span> <span class="nl">animated</span><span class="p">:</span><span class="n">animated</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">self</span> <span class="nl">xg_setHighlighted</span><span class="p">:</span><span class="n">highlighted</span> <span class="nl">animated</span><span class="p">:</span><span class="n">animated</span> <span class="nl">color</span><span class="p">:[</span><span class="bp">UIColor</span> <span class="n">lightGrayColor</span><span class="p">]];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">xg_setHighlighted:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">highlighted</span> <span class="nf">animated:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">animated</span> <span class="nf">color:</span><span class="p">(</span><span class="bp">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="nv">highlightedColor</span><span class="p">{</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">highlighted</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nb">self</span><span class="p">.</span><span class="n">contentView</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="n">highlightedColor</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span><span class='line'>    <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mf">0.25</span> <span class="nl">delay</span><span class="p">:</span><span class="mi">0</span> <span class="nl">options</span><span class="p">:</span><span class="n">UIViewAnimationOptionCurveEaseInOut</span> <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
-</span><span class='line'>      <span class="nb">self</span><span class="p">.</span><span class="n">contentView</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">}</span> <span class="nl">completion</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">}</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">maxSubArray</span><span class="p">(</span><span class="n">_</span> <span class="nl">nums</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">maxValue</span> <span class="o">=</span> <span class="n">Int</span><span class="p">.</span><span class="n">min</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">nums</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">var</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">maxValue</span> <span class="o">&lt;</span> <span class="n">sum</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">maxValue</span> <span class="o">=</span> <span class="n">sum</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)..</span><span class="o">&lt;</span><span class="n">nums</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">sum</span> <span class="o">=</span> <span class="n">sum</span> <span class="o">+</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+</span><span class='line'>                <span class="k">if</span> <span class="n">maxValue</span> <span class="o">&lt;</span> <span class="n">sum</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="n">maxValue</span> <span class="o">=</span> <span class="n">sum</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">maxValue</span>
+</span><span class='line'>    <span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h2>Attempt to present UIViewController on UIViewController whose view is not in the window hierarchy</h2>
+<p>方法二：动态规划。<br/>
+代码：</p>
 
-<p><code>viewDidLoad:</code>时不能present viewController，改写为<code>viewDidAppear:</code>时进行操作。<p class='post-footer'>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="err">```</span>
+</span><span class='line'><span class="err">方法三：分治法。</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>```
+启发：<strong>连续子序列问题</strong>，分治法。</p>
+
+<p class='post-footer'>
   原始地址：
-  <a href='http://sxgfxm.github.io/blog/2018/07/30/ioszhi-shi-xiao-ji-180723/'><a href="http://sxgfxm.github.io/blog/2018/07/30/ioszhi-shi-xiao-ji-180723/">http://sxgfxm.github.io/blog/2018/07/30/ioszhi-shi-xiao-ji-180723/</a></a><br/>
+  <a href='http://sxgfxm.github.io/blog/2018/09/18/leetcode-problemszhi-fen-zhi-fa/'>http://sxgfxm.github.io/blog/2018/09/18/leetcode-problemszhi-fen-zhi-fa/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
-  </p></p>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
+  </p>
+
 </div>
 
 
@@ -184,12 +208,12 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 
-<time class='entry-date' datetime='2018-07-30T11:10:55+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>11:10 am</span></time>
+<time class='entry-date' datetime='2018-09-18T21:11:05+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>9:11 pm</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/ios/'>ios</a>
+    <a class='category' href='/blog/categories/leetcode/'>leetcode</a>
   
 </span>
 
@@ -206,10 +230,8 @@ $(document).bind('DOMNodeInserted', function(event) {
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2018/07/23/ioszhi-shi-xiao-ji-180716/" title="Previous Post: iOS知识小集-180716">&laquo; iOS知识小集-180716</a>
+        <a class="basic-alignment left" href="/blog/2018/09/17/leetcode-problems-lian-biao/" title="Previous Post: LeetCode Problems  链表">&laquo; LeetCode Problems  链表</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2018/08/06/ioszhi-shi-xiao-ji-180806/" title="Next Post: iOS知识小集-180730">iOS知识小集-180730 &raquo;</a>
       
     </p>
   </footer>
@@ -352,8 +374,8 @@ $(document).bind('DOMNodeInserted', function(event) {
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://sxgfxm.github.io/blog/2018/07/30/ioszhi-shi-xiao-ji-180723/';
-        var disqus_url = 'http://sxgfxm.github.io/blog/2018/07/30/ioszhi-shi-xiao-ji-180723/';
+        var disqus_identifier = 'http://sxgfxm.github.io/blog/2018/09/18/leetcode-problemszhi-fen-zhi-fa/';
+        var disqus_url = 'http://sxgfxm.github.io/blog/2018/09/18/leetcode-problemszhi-fen-zhi-fa/';
         var disqus_script = 'embed.js';
       
     (function () {
