@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://sxgfxm.github.io/blog/2018/09/20/leetcode-problems-zhi-dong-tai-gui-hua/</loc>
+<lastmod>2018-09-20T12:53:25+08:00</lastmod>
+</url>
+<url>
 <loc>http://sxgfxm.github.io/blog/2018/09/18/leetcode-problemszhi-fen-zhi-fa/</loc>
 <lastmod>2018-09-18T21:11:05+08:00</lastmod>
 </url>
@@ -371,5 +375,29 @@
 </url>
 <url>
 <loc>http://sxgfxm.github.io/blog/categories/leetcode/</loc>
+</url>
+<url>
+<loc>http://sxgfxm.github.io/posts/2/</loc>
+</url>
+<url>
+<loc>http://sxgfxm.github.io/posts/3/</loc>
+</url>
+<url>
+<loc>http://sxgfxm.github.io/posts/4/</loc>
+</url>
+<url>
+<loc>http://sxgfxm.github.io/posts/5/</loc>
+</url>
+<url>
+<loc>http://sxgfxm.github.io/posts/6/</loc>
+</url>
+<url>
+<loc>http://sxgfxm.github.io/posts/7/</loc>
+</url>
+<url>
+<loc>http://sxgfxm.github.io/posts/8/</loc>
+</url>
+<url>
+<loc>http://sxgfxm.github.io/posts/9/</loc>
 </url>
 </urlset>

@@ -105,6 +105,51 @@ $(document).bind('DOMNodeInserted', function(event) {
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2018/09/10/ioszhi-shi-xiao-ji-180903/">iOS知识小集-180903</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2018-09-10T14:34:51+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>2:34 pm</span></time>
+        
+           | <a href="/blog/2018/09/10/ioszhi-shi-xiao-ji-180903/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2018/09/10/ioszhi-shi-xiao-ji-180903/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>集成Apple Pay</h2>
+
+<h3>权限配置</h3>
+
+<p>按官方指导配置权限。</p>
+
+<h3>调用过程</h3>
+
+<p>引入<code>&lt;PassKit/PassKit.h&gt;</code>，权限判断，支付卡判断，设置商品参数，创建支付请求，显示支付界面，代理接收结果。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2018/09/10/ioszhi-shi-xiao-ji-180903/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2018/09/03/ioszhi-shi-xiao-ji-180827/">iOS知识小集-180827</a></h1>
     
     
@@ -635,57 +680,6 @@ $(document).bind('DOMNodeInserted', function(event) {
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/05/22/ioszhi-shi-xiao-ji-180514/">iOS知识小集-180514</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2018-05-22T11:52:58+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2018</span></span> <span class='time'>11:52 am</span></time>
-        
-           | <a href="/blog/2018/05/22/ioszhi-shi-xiao-ji-180514/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2018/05/22/ioszhi-shi-xiao-ji-180514/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>GradientButton</h2>
-
-<p>创建渐变背景颜色的Button，如果直接添加CAGradientLayer，会覆盖Button的Image，所以需要创建一张渐变颜色的图片设置为Button的backgroundImage。</p>
-
-<h2>UICollectionViewCell Select Effect</h2>
-
-<p>为UICollectionViewCell添加选中效果。<br/>
-方法一：<br/>
-重写Cell的<code>-setSelected:</code>方法，在这个方法中增加动画效果。<br/>
-The selected state is toggled when the user lifts up from a highlighted cell.
-Override these methods to provide custom UI for a selected or highlighted state.<br/>
-方法二：<br/>
-在CollectionView回调方法<code>-collectionView:didHighlightItemAtIndexPath:</code>和<code>-collectionView:didUnhighlightItemAtIndexPath:</code>中添加动画效果。<br/>
-方法三：<br/>
-为CollectionViewCell添加<code>-performSelectAnimation</code>方法展示选中的动画效果，当<code>-collectionView:didSelectItemAtIndexPath:</code>时调用该方法。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2018/05/22/ioszhi-shi-xiao-ji-180514/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -714,7 +708,7 @@ Override these methods to provide custom UI for a selected or highlighted state.
  <ul id="categories">
    <li class='category'><a href='/blog/categories/componentkit/'>componentkit (1)</a></li>
 <li class='category'><a href='/blog/categories/ios/'>ios (71)</a></li>
-<li class='category'><a href='/blog/categories/leetcode/'>leetcode (8)</a></li>
+<li class='category'><a href='/blog/categories/leetcode/'>leetcode (9)</a></li>
 <li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
 <li class='category'><a href='/blog/categories/reactiveobjc/'>reactiveobjc (2)</a></li>
@@ -726,7 +720,11 @@ Override these methods to provide custom UI for a selected or highlighted state.
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2018/09/18/leetcode-problemszhi-fen-zhi-fa/">LeetCode Problems之 分治法</a>
+        <a href="/blog/2018/09/20/leetcode-problems-zhi-dong-tai-gui-hua/">LeetCode Problems 之 动态规划</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/09/18/leetcode-problemszhi-fen-zhi-fa/">LeetCode Problems 之 分治法</a>
       </li>
     
       <li class="post">
@@ -739,10 +737,6 @@ Override these methods to provide custom UI for a selected or highlighted state.
     
       <li class="post">
         <a href="/blog/2018/09/10/leetcode-problems-zhi-shen-du-you-xian-sou-suo/">LeetCode Problems 之 深度优先搜索</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/09/10/leetcode-problems-zhi-shu-xue/">LeetCode Problems 之 数学</a>
       </li>
     
   </ul>

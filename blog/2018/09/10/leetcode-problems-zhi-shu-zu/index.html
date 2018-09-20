@@ -128,6 +128,163 @@ $(document).bind('DOMNodeInserted', function(event) {
 <!-- more -->
 
 
+<h3><a href="https://leetcode-cn.com/problems/fair-candy-swap/description/">888. 公平的糖果交换</a></h3>
+
+<p>问题分析：给定一个数，找另一个数。<br/>
+方法一：模拟，双重循环，sumA + (B[j] - A[i]) == sumB + (A[i] - B[j])，时间复杂度O(n<sup>2</sup>)。<br/>
+代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">fairCandySwap</span><span class="p">(</span><span class="n">_</span> <span class="nl">A</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">],</span> <span class="n">_</span> <span class="nl">B</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">sumA</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">sumB</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>        <span class="n">A</span><span class="p">.</span><span class="n">map</span><span class="p">{</span><span class="n">sumA</span> <span class="o">=</span> <span class="n">sumA</span> <span class="o">+</span> <span class="err">$</span><span class="mi">0</span><span class="p">}</span>
+</span><span class='line'>        <span class="n">B</span><span class="p">.</span><span class="n">map</span><span class="p">{</span><span class="n">sumB</span> <span class="o">=</span> <span class="n">sumB</span> <span class="o">+</span> <span class="err">$</span><span class="mi">0</span><span class="p">}</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">A</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="n">B</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">if</span> <span class="p">(</span><span class="n">sumA</span> <span class="o">+</span> <span class="n">j</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="n">sumB</span> <span class="o">+</span> <span class="n">i</span> <span class="o">-</span> <span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="k">return</span> <span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="p">[]</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+方法二：哈希，B[j] = (sumB + 2 * A[i] - sumA) / 2，时间复杂度O(n)，空间复杂度O(n)。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">fairCandySwap</span><span class="p">(</span><span class="n">_</span> <span class="nl">A</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">],</span> <span class="n">_</span> <span class="nl">B</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">sumA</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">sumB</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>        <span class="k">var</span> <span class="nl">hash</span><span class="p">:</span> <span class="p">[</span><span class="nl">Int</span><span class="p">:</span><span class="n">Bool</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">:</span><span class="p">]</span>
+</span><span class='line'>        <span class="n">A</span><span class="p">.</span><span class="n">map</span><span class="p">{</span><span class="n">sumA</span> <span class="o">=</span> <span class="n">sumA</span> <span class="o">+</span> <span class="err">$</span><span class="mi">0</span><span class="p">}</span>
+</span><span class='line'>        <span class="n">B</span><span class="p">.</span><span class="n">map</span><span class="p">{</span><span class="n">sumB</span> <span class="o">=</span> <span class="n">sumB</span> <span class="o">+</span> <span class="err">$</span><span class="mi">0</span><span class="p">}</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">A</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">let</span> <span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="n">sumB</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">i</span> <span class="o">-</span> <span class="n">sumA</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+</span><span class='line'>            <span class="k">if</span> <span class="k">let</span> <span class="n">value</span> <span class="o">=</span> <span class="n">hash</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">value</span> <span class="o">==</span> <span class="nb">true</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">return</span> <span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">key</span><span class="p">]</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="p">[]</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+方法三：排序 + 二分查找，不申请额外空间。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">fairCandySwap</span><span class="p">(</span><span class="n">_</span> <span class="nl">A</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">],</span> <span class="n">_</span> <span class="nl">B</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">B</span> <span class="o">=</span> <span class="n">B</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">sumA</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">sumB</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>        <span class="n">A</span><span class="p">.</span><span class="n">map</span><span class="p">{</span><span class="n">sumA</span> <span class="o">=</span> <span class="n">sumA</span> <span class="o">+</span> <span class="err">$</span><span class="mi">0</span><span class="p">}</span>
+</span><span class='line'>        <span class="n">B</span><span class="p">.</span><span class="n">map</span><span class="p">{</span><span class="n">sumB</span> <span class="o">=</span> <span class="n">sumB</span> <span class="o">+</span> <span class="err">$</span><span class="mi">0</span><span class="p">}</span>
+</span><span class='line'>        <span class="n">B</span><span class="p">.</span><span class="n">sort</span><span class="p">{</span><span class="err">$</span><span class="mi">0</span> <span class="o">&lt;</span> <span class="err">$</span><span class="mi">1</span><span class="p">}</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">A</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">let</span> <span class="n">target</span> <span class="o">=</span> <span class="p">(</span><span class="n">sumB</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">i</span> <span class="o">-</span> <span class="n">sumA</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">binarySearch</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">B</span><span class="p">.</span><span class="n">count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">return</span> <span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">target</span><span class="p">]</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="p">[]</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">func</span> <span class="n">binarySearch</span><span class="p">(</span><span class="n">_</span> <span class="nl">nums</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">],</span> <span class="n">_</span> <span class="nl">left</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="n">_</span> <span class="nl">right</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="n">_</span> <span class="nl">target</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="kr">left</span> <span class="o">&lt;=</span> <span class="kr">right</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="kr">left</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">return</span> <span class="nb">true</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="kr">right</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">return</span> <span class="nb">true</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="k">let</span> <span class="n">mid</span> <span class="o">=</span> <span class="p">(</span><span class="kr">left</span> <span class="o">+</span> <span class="kr">right</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">target</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">binarySearch</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="kr">left</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mid</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">binarySearch</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">mid</span><span class="p">,</span> <span class="kr">right</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nb">false</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>启发：给定一个数，查找另一个数。</p>
+
 <h3><a href="https://leetcode-cn.com/problems/positions-of-large-groups/description/">830. 较大分组的位置</a></h3>
 
 <p>问题分析：模拟，注意考虑边界情况。<br/>
@@ -881,7 +1038,7 @@ func imageSmoother(_ M: [[Int]]) -&gt; [[Int]] {
  <ul id="categories">
    <li class='category'><a href='/blog/categories/componentkit/'>componentkit (1)</a></li>
 <li class='category'><a href='/blog/categories/ios/'>ios (71)</a></li>
-<li class='category'><a href='/blog/categories/leetcode/'>leetcode (8)</a></li>
+<li class='category'><a href='/blog/categories/leetcode/'>leetcode (9)</a></li>
 <li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
 <li class='category'><a href='/blog/categories/reactiveobjc/'>reactiveobjc (2)</a></li>
@@ -893,7 +1050,11 @@ func imageSmoother(_ M: [[Int]]) -&gt; [[Int]] {
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2018/09/18/leetcode-problemszhi-fen-zhi-fa/">LeetCode Problems之 分治法</a>
+        <a href="/blog/2018/09/20/leetcode-problems-zhi-dong-tai-gui-hua/">LeetCode Problems 之 动态规划</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/09/18/leetcode-problemszhi-fen-zhi-fa/">LeetCode Problems 之 分治法</a>
       </li>
     
       <li class="post">
@@ -906,10 +1067,6 @@ func imageSmoother(_ M: [[Int]]) -&gt; [[Int]] {
     
       <li class="post">
         <a href="/blog/2018/09/10/leetcode-problems-zhi-shen-du-you-xian-sou-suo/">LeetCode Problems 之 深度优先搜索</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/09/10/leetcode-problems-zhi-shu-xue/">LeetCode Problems 之 数学</a>
       </li>
     
   </ul>

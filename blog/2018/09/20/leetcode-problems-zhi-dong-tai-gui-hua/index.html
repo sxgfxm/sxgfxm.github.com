@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Github Blog - 自定义 - Light's Blog</title>
+  <title>LeetCode Problems 之 动态规划 - Light's Blog</title>
   <meta name="author" content="Light">
 
   
-  <meta name="description" content="octopress自定义">
-  <meta name="keywords" content="octopress，octopress自定义">
+  <meta name="description" content="sxgfxm，动态规划">
+  <meta name="keywords" content="sxgfxm，动态规划">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://sxgfxm.github.io/blog/2016/10/18/github-blog-zi-ding-yi/">
+  <link rel="canonical" href="http://sxgfxm.github.io/blog/2018/09/20/leetcode-problems-zhi-dong-tai-gui-hua/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Light's Blog" type="application/atom+xml">
@@ -102,7 +102,7 @@ $(document).bind('DOMNodeInserted', function(event) {
   
   <header>
     
-      <h1 class="entry-title">Github Blog - 自定义</h1>
+      <h1 class="entry-title">LeetCode Problems 之 动态规划</h1>
     
     
       <p class="meta">
@@ -111,7 +111,7 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 
-<time class='entry-date' datetime='2016-10-18T15:48:51+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>3:48 pm</span></time>
+<time class='entry-date' datetime='2018-09-20T12:53:25+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>12:53 pm</span></time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://sxgfxm.github.io">Comments</a>
@@ -121,133 +121,17 @@ $(document).bind('DOMNodeInserted', function(event) {
   </header>
 
 
-<div class="entry-content"><h2>Octopress目录结构</h2>
+<div class="entry-content"><h2>动态规划</h2>
 
-<h3>Rakefile</h3>
+<p>以下为 LeetCode 动态规划 相关问题解法记录。</p>
 
-<p>rake的配置文件，类似于makefile。</p>
-
-<h3>Gemfile</h3>
-
-<p>bundle要下载需要的gem依赖关系的指定文件。</p>
-
-<!--more-->
+<!-- more -->
 
 
-<h3>_config.yml</h3>
+<h3><a href="https://leetcode-cn.com/problems/climbing-stairs/description/">70. 爬楼梯</a></h3>
 
-<p>站点的配置文件。</p>
-
-<h3>public/</h3>
-
-<p><code>rake generate</code>静态编译完成后的目录，该目录为网站展示的目录。</p>
-
-<h3>_deploy/</h3>
-
-<p><code>rake deploy</code>deploy时生成的缓存文件夹，内容和public目录一样。</p>
-
-<p>该目录中内容由Octopress自动提交至Github远程仓库的<strong>master</strong>分支。</p>
-
-<h3>sass/</h3>
-
-<p>css文件的源文件目录。</p>
-
-<h3>plugins/</h3>
-
-<p>放置自带及第三方插件目录，ruby程序。</p>
-
-<h3>source/</h3>
-
-<p>站点的源文件目录，public目录就是根据该目录下数据生成的。</p>
-
-<p>该目录中内容由用户手动提交至Github远程仓库的<strong>source</strong>分支。</p>
-
-<h4>_includes/custom/</h4>
-
-<p>自定义的模板目录。</p>
-
-<h4>_includes/asides/</h4>
-
-<p>边栏模板目录。</p>
-
-<h4>_includes/post/</h4>
-
-<p>文章页面相应模板目录。</p>
-
-<h4>_layouts/</h4>
-
-<p>默认网站html相关文件，最底层。</p>
-
-<h4>_posts/</h4>
-
-<p>文章源文件，由<code>rake new_post["article name"]</code>命令产生。</p>
-
-<h4>_stylesheets/</h4>
-
-<p>css文件目录。</p>
-
-<h4>javascripts/</h4>
-
-<p>js文件目录。</p>
-
-<h4>images/</h4>
-
-<p>图片目录。</p>
-
-<h2>设置博客中的链接在新窗口中打开</h2>
-
-<p>将如下代码添加到<strong>occtopress/source/_includes/custom/head.html</strong>文件末尾。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text/javascript&quot;</span><span class="o">&gt;</span>
-</span><span class='line'><span class="kd">function</span> <span class="nx">addBlankTargetForLinks</span> <span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;a[href^=&quot;http&quot;]&#39;</span><span class="p">).</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
-</span><span class='line'>      <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;target&#39;</span><span class="p">,</span> <span class="s1">&#39;_blank&#39;</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">});</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;DOMNodeInserted&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nx">addBlankTargetForLinks</span><span class="p">();</span>
-</span><span class='line'><span class="p">});</span>
-</span><span class='line'><span class="o">&lt;</span><span class="err">/script&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>自定义侧边栏</h2>
-
-<p>首先，在<strong>octopress/source/_includes/asides/</strong>目录下创建<strong>custom.html</strong>。</p>
-
-<p>然后，在<strong>_config.yml</strong>的<strong>default_asides:</strong>设置中加入创建的自定义侧栏文件<strong>/asides/custom.html</strong>。</p>
-
-<p>侧边栏顺序即为<strong>default_asides:</strong>中参数的顺序，可以自己设置。</p>
-
-<h2>增加Google Analytics统计工具</h2>
-
-<p>首先，在<a href="https://analytics.google.com/analytics/web/">Google Analytics</a>注册并按要求填写网站信息；</p>
-
-<p>然后，获取<strong>Tracing Id</strong>，添加到<strong>_config.yml</strong>的<strong>google_analytics_tracking_id</strong>后面即可。</p>
-
-<p><img src="http://ofj92itlz.bkt.clouddn.com/GoogleAnalytics:trackingID1.jpeg" alt="" /></p>
-
-<p><img src="http://ofj92itlz.bkt.clouddn.com/GoogleAnalytics:config1.jpeg" alt="" /></p>
-
-<h2>列表排版的缩进问题</h2>
-
-<p>列表默认会冲出文章主主体区块。</p>
-
-<p>在<strong>octopress/sass/custom/_layout.sccs</strong>文件中找到<strong>#$indented-lists: true</strong>行，去掉<strong>#</strong>注释即可。</p>
-
-<h2>公益404页面</h2>
-
-<p>创建404.markdown，按如下编辑。</p>
+<p>问题分析：动态规划，f[i]表示第i阶的方法数，f[i] = f[i - 1] + f[i - 2]，f[0] = 1。<br/>
+代码：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -266,39 +150,87 @@ $(document).bind('DOMNodeInserted', function(event) {
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
 <span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">---</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">layout</span><span class="o">:</span> <span class="nx">page</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">title</span><span class="o">:</span> <span class="s2">&quot;404 Error&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">date</span><span class="o">:</span> <span class="mi">2013</span><span class="o">-</span><span class="mi">4</span><span class="o">-</span><span class="mi">21</span> <span class="mi">02</span><span class="o">:</span><span class="mi">35</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">comments</span><span class="o">:</span> <span class="kc">false</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">sharing</span><span class="o">:</span> <span class="kc">false</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">footer</span><span class="o">:</span> <span class="kc">false</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">---</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text/javascript&quot;</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;http://www.qq.com/404/search_children.js&quot;</span> <span class="nx">charset</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="o">&gt;&lt;</span><span class="err">/script&gt;</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">climbStairs</span><span class="p">(</span><span class="n">_</span> <span class="nl">n</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="nl">f</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'>        <span class="n">f</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">1.</span><span class="p">..</span><span class="n">n</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">var</span> <span class="n">one</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+</span><span class='line'>            <span class="k">var</span> <span class="n">two</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">two</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">two</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">2</span><span class="p">]</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="n">f</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">one</span> <span class="o">+</span> <span class="n">two</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">f</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h2>博客末尾增加原文链接、版权等</h2>
+<p>启发：递推。</p>
 
-<p>参考博客<a href="http://www.cnblogs.com/maoxiong/p/4298207.html">为octopress文章添加原文链接</a></p>
+<h3><a href="https://leetcode-cn.com/problems/min-cost-climbing-stairs/description/">746. 使用最小花费爬楼梯</a></h3>
 
-<h2>参考资料</h2>
+<p>问题分析：动态规划，f[i]表示第i阶最小花费，f[i] = min(f[i - 1] + cost[i], f[i - 2] + cost[i])，f[0] = cost[0]。<br/>
+代码：</p>
 
-<p><a href="http://foggry.com/blog/2014/04/28/custom-your-octopress-blog/">自定义你的Octopress博客</a></p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">minCostClimbingStairs</span><span class="p">(</span><span class="n">_</span> <span class="nl">cost</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="nl">f</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'>        <span class="n">f</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">cost</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">1.</span><span class="p">..(</span><span class="n">cost</span><span class="p">.</span><span class="n">count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">var</span> <span class="n">one</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+</span><span class='line'>            <span class="k">var</span> <span class="n">two</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>            <span class="k">var</span> <span class="n">now</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">two</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">two</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">2</span><span class="p">]</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="n">cost</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">now</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">now</span> <span class="o">=</span> <span class="n">cost</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="n">f</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">min</span><span class="p">(</span><span class="n">one</span> <span class="o">+</span> <span class="n">now</span><span class="p">,</span> <span class="n">two</span> <span class="o">+</span> <span class="n">now</span><span class="p">))</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">min</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">cost</span><span class="p">.</span><span class="n">count</span><span class="p">],</span> <span class="n">f</span><span class="p">[</span><span class="n">cost</span><span class="p">.</span><span class="n">count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p><a href="http://blog.csdn.net/biaobiaoqi/article/details/9289563">定制Octopress</a></p>
+
+<p>启发：可以直接使用min()，max()函数。</p>
 
 <p class='post-footer'>
   原始地址：
-  <a href='http://sxgfxm.github.io/blog/2016/10/18/github-blog-zi-ding-yi/'>http://sxgfxm.github.io/blog/2016/10/18/github-blog-zi-ding-yi/</a><br/>
+  <a href='http://sxgfxm.github.io/blog/2018/09/20/leetcode-problems-zhi-dong-tai-gui-hua/'>http://sxgfxm.github.io/blog/2018/09/20/leetcode-problems-zhi-dong-tai-gui-hua/</a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>
@@ -318,12 +250,12 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 
-<time class='entry-date' datetime='2016-10-18T15:48:51+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>3:48 pm</span></time>
+<time class='entry-date' datetime='2018-09-20T12:53:25+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>12:53 pm</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/octopress/'>octopress</a>
+    <a class='category' href='/blog/categories/leetcode/'>leetcode</a>
   
 </span>
 
@@ -340,10 +272,8 @@ $(document).bind('DOMNodeInserted', function(event) {
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2016/10/18/github-blog-ji-ben-cao-zuo/" title="Previous Post: Github Blog - 基本操作">&laquo; Github Blog - 基本操作</a>
+        <a class="basic-alignment left" href="/blog/2018/09/18/leetcode-problemszhi-fen-zhi-fa/" title="Previous Post: LeetCode Problems 之 分治法">&laquo; LeetCode Problems 之 分治法</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2016/10/18/uicollectionview-ios10-new-features/" title="Next Post: UICollectionView iOS 10 New Features">UICollectionView iOS 10 New Features &raquo;</a>
       
     </p>
   </footer>
@@ -486,8 +416,8 @@ $(document).bind('DOMNodeInserted', function(event) {
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://sxgfxm.github.io/blog/2016/10/18/github-blog-zi-ding-yi/';
-        var disqus_url = 'http://sxgfxm.github.io/blog/2016/10/18/github-blog-zi-ding-yi/';
+        var disqus_identifier = 'http://sxgfxm.github.io/blog/2018/09/20/leetcode-problems-zhi-dong-tai-gui-hua/';
+        var disqus_url = 'http://sxgfxm.github.io/blog/2018/09/20/leetcode-problems-zhi-dong-tai-gui-hua/';
         var disqus_script = 'embed.js';
       
     (function () {
