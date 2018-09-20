@@ -12,6 +12,87 @@ description: sxgfxm, 数组
 以下为 LeetCode 数组 相关问题解法记录。  
 <!-- more -->
 
+### [888. 公平的糖果交换](https://leetcode-cn.com/problems/fair-candy-swap/description/)
+问题分析：给定一个数，找另一个数。  
+方法一：模拟，双重循环，sumA + (B[j] - A[i]) == sumB + (A[i] - B[j])，时间复杂度O(n^2)。  
+代码：  
+```swift
+class Solution {
+    func fairCandySwap(_ A: [Int], _ B: [Int]) -> [Int] {
+        var sumA = 0
+        var sumB = 0
+        A.map{sumA = sumA + $0}
+        B.map{sumB = sumB + $0}
+        for i in A {
+            for j in B {
+                if (sumA + j - i) == (sumB + i - j) {
+                    return [i, j]
+                }
+            }
+        }
+        return []
+    }
+}
+```  
+方法二：哈希，B[j] = (sumB + 2 * A[i] - sumA) / 2，时间复杂度O(n)，空间复杂度O(n)。  
+```swift
+class Solution {
+    func fairCandySwap(_ A: [Int], _ B: [Int]) -> [Int] {
+        var sumA = 0
+        var sumB = 0
+        var hash: [Int:Bool] = [:]
+        A.map{sumA = sumA + $0}
+        B.map{sumB = sumB + $0}
+        for i in A {
+            let key = (sumB + 2 * i - sumA) / 2
+            if let value = hash[key], value == true {
+                return [i, key]
+            }
+        }
+        return []
+    }
+}
+```  
+方法三：排序 + 二分查找，不申请额外空间。  
+```swift
+class Solution {
+    func fairCandySwap(_ A: [Int], _ B: [Int]) -> [Int] {
+        var B = B
+        var sumA = 0
+        var sumB = 0
+        A.map{sumA = sumA + $0}
+        B.map{sumB = sumB + $0}
+        B.sort{$0 < $1}
+        for i in A {
+            let target = (sumB + 2 * i - sumA) / 2
+            if binarySearch(B, 0, B.count - 1, target) {
+                return [i, target]
+            }
+        }
+        return []
+    }
+
+    func binarySearch(_ nums: [Int], _ left: Int, _ right: Int, _ target: Int) -> Bool {
+        if left <= right {
+            if nums[left] == target {
+                return true
+            }
+            if nums[right] == target {
+                return true
+            }
+            let mid = (left + right) / 2
+            if nums[mid] > target {
+                binarySearch(nums, left + 1, mid, target)
+            } else {
+                binarySearch(nums, mid, right - 1, target)
+            }
+        }
+        return false
+    }
+}
+```
+启发：给定一个数，查找另一个数。
+
 ### [830. 较大分组的位置](https://leetcode-cn.com/problems/positions-of-large-groups/description/)
 问题分析：模拟，注意考虑边界情况。  
 代码：  

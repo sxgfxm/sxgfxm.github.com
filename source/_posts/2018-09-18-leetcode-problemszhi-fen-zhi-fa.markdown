@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "LeetCode Problems之 分治法"
+title: "LeetCode Problems 之 分治法"
 date: 2018-09-18 21:11:05 +0800
 comments: true
 categories: LeetCode
