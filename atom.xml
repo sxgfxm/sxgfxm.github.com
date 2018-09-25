@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2018-09-20T14:39:27+08:00</updated>
+  <updated>2018-09-25T13:07:19+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,41 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-180917]]></title>
+    <link href="http://sxgfxm.github.io/blog/2018/09/25/ioszhi-shi-xiao-ji-180917/"/>
+    <updated>2018-09-25T13:05:35+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2018/09/25/ioszhi-shi-xiao-ji-180917</id>
+    <content type="html"><![CDATA[<h2>相机拍摄图片方向调整</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">image</span><span class="p">.</span><span class="n">imageOrientation</span> <span class="o">!=</span> <span class="n">UIImageOrientationUp</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">UIGraphicsBeginImageContext</span><span class="p">(</span><span class="n">image</span><span class="p">.</span><span class="n">size</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">[</span><span class="n">image</span> <span class="nl">drawInRect</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">image</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">,</span> <span class="n">image</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">)];</span>
+</span><span class='line'>      <span class="n">image</span> <span class="o">=</span> <span class="n">UIGraphicsGetImageFromCurrentImageContext</span><span class="p">();</span>
+</span><span class='line'>      <span class="n">UIGraphicsEndImageContext</span><span class="p">();</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Playground running 卡死</h2>
+
+<p>1、修改platform为Mac OS；<br/>
+2、修改为手动执行；<br/>
+3、为手动执行增加快捷键；<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2018/09/25/ioszhi-shi-xiao-ji-180917/'><a href="http://sxgfxm.github.io/blog/2018/09/25/ioszhi-shi-xiao-ji-180917/">http://sxgfxm.github.io/blog/2018/09/25/ioszhi-shi-xiao-ji-180917/</a></a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
+  </p></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[LeetCode Problems 之 动态规划]]></title>
@@ -943,6 +978,156 @@
 <p>以下为 LeetCode 数组 相关问题解法记录。</p>
 
 <!-- more -->
+
+
+<h3><a href="https://leetcode-cn.com/problems/plus-one/description/">66. 加一</a></h3>
+
+<p>问题分析：高精度加1，先加1，再处理进位。<br/>
+代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">plusOne</span><span class="p">(</span><span class="n">_</span> <span class="nl">digits</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">digits</span> <span class="o">=</span> <span class="n">digits</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">length</span> <span class="o">=</span> <span class="n">digits</span><span class="p">.</span><span class="n">count</span> <span class="o">-</span> <span class="mi">1</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">value</span> <span class="o">=</span> <span class="n">digits</span><span class="p">[</span><span class="n">length</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span class='line'>        <span class="n">digits</span><span class="p">[</span><span class="n">length</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">%</span> <span class="mi">10</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">c</span> <span class="o">=</span> <span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">/</span> <span class="mi">10</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="p">(</span><span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">length</span><span class="p">).</span><span class="n">reversed</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">value</span> <span class="o">=</span> <span class="n">digits</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">c</span>
+</span><span class='line'>            <span class="n">digits</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">%</span> <span class="mi">10</span>
+</span><span class='line'>            <span class="n">c</span> <span class="o">=</span> <span class="n">value</span> <span class="o">/</span> <span class="mi">10</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">c</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">digits</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="nl">at</span><span class="p">:</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">digits</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+启发：array.insert(value, at:index)，(0..100).reversed()。<br/>
+状态：优于55%的提交。</p>
+
+<h3><a href="https://leetcode-cn.com/problems/longest-continuous-increasing-subsequence/description/">674. 最长连续递增序列</a></h3>
+
+<p>问题分析：模拟。<br/>
+代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">findLengthOfLCIS</span><span class="p">(</span><span class="n">_</span> <span class="nl">nums</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">nums</span><span class="p">.</span><span class="n">count</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="mi">0</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">nums</span><span class="p">.</span><span class="n">count</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="mi">1</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">maxLength</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">1.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">nums</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span class='line'>            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="n">maxLength</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">maxLength</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">maxLength</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+启发：注意边界情况。<br/>
+状态：优于100%的提交。</p>
+
+<h3><a href="https://leetcode-cn.com/problems/largest-number-at-least-twice-of-others/description/">747. 至少是其他数字两倍的最大数</a></h3>
+
+<p>问题分析：模拟。<br/>
+代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">dominantIndex</span><span class="p">(</span><span class="n">_</span> <span class="nl">nums</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">maxValue</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">maxIndex</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="k">in</span> <span class="n">nums</span><span class="p">.</span><span class="n">enumerated</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="n">maxValue</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">maxValue</span> <span class="o">=</span> <span class="n">value</span>
+</span><span class='line'>                <span class="n">maxIndex</span> <span class="o">=</span> <span class="n">index</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="k">in</span> <span class="n">nums</span><span class="p">.</span><span class="n">enumerated</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">index</span> <span class="o">!=</span> <span class="n">maxIndex</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">if</span> <span class="n">value</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">&gt;</span> <span class="n">maxValue</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">maxIndex</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h3><a href="https://leetcode-cn.com/problems/fair-candy-swap/description/">888. 公平的糖果交换</a></h3>
@@ -2945,62 +3130,6 @@ header高度固定，折叠高度固定，展开高度有最大值限制；</p>
   &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
   </p>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-180522]]></title>
-    <link href="http://sxgfxm.github.io/blog/2018/06/19/ioszhi-shi-xiao-ji-180619/"/>
-    <updated>2018-06-19T17:49:55+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2018/06/19/ioszhi-shi-xiao-ji-180619</id>
-    <content type="html"><![CDATA[<h2>UITextView关闭输入修正</h2>
-
-<p><code>textView.autocorrectionType = UITextAutocorrectionTypeNo</code>
-<code>textFiled.autocorrectionType = UITextAutocorrectionTypeNo</code></p>
-
-<h2>NSDateFormatter</h2>
-
-<p>&ldquo;yyyy-MM-dd HH:mm:ss&rdquo;</p>
-
-<h2>UIGraphicsBeginImageContextWithOptions</h2>
-
-<p>传入<code>opaque</code>参数值为<code>NO</code>时可以创建透明的图层。</p>
-
-<h2>load方法、initialize方法</h2>
-
-<p><a href="https://www.jianshu.com/p/872447c6dc3f">https://www.jianshu.com/p/872447c6dc3f</a></p>
-
-<!-- more -->
-
-
-<h2>UIFont to CFTypeRef</h2>
-
-<p><code>CGFontRef cgFont = CGFontCreateWithFontName((CFStringRef)uiFont.fontName);</code></p>
-
-<h2>fsCachedData</h2>
-
-<p>在查看Cache文件夹下缓存时，发现fsCachedData文件夹过大，便查了下这个文件夹是如何生成的。</p>
-
-<p>在使用NSURLSession进行网络请求时可以设置缓存策略，可以参考<a href="https://www.cnblogs.com/ludashi/p/5556088.html">iOS开发之Alamofire源码解析前奏&ndash;NSURLSession全家桶</a>。当设置缓存策略后，会在默认为"~/Library/Caches/[Boundle ID]/fsCachedData/&ldquo;的目录下生成缓存文件。</p>
-
-<h2>CADisplayLink</h2>
-
-<h3>什么是CADisplayLink</h3>
-
-<p><code>CADisplayLink</code>是一个定时器，其调用周期和屏幕刷新频率有关。每秒调用频率 = 60 / frameInterval。</p>
-
-<h3>适用范围</h3>
-
-<p>检测fps，绘制动画。</p>
-
-<h3>与NSTimer区别</h3>
-
-<p><code>NSTimer</code>调用周期更加灵活，适用范围更广，但准确性不如<code>CADisplayLink</code>。<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2018/06/19/ioszhi-shi-xiao-ji-180619/'><a href="http://sxgfxm.github.io/blog/2018/06/19/ioszhi-shi-xiao-ji-180619/">http://sxgfxm.github.io/blog/2018/06/19/ioszhi-shi-xiao-ji-180619/</a></a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
-  </p></p>
 ]]></content>
   </entry>
   

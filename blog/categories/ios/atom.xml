@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2018-09-20T14:39:27+08:00</updated>
+  <updated>2018-09-25T13:07:19+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,29 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-180917]]></title>
+    <link href="http://sxgfxm.github.io/blog/2018/09/25/ioszhi-shi-xiao-ji-180917/"/>
+    <updated>2018-09-25T13:05:35+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2018/09/25/ioszhi-shi-xiao-ji-180917</id>
+    <content type="html"><![CDATA[<h2>相机拍摄图片方向调整</h2>
+
+<pre><code class="objective-c">  if (image.imageOrientation != UIImageOrientationUp) {
+      UIGraphicsBeginImageContext(image.size);
+      [image drawInRect:CGRectMake(0, 0, image.size.width, image.size.height)];
+      image = UIGraphicsGetImageFromCurrentImageContext();
+      UIGraphicsEndImageContext();
+  }
+</code></pre>
+
+<h2>Playground running 卡死</h2>
+
+<p>1、修改platform为Mac OS；<br/>
+2、修改为手动执行；<br/>
+3、为手动执行增加快捷键；</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-180910]]></title>
@@ -394,93 +417,6 @@ ARKit 提供了接口简单的高级 API，有一系列强大的功能，从 iOS
 <h4>ARAnchor</h4>
 
 <p>空间中先对真实世界的位置和角度。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-180813]]></title>
-    <link href="http://sxgfxm.github.io/blog/2018/08/20/ioszhi-shi-xiao-ji-180813/"/>
-    <updated>2018-08-20T11:43:27+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2018/08/20/ioszhi-shi-xiao-ji-180813</id>
-    <content type="html"><![CDATA[<h2>动画结束后使layer保持动画后的状态</h2>
-
-<p>需要同时设置<code>animation.removedOnCompletion = NO</code>和<code>animation.fillMode = kCAFillModeForwards</code>。</p>
-
-<!-- more -->
-
-
-<h2>UILabel增加模糊文字阴影</h2>
-
-<p><code>UILabel</code>的<code>shadowOffset</code>和<code>shadowColor</code>可以设置无模糊效果的阴影，如果需要设置模糊效果文字阴影，需要使用<code>NSAttributedString</code>增加<code>NSShadowAttributeName</code>阴影对应的参数。下面是UILabel设置阴影的一个Category方法：  <br/>
-<code>objective-c
-//  UILabel+Util.m
-- (void)setText:(NSString *)text lineSpacing:(CGFloat)lineSpacing shadowColor:(UIColor *)shadowColor{
-  if (!text) {
-    self.text = text;
-    return;
-  }
-  NSRange range = NSMakeRange(0, text.length);
-  NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:text];
-  //  font
-  [attributedString addAttribute:NSFontAttributeName value:self.font range:range];
-  //  color
-  [attributedString addAttribute:NSForegroundColorAttributeName value:self.textColor range:range];
-  //  shadow
-  if (shadowColor) {
-    NSShadow *shadow = [NSShadow new];
-    shadow.shadowBlurRadius = 4;
-    shadow.shadowOffset = CGSizeMake(0, 2);
-    shadow.shadowColor = shadowColor;
-    [attributedString addAttribute:NSShadowAttributeName value:shadow range:range];
-  }
-  //  style
-  NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-  [paragraphStyle setLineBreakMode:self.lineBreakMode];
-  [paragraphStyle setAlignment:self.textAlignment];
-  if (lineSpacing &gt; 0) {
-    [paragraphStyle setLineSpacing:lineSpacing];
-  }
-  [attributedString addAttribute:NSParagraphStyleAttributeName
-                           value:paragraphStyle
-                           range:range];
-  //  attributed string
-  self.attributedText = attributedString;
-}
-</code></p>
-
-<h2>UILabel逐行显示动画</h2>
-
-<p>增加一个Category方法使<code>UILabel</code>文字逐行显示，需要思想是为<code>UILabel</code>增加一个渐变的maskLayer，并用动画修改渐变的位置。  <br/>
-<code>objective-c
-//  UILabel+Util.m
-- (void)startLineAnimationWithDuration:(CGFloat)duration{
-  //  layout
-  [self layoutIfNeeded];
-  //  gradient layer
-  CAGradientLayer *gradientLayer = [CAGradientLayer layer];
-  gradientLayer.frame = self.bounds;
-  gradientLayer.locations = @[@0, @0, @0, @1];
-  gradientLayer.colors = @[(__bridge id)[UIColor whiteColor].CGColor,
-                           (__bridge id)[UIColor whiteColor].CGColor,
-                           (__bridge id)[UIColor clearColor].CGColor,
-                           (__bridge id)[UIColor clearColor].CGColor,
-                           ];
-  gradientLayer.startPoint = CGPointMake(0, 0);
-  gradientLayer.endPoint = CGPointMake(0, 1);
-  //  set mask
-  self.layer.mask = gradientLayer;
-  //  animate locations
-  CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"locations"];
-  animation.fromValue = @[@0, @(-0.2), @0, @1];
-  animation.toValue = @[@0, @1, @1.2, @1];
-  animation.duration = duration;
-  animation.timingFunction = [CAMediaTimingFunction functionWithName:@"easeInEaseOut"];
-  animation.removedOnCompletion = NO;
-  animation.fillMode = kCAFillModeForwards;
-  //  add animation
-  [gradientLayer addAnimation:animation forKey:@"animation"];
-}
-</code></p>
 ]]></content>
   </entry>
   

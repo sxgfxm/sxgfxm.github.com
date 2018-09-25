@@ -105,6 +105,64 @@ $(document).bind('DOMNodeInserted', function(event) {
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2018/09/25/ioszhi-shi-xiao-ji-180917/">iOS知识小集-180917</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2018-09-25T13:05:35+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>1:05 pm</span></time>
+        
+           | <a href="/blog/2018/09/25/ioszhi-shi-xiao-ji-180917/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2018/09/25/ioszhi-shi-xiao-ji-180917/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>相机拍摄图片方向调整</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">image</span><span class="p">.</span><span class="n">imageOrientation</span> <span class="o">!=</span> <span class="n">UIImageOrientationUp</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">UIGraphicsBeginImageContext</span><span class="p">(</span><span class="n">image</span><span class="p">.</span><span class="n">size</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">[</span><span class="n">image</span> <span class="nl">drawInRect</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">image</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">,</span> <span class="n">image</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">)];</span>
+</span><span class='line'>      <span class="n">image</span> <span class="o">=</span> <span class="n">UIGraphicsGetImageFromCurrentImageContext</span><span class="p">();</span>
+</span><span class='line'>      <span class="n">UIGraphicsEndImageContext</span><span class="p">();</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Playground running 卡死</h2>
+
+<p>1、修改platform为Mac OS；<br/>
+2、修改为手动执行；<br/>
+3、为手动执行增加快捷键；<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2018/09/25/ioszhi-shi-xiao-ji-180917/'><a href="http://sxgfxm.github.io/blog/2018/09/25/ioszhi-shi-xiao-ji-180917/">http://sxgfxm.github.io/blog/2018/09/25/ioszhi-shi-xiao-ji-180917/</a></a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
+  </p></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2018/09/20/leetcode-problems-zhi-dong-tai-gui-hua/">LeetCode Problems 之 动态规划</a></h1>
     
     
@@ -464,45 +522,6 @@ $(document).bind('DOMNodeInserted', function(event) {
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/09/10/leetcode-problems-zhi-shu-zu/">LeetCode Problems 之 数组</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2018-09-10T21:49:03+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>9:49 pm</span></time>
-        
-           | <a href="/blog/2018/09/10/leetcode-problems-zhi-shu-zu/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-shu-zu/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>数组</h2>
-
-<p>以下为 LeetCode 数组 相关问题解法记录。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2018/09/10/leetcode-problems-zhi-shu-zu/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -528,7 +547,7 @@ $(document).bind('DOMNodeInserted', function(event) {
  <h1>Categories</h1>
  <ul id="categories">
    <li class='category'><a href='/blog/categories/componentkit/'>componentkit (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>ios (71)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (72)</a></li>
 <li class='category'><a href='/blog/categories/leetcode/'>leetcode (9)</a></li>
 <li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
@@ -539,6 +558,10 @@ $(document).bind('DOMNodeInserted', function(event) {
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2018/09/25/ioszhi-shi-xiao-ji-180917/">iOS知识小集-180917</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2018/09/20/leetcode-problems-zhi-dong-tai-gui-hua/">LeetCode Problems 之 动态规划</a>
@@ -554,10 +577,6 @@ $(document).bind('DOMNodeInserted', function(event) {
     
       <li class="post">
         <a href="/blog/2018/09/17/ioszhi-shi-xiao-ji-180910/">iOS知识小集-180910</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/09/10/leetcode-problems-zhi-shen-du-you-xian-sou-suo/">LeetCode Problems 之 深度优先搜索</a>
       </li>
     
   </ul>

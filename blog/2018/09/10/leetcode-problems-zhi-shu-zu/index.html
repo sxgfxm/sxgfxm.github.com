@@ -128,6 +128,156 @@ $(document).bind('DOMNodeInserted', function(event) {
 <!-- more -->
 
 
+<h3><a href="https://leetcode-cn.com/problems/plus-one/description/">66. 加一</a></h3>
+
+<p>问题分析：高精度加1，先加1，再处理进位。<br/>
+代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">plusOne</span><span class="p">(</span><span class="n">_</span> <span class="nl">digits</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">digits</span> <span class="o">=</span> <span class="n">digits</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">length</span> <span class="o">=</span> <span class="n">digits</span><span class="p">.</span><span class="n">count</span> <span class="o">-</span> <span class="mi">1</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">value</span> <span class="o">=</span> <span class="n">digits</span><span class="p">[</span><span class="n">length</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span class='line'>        <span class="n">digits</span><span class="p">[</span><span class="n">length</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">%</span> <span class="mi">10</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">c</span> <span class="o">=</span> <span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">/</span> <span class="mi">10</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="p">(</span><span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">length</span><span class="p">).</span><span class="n">reversed</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">value</span> <span class="o">=</span> <span class="n">digits</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">c</span>
+</span><span class='line'>            <span class="n">digits</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">%</span> <span class="mi">10</span>
+</span><span class='line'>            <span class="n">c</span> <span class="o">=</span> <span class="n">value</span> <span class="o">/</span> <span class="mi">10</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">c</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">digits</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="nl">at</span><span class="p">:</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">digits</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+启发：array.insert(value, at:index)，(0..100).reversed()。<br/>
+状态：优于55%的提交。</p>
+
+<h3><a href="https://leetcode-cn.com/problems/longest-continuous-increasing-subsequence/description/">674. 最长连续递增序列</a></h3>
+
+<p>问题分析：模拟。<br/>
+代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">findLengthOfLCIS</span><span class="p">(</span><span class="n">_</span> <span class="nl">nums</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">nums</span><span class="p">.</span><span class="n">count</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="mi">0</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">nums</span><span class="p">.</span><span class="n">count</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="mi">1</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">maxLength</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">1.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">nums</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span class='line'>            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="n">maxLength</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">maxLength</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">maxLength</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+启发：注意边界情况。<br/>
+状态：优于100%的提交。</p>
+
+<h3><a href="https://leetcode-cn.com/problems/largest-number-at-least-twice-of-others/description/">747. 至少是其他数字两倍的最大数</a></h3>
+
+<p>问题分析：模拟。<br/>
+代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">dominantIndex</span><span class="p">(</span><span class="n">_</span> <span class="nl">nums</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">maxValue</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">maxIndex</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="k">in</span> <span class="n">nums</span><span class="p">.</span><span class="n">enumerated</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="n">maxValue</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">maxValue</span> <span class="o">=</span> <span class="n">value</span>
+</span><span class='line'>                <span class="n">maxIndex</span> <span class="o">=</span> <span class="n">index</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="k">in</span> <span class="n">nums</span><span class="p">.</span><span class="n">enumerated</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">index</span> <span class="o">!=</span> <span class="n">maxIndex</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">if</span> <span class="n">value</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">&gt;</span> <span class="n">maxValue</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">maxIndex</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
 <h3><a href="https://leetcode-cn.com/problems/fair-candy-swap/description/">888. 公平的糖果交换</a></h3>
 
 <p>问题分析：给定一个数，找另一个数。<br/>
@@ -1037,7 +1187,7 @@ func imageSmoother(_ M: [[Int]]) -&gt; [[Int]] {
  <h1>Categories</h1>
  <ul id="categories">
    <li class='category'><a href='/blog/categories/componentkit/'>componentkit (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>ios (71)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (72)</a></li>
 <li class='category'><a href='/blog/categories/leetcode/'>leetcode (9)</a></li>
 <li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
@@ -1048,6 +1198,10 @@ func imageSmoother(_ M: [[Int]]) -&gt; [[Int]] {
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2018/09/25/ioszhi-shi-xiao-ji-180917/">iOS知识小集-180917</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2018/09/20/leetcode-problems-zhi-dong-tai-gui-hua/">LeetCode Problems 之 动态规划</a>
@@ -1063,10 +1217,6 @@ func imageSmoother(_ M: [[Int]]) -&gt; [[Int]] {
     
       <li class="post">
         <a href="/blog/2018/09/17/ioszhi-shi-xiao-ji-180910/">iOS知识小集-180910</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/09/10/leetcode-problems-zhi-shen-du-you-xian-sou-suo/">LeetCode Problems 之 深度优先搜索</a>
       </li>
     
   </ul>
