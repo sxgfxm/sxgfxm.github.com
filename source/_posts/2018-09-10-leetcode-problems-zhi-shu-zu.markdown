@@ -12,6 +12,87 @@ description: sxgfxm, 数组
 以下为 LeetCode 数组 相关问题解法记录。  
 <!-- more -->
 
+### [66. 加一](https://leetcode-cn.com/problems/plus-one/description/)
+问题分析：高精度加1，先加1，再处理进位。  
+代码：  
+```swift
+class Solution {
+    func plusOne(_ digits: [Int]) -> [Int] {
+        var digits = digits
+        let length = digits.count - 1
+        var value = digits[length] + 1
+        digits[length] = (value) % 10
+        var c = (value) / 10
+        for i in (0..<length).reversed() {
+            value = digits[i] + c
+            digits[i] = (value) % 10
+            c = value / 10
+        }
+        if c > 0 {
+            digits.insert(c, at:0)
+        }
+        return digits
+    }
+}
+```  
+启发：array.insert(value, at:index)，(0..100).reversed()。  
+状态：优于55%的提交。  
+
+### [674. 最长连续递增序列](https://leetcode-cn.com/problems/longest-continuous-increasing-subsequence/description/)
+问题分析：模拟。  
+代码：  
+```swift
+class Solution {
+    func findLengthOfLCIS(_ nums: [Int]) -> Int {
+        if nums.count == 0 {
+            return 0
+        }
+        if nums.count == 1 {
+            return 1
+        }
+        var maxLength = 1
+        var count = 1
+        for i in 1..<nums.count {
+            if nums[i] > nums[i - 1] {
+                count = count + 1
+            } else {
+                count = 1
+            }
+            maxLength = max(maxLength, count)
+        }
+        return maxLength
+    }
+}
+```  
+启发：注意边界情况。  
+状态：优于100%的提交。
+
+### [747. 至少是其他数字两倍的最大数](https://leetcode-cn.com/problems/largest-number-at-least-twice-of-others/description/)
+问题分析：模拟。  
+代码：  
+```swift
+class Solution {
+    func dominantIndex(_ nums: [Int]) -> Int {
+        var maxValue = -1
+        var maxIndex = -1
+        for (index, value) in nums.enumerated() {
+            if value > maxValue {
+                maxValue = value
+                maxIndex = index
+            }
+        }
+        for (index, value) in nums.enumerated() {
+            if index != maxIndex {
+                if value * 2 > maxValue {
+                    return -1
+                }
+            }
+        }
+        return maxIndex
+    }
+}
+```
+
 ### [888. 公平的糖果交换](https://leetcode-cn.com/problems/fair-candy-swap/description/)
 问题分析：给定一个数，找另一个数。  
 方法一：模拟，双重循环，sumA + (B[j] - A[i]) == sumB + (A[i] - B[j])，时间复杂度O(n^2)。  
