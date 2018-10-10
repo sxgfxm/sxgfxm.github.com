@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2018-09-25T13:07:19+08:00</updated>
+  <updated>2018-10-10T21:47:19+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,43 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-180924]]></title>
+    <link href="http://sxgfxm.github.io/blog/2018/10/10/ioszhi-shi-xiao-ji-180924/"/>
+    <updated>2018-10-10T21:44:06+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2018/10/10/ioszhi-shi-xiao-ji-180924</id>
+    <content type="html"><![CDATA[<h2>修改UISearchBar取消按钮颜色</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">willPresentSearchController:</span><span class="p">(</span><span class="n">UISearchController</span> <span class="o">*</span><span class="p">)</span><span class="nv">searchController</span><span class="p">{</span>
+</span><span class='line'>  <span class="p">[[</span><span class="bp">UIBarButtonItem</span> <span class="nl">appearanceWhenContainedInInstancesOfClasses</span><span class="p">:</span><span class="l">@[</span><span class="p">[</span><span class="bp">UISearchBar</span> <span class="k">class</span><span class="p">]</span><span class="l">]</span><span class="p">]</span> <span class="nl">setTitleTextAttributes</span><span class="p">:</span><span class="l">@{</span><span class="nl">NSForegroundColorAttributeName</span><span class="p">:</span><span class="n">UIColorFromRGBA</span><span class="p">(</span><span class="mh">0xff4a4a4a</span><span class="p">)</span><span class="l">}</span> <span class="nl">forState</span><span class="p">:</span><span class="n">UIControlStateNormal</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>解决XCode10 引入非同一目录下头文件没有自动提示的问题</h2>
+
+<p>Xcode &ndash;> File &ndash;> Workspace Settings &ndash;> Build System &ndash;> Legacy Build System。<br/>
+需重新编译后生效。</p>
+
+<h2>非 Retina 显示器，升级到 Mojave 之后发现文字不清晰问题</h2>
+
+<p>如果你在用 “非 Retina” 的显示器，升级到 Mojave 之后发现文字不清晰了，是因为 Mojave 默认关闭了文字的次像素渲染，如果需要可以通过终端里输入这个命令重新打开：<br/>
+<code>sudo defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO</code>。<br/>
+重新打开对应软件后生效。</p>
+
+<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2018/10/10/ioszhi-shi-xiao-ji-180924/'>http://sxgfxm.github.io/blog/2018/10/10/ioszhi-shi-xiao-ji-180924/</a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
+  </p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-180917]]></title>
@@ -979,6 +1016,147 @@
 
 <!-- more -->
 
+
+<h3><a href="https://leetcode-cn.com/problems/maximize-distance-to-closest-person/description/">849. 到最近的人的最大距离</a></h3>
+
+<p>问题分析：分别求出距离左边和距离右边的最大距离，取最小值中的最大值。<br/>
+代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">maxDistToClosest</span><span class="p">(</span><span class="n">_</span> <span class="nl">seats</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="nl">left</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'>        <span class="k">var</span> <span class="nl">right</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">seats</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>            <span class="kr">left</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>            <span class="kr">right</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">leftFlag</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">seats</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">seats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">leftFlag</span> <span class="o">=</span> <span class="n">i</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">seats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">if</span> <span class="n">leftFlag</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="kr">left</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="n">leftFlag</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">rightFlag</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="p">(</span><span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">seats</span><span class="p">.</span><span class="n">count</span><span class="p">).</span><span class="n">reversed</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">seats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">rightFlag</span> <span class="o">=</span> <span class="n">i</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">seats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">if</span> <span class="n">rightFlag</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="kr">right</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">rightFlag</span> <span class="o">-</span> <span class="n">i</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">maxValue</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">seats</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">maxValue</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">maxValue</span><span class="p">,</span> <span class="n">minBiggerThan0</span><span class="p">(</span><span class="kr">left</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="kr">right</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">maxValue</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">func</span> <span class="n">minBiggerThan0</span><span class="p">(</span><span class="n">_</span> <span class="nl">a</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="n">_</span> <span class="nl">b</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">b</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">return</span> <span class="n">min</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">a</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">b</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">b</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+启发：左右开工。<br/>
+状态：优于33%的提交。</p>
+
+<h3><a href="https://leetcode-cn.com/problems/rotate-array/description/">189. 旋转数组</a></h3>
+
+<p>问题分析：nums[i] = nums[i - k]。<br/>
+代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Solution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">rotate</span><span class="p">(</span><span class="n">_</span> <span class="nl">nums</span><span class="p">:</span> <span class="k">inout</span> <span class="p">[</span><span class="n">Int</span><span class="p">],</span> <span class="n">_</span> <span class="nl">k</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">k</span> <span class="o">=</span> <span class="n">k</span> <span class="o">%</span> <span class="n">nums</span><span class="p">.</span><span class="n">count</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">nums</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">nums</span><span class="p">.</span><span class="n">count</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[(</span><span class="n">nums</span><span class="p">.</span><span class="n">count</span> <span class="o">+</span> <span class="n">i</span> <span class="o">-</span> <span class="n">k</span><span class="p">)</span> <span class="o">%</span> <span class="n">nums</span><span class="p">.</span><span class="n">count</span><span class="p">]</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+启发：<strong>不是最优解法</strong>。</p>
 
 <h3><a href="https://leetcode-cn.com/problems/plus-one/description/">66. 加一</a></h3>
 
@@ -2903,233 +3081,6 @@ header高度固定，折叠高度固定，展开高度有最大值限制；</p>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
   </p></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-180619]]></title>
-    <link href="http://sxgfxm.github.io/blog/2018/07/16/ioszhi-shi-xiao-ji-180619/"/>
-    <updated>2018-07-16T10:20:28+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2018/07/16/ioszhi-shi-xiao-ji-180619</id>
-    <content type="html"><![CDATA[<h2>清除UIWebView JavaScript缓存</h2>
-
-<pre><code class="objective-c">[webView stringByEvaluatingJavaScriptFromString:@"localStorage.clear();"];
-</code></pre>
-
-<h2>类似网易新闻下拉刷新后的展开动画</h2>
-
-<p>修改<code>anchorPoint</code>为<code>(1, 0.5)</code>。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">spreadFromCenterAnimation</span><span class="p">{</span>
-</span><span class='line'>  <span class="bp">CGRect</span> <span class="n">rectFrom</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="n">kScreen_Width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">60</span><span class="p">);</span>
-</span><span class='line'>  <span class="bp">CGRect</span> <span class="n">rectTo</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="n">kScreen_Width</span><span class="p">,</span> <span class="mi">60</span><span class="p">);</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">testView</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UIView</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">rectFrom</span><span class="p">];</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">testView</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">blueColor</span><span class="p">];</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">testView</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">anchorPoint</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">testView</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mi">1</span> <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
-</span><span class='line'>    <span class="nb">self</span><span class="p">.</span><span class="n">testView</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">rectTo</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span> <span class="nl">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">finished</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nb">self</span><span class="p">.</span><span class="n">testView</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">rectFrom</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<!-- more -->
-
-
-<h2>长按移动UITableViewCell</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addLongPressGesture</span><span class="p">{</span>
-</span><span class='line'>  <span class="bp">UILongPressGestureRecognizer</span> <span class="o">*</span><span class="n">longPress</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UILongPressGestureRecognizer</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget</span><span class="p">:</span><span class="nb">self</span> <span class="nl">action</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">longPressGestureRecognized</span><span class="p">:)];</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">tableView</span> <span class="nl">addGestureRecognizer</span><span class="p">:</span><span class="n">longPress</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">longPressGestureRecognized:</span><span class="p">(</span><span class="bp">UILongPressGestureRecognizer</span><span class="o">*</span><span class="p">)</span><span class="nv">longPress</span><span class="p">{</span>
-</span><span class='line'>  <span class="c1">//  关键点：通过长按手势获取点击位置，进而获取到对应的indexPath，从而操作对应的cell</span>
-</span><span class='line'>  <span class="bp">CGPoint</span> <span class="n">location</span> <span class="o">=</span> <span class="p">[</span><span class="n">longPress</span> <span class="nl">locationInView</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">tableView</span><span class="p">];</span>
-</span><span class='line'>  <span class="bp">NSIndexPath</span> <span class="o">*</span><span class="n">indexPath</span> <span class="o">=</span> <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">tableView</span> <span class="nl">indexPathForRowAtPoint</span><span class="p">:</span><span class="n">location</span><span class="p">];</span>
-</span><span class='line'>  <span class="k">static</span> <span class="bp">UIView</span> <span class="o">*</span><span class="n">snapshot</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">static</span> <span class="bp">NSIndexPath</span> <span class="o">*</span><span class="n">sourceIndexPath</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">UIGestureRecognizerState</span> <span class="n">state</span> <span class="o">=</span> <span class="n">longPress</span><span class="p">.</span><span class="n">state</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">switch</span> <span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">case</span> <span class="nl">UIGestureRecognizerStateBegan</span><span class="p">:{</span>
-</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="n">indexPath</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="c1">//  移动开始时，截取对应的cell的snapshot，隐藏对应的cell</span>
-</span><span class='line'>        <span class="n">sourceIndexPath</span> <span class="o">=</span> <span class="n">indexPath</span><span class="p">;</span>
-</span><span class='line'>        <span class="bp">UITableViewCell</span> <span class="o">*</span><span class="n">cell</span> <span class="o">=</span> <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">tableView</span> <span class="nl">cellForRowAtIndexPath</span><span class="p">:</span><span class="n">indexPath</span><span class="p">];</span>
-</span><span class='line'>        <span class="n">snapshot</span> <span class="o">=</span> <span class="p">[</span><span class="nb">self</span> <span class="nl">customSnapshotFromView</span><span class="p">:</span><span class="n">cell</span><span class="p">];</span>
-</span><span class='line'>        <span class="k">__block</span> <span class="bp">CGPoint</span> <span class="n">center</span> <span class="o">=</span> <span class="n">cell</span><span class="p">.</span><span class="n">center</span><span class="p">;</span>
-</span><span class='line'>        <span class="n">snapshot</span><span class="p">.</span><span class="n">center</span> <span class="o">=</span> <span class="n">center</span><span class="p">;</span>
-</span><span class='line'>        <span class="n">snapshot</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'>        <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">tableView</span> <span class="nl">addSubview</span><span class="p">:</span><span class="n">snapshot</span><span class="p">];</span>
-</span><span class='line'>        <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mf">0.25</span> <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
-</span><span class='line'>          <span class="n">center</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">location</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
-</span><span class='line'>          <span class="n">snapshot</span><span class="p">.</span><span class="n">center</span> <span class="o">=</span> <span class="n">center</span><span class="p">;</span>
-</span><span class='line'>          <span class="n">snapshot</span><span class="p">.</span><span class="n">transform</span> <span class="o">=</span> <span class="n">CGAffineTransformMakeScale</span><span class="p">(</span><span class="mf">1.05</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">);</span>
-</span><span class='line'>          <span class="n">snapshot</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.98</span><span class="p">;</span>
-</span><span class='line'>          <span class="n">cell</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'>          <span class="n">cell</span><span class="p">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
-</span><span class='line'>        <span class="p">}];</span>
-</span><span class='line'>      <span class="p">}</span>
-</span><span class='line'>      <span class="k">break</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">case</span> <span class="nl">UIGestureRecognizerStateChanged</span><span class="p">:{</span>
-</span><span class='line'>      <span class="c1">//  移动时，不断修改snapshot的位置，并交换数据和cell</span>
-</span><span class='line'>      <span class="bp">CGPoint</span> <span class="n">center</span> <span class="o">=</span> <span class="n">snapshot</span><span class="p">.</span><span class="n">center</span><span class="p">;</span>
-</span><span class='line'>      <span class="n">center</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">location</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
-</span><span class='line'>      <span class="n">snapshot</span><span class="p">.</span><span class="n">center</span> <span class="o">=</span> <span class="n">center</span><span class="p">;</span>
-</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="n">indexPath</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="p">[</span><span class="n">indexPath</span> <span class="nl">isEqual</span><span class="p">:</span><span class="n">sourceIndexPath</span><span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>        <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">dataSource</span> <span class="nl">exchangeObjectAtIndex</span><span class="p">:</span><span class="n">indexPath</span><span class="p">.</span><span class="n">row</span> <span class="nl">withObjectAtIndex</span><span class="p">:</span><span class="n">sourceIndexPath</span><span class="p">.</span><span class="n">row</span><span class="p">];</span>
-</span><span class='line'>        <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">tableView</span> <span class="nl">moveRowAtIndexPath</span><span class="p">:</span><span class="n">sourceIndexPath</span> <span class="nl">toIndexPath</span><span class="p">:</span><span class="n">indexPath</span><span class="p">];</span>
-</span><span class='line'>        <span class="n">sourceIndexPath</span> <span class="o">=</span> <span class="n">indexPath</span><span class="p">;</span>
-</span><span class='line'>      <span class="p">}</span>
-</span><span class='line'>      <span class="k">break</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">default</span><span class="o">:</span><span class="p">{</span>
-</span><span class='line'>      <span class="c1">//  移动完成后，显示被移动的cell，移除snapshot</span>
-</span><span class='line'>      <span class="bp">UITableViewCell</span> <span class="o">*</span><span class="n">cell</span> <span class="o">=</span> <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">tableView</span> <span class="nl">cellForRowAtIndexPath</span><span class="p">:</span><span class="n">sourceIndexPath</span><span class="p">];</span>
-</span><span class='line'>      <span class="n">cell</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'>      <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mf">0.25</span> <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
-</span><span class='line'>        <span class="n">snapshot</span><span class="p">.</span><span class="n">center</span> <span class="o">=</span> <span class="n">cell</span><span class="p">.</span><span class="n">center</span><span class="p">;</span>
-</span><span class='line'>        <span class="n">snapshot</span><span class="p">.</span><span class="n">transform</span> <span class="o">=</span> <span class="n">CGAffineTransformIdentity</span><span class="p">;</span>
-</span><span class='line'>        <span class="n">snapshot</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
-</span><span class='line'>        <span class="n">cell</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
-</span><span class='line'>      <span class="p">}</span> <span class="nl">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">finished</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">cell</span><span class="p">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
-</span><span class='line'>        <span class="n">sourceIndexPath</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-</span><span class='line'>        <span class="p">[</span><span class="n">snapshot</span> <span class="n">removeFromSuperview</span><span class="p">];</span>
-</span><span class='line'>        <span class="n">snapshot</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-</span><span class='line'>      <span class="p">}];</span>
-</span><span class='line'>      <span class="k">break</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">UIView</span> <span class="o">*</span><span class="p">)</span><span class="nf">customSnapshotFromView:</span><span class="p">(</span><span class="bp">UIView</span> <span class="o">*</span><span class="p">)</span><span class="nv">inputView</span> <span class="p">{</span>
-</span><span class='line'>  <span class="c1">// Make an image from the input view.</span>
-</span><span class='line'>  <span class="n">UIGraphicsBeginImageContextWithOptions</span><span class="p">(</span><span class="n">inputView</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">,</span> <span class="nb">NO</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">inputView</span><span class="p">.</span><span class="n">layer</span> <span class="nl">renderInContext</span><span class="p">:</span><span class="n">UIGraphicsGetCurrentContext</span><span class="p">()];</span>
-</span><span class='line'>  <span class="bp">UIImage</span> <span class="o">*</span><span class="n">image</span> <span class="o">=</span> <span class="n">UIGraphicsGetImageFromCurrentImageContext</span><span class="p">();</span>
-</span><span class='line'>  <span class="n">UIGraphicsEndImageContext</span><span class="p">();</span>
-</span><span class='line'>  <span class="c1">// Create an image view.</span>
-</span><span class='line'>  <span class="bp">UIView</span> <span class="o">*</span><span class="n">snapshot</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UIImageView</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithImage</span><span class="p">:</span><span class="n">image</span><span class="p">];</span>
-</span><span class='line'>  <span class="n">snapshot</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">masksToBounds</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">snapshot</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">cornerRadius</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">snapshot</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">shadowOffset</span> <span class="o">=</span> <span class="n">CGSizeMake</span><span class="p">(</span><span class="o">-</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
-</span><span class='line'>  <span class="n">snapshot</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">shadowRadius</span> <span class="o">=</span> <span class="mf">5.0</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">snapshot</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">shadowOpacity</span> <span class="o">=</span> <span class="mf">0.4</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">snapshot</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2018/07/16/ioszhi-shi-xiao-ji-180619/'>http://sxgfxm.github.io/blog/2018/07/16/ioszhi-shi-xiao-ji-180619/</a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
-
 ]]></content>
   </entry>
   

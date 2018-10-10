@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2018-09-25T13:07:19+08:00</updated>
+  <updated>2018-10-10T21:47:19+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,31 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-180924]]></title>
+    <link href="http://sxgfxm.github.io/blog/2018/10/10/ioszhi-shi-xiao-ji-180924/"/>
+    <updated>2018-10-10T21:44:06+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2018/10/10/ioszhi-shi-xiao-ji-180924</id>
+    <content type="html"><![CDATA[<h2>修改UISearchBar取消按钮颜色</h2>
+
+<pre><code class="objective-c">- (void)willPresentSearchController:(UISearchController *)searchController{
+  [[UIBarButtonItem appearanceWhenContainedInInstancesOfClasses:@[[UISearchBar class]]] setTitleTextAttributes:@{NSForegroundColorAttributeName:UIColorFromRGBA(0xff4a4a4a)} forState:UIControlStateNormal];
+}
+</code></pre>
+
+<h2>解决XCode10 引入非同一目录下头文件没有自动提示的问题</h2>
+
+<p>Xcode &ndash;> File &ndash;> Workspace Settings &ndash;> Build System &ndash;> Legacy Build System。<br/>
+需重新编译后生效。</p>
+
+<h2>非 Retina 显示器，升级到 Mojave 之后发现文字不清晰问题</h2>
+
+<p>如果你在用 “非 Retina” 的显示器，升级到 Mojave 之后发现文字不清晰了，是因为 Mojave 默认关闭了文字的次像素渲染，如果需要可以通过终端里输入这个命令重新打开：<br/>
+<code>sudo defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO</code>。<br/>
+重新打开对应软件后生效。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-180917]]></title>
@@ -317,106 +342,6 @@ step out    F8</p>
 <h3>script</h3>
 
 <p>执行Python脚本</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-180820]]></title>
-    <link href="http://sxgfxm.github.io/blog/2018/08/30/ioszhi-shi-xiao-ji-180820/"/>
-    <updated>2018-08-30T10:24:16+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2018/08/30/ioszhi-shi-xiao-ji-180820</id>
-    <content type="html"><![CDATA[<h2>获取textview光标所在位置</h2>
-
-<pre><code class="objective-c">- (NSUInteger)currentLocation:(UITextView*)textView{
-  NSRange range = textView.selectionRange;
-  if (range.location == NSNotFound) {
-    return textView.text.length;
-  }
-  return range.location;
-}
-</code></pre>
-
-<!-- more -->
-
-
-<h2>超出父视图的子视图响应手势事件</h2>
-
-<pre><code class="objective-c">- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
-    UIView *view = [super hitTest:point withEvent:event];
-    if (view == nil) {
-        for (UIView *subView in self.subviews) {
-            CGPoint tp = [subView convertPoint:point fromView:self];
-            if (CGRectContainsPoint(subView.bounds, tp)) {
-                view = subView;
-            }
-        }
-    }
-    return view;
-}
-
-- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event{
-    //if内的条件应该为，触摸点属于子视图范围
-    if (.....){
-     return YES;
-    }
-    return NO;
-}
-</code></pre>
-
-<h2>CALayer阴影</h2>
-
-<p>默认<code>shadowOpacity = 0</code>，需要手动设置才能显示出来阴影。</p>
-
-<h2>Macbook Pro触摸板突然失效</h2>
-
-<p>键盘检测出现问题，盒盖过一会儿再打开即可。</p>
-
-<h2>ARKit</h2>
-
-<h3>什么是AR</h3>
-
-<p>VR，Virtual Reality，虚拟现实，纯虚拟数字画面；<br/>
-AR，Augmented Reality，现实增强，裸眼现实 + 虚拟数字画面；<br/>
-MR，Mediated Reality，介导现实，数字化现实 + 虚拟数字画面；</p>
-
-<h3>什么是ARKit</h3>
-
-<p>ARKit 是一个移动端 AR 平台，用于在 iOS 上开发增强现实 APP；<br/>
-ARKit 提供了接口简单的高级 API，有一系列强大的功能，从 iOS11 开始支持；</p>
-
-<h3>ARKit有哪些功能</h3>
-
-<h4>追踪</h4>
-
-<p>世界追踪；</p>
-
-<h4>场景理解</h4>
-
-<p>平面识别，命中测试；</p>
-
-<h4>渲染</h4>
-
-<p>整合任意渲染程序；</p>
-
-<h3>如何使用ARKit</h3>
-
-<h4>ARSession</h4>
-
-<p>1、管理增强现实所有处理流程的类：可带参数配置，且可以开始处理流程或暂停处理流程或切换处理流程；<br/>
-2、重置追踪；<br/>
-3、获取处理结果ARFrame，通过代理或者直接获取currentFrame；</p>
-
-<h4>ARSessionConfiguration</h4>
-
-<h4>ARFrame</h4>
-
-<p>1、相机图像作为渲染场景背景；<br/>
-2、提供设备追踪信息，如设备角度、位置、追踪状态；<br/>
-3、提供场景理解，如特征点、空间物理位置及光线估算；</p>
-
-<h4>ARAnchor</h4>
-
-<p>空间中先对真实世界的位置和角度。</p>
 ]]></content>
   </entry>
   

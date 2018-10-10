@@ -105,6 +105,45 @@ $(document).bind('DOMNodeInserted', function(event) {
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2018/09/10/leetcode-problems-zhi-ha-xi/">LeetCode Problems 之 哈希</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2018-09-10T21:51:54+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>9:51 pm</span></time>
+        
+           | <a href="/blog/2018/09/10/leetcode-problems-zhi-ha-xi/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-ha-xi/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>哈希</h2>
+
+<p>以下为 LeetCode 哈希 相关问题解法记录。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2018/09/10/leetcode-problems-zhi-ha-xi/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2018/09/10/leetcode-problems-zhi-shu-zu/">LeetCode Problems 之 数组</a></h1>
     
     
@@ -592,81 +631,6 @@ $(document).bind('DOMNodeInserted', function(event) {
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/07/16/ioszhi-shi-xiao-ji-180619/">iOS知识小集-180619</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2018-07-16T10:20:28+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>10:20 am</span></time>
-        
-           | <a href="/blog/2018/07/16/ioszhi-shi-xiao-ji-180619/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2018/07/16/ioszhi-shi-xiao-ji-180619/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>清除UIWebView JavaScript缓存</h2>
-
-<pre><code class="objective-c">[webView stringByEvaluatingJavaScriptFromString:@"localStorage.clear();"];
-</code></pre>
-
-<h2>类似网易新闻下拉刷新后的展开动画</h2>
-
-<p>修改<code>anchorPoint</code>为<code>(1, 0.5)</code>。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">spreadFromCenterAnimation</span><span class="p">{</span>
-</span><span class='line'>  <span class="bp">CGRect</span> <span class="n">rectFrom</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="n">kScreen_Width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">60</span><span class="p">);</span>
-</span><span class='line'>  <span class="bp">CGRect</span> <span class="n">rectTo</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="n">kScreen_Width</span><span class="p">,</span> <span class="mi">60</span><span class="p">);</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">testView</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UIView</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">rectFrom</span><span class="p">];</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">testView</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">blueColor</span><span class="p">];</span>
-</span><span class='line'>  <span class="nb">self</span><span class="p">.</span><span class="n">testView</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">anchorPoint</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">testView</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mi">1</span> <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
-</span><span class='line'>    <span class="nb">self</span><span class="p">.</span><span class="n">testView</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">rectTo</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span> <span class="nl">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">finished</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nb">self</span><span class="p">.</span><span class="n">testView</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">rectFrom</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2018/07/16/ioszhi-shi-xiao-ji-180619/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -694,7 +658,7 @@ $(document).bind('DOMNodeInserted', function(event) {
  <h1>Categories</h1>
  <ul id="categories">
    <li class='category'><a href='/blog/categories/componentkit/'>componentkit (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>ios (72)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (73)</a></li>
 <li class='category'><a href='/blog/categories/leetcode/'>leetcode (9)</a></li>
 <li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
@@ -705,6 +669,10 @@ $(document).bind('DOMNodeInserted', function(event) {
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2018/10/10/ioszhi-shi-xiao-ji-180924/">iOS知识小集-180924</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2018/09/25/ioszhi-shi-xiao-ji-180917/">iOS知识小集-180917</a>
@@ -720,10 +688,6 @@ $(document).bind('DOMNodeInserted', function(event) {
     
       <li class="post">
         <a href="/blog/2018/09/17/leetcode-problems-lian-biao/">LeetCode Problems 链表</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/09/17/ioszhi-shi-xiao-ji-180910/">iOS知识小集-180910</a>
       </li>
     
   </ul>
