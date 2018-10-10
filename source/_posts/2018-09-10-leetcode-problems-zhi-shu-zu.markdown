@@ -12,6 +12,80 @@ description: sxgfxm, 数组
 以下为 LeetCode 数组 相关问题解法记录。  
 <!-- more -->
 
+### [849. 到最近的人的最大距离](https://leetcode-cn.com/problems/maximize-distance-to-closest-person/description/)
+问题分析：分别求出距离左边和距离右边的最大距离，取最小值中的最大值。  
+代码：  
+```swift
+class Solution {
+    func maxDistToClosest(_ seats: [Int]) -> Int {
+        var left: [Int] = []
+        var right: [Int] = []
+        for i in 0..<seats.count {
+            left.append(-1)
+            right.append(-1)
+        }
+        var leftFlag = -1
+        for i in 0..<seats.count {
+            if seats[i] == 1 {
+                leftFlag = i
+            }
+            if seats[i] == 0 {
+                if leftFlag != -1 {
+                    left[i] = i - leftFlag
+                }
+            }
+        }
+        var rightFlag = -1
+        for i in (0..<seats.count).reversed() {
+            if seats[i] == 1 {
+                rightFlag = i
+            }
+            if seats[i] == 0 {
+                if rightFlag != -1 {
+                    right[i] = rightFlag - i
+                }
+            }
+        }
+        var maxValue = 0
+        for i in 0..<seats.count {
+            maxValue = max(maxValue, minBiggerThan0(left[i], right[i]))
+        }
+        return maxValue
+    }
+
+    func minBiggerThan0(_ a: Int, _ b: Int) -> Int {
+        if a > 0 {
+            if b > 0 {
+                return min(a, b)
+            }
+            return a
+        }
+        if b > 0 {
+            return b
+        }
+        return -1
+    }
+}
+```  
+启发：左右开工。  
+状态：优于33%的提交。
+
+### [189. 旋转数组](https://leetcode-cn.com/problems/rotate-array/description/)
+问题分析：nums[i] = nums[i - k]。  
+代码：  
+```swift
+class Solution {
+    func rotate(_ nums: inout [Int], _ k: Int) {
+        var k = k % nums.count
+        let temp = nums
+        for i in 0..<nums.count {
+            nums[i] = temp[(nums.count + i - k) % nums.count]
+        }
+    }
+}
+```  
+启发：**不是最优解法**。
+
 ### [66. 加一](https://leetcode-cn.com/problems/plus-one/description/)
 问题分析：高精度加1，先加1，再处理进位。  
 代码：  
