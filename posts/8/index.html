@@ -105,7 +105,7 @@ $(document).bind('DOMNodeInserted', function(event) {
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2017/03/20/ioszhi-shi-xiao-ji-170313/">iOS知识小集-170313</a></h1>
+      <h1 class="entry-title"><a href="/blog/2017/06/09/ioszhi-shi-xiao-ji-170529/">iOS知识小集-170529</a></h1>
     
     
       <p class="meta">
@@ -114,39 +114,25 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 
-<time class='entry-date' datetime='2017-03-20T16:50:46+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:50 pm</span></time>
+<time class='entry-date' datetime='2017-06-09T10:08:09+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>10:08 am</span></time>
         
-           | <a href="/blog/2017/03/20/ioszhi-shi-xiao-ji-170313/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/03/20/ioszhi-shi-xiao-ji-170313/">Comments</a>
+           | <a href="/blog/2017/06/09/ioszhi-shi-xiao-ji-170529/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/06/09/ioszhi-shi-xiao-ji-170529/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h2>Masonry</h2>
+  <div class="entry-content"><h2>Open system wifi settings</h2>
 
-<p>需要先添加到父视图，再设置约束。<br/>
-block中无需使用weakself。<br/>
-添加约束：makeConstrains。<br/>
-更新约束：updateConstrains，与之相关的布局自动调整。<br/>
-重设约束：remakeConstrains，删除之前的约束重新添加。</p>
-
-<pre><code>[self.view updateConstraints:^(MASConstraintMaker *make){
-  //  updateConstraints
-}];
-[self.view updateConstraints];
-[self.view setNeedsLayout];
-[UIView animateWithDuration:3 animations:^{
-  [self.view layoutIfNeeded];
-}];
-</code></pre>
+<p><code>[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"App-Prefs:root=WIFI"]];</code></p>
 
 </div>
   
   
     <footer>
-      <a rel="full-article" href="/blog/2017/03/20/ioszhi-shi-xiao-ji-170313/">Read on &rarr;</a>
+      <a rel="full-article" href="/blog/2017/06/09/ioszhi-shi-xiao-ji-170529/">Read on &rarr;</a>
     </footer>
   
 
@@ -158,7 +144,7 @@ block中无需使用weakself。<br/>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2017/03/10/ioszhi-shi-xiao-ji-170306/">iOS知识小集-170306</a></h1>
+      <h1 class="entry-title"><a href="/blog/2017/06/09/ioszhi-shi-xiao-ji-170522/">iOS知识小集-170522</a></h1>
     
     
       <p class="meta">
@@ -167,29 +153,25 @@ block中无需使用weakself。<br/>
 
 
 
-<time class='entry-date' datetime='2017-03-10T17:00:41+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>5:00 pm</span></time>
+<time class='entry-date' datetime='2017-06-09T09:57:35+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>9:57 am</span></time>
         
-           | <a href="/blog/2017/03/10/ioszhi-shi-xiao-ji-170306/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/03/10/ioszhi-shi-xiao-ji-170306/">Comments</a>
+           | <a href="/blog/2017/06/09/ioszhi-shi-xiao-ji-170522/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/06/09/ioszhi-shi-xiao-ji-170522/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h2>异步回调</h2>
+  <div class="entry-content"><h2>Networking Concepts</h2>
 
-<ol>
-<li>明确知道操作执行完成；</li>
-<li>操作时间未知；</li>
-</ol>
-
+<p><a href="https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/NetworkingConcepts/Introduction/Introduction.html#//apple_ref/doc/uid/TP40012487">Networking Concepts</a></p>
 
 </div>
   
   
     <footer>
-      <a rel="full-article" href="/blog/2017/03/10/ioszhi-shi-xiao-ji-170306/">Read on &rarr;</a>
+      <a rel="full-article" href="/blog/2017/06/09/ioszhi-shi-xiao-ji-170522/">Read on &rarr;</a>
     </footer>
   
 
@@ -201,7 +183,7 @@ block中无需使用weakself。<br/>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2017/03/06/ioszhi-shi-xiao-ji-170227/">iOS知识小集-170227</a></h1>
+      <h1 class="entry-title"><a href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170515/">iOS知识小集-170515</a></h1>
     
     
       <p class="meta">
@@ -210,17 +192,203 @@ block中无需使用weakself。<br/>
 
 
 
-<time class='entry-date' datetime='2017-03-06T16:15:46+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:15 pm</span></time>
+<time class='entry-date' datetime='2017-05-17T16:57:00+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:57 pm</span></time>
         
-           | <a href="/blog/2017/03/06/ioszhi-shi-xiao-ji-170227/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/03/06/ioszhi-shi-xiao-ji-170227/">Comments</a>
+           | <a href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170515/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170515/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h2>OC中的锁</h2>
+  <div class="entry-content"><h2>更新cocoapods版本</h2>
+
+<p>正式版：<code>sudo gem install cocoapods</code><br/>
+开发版：<code>sudo gem install cocoapods --pre </code></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170515/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170508/">iOS知识小集-170508</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-05-17T16:52:43+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:52 pm</span></time>
+        
+           | <a href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170508/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170508/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Carthage</h2>
+
+<p>安装：<code>brew install carthage</code><br/>
+添加：<code>Cartfile</code><br/>
+运行：<code>carthage update</code><br/>
+添加：<code>Carthage/Build/.framework</code></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170508/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170501/">iOS知识小集-170501</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-05-17T16:42:40+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:42 pm</span></time>
+        
+           | <a href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170501/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170501/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>ComponentKit Tutorial - CollectionView</h1>
+
+<h2>Install</h2>
+
+<p>通过 <strong>Carthage</strong> 安装，在 <strong>Cartfile</strong> 中添加<code>github "facebook/ComponentKit" ~&gt; 0.20</code>，然后运行<code>carthage update</code>，编译完成后，在 <strong>Embedded Binaries</strong> 添加<code>Carthage/Build/iOS/ComponentKit.framework</code>。所有需要使用ComponentKit的源文件需要修改后缀为 <strong>.mm</strong>。</p>
+
+<h2>Philosophy</h2>
+
+<p>Doing so this reverses the traditional approach for a <code>UICollectionViewDataSource</code>. Usually the controller layer will <strong>tell</strong> the <code>UICollectionView</code> to update and then the <code>UICollectionView</code> <strong>ask</strong> the datasource for the data. Here the model is  more Reactive, from an external prospective, the datasource is <strong>told</strong> what changes to apply and then <strong>tell</strong> the collection view to apply the corresponding changes.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170501/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170424/">iOS知识小集-170424</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-05-17T16:38:39+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:38 pm</span></time>
+        
+           | <a href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170424/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170424/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>ComponentKit Tutorial - Layout</h1>
+
+<h2>Flexbox Layout</h2>
+
+<p><strong>flex container</strong>：容器。<br/>
+main axis：main start， main end。<br/>
+cross axis：cross start， cross end。<br/>
+<strong>flex item</strong>：成员。<br/>
+main size。<br/>
+cross size。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170424/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170417/">iOS知识小集-170417</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-05-17T16:33:08+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:33 pm</span></time>
+        
+           | <a href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170417/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170417/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>ComponentKit Tutorial - Component</h1>
+
+<h2>CKComponent</h2>
+
+<p>A component is an immutable object that specifies how to configure a view, loosely inspired by React.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">newWithView:</span><span class="p">(</span><span class="k">const</span> <span class="n">CKComponentViewConfiguration</span> <span class="o">&amp;</span><span class="p">)</span><span class="nv">view</span>
+</span><span class='line'>                       <span class="nf">size:</span><span class="p">(</span><span class="k">const</span> <span class="n">CKComponentSize</span> <span class="o">&amp;</span><span class="p">)</span><span class="nv">size</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Example:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -232,16 +400,30 @@ block中无需使用weakself。<br/>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@implementation</span> <span class="nc">TestObj</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">CKComponent</span> <span class="o">*</span><span class="n">component</span> <span class="o">=</span> <span class="p">[</span><span class="n">CKComponent</span>
+</span><span class='line'>    <span class="nl">newWithView</span><span class="p">:{</span>
+</span><span class='line'>        <span class="p">[</span><span class="bp">UIView</span> <span class="k">class</span><span class="p">],</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="p">{</span><span class="k">@selector</span><span class="p">(</span><span class="nl">setBackgroundColor</span><span class="p">:),[</span><span class="bp">UIColor</span> <span class="n">redColor</span><span class="p">]},</span>
+</span><span class='line'>            <span class="p">{</span><span class="k">@selector</span><span class="p">(</span><span class="nl">setUserInteractionEnabled</span><span class="p">:),</span> <span class="m">@YES</span><span class="p">},</span>
+</span><span class='line'>            <span class="p">{</span><span class="n">CKComponentTapGestureAttribute</span><span class="p">(</span><span class="k">@selector</span><span class="p">(</span><span class="n">didTap</span><span class="p">))},</span>
+</span><span class='line'>            <span class="p">{</span><span class="n">CKComponentViewAttribute</span><span class="o">::</span><span class="n">LayerAttribute</span><span class="p">(</span><span class="k">@selector</span><span class="p">(</span><span class="nl">setCornerRadius</span><span class="p">:)),</span> <span class="mf">@10.0</span><span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="nl">size</span><span class="p">:{</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">}];</span>
 </span><span class='line'>
-</span><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">method1</span><span class="p">{</span>
-</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Method1&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">didTap</span><span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span> <span class="nl">updateState</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSNumber</span> <span class="o">*</span><span class="n">oldState</span><span class="p">){</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="n">oldState</span> <span class="n">boolValue</span><span class="p">]</span> <span class="o">?</span> <span class="m">@NO</span> <span class="o">:</span> <span class="m">@YES</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span> <span class="nl">mode</span><span class="p">:</span><span class="n">CKUpdateModeSynchronous</span><span class="p">];</span>
 </span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">method2</span><span class="p">{</span>
-</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Method2&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -251,7 +433,7 @@ block中无需使用weakself。<br/>
   
   
     <footer>
-      <a rel="full-article" href="/blog/2017/03/06/ioszhi-shi-xiao-ji-170227/">Read on &rarr;</a>
+      <a rel="full-article" href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170417/">Read on &rarr;</a>
     </footer>
   
 
@@ -263,7 +445,7 @@ block中无需使用weakself。<br/>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2017/03/06/ioszhi-shi-xiao-ji-170220/">iOS知识小集-170220</a></h1>
+      <h1 class="entry-title"><a href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170410/">iOS知识小集-170410</a></h1>
     
     
       <p class="meta">
@@ -272,39 +454,30 @@ block中无需使用weakself。<br/>
 
 
 
-<time class='entry-date' datetime='2017-03-06T16:06:34+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:06 pm</span></time>
+<time class='entry-date' datetime='2017-05-17T16:25:45+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:25 pm</span></time>
         
-           | <a href="/blog/2017/03/06/ioszhi-shi-xiao-ji-170220/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/03/06/ioszhi-shi-xiao-ji-170220/">Comments</a>
+           | <a href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170410/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170410/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h2>App生命周期</h2>
+  <div class="entry-content"><h1>ComponentKit Tutorial - Introduction</h1>
 
-<p><strong>main.m</strong>：app程序入口，将控制权交给UIKit framework。<br/>
-<strong>UIApplication</strong>：管理事件循环和高级行为，传递通知给代理。<br/>
-<strong>App Delegate</strong>：处理应用初始化，状态转换，等高级行为。每个应用都要有。<br/>
-<strong>Data Model</strong>：存储应用数据。<br/>
-<strong>View Controller</strong>：管理应用展示内容。<br/>
-<strong>View</strong>：展示内容。<br/>
-<strong>Main Run Loop</strong>：Main run loop由UIApplication在主线程中开启，保证用户操作串行执行。
-用户操作 -> 操作系统 -> 端口 -> 事件队列 -> Main run loop -> App object -> Core object
--> 操作系统 -> 屏幕反馈。<br/>
-<strong>执行状态</strong>：<br/>
-- 关闭状态。<br/>
-- 未激活状态：在前台运行，但未接收到事件。<br/>
-- 激活状态：在前台运行，接收到事件。<br/>
-- 后台状态：在后台，且正在执行程序，通常会接着进入挂起状态。<br/>
-- 挂起状态：在后台，且没有执行程序。当内存不足时会清理挂起应用。</p>
+<h2>Philosophy</h2>
+
+<p>Components are immutable objects that specify how to configure views.<br/>
+<strong>Declarative</strong> : You declare the subcomponents of your component.<br/>
+<strong>Functional</strong> : Data flows in one direction.<br/>
+<strong>Composable</strong> : Reusing it is a one-liner.</p>
 
 </div>
   
   
     <footer>
-      <a rel="full-article" href="/blog/2017/03/06/ioszhi-shi-xiao-ji-170220/">Read on &rarr;</a>
+      <a rel="full-article" href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170410/">Read on &rarr;</a>
     </footer>
   
 
@@ -316,7 +489,7 @@ block中无需使用weakself。<br/>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2017/02/25/ios-system-authorization/">iOS System Authorization</a></h1>
+      <h1 class="entry-title"><a href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170403/">iOS知识小集-170403</a></h1>
     
     
       <p class="meta">
@@ -325,94 +498,27 @@ block中无需使用weakself。<br/>
 
 
 
-<time class='entry-date' datetime='2017-02-25T14:17:43+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>2:17 pm</span></time>
+<time class='entry-date' datetime='2017-05-17T16:16:33+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:16 pm</span></time>
         
-           | <a href="/blog/2017/02/25/ios-system-authorization/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/02/25/ios-system-authorization/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>iOS 10开始，获取<strong>隐私</strong>敏感数据需要在<strong>plist.info</strong>文件中配置，否则app会crash。<br/>
-配置方法：添加对应权限的key和value，value不许为空。<br/>
-常用权限：</p>
-
-<ul>
-<li>Network：无需添加key</li>
-<li>Location：Privacy - Location Always Usage Description</li>
-<li>Photo：Privacy - Photo Library Usage Description</li>
-<li>Camera：Privacy - Camera Usage Description</li>
-<li>Microphone：Privacy - Microphone Usage Description</li>
-<li>Contact：Privacy - Contacts Usage Description</li>
-<li>Media：Privacy - Media Library Usage Description</li>
-</ul>
-
-
-<p>手动请求权限：当用户拒绝授权某权限时，需要手动再次请求。<br/>
-跳转至权限设置界面：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[[</span><span class="bp">UIApplication</span> <span class="n">sharedApplication</span><span class="p">]</span>
-</span><span class='line'>                <span class="nl">openURL</span><span class="p">:[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="n">UIApplicationOpenSettingsURLString</span><span class="p">]</span>
-</span><span class='line'>                <span class="nl">options</span><span class="p">:</span><span class="l">@{}</span>
-</span><span class='line'>      <span class="nl">completionHandler</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><a href="https://github.com/sxgfxm/AuthorizationDemo">Demo地址</a></p>
-
-<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/02/25/ios-system-authorization/'>http://sxgfxm.github.io/blog/2017/02/25/ios-system-authorization/</a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/02/20/ios-core-animation-advanced-techniques/">iOS Core Animation Advanced Techniques</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2017-02-20T22:10:40+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>10:10 pm</span></time>
-        
-           | <a href="/blog/2017/02/20/ios-core-animation-advanced-techniques/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/02/20/ios-core-animation-advanced-techniques/">Comments</a>
+           | <a href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170403/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/05/17/ioszhi-shi-xiao-ji-170403/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h1>Introduction</h1>
+  <div class="entry-content"><h2>Heap and Stack</h2>
 
-<p>本文主要为<strong>iOS Core Animation Advanced Techniques</strong>的笔记。</p>
+<p>Value types are created on the stack, Reference types are created on the heap.<br/>
+Stack is attached to a thread, and Heap is attached to the application.<br/>
+Stack is faster than Heap.</p>
 
 </div>
   
   
     <footer>
-      <a rel="full-article" href="/blog/2017/02/20/ios-core-animation-advanced-techniques/">Read on &rarr;</a>
+      <a rel="full-article" href="/blog/2017/05/17/ioszhi-shi-xiao-ji-170403/">Read on &rarr;</a>
     </footer>
   
 
@@ -424,7 +530,7 @@ block中无需使用weakself。<br/>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2017/02/10/export-music-from-itunes-to-local-apps-sandbox-on-iphone/">Export Music From Itunes to Local App's Sandbox on iPhone</a></h1>
+      <h1 class="entry-title"><a href="/blog/2017/04/05/ioszhi-shi-xiao-ji-170403/">iOS知识小集-170327</a></h1>
     
     
       <p class="meta">
@@ -433,138 +539,28 @@ block中无需使用weakself。<br/>
 
 
 
-<time class='entry-date' datetime='2017-02-10T15:31:20+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>3:31 pm</span></time>
+<time class='entry-date' datetime='2017-04-05T09:07:16+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>9:07 am</span></time>
         
-           | <a href="/blog/2017/02/10/export-music-from-itunes-to-local-apps-sandbox-on-iphone/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/02/10/export-music-from-itunes-to-local-apps-sandbox-on-iphone/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Introduction</h2>
-
-<p>本文主要介绍app如何获取iTunes中音乐列表，并把iTunes中音乐文件导出至app的沙盒目录下。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2017/02/10/export-music-from-itunes-to-local-apps-sandbox-on-iphone/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/01/23/core-data-tutorial-ios-10/">Core Data Tutorial iOS 10</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2017-01-23T16:40:01+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2017</span></span> <span class='time'>4:40 pm</span></time>
-        
-           | <a href="/blog/2017/01/23/core-data-tutorial-ios-10/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/01/23/core-data-tutorial-ios-10/">Comments</a>
+           | <a href="/blog/2017/04/05/ioszhi-shi-xiao-ji-170403/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/04/05/ioszhi-shi-xiao-ji-170403/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>iOS 10 CoreData使用总结。</p>
+  <div class="entry-content"><h2>转换</h2>
+
+<p>NSURL -> NSString：<code>NSString *path = [url path];</code><br/>
+NSString -> NSURL：<code>NSURL *url = [NSURL fileURLWithPath:path];</code> <br/>
+UIImage -> NSData：<code>NSData *data = UIImagePNGRepresentation(image);</code><br/>
+NSData -> UIImage：<code>UIImage *image = [UIImage imageWithData:data];</code></p>
 
 </div>
   
   
     <footer>
-      <a rel="full-article" href="/blog/2017/01/23/core-data-tutorial-ios-10/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/01/17/prevent-duplicate-clicks/">Prevent Duplicate Clicks</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2017-01-17T16:19:36+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:19 pm</span></time>
-        
-           | <a href="/blog/2017/01/17/prevent-duplicate-clicks/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/01/17/prevent-duplicate-clicks/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>在应用开发过程中，点击事件为耗时操作或者延时响应，例如请求服务器数据，push至下一个界面，如果不处理用户重复点击事件，将会重复触发事件。下面介绍几种简单的处理方法。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2017/01/17/prevent-duplicate-clicks/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/10/27/smooth-gradient-polyline/">Smooth Gradient Polyline</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-10-27T15:47:23+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>3:47 pm</span></time>
-        
-           | <a href="/blog/2016/10/27/smooth-gradient-polyline/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2016/10/27/smooth-gradient-polyline/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Introduction</h2>
-
-<p>近年来，人们越来越注重运动锻炼，运动相关App层出不穷。其中运动路径追踪是一个重要的功能点。可以很容易的使用<strong>MKPolyline</strong>实现单色路径追踪。更进一步，如果想通过路径的不同颜色反映出运动过程中的速度变化，如<strong>Nike+</strong>类似的效果，需要更多的工作。本文主要讨论如何绘制<strong>平滑渐变</strong>的运动路径。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/10/27/smooth-gradient-polyline/">Read on &rarr;</a>
+      <a rel="full-article" href="/blog/2017/04/05/ioszhi-shi-xiao-ji-170403/">Read on &rarr;</a>
     </footer>
   
 
@@ -598,7 +594,7 @@ block中无需使用weakself。<br/>
  <h1>Categories</h1>
  <ul id="categories">
    <li class='category'><a href='/blog/categories/componentkit/'>componentkit (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>ios (74)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (84)</a></li>
 <li class='category'><a href='/blog/categories/leetcode/'>leetcode (9)</a></li>
 <li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
@@ -611,23 +607,23 @@ block中无需使用weakself。<br/>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2020/01/17/ioszhi-shi-xiao-ji-201901/">iOS知识小集-201901</a>
+        <a href="/blog/2020/01/17/ioszhi-shi-xiao-ji-201912/">iOS知识小集-201912</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2018/10/10/ioszhi-shi-xiao-ji-180924/">iOS知识小集-180924</a>
+        <a href="/blog/2020/01/17/ioszhi-shi-xiao-ji-201911/">iOS知识小集-201911</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2018/09/25/ioszhi-shi-xiao-ji-180917/">iOS知识小集-180917</a>
+        <a href="/blog/2020/01/17/ioszhi-shi-xiao-ji-201910/">iOS知识小集-201910</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2018/09/20/leetcode-problems-zhi-dong-tai-gui-hua/">LeetCode Problems 之 动态规划</a>
+        <a href="/blog/2020/01/17/ioszhi-shi-xiao-ji-201909/">iOS知识小集-201909</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2018/09/18/leetcode-problemszhi-fen-zhi-fa/">LeetCode Problems 之 分治法</a>
+        <a href="/blog/2020/01/17/zhi-shi-xiao-ji-201908/">知识小集-201908</a>
       </li>
     
   </ul>

@@ -105,7 +105,7 @@ $(document).bind('DOMNodeInserted', function(event) {
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2016/10/25/xgchart-readme/">XGChart_README</a></h1>
+      <h1 class="entry-title"><a href="/blog/2017/03/27/ioszhi-shi-xiao-ji-170320/">iOS知识小集-170320</a></h1>
     
     
       <p class="meta">
@@ -114,10 +114,374 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 
-<time class='entry-date' datetime='2016-10-25T19:52:46+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>7:52 pm</span></time>
+<time class='entry-date' datetime='2017-03-27T09:58:51+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>9:58 am</span></time>
         
-           | <a href="/blog/2016/10/25/xgchart-readme/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2016/10/25/xgchart-readme/">Comments</a>
+           | <a href="/blog/2017/03/27/ioszhi-shi-xiao-ji-170320/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/03/27/ioszhi-shi-xiao-ji-170320/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>iOS系统分享</h2>
+
+<p>需增加版本判断：<code>UIActivityTypeOpenInIBooks</code>iOS 9.0之后才有。</p>
+
+<h2>iOS导出音乐</h2>
+
+<p>如何导出mp3：先按mov格式导出，再转为mp3。<br/>
+如何包含metadata信息：m4a格式自动包含metadata信息，mp3无。<br/>
+路径去除特殊字符。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/03/27/ioszhi-shi-xiao-ji-170320/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/03/20/ioszhi-shi-xiao-ji-170313/">iOS知识小集-170313</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-03-20T16:50:46+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:50 pm</span></time>
+        
+           | <a href="/blog/2017/03/20/ioszhi-shi-xiao-ji-170313/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/03/20/ioszhi-shi-xiao-ji-170313/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Masonry</h2>
+
+<p>需要先添加到父视图，再设置约束。<br/>
+block中无需使用weakself。<br/>
+添加约束：makeConstrains。<br/>
+更新约束：updateConstrains，与之相关的布局自动调整。<br/>
+重设约束：remakeConstrains，删除之前的约束重新添加。</p>
+
+<pre><code>[self.view updateConstraints:^(MASConstraintMaker *make){
+  //  updateConstraints
+}];
+[self.view updateConstraints];
+[self.view setNeedsLayout];
+[UIView animateWithDuration:3 animations:^{
+  [self.view layoutIfNeeded];
+}];
+</code></pre>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/03/20/ioszhi-shi-xiao-ji-170313/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/03/10/ioszhi-shi-xiao-ji-170306/">iOS知识小集-170306</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-03-10T17:00:41+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>5:00 pm</span></time>
+        
+           | <a href="/blog/2017/03/10/ioszhi-shi-xiao-ji-170306/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/03/10/ioszhi-shi-xiao-ji-170306/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>异步回调</h2>
+
+<ol>
+<li>明确知道操作执行完成；</li>
+<li>操作时间未知；</li>
+</ol>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/03/10/ioszhi-shi-xiao-ji-170306/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/03/06/ioszhi-shi-xiao-ji-170227/">iOS知识小集-170227</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-03-06T16:15:46+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:15 pm</span></time>
+        
+           | <a href="/blog/2017/03/06/ioszhi-shi-xiao-ji-170227/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/03/06/ioszhi-shi-xiao-ji-170227/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>OC中的锁</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="k">@implementation</span> <span class="nc">TestObj</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">method1</span><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Method1&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">method2</span><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Method2&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/03/06/ioszhi-shi-xiao-ji-170227/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/03/06/ioszhi-shi-xiao-ji-170220/">iOS知识小集-170220</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-03-06T16:06:34+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:06 pm</span></time>
+        
+           | <a href="/blog/2017/03/06/ioszhi-shi-xiao-ji-170220/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/03/06/ioszhi-shi-xiao-ji-170220/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>App生命周期</h2>
+
+<p><strong>main.m</strong>：app程序入口，将控制权交给UIKit framework。<br/>
+<strong>UIApplication</strong>：管理事件循环和高级行为，传递通知给代理。<br/>
+<strong>App Delegate</strong>：处理应用初始化，状态转换，等高级行为。每个应用都要有。<br/>
+<strong>Data Model</strong>：存储应用数据。<br/>
+<strong>View Controller</strong>：管理应用展示内容。<br/>
+<strong>View</strong>：展示内容。<br/>
+<strong>Main Run Loop</strong>：Main run loop由UIApplication在主线程中开启，保证用户操作串行执行。
+用户操作 -> 操作系统 -> 端口 -> 事件队列 -> Main run loop -> App object -> Core object
+-> 操作系统 -> 屏幕反馈。<br/>
+<strong>执行状态</strong>：<br/>
+- 关闭状态。<br/>
+- 未激活状态：在前台运行，但未接收到事件。<br/>
+- 激活状态：在前台运行，接收到事件。<br/>
+- 后台状态：在后台，且正在执行程序，通常会接着进入挂起状态。<br/>
+- 挂起状态：在后台，且没有执行程序。当内存不足时会清理挂起应用。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/03/06/ioszhi-shi-xiao-ji-170220/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/02/25/ios-system-authorization/">iOS System Authorization</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-02-25T14:17:43+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>2:17 pm</span></time>
+        
+           | <a href="/blog/2017/02/25/ios-system-authorization/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/02/25/ios-system-authorization/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>iOS 10开始，获取<strong>隐私</strong>敏感数据需要在<strong>plist.info</strong>文件中配置，否则app会crash。<br/>
+配置方法：添加对应权限的key和value，value不许为空。<br/>
+常用权限：</p>
+
+<ul>
+<li>Network：无需添加key</li>
+<li>Location：Privacy - Location Always Usage Description</li>
+<li>Photo：Privacy - Photo Library Usage Description</li>
+<li>Camera：Privacy - Camera Usage Description</li>
+<li>Microphone：Privacy - Microphone Usage Description</li>
+<li>Contact：Privacy - Contacts Usage Description</li>
+<li>Media：Privacy - Media Library Usage Description</li>
+</ul>
+
+
+<p>手动请求权限：当用户拒绝授权某权限时，需要手动再次请求。<br/>
+跳转至权限设置界面：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[[</span><span class="bp">UIApplication</span> <span class="n">sharedApplication</span><span class="p">]</span>
+</span><span class='line'>                <span class="nl">openURL</span><span class="p">:[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="n">UIApplicationOpenSettingsURLString</span><span class="p">]</span>
+</span><span class='line'>                <span class="nl">options</span><span class="p">:</span><span class="l">@{}</span>
+</span><span class='line'>      <span class="nl">completionHandler</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a href="https://github.com/sxgfxm/AuthorizationDemo">Demo地址</a></p>
+
+<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2017/02/25/ios-system-authorization/'>http://sxgfxm.github.io/blog/2017/02/25/ios-system-authorization/</a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
+  </p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/02/20/ios-core-animation-advanced-techniques/">iOS Core Animation Advanced Techniques</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-02-20T22:10:40+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>10:10 pm</span></time>
+        
+           | <a href="/blog/2017/02/20/ios-core-animation-advanced-techniques/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/02/20/ios-core-animation-advanced-techniques/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>Introduction</h1>
+
+<p>本文主要为<strong>iOS Core Animation Advanced Techniques</strong>的笔记。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/02/20/ios-core-animation-advanced-techniques/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/02/10/export-music-from-itunes-to-local-apps-sandbox-on-iphone/">Export Music From Itunes to Local App's Sandbox on iPhone</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-02-10T15:31:20+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>3:31 pm</span></time>
+        
+           | <a href="/blog/2017/02/10/export-music-from-itunes-to-local-apps-sandbox-on-iphone/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/02/10/export-music-from-itunes-to-local-apps-sandbox-on-iphone/">Comments</a>
         
       </p>
     
@@ -126,13 +490,13 @@ $(document).bind('DOMNodeInserted', function(event) {
 
   <div class="entry-content"><h2>Introduction</h2>
 
-<p><a href="https://github.com/sxgfxm/XGChart">XGChart</a>是一个简洁的iOS 图表库，可以快速集成自定义折线图，曲线图和条形图。</p>
+<p>本文主要介绍app如何获取iTunes中音乐列表，并把iTunes中音乐文件导出至app的沙盒目录下。</p>
 
 </div>
   
   
     <footer>
-      <a rel="full-article" href="/blog/2016/10/25/xgchart-readme/">Read on &rarr;</a>
+      <a rel="full-article" href="/blog/2017/02/10/export-music-from-itunes-to-local-apps-sandbox-on-iphone/">Read on &rarr;</a>
     </footer>
   
 
@@ -144,7 +508,7 @@ $(document).bind('DOMNodeInserted', function(event) {
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2016/10/21/sharesdkjie-ru/">ShareSDK接入</a></h1>
+      <h1 class="entry-title"><a href="/blog/2017/01/23/core-data-tutorial-ios-10/">Core Data Tutorial iOS 10</a></h1>
     
     
       <p class="meta">
@@ -153,25 +517,23 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 
-<time class='entry-date' datetime='2016-10-21T14:12:36+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2016</span></span> <span class='time'>2:12 pm</span></time>
+<time class='entry-date' datetime='2017-01-23T16:40:01+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2017</span></span> <span class='time'>4:40 pm</span></time>
         
-           | <a href="/blog/2016/10/21/sharesdkjie-ru/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2016/10/21/sharesdkjie-ru/">Comments</a>
+           | <a href="/blog/2017/01/23/core-data-tutorial-ios-10/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/01/23/core-data-tutorial-ios-10/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h2>iOS接入ShareSDK实现第三方分享</h2>
-
-<p>因为<strong>友盟</strong>被阿里收购在Android平台的各种令人不悦的后台操作，改用<strong>ShareSDK</strong>实现第三方分享。以下为简单接入流程。详情可参考官方文档<a href="http://wiki.mob.com/ios%E7%AE%80%E6%B4%81%E7%89%88%E5%BF%AB%E9%80%9F%E9%9B%86%E6%88%90/">http://wiki.mob.com/ios%E7%AE%80%E6%B4%81%E7%89%88%E5%BF%AB%E9%80%9F%E9%9B%86%E6%88%90/</a></p>
+  <div class="entry-content"><p>iOS 10 CoreData使用总结。</p>
 
 </div>
   
   
     <footer>
-      <a rel="full-article" href="/blog/2016/10/21/sharesdkjie-ru/">Read on &rarr;</a>
+      <a rel="full-article" href="/blog/2017/01/23/core-data-tutorial-ios-10/">Read on &rarr;</a>
     </footer>
   
 
@@ -183,7 +545,7 @@ $(document).bind('DOMNodeInserted', function(event) {
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2016/10/20/3d-touch/">3D Touch</a></h1>
+      <h1 class="entry-title"><a href="/blog/2017/01/17/prevent-duplicate-clicks/">Prevent Duplicate Clicks</a></h1>
     
     
       <p class="meta">
@@ -192,386 +554,23 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 
-<time class='entry-date' datetime='2016-10-20T15:51:27+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>3:51 pm</span></time>
+<time class='entry-date' datetime='2017-01-17T16:19:36+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:19 pm</span></time>
         
-           | <a href="/blog/2016/10/20/3d-touch/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2016/10/20/3d-touch/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>3D Touch简介</h2>
-
-<p>3D Touch是智能手机领域最先进技术之一，目前只有Apple在iPhone上构建了相对良好的生态，并在最新推出的iOS 10中进一步优化了用户体验，Android系统和手机厂商还未提供较为成熟的支持。 本文主要介绍3D Touch相关技术的基本实现方法，包括：</p>
-
-<p>1、Home Screen Quick Actions，主屏幕快捷访问；</p>
-
-<p>2、Peek and Pop，预览和进入；</p>
-
-<p>3、3D Touch Force，3D touch压力值运用。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/10/20/3d-touch/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/10/19/today-extension-widget/">Today Extension - Widget</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-10-19T21:05:18+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>9:05 pm</span></time>
-        
-           | <a href="/blog/2016/10/19/today-extension-widget/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2016/10/19/today-extension-widget/">Comments</a>
+           | <a href="/blog/2017/01/17/prevent-duplicate-clicks/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/01/17/prevent-duplicate-clicks/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h2>Widget简介</h2>
-
-<p>从iOS 8开始，引入<strong>widget</strong>特性。可以在通知中心的<strong>Today</strong>栏中添加widget。widget可以简单理解为一个小的扩展程序，可以展示相关应用的简略信息，提供快捷访问等功能。</p>
-
-<p>widget的概念在Android中已经十分成熟，iOS widget与自由度相当高的Android widget有显著的区别。iOS widget的刷新时间为展示widget时，而不是像Android widget时刻保持在后台，消耗系统资源。iOS widget只是作为很小的配角存在，Apple的中心思想还是希望开发者关注App本身的设计和性能。</p>
-
-<p>尽管iOS widget是一种约束状态下的自由，但已经逐渐改变用户的交互行为。</p>
+  <div class="entry-content"><p>在应用开发过程中，点击事件为耗时操作或者延时响应，例如请求服务器数据，push至下一个界面，如果不处理用户重复点击事件，将会重复触发事件。下面介绍几种简单的处理方法。</p>
 
 </div>
   
   
     <footer>
-      <a rel="full-article" href="/blog/2016/10/19/today-extension-widget/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/10/19/iospan-duan-gpszuo-biao-shi-fou-zai-zhong-guo/">iOS判断GPS坐标是否在中国</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-10-19T10:29:23+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:29 am</span></time>
-        
-           | <a href="/blog/2016/10/19/iospan-duan-gpszuo-biao-shi-fou-zai-zhong-guo/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2016/10/19/iospan-duan-gpszuo-biao-shi-fou-zai-zhong-guo/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Background</h2>
-
-<p>GPS定位已经深入生活的方方面面。现实生活中存在着多种GPS坐标系：</p>
-
-<ul>
-<li><strong>WGS-84坐标系</strong>（World Geodetic System——1984 Coordinate System），国际通用GPS坐标系。</li>
-<li><strong>GCJ-02坐标系</strong>（Guojia Cehui Ju Coordinate System），中国专用坐标系，加入随机偏差，俗称火星坐标。</li>
-<li><strong>百度坐标系</strong>，百度自己定义的坐标系。</li>
-</ul>
-
-
-<p>在iOS应用开发中，<strong>CoreLocation</strong>返回<strong>WGS坐标</strong>，当定位在中国时，如果直接用<strong>MKMapView</strong>显示位置，由于中国地图使用<strong>GCJ坐标</strong>，会使定位出现偏差，达不到预期效果。为解决这一问题，在显示位置之前，需要判断<strong>WGS坐标</strong>是否在中国，并作出相应的坐标转换。</p>
-
-<p>该问题抽象为<strong>判断点是否在多边形内部</strong>。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/10/19/iospan-duan-gpszuo-biao-shi-fou-zai-zhong-guo/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/10/18/uicollectionview-ios10-new-features/">UICollectionView iOS 10 New Features</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-10-18T20:01:45+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:01 pm</span></time>
-        
-           | <a href="/blog/2016/10/18/uicollectionview-ios10-new-features/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2016/10/18/uicollectionview-ios10-new-features/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Background</h2>
-
-<p>iPhone屏幕的刷新频率固定为60fps，为了达到流畅的滑动效果，iOS应用展示必须满足该条件。当帧率很低时，就会出现明显的卡顿现象。</p>
-
-<p>60fps相当于每帧16.67毫秒，在这么短的时间内collection view可能并不能完成从相对较慢的数据源加载数据。为了提升collection view性能，一个常用的技巧是使<code>cellForItemAtIndexPath</code>尽可能快的返回cell，比如异步加载网络图片等。为了进一步提高collection view性能，并且尽量减少开发者的工作，在iOS 10中引入了新特性。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/10/18/uicollectionview-ios10-new-features/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/10/18/github-blog-zi-ding-yi/">Github Blog - 自定义</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-10-18T15:48:51+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>3:48 pm</span></time>
-        
-           | <a href="/blog/2016/10/18/github-blog-zi-ding-yi/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2016/10/18/github-blog-zi-ding-yi/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Octopress目录结构</h2>
-
-<h3>Rakefile</h3>
-
-<p>rake的配置文件，类似于makefile。</p>
-
-<h3>Gemfile</h3>
-
-<p>bundle要下载需要的gem依赖关系的指定文件。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/10/18/github-blog-zi-ding-yi/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/10/18/github-blog-ji-ben-cao-zuo/">Github Blog - 基本操作</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-10-18T08:58:48+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:58 am</span></time>
-        
-           | <a href="/blog/2016/10/18/github-blog-ji-ben-cao-zuo/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2016/10/18/github-blog-ji-ben-cao-zuo/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>创建博文</h2>
-
-<p><code>rake new_post["article_name"]</code></p>
-
-<p>默认会在octopress/source/_post/目录下生成.markdown文件。</p>
-
-<h2>删除博文</h2>
-
-<p>只需删除对应的markdown文件即可。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/10/18/github-blog-ji-ben-cao-zuo/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/10/18/github-blog-da-jian/">Github Blog - 搭建</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-10-18T08:44:43+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:44 am</span></time>
-        
-           | <a href="/blog/2016/10/18/github-blog-da-jian/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2016/10/18/github-blog-da-jian/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>安装Git</h2>
-
-<h2>安装Ruby</h2>
-
-<p>推荐使用RVM。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/10/18/github-blog-da-jian/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/10/17/markdown-syntax/">Markdown Syntax</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-10-17T20:34:29+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:34 pm</span></time>
-        
-           | <a href="/blog/2016/10/17/markdown-syntax/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2016/10/17/markdown-syntax/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Format</h2>
-
-<table>
-<thead>
-<tr>
-<th style="text-align:left;"> 语法                                       </th>
-<th style="text-align:left;"> 效果                         </th>
-<th style="text-align:left;"> 快捷键         </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;"> **strong**                              </td>
-<td style="text-align:left;"> <strong>strong</strong>                 </td>
-<td style="text-align:left;"> ⌘ + B       </td>
-</tr>
-<tr>
-<td style="text-align:left;"> *emphasis*                              </td>
-<td style="text-align:left;"> <em>emphasis</em>                 </td>
-<td style="text-align:left;"> ⌘ + I       </td>
-</tr>
-<tr>
-<td style="text-align:left;"> \<u>underline</u>                        </td>
-<td style="text-align:left;"> <u>underline</u>           </td>
-<td style="text-align:left;"> ⌘ + U       </td>
-</tr>
-<tr>
-<td style="text-align:left;"> `code`                     </td>
-<td style="text-align:left;"> <code>code</code>                     </td>
-<td style="text-align:left;"> ⌘ + shift + ` |                            |             </td>
-</tr>
-<tr>
-<td style="text-align:left;"> \<del>strike</del>                              </td>
-<td style="text-align:left;"> <del>strike</del>                 </td>
-<td style="text-align:left;">             </td>
-</tr>
-<tr>
-<td style="text-align:left;"> [百度](<a href="http://www.baidu.com">http://www.baidu.com</a>)              </td>
-<td style="text-align:left;"> <a href="http://www.baidu.com">百度</a> </td>
-<td style="text-align:left;"> ⌘ + K       </td>
-</tr>
-<tr>
-<td style="text-align:left;"> <img src="imageSource" alt="imageName" />                </td>
-<td style="text-align:left;">                            </td>
-<td style="text-align:left;"> ⌘ + alt + I </td>
-</tr>
-<tr>
-<td style="text-align:left;"> \                                       </td>
-<td style="text-align:left;"> clear format               </td>
-<td style="text-align:left;"> ⌘ + \       </td>
-</tr>
-</tbody>
-</table>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/10/17/markdown-syntax/">Read on &rarr;</a>
+      <a rel="full-article" href="/blog/2017/01/17/prevent-duplicate-clicks/">Read on &rarr;</a>
     </footer>
   
 
@@ -605,7 +604,7 @@ $(document).bind('DOMNodeInserted', function(event) {
  <h1>Categories</h1>
  <ul id="categories">
    <li class='category'><a href='/blog/categories/componentkit/'>componentkit (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>ios (74)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (84)</a></li>
 <li class='category'><a href='/blog/categories/leetcode/'>leetcode (9)</a></li>
 <li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
@@ -618,23 +617,23 @@ $(document).bind('DOMNodeInserted', function(event) {
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2020/01/17/ioszhi-shi-xiao-ji-201901/">iOS知识小集-201901</a>
+        <a href="/blog/2020/01/17/ioszhi-shi-xiao-ji-201912/">iOS知识小集-201912</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2018/10/10/ioszhi-shi-xiao-ji-180924/">iOS知识小集-180924</a>
+        <a href="/blog/2020/01/17/ioszhi-shi-xiao-ji-201911/">iOS知识小集-201911</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2018/09/25/ioszhi-shi-xiao-ji-180917/">iOS知识小集-180917</a>
+        <a href="/blog/2020/01/17/ioszhi-shi-xiao-ji-201910/">iOS知识小集-201910</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2018/09/20/leetcode-problems-zhi-dong-tai-gui-hua/">LeetCode Problems 之 动态规划</a>
+        <a href="/blog/2020/01/17/ioszhi-shi-xiao-ji-201909/">iOS知识小集-201909</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2018/09/18/leetcode-problemszhi-fen-zhi-fa/">LeetCode Problems 之 分治法</a>
+        <a href="/blog/2020/01/17/zhi-shi-xiao-ji-201908/">知识小集-201908</a>
       </li>
     
   </ul>

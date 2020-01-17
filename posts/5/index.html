@@ -105,7 +105,7 @@ $(document).bind('DOMNodeInserted', function(event) {
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2017/09/30/reactiveobjc-framework-overview/">ReactiveObjC Framework Overview</a></h1>
+      <h1 class="entry-title"><a href="/blog/2018/03/12/ioszhi-shi-xiao-ji-171211/">iOS知识小集-171211</a></h1>
     
     
       <p class="meta">
@@ -114,496 +114,32 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 
 
-<time class='entry-date' datetime='2017-09-30T15:04:20+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>3:04 pm</span></time>
+<time class='entry-date' datetime='2018-03-12T15:26:20+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>3:26 pm</span></time>
         
-           | <a href="/blog/2017/09/30/reactiveobjc-framework-overview/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/09/30/reactiveobjc-framework-overview/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>Streams</h1>
-
-<p>A <strong>stream</strong>, represented by the <strong>RACStream</strong> abstract class, is any series of object values.</p>
-
-<h2>Signals</h2>
-
-<p>A <strong>signal</strong>, represented by the <strong>RACSignal</strong> class, is a push-driven stream.</p>
-
-<p>Signals generally represent data that will be delivered <strong>in the future</strong>. Users must <strong>subscribe</strong> to a signal in order to access its values.</p>
-
-<p>Signals send three different types of events to their subscribers:</p>
-
-<ol>
-<li>The <strong>next</strong> event provides a new value from the stream.</li>
-<li>The <strong>error</strong> event indicates that an error occurred before the signal could finish.</li>
-<li>The completed event indicates that the signal finished successfully, and that no more values will be added to the stream.</li>
-</ol>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2017/09/30/reactiveobjc-framework-overview/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/09/29/ioszhi-shi-xiao-ji-170925/">iOS知识小集-170925</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2017-09-29T17:49:31+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>5:49 pm</span></time>
-        
-           | <a href="/blog/2017/09/29/ioszhi-shi-xiao-ji-170925/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/09/29/ioszhi-shi-xiao-ji-170925/">Comments</a>
+           | <a href="/blog/2018/03/12/ioszhi-shi-xiao-ji-171211/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-171211/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h2>URL encode</h2>
+  <div class="entry-content"><h2>layoutIfNeeded</h2>
 
-<p>string -> url，特殊字符需要编码。</p>
+<p>布局其子视图。</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nf">urlEncode:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">string</span> <span class="p">{</span>
-</span><span class='line'>  <span class="bp">NSCharacterSet</span> <span class="o">*</span><span class="n">set</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSCharacterSet</span> <span class="nl">characterSetWithCharactersInString</span><span class="p">:</span><span class="s">@&quot;;/?:@=&amp;&lt;&gt;</span><span class="se">\&quot;</span><span class="s">#%{}|</span><span class="se">\\</span><span class="s">^~[]` ()&quot;</span><span class="p">].</span><span class="n">invertedSet</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">return</span> <span class="p">[</span><span class="n">string</span> <span class="nl">stringByAddingPercentEncodingWithAllowedCharacters</span><span class="p">:</span><span class="n">set</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
+<h2>UIViewContentModeScaleAspectFill</h2>
 
+<p>需要设置<code>clipsToBounds</code>为<code>YES</code>，否则图片显示可能会溢出。</p>
 
+<h2>UITableView Edit Cell</h2>
 
+<h2>UITableView Move Cell</h2>
 
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2017/09/29/ioszhi-shi-xiao-ji-170925/">Read on &rarr;</a>
-    </footer>
-  
+<h2>数据与界面同步<p class='post-footer'></h2>
 
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/09/22/ioszhi-shi-xiao-ji-170918/">iOS知识小集-170918</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2017-09-22T10:50:20+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2017</span></span> <span class='time'>10:50 am</span></time>
-        
-           | <a href="/blog/2017/09/22/ioszhi-shi-xiao-ji-170918/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/09/22/ioszhi-shi-xiao-ji-170918/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>UIButton Gestures</h2>
-
-<p><code>UIControlEventTouchDown</code>：按下button；<br/>
-<code>UIControlEventTouchDragExit</code>：拖动至button范围（button四周有一定范围）外；<br/>
-<code>UIControlEventTouchDragEnter</code>：拖动至button范围（button四周有一定范围）内。<br/>
-<code>UIControlEventTouchUpInside</code>：在button内松手；<br/>
-<code>UIControlEventTouchUpOutside</code>：在button外松手；<br/>
-<code>UIControlEventTouchDragOutside</code>：在button外拖动。<br/>
-<code>UIControlEventTouchDragInside</code>：在button内拖动；<br/>
-<code>UIControlEventTouchCancel</code>：系统行为取消touch；</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2017/09/22/ioszhi-shi-xiao-ji-170918/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/09/15/ioszhi-shi-xiao-ji-170911/">iOS知识小集-170911</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2017-09-15T17:20:49+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>5:20 pm</span></time>
-        
-           | <a href="/blog/2017/09/15/ioszhi-shi-xiao-ji-170911/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/09/15/ioszhi-shi-xiao-ji-170911/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>长按语音控制</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="o">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">setupBtn</span><span class="p">{</span>
-</span><span class='line'>  <span class="c1">//  按下按钮</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">voiceBtn</span> <span class="nl">addTarget</span><span class="p">:</span><span class="n">self</span> <span class="nl">action</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="nl">btnTouchBegin</span><span class="p">:)</span> <span class="nl">forControlEvents</span><span class="p">:</span><span class="n">UIControlEventTouchDown</span><span class="p">];</span>
-</span><span class='line'>  <span class="c1">//  立刻松开</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">voiceBtn</span> <span class="nl">addTarget</span><span class="p">:</span><span class="n">self</span> <span class="nl">action</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="nl">btnTouchEnd</span><span class="p">:)</span> <span class="nl">forControlEvents</span><span class="p">:</span><span class="n">UIControlEventTouchUpInside</span><span class="p">];</span>
-</span><span class='line'>  <span class="c1">//  上划取消</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">voiceBtn</span> <span class="nl">addTarget</span><span class="p">:</span><span class="n">self</span> <span class="nl">action</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">cancelSpeak</span><span class="p">)</span> <span class="nl">forControlEvents</span><span class="p">:</span><span class="n">UIControlEventTouchDragExit</span><span class="p">];</span>
-</span><span class='line'>  <span class="c1">//  外部松开</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">voiceBtn</span> <span class="nl">addTarget</span><span class="p">:</span><span class="n">self</span> <span class="nl">action</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="nl">btnTouchEnd</span><span class="p">:)</span> <span class="nl">forControlEvents</span><span class="p">:</span><span class="n">UIControlEventTouchUpOutside</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//  通过计时器区分“点击”还是“长按”</span>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">btnTouchBegin</span><span class="p">:(</span><span class="n">UIButton</span> <span class="o">*</span><span class="p">)</span><span class="n">button</span> <span class="p">{</span>
-</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">countNum</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">=</span>
-</span><span class='line'>      <span class="p">[</span><span class="n">NSTimer</span> <span class="nl">scheduledTimerWithTimeInterval</span><span class="p">:</span><span class="mf">0.1</span> <span class="nl">target</span><span class="p">:</span><span class="n">self</span> <span class="nl">selector</span><span class="p">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">handleTimer</span><span class="p">)</span> <span class="nl">userInfo</span><span class="p">:</span><span class="n">nil</span> <span class="nl">repeats</span><span class="p">:</span><span class="n">YES</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="n">fire</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">btnTouchEnd</span><span class="p">:(</span><span class="n">UIButton</span> <span class="o">*</span><span class="p">)</span><span class="n">button</span> <span class="p">{</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="n">invalidate</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">if</span> <span class="p">([</span><span class="n">self</span> <span class="n">isLongPressGesture</span><span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>    <span class="c1">//  执行长按操作</span>
-</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span><span class='line'>    <span class="c1">//  执行点击操作</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 处理时间</span>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">handleTimer</span> <span class="p">{</span>
-</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">countNum</span> <span class="o">+=</span> <span class="mf">0.1</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">if</span> <span class="p">([</span><span class="n">self</span> <span class="n">isLongPressGesture</span><span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="n">invalidate</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">self</span> <span class="n">longPressVoiceBegin</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 判断是否为长按手势</span>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">isLongPressGesture</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="n">countNum</span> <span class="o">&gt;=</span> <span class="mf">0.5</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 上划取消语音输入</span>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">cancelSpeak</span> <span class="p">{</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">self</span> <span class="n">voiceEnd</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2017/09/15/ioszhi-shi-xiao-ji-170911/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/09/15/ioszhi-shi-xiao-ji-170904/">iOS知识小集-170904</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2017-09-15T17:19:17+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>5:19 pm</span></time>
-        
-           | <a href="/blog/2017/09/15/ioszhi-shi-xiao-ji-170904/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/09/15/ioszhi-shi-xiao-ji-170904/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Git Delete Branch</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">git</span> <span class="n">branch</span> <span class="o">-</span><span class="n">a</span>
-</span><span class='line'><span class="n">git</span> <span class="n">branch</span> <span class="o">-</span><span class="n">d</span> <span class="o">&lt;</span><span class="n">branch_name</span><span class="o">&gt;</span>
-</span><span class='line'><span class="n">git</span> <span class="n">branch</span> <span class="o">-</span><span class="n">D</span> <span class="o">&lt;</span><span class="n">branch_name</span><span class="o">&gt;</span> <span class="c1">// force delete</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2017/09/15/ioszhi-shi-xiao-ji-170904/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/09/04/ioszhi-shi-xiao-ji-170828/">iOS知识小集-170828</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2017-09-04T14:12:44+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>2:12 pm</span></time>
-        
-           | <a href="/blog/2017/09/04/ioszhi-shi-xiao-ji-170828/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/09/04/ioszhi-shi-xiao-ji-170828/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>TableView Header / Footer Height</h2>
-
-<p>UITableView默认有section header/footer高度，设为0无效，最小可设为1。</p>
-
-<h2>CNContactPickerViewController</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">pickContact</span><span class="p">{</span>
-</span><span class='line'>  <span class="n">CNContactPickerViewController</span> <span class="o">*</span><span class="n">controller</span> <span class="o">=</span> <span class="p">[[</span><span class="n">CNContactPickerViewController</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'>  <span class="n">controller</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">[</span><span class="nb">self</span> <span class="nl">presentViewController</span><span class="p">:</span><span class="n">controller</span> <span class="nl">animated</span><span class="p">:</span><span class="nb">YES</span> <span class="nl">completion</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">contactPicker:</span><span class="p">(</span><span class="n">CNContactPickerViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">picker</span>
-</span><span class='line'>    <span class="nf">didSelectContactProperty:</span><span class="p">(</span><span class="n">CNContactProperty</span> <span class="o">*</span><span class="p">)</span><span class="nv">contactProperty</span> <span class="p">{</span>
-</span><span class='line'>  <span class="n">CNContact</span> <span class="o">*</span><span class="n">contact</span> <span class="o">=</span> <span class="n">contactProperty</span><span class="p">.</span><span class="n">contact</span><span class="p">;</span>
-</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">name</span> <span class="o">=</span> <span class="p">[</span><span class="n">CNContactFormatter</span> <span class="nl">stringFromContact</span><span class="p">:</span><span class="n">contact</span> <span class="nl">style</span><span class="p">:</span><span class="n">CNContactFormatterStyleFullName</span><span class="p">];</span>
-</span><span class='line'>  <span class="n">CNPhoneNumber</span> <span class="o">*</span><span class="n">phoneValue</span> <span class="o">=</span> <span class="n">contactProperty</span><span class="p">.</span><span class="n">value</span><span class="p">;</span>
-</span><span class='line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">phoneNumber</span> <span class="o">=</span> <span class="n">phoneValue</span><span class="p">.</span><span class="n">stringValue</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@--%@&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">phoneNumber</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2017/09/04/ioszhi-shi-xiao-ji-170828/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/08/28/ioszhi-shi-xiao-ji-170821/">iOS知识小集-170821</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2017-08-28T11:39:03+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>11:39 am</span></time>
-        
-           | <a href="/blog/2017/08/28/ioszhi-shi-xiao-ji-170821/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/08/28/ioszhi-shi-xiao-ji-170821/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>ipa架构</h2>
-
-<pre><code>IPA File
-  Payload
-    {appname}.app
-      Application Binary
-      Mobile Provision File
-      Code Signature
-      Bundled Resource File
-  iTunesArtwork
-  iTunesMetadata.plist
-</code></pre>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2017/08/28/ioszhi-shi-xiao-ji-170821/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/08/22/iosxiao-ji-170814/">iOS知识小集-170814</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2017-08-22T10:13:36+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2017</span></span> <span class='time'>10:13 am</span></time>
-        
-           | <a href="/blog/2017/08/22/iosxiao-ji-170814/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/08/22/iosxiao-ji-170814/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>使用Xcode查看代码作者和提交信息</h2>
-
-<p>切换为“Blame”和“Log”模式即可。</p>
-
-<h2>AVAudioSession</h2>
-
-<p>AVAudioSessionCategoryOptionDefaultToSpeaker：通过扬声器播放声音。<br/>
-AVAudioSessionCategoryOptionMixWithOthers：不打断其他App音频播放。</p>
-
-<h2>JSONModel</h2>
-
-<p>下划线key转驼峰key。
-<code>[JSONKeyMapper mapperFromUnderscoreCaseToCamelCase]</code>已废弃，
-现在使用<code>[JSONKeyMapper mapperForSnakeCase]</code>。</p>
-
-<h2>Acoustic Echo Cancellation</h2>
-
-<p>Audio Unit回声消除。<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/08/22/iosxiao-ji-170814/'><a href="http://sxgfxm.github.io/blog/2017/08/22/iosxiao-ji-170814/">http://sxgfxm.github.io/blog/2017/08/22/iosxiao-ji-170814/</a></a><br/>
+<p>  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-171211/'><a href="http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-171211/">http://sxgfxm.github.io/blog/2018/03/12/ioszhi-shi-xiao-ji-171211/</a></a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
   </p></p>
@@ -619,7 +155,7 @@ AVAudioSessionCategoryOptionMixWithOthers：不打断其他App音频播放。</p
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2017/08/22/ioszhi-shi-xiao-ji-170807/">iOS知识小集-170807</a></h1>
+      <h1 class="entry-title"><a href="/blog/2017/12/11/ioszhi-shi-xiao-ji-171204/">iOS知识小集-171204</a></h1>
     
     
       <p class="meta">
@@ -628,23 +164,276 @@ AVAudioSessionCategoryOptionMixWithOthers：不打断其他App音频播放。</p
 
 
 
-<time class='entry-date' datetime='2017-08-22T10:12:54+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2017</span></span> <span class='time'>10:12 am</span></time>
+<time class='entry-date' datetime='2017-12-11T16:49:04+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:49 pm</span></time>
         
-           | <a href="/blog/2017/08/22/ioszhi-shi-xiao-ji-170807/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/08/22/ioszhi-shi-xiao-ji-170807/">Comments</a>
+           | <a href="/blog/2017/12/11/ioszhi-shi-xiao-ji-171204/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/12/11/ioszhi-shi-xiao-ji-171204/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2017/08/22/ioszhi-shi-xiao-ji-170807/'>http://sxgfxm.github.io/blog/2017/08/22/ioszhi-shi-xiao-ji-170807/</a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
+  <div class="entry-content"><h2>UIViewController Transition</h2>
 
+<p>自定义Present和Dismiss动画。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/12/11/ioszhi-shi-xiao-ji-171204/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/12/02/ioszhi-shi-xiao-ji-171127/">iOS知识小集-171127</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-12-02T18:08:07+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2017</span></span> <span class='time'>6:08 pm</span></time>
+        
+           | <a href="/blog/2017/12/02/ioszhi-shi-xiao-ji-171127/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/12/02/ioszhi-shi-xiao-ji-171127/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>ContentInset</h2>
+
+<p>内容偏移，可用于下拉刷新调整界面位置。</p>
+
+<h2>嵌套UINavigationController的UIViewController设置preferredStatusBarStyle无效</h2>
+
+<p>如果<code>UIViewController</code>有<code>UINavigationController</code>，则会先调<code>UINavigationController</code>的<code>childViewControllerForStatusBarStyle</code>方法，该方法默认返回nil，所以子<code>UIViewController</code>设置的<code>preferredStatusBarStyle</code>无效。<br/>
+解决办法，继承<code>UINavigationController</code>，并重写<code>childViewControllerForStatusBarStyle</code>方法：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nf">childViewControllerForStatusBarStyle</span><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">self</span><span class="p">.</span><span class="n">topViewController</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/12/02/ioszhi-shi-xiao-ji-171127/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/11/27/ioszhi-shi-xiao-ji-171120/">iOS知识小集-171120</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-11-27T11:25:53+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>11:25 am</span></time>
+        
+           | <a href="/blog/2017/11/27/ioszhi-shi-xiao-ji-171120/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/11/27/ioszhi-shi-xiao-ji-171120/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>iOS 10.3之后删除线失效解决办法</h2>
+
+<p>iOS 10.3之前写法：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">attr</span> <span class="nl">addAttributes</span><span class="p">:</span><span class="l">@{</span>
+</span><span class='line'>    <span class="nl">NSStrikethroughStyleAttributeName</span><span class="p">:</span> <span class="l">@(</span><span class="n">NSUnderlineStyleSingle</span><span class="l">)</span>
+</span><span class='line'>  <span class="l">}</span>
+</span><span class='line'>              <span class="nl">range</span><span class="p">:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">string</span><span class="p">.</span><span class="n">length</span><span class="p">)];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>iOS 10.3之后写法：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">attr</span> <span class="nl">addAttributes</span><span class="p">:</span><span class="l">@{</span>
+</span><span class='line'>    <span class="nl">NSStrikethroughStyleAttributeName</span><span class="p">:</span> <span class="l">@(</span><span class="n">NSUnderlineStyleSingle</span><span class="l">)</span><span class="p">,</span>
+</span><span class='line'>    <span class="nl">NSBaselineOffsetAttributeName</span><span class="p">:</span> <span class="l">@(</span><span class="n">NSUnderlineStyleNone</span><span class="l">)</span>
+</span><span class='line'>  <span class="l">}</span>
+</span><span class='line'>              <span class="nl">range</span><span class="p">:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">string</span><span class="p">.</span><span class="n">length</span><span class="p">)];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/11/27/ioszhi-shi-xiao-ji-171120/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/11/17/ioszhi-shi-xiao-ji-171113/">iOS知识小集-171113</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-11-17T17:28:01+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>5:28 pm</span></time>
+        
+           | <a href="/blog/2017/11/17/ioszhi-shi-xiao-ji-171113/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/11/17/ioszhi-shi-xiao-ji-171113/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>include vs. import vs. class</h2>
+
+<h3>include</h3>
+
+<p>C语言中引用头文件的语法，无法防止重复引用头文件。</p>
+
+<h3>import</h3>
+
+<p>OC中引用头文件的语法，可以防止重复引用头文件，无法防止循环引用头文件。</p>
+
+<h3>class</h3>
+
+<p>使用<code>@class</code>告知编译器有这样一个类，书写代码时不要报错，真正调用该类的方法时，再<code>#import</code>该类。
+可以防止循环引用头文件。</p>
+
+<p>一般来讲，头文件中使用<code>@class</code>引用其他类，在源文件中<code>#import</code>该类。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/11/17/ioszhi-shi-xiao-ji-171113/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/11/10/ioszhi-shi-xiao-ji-171106/">iOS知识小集-171106</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-11-10T17:01:04+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>5:01 pm</span></time>
+        
+           | <a href="/blog/2017/11/10/ioszhi-shi-xiao-ji-171106/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/11/10/ioszhi-shi-xiao-ji-171106/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>UIViewController modalPresentationStyle</h2>
+
+<p>当present controller时，可以设置这个属性来控制present时的效果，可用于透明显示被遮盖的conroller，此情况下被遮盖的conroller不会调用viewDidDisappear。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/11/10/ioszhi-shi-xiao-ji-171106/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/11/10/ioszhi-shi-xiao-ji-171030/">iOS知识小集-171030</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-11-10T16:39:04+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:39 pm</span></time>
+        
+           | <a href="/blog/2017/11/10/ioszhi-shi-xiao-ji-171030/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/11/10/ioszhi-shi-xiao-ji-171030/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>ReactiveObjC</h2>
+
+<p>To be finished.<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2017/11/10/ioszhi-shi-xiao-ji-171030/'><a href="http://sxgfxm.github.io/blog/2017/11/10/ioszhi-shi-xiao-ji-171030/">http://sxgfxm.github.io/blog/2017/11/10/ioszhi-shi-xiao-ji-171030/</a></a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
+  </p></p>
 </div>
   
   
@@ -657,7 +446,7 @@ AVAudioSessionCategoryOptionMixWithOthers：不打断其他App音频播放。</p
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2017/08/07/ioszhi-shi-xiao-ji-170731/">iOS知识小集-170731</a></h1>
+      <h1 class="entry-title"><a href="/blog/2017/11/02/ioszhi-shi-xiao-ji-171023/">iOS知识小集-171023</a></h1>
     
     
       <p class="meta">
@@ -666,38 +455,79 @@ AVAudioSessionCategoryOptionMixWithOthers：不打断其他App音频播放。</p
 
 
 
-<time class='entry-date' datetime='2017-08-07T10:03:41+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>10:03 am</span></time>
+<time class='entry-date' datetime='2017-11-02T10:34:10+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2017</span></span> <span class='time'>10:34 am</span></time>
         
-           | <a href="/blog/2017/08/07/ioszhi-shi-xiao-ji-170731/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/08/07/ioszhi-shi-xiao-ji-170731/">Comments</a>
+           | <a href="/blog/2017/11/02/ioszhi-shi-xiao-ji-171023/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/11/02/ioszhi-shi-xiao-ji-171023/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h2>UIImage Tint Color</h2>
+  <div class="entry-content"><h2>UITableView AccessoryView TintColor</h2>
+
+<p>通过设置Cell的TintColor来设置AccessoryView的tintColor。</p>
+
+<h2>Git Rebase</h2>
+
+<p><code>git rebase</code>会删除<code>merge commit</code>。<br/>
+进行merge操作后不要向其amend代码。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/11/02/ioszhi-shi-xiao-ji-171023/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/10/17/ioszhi-shi-xiao-ji-171016/">iOS知识小集-171016</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-10-17T19:06:22+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>7:06 pm</span></time>
+        
+           | <a href="/blog/2017/10/17/ioszhi-shi-xiao-ji-171016/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/10/17/ioszhi-shi-xiao-ji-171016/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Clear iOS DeviceSupport to free disk storage</h2>
+
+<p>真机调试时，不同系统的手机会生成不同的Device Support文件，每个大概3GB左右，占用大量磁盘空间。删除不需要的Device Support文件，可以释放大量磁盘空间。
+iOS DeviceSupport 目录路径<code>[User]/Library/Developer/Xcode/iOS DeviceSupport</code></p>
+
+<h2>Compute CKComponent size</h2>
+
+<p>获取component的size。</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">cell</span><span class="p">.</span><span class="n">icon</span> <span class="nl">sd_setImageWithURL</span><span class="p">:[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="n">myURL</span><span class="p">]</span> <span class="nl">placeholderImage</span><span class="p">:[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:</span><span class="n">imageName</span><span class="p">]</span> <span class="nl">options</span><span class="p">:</span><span class="n">SDWebImageRefreshCached</span> <span class="nl">completed</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="n">image</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">,</span> <span class="n">SDImageCacheType</span> <span class="n">cacheType</span><span class="p">,</span> <span class="bp">NSURL</span> <span class="o">*</span><span class="n">imageURL</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">cell</span><span class="p">.</span><span class="n">icon</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="p">[</span><span class="n">image</span> <span class="nl">imageWithRenderingMode</span><span class="p">:</span><span class="n">UIImageRenderingModeAlwaysTemplate</span><span class="p">];</span>
-</span><span class='line'><span class="p">}];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>调整屏幕亮度</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[[</span><span class="bp">UIScreen</span> <span class="n">mainScreen</span><span class="p">]</span> <span class="nl">setBrightness</span><span class="p">:</span><span class="mf">0.5</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>保持屏幕常亮</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="bp">UIApplication</span> <span class="n">sharedApplication</span><span class="p">].</span><span class="n">idleTimerDisabled</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="cp">#import &lt;ComponentKit/CKComponentSubclass.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="o">-</span> <span class="p">(</span><span class="bp">CGSize</span><span class="p">)</span><span class="nl">sizeOfComponent</span><span class="p">:(</span><span class="n">CKComponent</span><span class="o">*</span><span class="p">)</span><span class="n">component</span><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="n">component</span> <span class="nl">computeLayoutThatFits</span><span class="p">:</span> <span class="n">CKSizeRange</span><span class="p">()].</span><span class="n">size</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -707,7 +537,57 @@ AVAudioSessionCategoryOptionMixWithOthers：不打断其他App音频播放。</p
   
   
     <footer>
-      <a rel="full-article" href="/blog/2017/08/07/ioszhi-shi-xiao-ji-170731/">Read on &rarr;</a>
+      <a rel="full-article" href="/blog/2017/10/17/ioszhi-shi-xiao-ji-171016/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/10/13/ioszhi-shi-xiao-ji-171009/">iOS知识小集-171009</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-10-13T17:04:25+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>5:04 pm</span></time>
+        
+           | <a href="/blog/2017/10/13/ioszhi-shi-xiao-ji-171009/#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io/blog/2017/10/13/ioszhi-shi-xiao-ji-171009/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>NSInteger to NSData</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="o">-</span><span class="p">(</span><span class="bp">NSData</span><span class="o">*</span><span class="p">)</span><span class="nl">dataWithInteger</span><span class="p">:(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="n">integer</span><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="bp">NSData</span> <span class="nl">dataWithBytes</span><span class="p">:</span><span class="o">&amp;</span><span class="n">integer</span> <span class="nl">length</span><span class="p">:</span><span class="k">sizeof</span><span class="p">(</span><span class="n">integer</span><span class="p">)];</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>UICollectionView contentInset</h2>
+
+<p>设置内容距离上下左右的间距。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/10/13/ioszhi-shi-xiao-ji-171009/">Read on &rarr;</a>
     </footer>
   
 
@@ -741,7 +621,7 @@ AVAudioSessionCategoryOptionMixWithOthers：不打断其他App音频播放。</p
  <h1>Categories</h1>
  <ul id="categories">
    <li class='category'><a href='/blog/categories/componentkit/'>componentkit (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>ios (74)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (84)</a></li>
 <li class='category'><a href='/blog/categories/leetcode/'>leetcode (9)</a></li>
 <li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
@@ -754,23 +634,23 @@ AVAudioSessionCategoryOptionMixWithOthers：不打断其他App音频播放。</p
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2020/01/17/ioszhi-shi-xiao-ji-201901/">iOS知识小集-201901</a>
+        <a href="/blog/2020/01/17/ioszhi-shi-xiao-ji-201912/">iOS知识小集-201912</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2018/10/10/ioszhi-shi-xiao-ji-180924/">iOS知识小集-180924</a>
+        <a href="/blog/2020/01/17/ioszhi-shi-xiao-ji-201911/">iOS知识小集-201911</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2018/09/25/ioszhi-shi-xiao-ji-180917/">iOS知识小集-180917</a>
+        <a href="/blog/2020/01/17/ioszhi-shi-xiao-ji-201910/">iOS知识小集-201910</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2018/09/20/leetcode-problems-zhi-dong-tai-gui-hua/">LeetCode Problems 之 动态规划</a>
+        <a href="/blog/2020/01/17/ioszhi-shi-xiao-ji-201909/">iOS知识小集-201909</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2018/09/18/leetcode-problemszhi-fen-zhi-fa/">LeetCode Problems 之 分治法</a>
+        <a href="/blog/2020/01/17/zhi-shi-xiao-ji-201908/">知识小集-201908</a>
       </li>
     
   </ul>

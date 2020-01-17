@@ -1,0 +1,649 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS知识小集-201906 - Light's Blog</title>
+  <meta name="author" content="Light">
+
+  
+  <meta name="description" content="AVAudioSession">
+  <meta name="keywords" content="sxgfxm,AVAudioSession">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201906/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Light's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+
+function addBlankTargetForLinks () {
+
+  $('a[href^="http"]').each(function(){
+
+      $(this).attr('target', '_blank');
+
+  });
+
+}
+
+$(document).bind('DOMNodeInserted', function(event) {
+
+  addBlankTargetForLinks();
+
+});
+
+</script>
+
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-86198628-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  
+  <meta name="baidu-site-verification" content="vgau9BNOtE" />
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Light's Blog</a></h1>
+  
+    <h2>The best or nothing.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <!-- <input type="hidden" name="sitesearch" value="sxgfxm.github.io"> -->
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS知识小集-201906</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2020-01-17T11:36:46+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2020</span></span> <span class='time'>11:36 am</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>2019.06.06</h2>
+
+<h3>音频基础</h3>
+
+<p><strong>音频文件</strong>：即声音的数字信号。由原声音信息采样、量化和编码产生。<br/>
+<strong>奈奎塞特理论</strong>：采样频率高于声音最高频率的两倍时，才能将数字信号还原为原来的声音。一般为40~50kHZ。<br/>
+<strong>脉冲编码调制</strong>：对声音进行采样、量化的过程，简称 <strong>PCM</strong>。PCM数据为原始音频数据，完全无损，体积庞大。<br/>
+<strong>音频格式</strong>：无损压缩（ALAC、APE、FLAC），有损压缩（MP3、AAC、OGG、WMA）。<br/>
+<strong>MP3码率</strong>：代表压缩质量，码率越高、质量越好。固定码率（CBR），可变码率（VBR）。<br/>
+<strong>MP3数据结构</strong>：ID3 + 音频数据。音频数据由帧（帧头4B + 附加信息32B + 声音数据）构成。</p>
+
+<h3>iOS音频播放</h3>
+
+<p>只播放音频文件：AVFoudation。<br/>
+播放并存储音频文件：AudioFileStreamer + AudioQueue。边下载音频数据边用NSFileHandler读取本地音频文件给AudioFileStreamer解析分离音频帧，之后给AudioQueue进行解码和播放。<br/>
+专业音乐播放器：使用AudioConverter把音频数据转换为PCM数据，再由AudioUnit + AUGraph进行音效处理和播放。</p>
+
+<h3>AudioSession</h3>
+
+<h4>AudioSession作用：</h4>
+
+<p>1、定义APP如何使用音频（是录音还是播放）；<br/>
+2、选择音频输入输出设备（手机麦克风、手机扬声器、耳机麦克风、耳机扬声器）；<br/>
+3、协调其他APP音频和系统音频（电话打断，是否混响）；</p>
+
+<h4>AudioSession使用：</h4>
+
+<p>1、设置category；<br/>
+2、设置options；<br/>
+3、setActive；</p>
+
+<h3>AudioFileStream</h3>
+
+<h4>AudioFileStream作用：</h4>
+
+<p>1、读取采样率、码率、时长等基本信息；<br/>
+2、分离音频帧；</p>
+
+<h3>AudioQueue</h3>
+
+<h4>AudioQueue作用：</h4>
+
+<p>1、播放PCM数据、MP3数据；<br/>
+2、录音；</p>
+
+<h4>AudioQueue使用：</h4>
+
+<p>1、创建AudioQueue；<br/>
+2、创建AudioQueueBufferRef；<br/>
+3、将数据写入AudioQueueBufferRef，然后插入到AudioQueue中；<br/>
+4、调用AudioQueueStart开始播放；<br/>
+5、在回调中将使用过的AudioQueueBufferRef放回重复使用；</p>
+
+<h2>20919.06.11</h2>
+
+<h4>AVAudioSessionCategoryOptionAllowBluetooth</h4>
+
+<p>采用 HFP 协议将 <strong>蓝牙设备作为音频输入设备，且同时自动变为输出设备</strong>。通常使用蓝牙设备录音时使用，此协议下蓝牙设备既可录音又可播放音频，但 <strong>音质较差</strong>。<br/>
+只在 category 为 AVAudioSessionCategoryPlayAndRecord、AVAudioSessionCategoryRecord 时使用。</p>
+
+<h3>AVAudioSessionCategoryOptionAllowBluetoothA2DP</h3>
+
+<p>采用 A2DP 协议将 <strong>蓝牙设备作为音频输出设备</strong>。通常用来作为高质量音频蓝牙输出，比如播放音乐，此协议下蓝牙设备 <strong>无法作为音频输入设备</strong>，音频输入需要使用手机麦克风。<br/>
+category 为 AVAudioSessionCategoryAmbient、AVAudioSessionCategorySoloAmbient、AVAudioSessionCategoryPlayback 时，默认采用 A2DP。<br/>
+category 为 AVAudioSessionCategoryPlayAndRecord 时，如果需要使用 A2DP，需显示设置。<br/>
+category 为 AVAudioSessionCategoryMultiRoute、AVAudioSessionCategoryRecord 时，A2DP 默认无效。<br/>
+AVAudioSessionCategoryOptionAllowBluetooth 和 AVAudioSessionCategoryOptionAllowBluetoothA2DP 同时设置时，优先采用前者。<br/>
+使用原则：<br/>
+1、播放音频时，为了保证音频输出质量，采用 AVAudioSessionCategoryOptionAllowBluetoothA2DP；<br/>
+2、既需要录音又需要播放音频时，需采用 AVAudioSessionCategoryOptionAllowBluetooth；</p>
+
+<h2>2019.06.12</h2>
+
+<p>后台开启AVAudioSession需要设置为MixWithOthers，否则无法激活。</p>
+
+<h2>2019.06.13</h2>
+
+<p>Could not find a <code>ios</code> simulator。<br/>
+<code>gem env</code> 找到ruby路径查看 <code>fourflusher</code> 中 的 <code>find.rb</code> 文件。</p>
+
+<h2>2019.06.14</h2>
+
+<p>打包机器company账号过期，需重新登录。<br/>
+Error：<code>CodeSign /Users/Library/Developer/Xcode/DerivedData/Build/Intermediates.noindex/ArchiveIntermediates</code>。<br/>
+解决办法：<br/>
+    unlock keychain <code>security unlock-keychain -p mobvoi login.keychain</code>，<code>security set-key-partition-list -S apple: -s -k mobvoi login.keychain</code>；<br/>
+    删除过期provisioningprofile。<code>~/Library/MobileDevice/Provisioning Profiles</code>；<br/>
+    清除<code>~/Library/Developer/Xcode/DerivedData/</code>；<br/>
+    修改证书信任。<br/>
+参考资料：<br/>
+    <a href="https://stackoverflow.com/questions/37806538/code-signing-is-required-for-product-type-application-in-sdk-ios-10-0-stic">Code signing is required for product type &lsquo;Application&rsquo; in SDK &lsquo;iOS 10.0&rsquo; </a><br/>
+    <a href="https://github.com/fastlane/fastlane/issues/14040">code sign failed</a><br/>
+    <a href="https://juejin.im/post/5c1074c8e51d451f751bc01e">Sh 打包报错</a></p>
+
+<h2>2019.06.17</h2>
+
+<p>打包机器无法拉取gerrit代码。<br/>
+Error：<code>gerrit_jenkins@gerrit: Permission denied (publickey)</code>。</p>
+
+<p><a href="https://help.github.com/en/articles/error-permission-denied-publickey">参考解决方法</a><br/>
+生成秘钥：<code>ssh-keygen</code><br/>
+查看秘钥：<code>cd ~/.ssh</code><br/>
+查看公钥：<code>cat ~/.ssh/id_rsa.pub</code><br/>
+查看私钥：<code>cat ~/.ssh/id_rsa</code><br/>
+查看已发布公钥：<code>cat ~/.ssh/known_hosts</code></p>
+
+<h2>2019.06.20</h2>
+
+<p>PCM 转 WAV</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">NSData</span><span class="o">*</span><span class="p">)</span><span class="nf">stripAndAddWavHeader:</span><span class="p">(</span><span class="bp">NSData</span><span class="o">*</span><span class="p">)</span> <span class="nv">wav</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">wavDataSize</span> <span class="o">=</span> <span class="p">[</span><span class="n">wav</span> <span class="n">length</span><span class="p">]</span> <span class="o">-</span> <span class="mi">44</span><span class="p">;</span>
+</span><span class='line'>  <span class="bp">NSData</span> <span class="o">*</span><span class="n">WaveFile</span><span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableData</span> <span class="nl">dataWithData</span><span class="p">:[</span><span class="n">wav</span> <span class="nl">subdataWithRange</span><span class="p">:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="mi">44</span><span class="p">,</span> <span class="n">wavDataSize</span><span class="p">)]];</span>
+</span><span class='line'>  <span class="bp">NSMutableData</span> <span class="o">*</span><span class="n">newWavData</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">newWavData</span> <span class="o">=</span> <span class="p">[</span><span class="nb">self</span> <span class="nl">addWavHeader</span><span class="p">:</span><span class="n">WaveFile</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">newWavData</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">NSMutableData</span> <span class="o">*</span><span class="p">)</span><span class="nf">addWavHeader:</span><span class="p">(</span><span class="bp">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">wavNoheader</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">headerSize</span> <span class="o">=</span> <span class="mi">44</span><span class="p">;</span>
+</span><span class='line'>  <span class="kt">long</span> <span class="n">totalAudioLen</span> <span class="o">=</span> <span class="p">[</span><span class="n">wavNoheader</span> <span class="n">length</span><span class="p">];</span>
+</span><span class='line'>  <span class="kt">long</span> <span class="n">totalDataLen</span> <span class="o">=</span> <span class="p">[</span><span class="n">wavNoheader</span> <span class="n">length</span><span class="p">]</span> <span class="o">+</span> <span class="n">headerSize</span><span class="o">-</span><span class="mi">8</span><span class="p">;</span>
+</span><span class='line'>  <span class="kt">long</span> <span class="n">longSampleRate</span> <span class="o">=</span> <span class="mf">8000.0</span><span class="p">;</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">channels</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>  <span class="kt">long</span> <span class="n">byteRate</span> <span class="o">=</span> <span class="mi">8</span> <span class="o">*</span> <span class="mf">16000.0</span> <span class="o">*</span> <span class="n">channels</span><span class="o">/</span><span class="mi">8</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">Byte</span> <span class="o">*</span><span class="n">header</span> <span class="o">=</span> <span class="p">(</span><span class="n">Byte</span><span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="mi">44</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;R&#39;</span><span class="p">;</span>  <span class="c1">// RIFF/WAVE header</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;I&#39;</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;F&#39;</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;F&#39;</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">Byte</span><span class="p">)</span> <span class="p">(</span><span class="n">totalDataLen</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">Byte</span><span class="p">)</span> <span class="p">((</span><span class="n">totalDataLen</span> <span class="o">&gt;&gt;</span> <span class="mi">8</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">Byte</span><span class="p">)</span> <span class="p">((</span><span class="n">totalDataLen</span> <span class="o">&gt;&gt;</span> <span class="mi">16</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">Byte</span><span class="p">)</span> <span class="p">((</span><span class="n">totalDataLen</span> <span class="o">&gt;&gt;</span> <span class="mi">24</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;W&#39;</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;A&#39;</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;V&#39;</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;E&#39;</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">12</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;f&#39;</span><span class="p">;</span>  <span class="c1">// &#39;fmt &#39; chunk</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">13</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;m&#39;</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">14</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;t&#39;</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">15</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39; &#39;</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">16</span><span class="p">]</span> <span class="o">=</span> <span class="mi">16</span><span class="p">;</span>  <span class="c1">// 4 bytes: size of &#39;fmt &#39; chunk</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">17</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">18</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">19</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">20</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>  <span class="c1">// format = 1</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">21</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">22</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">Byte</span><span class="p">)</span> <span class="n">channels</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">23</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">24</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">Byte</span><span class="p">)</span> <span class="p">(</span><span class="n">longSampleRate</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">25</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">Byte</span><span class="p">)</span> <span class="p">((</span><span class="n">longSampleRate</span> <span class="o">&gt;&gt;</span> <span class="mi">8</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">26</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">Byte</span><span class="p">)</span> <span class="p">((</span><span class="n">longSampleRate</span> <span class="o">&gt;&gt;</span> <span class="mi">16</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">27</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">Byte</span><span class="p">)</span> <span class="p">((</span><span class="n">longSampleRate</span> <span class="o">&gt;&gt;</span> <span class="mi">24</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">28</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">Byte</span><span class="p">)</span> <span class="p">(</span><span class="n">byteRate</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">29</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">Byte</span><span class="p">)</span> <span class="p">((</span><span class="n">byteRate</span> <span class="o">&gt;&gt;</span> <span class="mi">8</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">30</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">Byte</span><span class="p">)</span> <span class="p">((</span><span class="n">byteRate</span> <span class="o">&gt;&gt;</span> <span class="mi">16</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">31</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">Byte</span><span class="p">)</span> <span class="p">((</span><span class="n">byteRate</span> <span class="o">&gt;&gt;</span> <span class="mi">24</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">32</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">Byte</span><span class="p">)</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="mi">8</span> <span class="o">/</span> <span class="mi">8</span><span class="p">);</span>  <span class="c1">// block align</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">33</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">34</span><span class="p">]</span> <span class="o">=</span> <span class="mi">16</span><span class="p">;</span>  <span class="c1">// bits per sample</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">35</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">36</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;d&#39;</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">37</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;a&#39;</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">38</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;t&#39;</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">39</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;a&#39;</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">40</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">Byte</span><span class="p">)</span> <span class="p">(</span><span class="n">totalAudioLen</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">41</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">Byte</span><span class="p">)</span> <span class="p">((</span><span class="n">totalAudioLen</span> <span class="o">&gt;&gt;</span> <span class="mi">8</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">42</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">Byte</span><span class="p">)</span> <span class="p">((</span><span class="n">totalAudioLen</span> <span class="o">&gt;&gt;</span> <span class="mi">16</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">header</span><span class="p">[</span><span class="mi">43</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">Byte</span><span class="p">)</span> <span class="p">((</span><span class="n">totalAudioLen</span> <span class="o">&gt;&gt;</span> <span class="mi">24</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="bp">NSMutableData</span> <span class="o">*</span><span class="n">newWavData</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableData</span> <span class="nl">dataWithBytes</span><span class="p">:</span><span class="n">header</span> <span class="nl">length</span><span class="p">:</span><span class="mi">44</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">newWavData</span> <span class="nl">appendBytes</span><span class="p">:[</span><span class="n">wavNoheader</span> <span class="n">bytes</span><span class="p">]</span> <span class="nl">length</span><span class="p">:[</span><span class="n">wavNoheader</span> <span class="n">length</span><span class="p">]];</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">newWavData</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>multipart/form-data 上传 NSData<br/>
+<a href="https://stackoverflow.com/questions/24250475/post-multipart-form-data-with-objective-c-swift">multipart/form-data upload</a></p>
+
+<h2>2019.06.21</h2>
+
+<p>NSFileManager、NSFileHandle</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">writeFile:</span><span class="p">(</span><span class="bp">NSData</span><span class="o">*</span><span class="p">)</span><span class="nv">data</span> <span class="nf">toPath:</span><span class="p">(</span><span class="bp">NSString</span><span class="o">*</span><span class="p">)</span><span class="nv">path</span><span class="p">{</span>
+</span><span class='line'>  <span class="c1">//  创建文件</span>
+</span><span class='line'>  <span class="bp">NSFileManager</span> <span class="o">*</span><span class="n">fileManager</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSFileManager</span> <span class="n">defaultManager</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">fileManager</span> <span class="nl">removeItemAtPath</span><span class="p">:</span><span class="n">path</span> <span class="nl">error</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">fileManager</span> <span class="nl">createFileAtPath</span><span class="p">:</span><span class="n">path</span> <span class="nl">contents</span><span class="p">:</span><span class="nb">nil</span> <span class="nl">attributes</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>  <span class="c1">//  写入文件</span>
+</span><span class='line'>  <span class="bp">NSFileHandle</span> <span class="o">*</span><span class="n">fileHandle</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSFileHandle</span> <span class="nl">fileHandleForWritingAtPath</span><span class="p">:</span><span class="n">path</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">fileHandle</span> <span class="nl">writeData</span><span class="p">:</span><span class="n">data</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">fileHandle</span> <span class="n">closeFile</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>convert <code>CMSampleBufferRef</code> to <code>NSData</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">NSData</span><span class="o">*</span><span class="p">)</span><span class="nf">dataFrom:</span><span class="p">(</span><span class="n">CMSampleBufferRef</span><span class="p">)</span><span class="nv">sampleBuffer</span><span class="p">{</span>
+</span><span class='line'>  <span class="n">CMBlockBufferRef</span> <span class="n">blockBufferRef</span> <span class="o">=</span> <span class="n">CMSampleBufferGetDataBuffer</span><span class="p">(</span><span class="n">sampleBuffer</span><span class="p">);</span>
+</span><span class='line'>  <span class="kt">size_t</span> <span class="n">length</span> <span class="o">=</span> <span class="n">CMBlockBufferGetDataLength</span><span class="p">(</span><span class="n">blockBufferRef</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">Byte</span> <span class="n">buffer</span><span class="p">[</span><span class="n">length</span><span class="p">];</span>
+</span><span class='line'>  <span class="n">CMBlockBufferCopyDataBytes</span><span class="p">(</span><span class="n">blockBufferRef</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">buffer</span><span class="p">);</span>
+</span><span class='line'>  <span class="bp">NSData</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSData</span> <span class="nl">dataWithBytes</span><span class="p">:</span><span class="n">buffer</span> <span class="nl">length</span><span class="p">:</span><span class="n">length</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">data</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>PBXCp Error: No such file or directory</p>
+
+<p><a href="https://forums.developer.apple.com/thread/12443#33677">bitcode_strip exited with 1</a><br/>
+In additional to your answer, there is mush simpler method. As I see, XCode uses bitcode-strip only when enviroment variable STRIP_BITCODE_FROM_COPIED_FILES is set to YES. It seems that it&rsquo;s set to default when enable_bitcode is switched on.<br/>
+Add User-Defined Setting STRIP_BITCODE_FROM_COPIED_FILES=NO to your Target and it will compile fine, XCode will use standard strip.</p>
+
+<h2>2019.06.27</h2>
+
+<p>however, it’s generally preferable to deactivate your audio session before changing the category or other session properties. Making these changes while the session is deactivated prevents unnecessary reconfigurations of the audio system.</p>
+
+<p>Ensure that the audio session for an app using a recording category is active only while recording. Before recording starts and when it stops, ensure that your session is inactive to allow other sounds, such as incoming message alerts, to play.</p>
+
+<p>If an app supports background audio playback or recording, deactivate its audio session when entering the background if the app is not actively using audio (or preparing to use audio). Doing so allows the system to free up audio resources so that they may be used by other processes. It also prevents the app&rsquo;s audio session from being deactivated when the app process is suspended by the operating system.</p>
+
+<p>An audio interruption is the deactivation of your app’s audio session—which immediately stops your audio. Interruptions happen when a competing audio session from an app is activated and that session is not categorized by the system to mix with yours. After your session goes inactive, the system sends a “you were interrupted” message that you can respond to by saving state, updating the user interface, and so on.</p>
+
+<h2>2019.06.28</h2>
+
+<p>如何后台运行timer：通过蓝牙设备触发。  <p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201906/'><a href="http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201906/">http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201906/</a></a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
+  </p></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Light</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2020-01-17T11:36:46+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2020</span></span> <span class='time'>11:36 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2020/01/17/ioszhi-shi-xiao-ji-201905/" title="Previous Post: iOS知识小集-201905">&laquo; iOS知识小集-201905</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2020/01/17/ioszhi-shi-xiao-ji-201907/" title="Next Post: iOS知识小集-201907">iOS知识小集-201907 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+ <h1>Introduction</h1>
+
+<li>
+	<span style="color:#222222;font-family:inherit;font-size:18px;font-style:inherit;font-weight:inherit;line-height:1.5;">Light</br></span>
+	<span style="font-family:inherit;font-style:inherit;font-weight:inherit;color:#222222;font-size:18px;line-height:1.5;">iOS研发工程师</br></span>
+	<span style="font-family:inherit;font-style:inherit;font-weight:inherit;color:#222222;font-size:18px;line-height:1.5;">现就职于 出门问问</br></span>
+  <span style="font-family:inherit;font-style:inherit;font-weight:inherit;color:#222222;font-size:18px;line-height:1.5;">E-mail: sxgfxm@gmail.com</br></span>
+</li>
+
+</section>
+<section>
+ <h1>Categories</h1>
+ <ul id="categories">
+   <li class='category'><a href='/blog/categories/componentkit/'>componentkit (1)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (84)</a></li>
+<li class='category'><a href='/blog/categories/leetcode/'>leetcode (9)</a></li>
+<li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
+<li class='category'><a href='/blog/categories/reactiveobjc/'>reactiveobjc (2)</a></li>
+
+ </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2020/01/17/ioszhi-shi-xiao-ji-201912/">iOS知识小集-201912</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2020/01/17/ioszhi-shi-xiao-ji-201911/">iOS知识小集-201911</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2020/01/17/ioszhi-shi-xiao-ji-201910/">iOS知识小集-201910</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2020/01/17/ioszhi-shi-xiao-ji-201909/">iOS知识小集-201909</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2020/01/17/zhi-shi-xiao-ji-201908/">知识小集-201908</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+ <h1>他山之石</h1>
+	<li>
+		<a href="http://southpeak.github.io/">南峰子的技术博客</a></br>
+	</li>
+	<li>
+		<a href="http://www.tutorialspoint.com/index.htm">TutorailSpoint</a></br>
+	</li>
+	<li>
+		<a href="http://stackoverflow.com/">StackOverflow</a></br>
+	</li>
+</section>
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/sxgfxm">@sxgfxm</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'sxgfxm',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+<section>
+ <h1>Visitors</h1>
+	<a href="http://info.flagcounter.com/CVgH"><img src="http://s09.flagcounter.com/count2/CVgH/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_10/viewers_0/labels_0/pageviews_0/flags_0/percent_0/" alt="Flag Counter" border="0"></a>
+</section>
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2020 - Light -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-86198628-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'lights-blog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201906/';
+        var disqus_url = 'http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201906/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

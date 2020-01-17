@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2020-01-17T10:57:20+08:00</updated>
+  <updated>2020-01-17T12:06:47+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -14,829 +14,684 @@
 
   
   <entry>
-    <title type="html"><![CDATA[iOS知识小集-201901]]></title>
-    <link href="http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201901/"/>
-    <updated>2020-01-17T10:44:28+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201901</id>
-    <content type="html"><![CDATA[<h2>2019.01.02</h2>
+    <title type="html"><![CDATA[iOS知识小集-201912]]></title>
+    <link href="http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201912/"/>
+    <updated>2020-01-17T12:04:23+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201912</id>
+    <content type="html"><![CDATA[<h2>2019.12.04</h2>
 
-<h3>Swift 进阶</h3>
+<p>ASR service 增加 enable remote silence。</p>
 
-<p>Swift 语言特性<br/>
-- Swift 既是高级语言，又是低级语言。既可以使用 <strong>map</strong> 、 <strong>reduce</strong> 这样的方法，编写 <strong>高阶函数</strong>，又可以直接编译出原生的二进制可执行文件，具有和 C语言 媲美的性能。  （如何理解第二点？）<br/>
-- Swift 是多范式语言。既可以 <strong>面向对象编程</strong> ，又可以 <strong>函数式编程</strong> 。<br/>
-- Swift 鼓励自下而上编程。可以自己构建组件。<br/>
-- Swift 代码紧凑、精确，同时保持清晰。<br/>
-- Swift 在实践中是相对安全的。（如何检查变量在被使用前是赋值的？）<br/>
-- Swift 在不断的发展中。</p>
+<h2>2019.12.06</h2>
 
-<p>专业术语<br/>
-- 值语义：<br/>
-- 值类型：具有值语义的类型为值类型，<strong>struct</strong>、 <strong>enum</strong> 都是值类型。<br/>
-- 引用类型：<br/>
-- 浅拷贝：<br/>
-- 深拷贝：<br/>
-- 闭包：持有外部变量的函数成为 <strong>闭包（closure）</strong> 。<br/>
-- 高阶函数：<br/>
-- 静态派发：<br/>
-- 动态派发：</p>
+<p>present 同一个VC会crash。<br/>
+UI操作要放到主线程。</p>
 
-<h3>Atom 快捷键</h3>
+<h2>2019.12.09</h2>
 
-<p>打开快捷键列表：cmd + shift + P；<br/>
-模糊搜索标题：cmd + P；</p>
+<h3>iOS 启动优化</h3>
 
-<h3>adb 取 Android 系统日志</h3>
+<h4>启动过程</h4>
+
+<p>冷启动：不在内存，也不存在进程。<br/>
+热启动：APP结束后再启动，有部分在内存但没有进程存在。<br/>
+resume：APP没结束，全在内存内存中，进程也存在。</p>
+
+<p>iOS启动过程：<br/>
+• 根据 info.plist 里的设置加载闪屏，建立沙箱，对权限进行检查等；<br/>
+• 加载 Mach-O；<br/>
+• 执行 attribute 的 constructor 函数；<br/>
+• 加载类扩展；<br/>
+• 加载 C++静态对象；<br/>
+• 调用+load 函数；<br/>
+• 执行 main 函数；<br/>
+• Application 初始化，到 applicationDidFinishLaunchingWithOptions 执行完；<br/>
+• 初始化帧渲染，到 viewDidAppear 执行完，用户可见可操作。</p>
+
+<h4>分析工具</h4>
+
+<p>Instruments，App launch。</p>
+
+<h4>分析纬度</h4>
+
+<p>线程是计算机资源调度和分配的基本单位，CPU 的使用情况会体现到线程上。</p>
+
+<h4>主线程耗时：</h4>
+
+<p>​    1、使用 <strong>Messier</strong> 生成 trace json 进行分析。<br/>
+​    2、手动 hook objc_msgSend 生成 Objective-C 方法耗时数据分析。<em>GCDFetchFeed/SMCallTraceCore.c at master · ming1016/GCDFetchFeed · GitHub</em></p>
+
+<h4>CPU：</h4>
+
+<p>​    1、使用 <strong>Energy Log</strong> 检查 CPU 耗电，前台三分钟或者后台一分钟 CPU 线程连续占用80%以上判定为耗电，同事记录耗电线程堆栈供分析。<br/>
+​    2、查看线程情况，<strong>task_theads</strong> 的 <strong>act_list</strong> 数组包含所有线程，使用 <strong>thread_info</strong> 的接口可以返回线程的基本信息 <strong>thread_basic_info_t</strong>。</p>
+
+<h4>内存：</h4>
+
+<p>​    1、查看 APP 内存真实使用情况，<strong>webkit/MemoryFootprintCocoa.cpp</strong>。<br/>
+​    2、<strong>JetSam</strong> 会判断 APP 内存使用情况，超出阈值就会杀死APP。<br/>
+​    3、<strong>NSProcessInfo</strong> 的 <strong>physicalMemory</strong> 表示设备物理内存大小。</p>
+
+<h4>网络：</h4>
+
+<p>​    1、使用 <strong>Fishhook</strong> hook 网络底层库 <strong>CFNetwork</strong>。<br/>
+​    2、指标：DNS 时间，SSL 时间，首包时间，响应时间。</p>
+
+<h4>I/O：</h4>
+
+<p>​    1、使用 <strong>Frida</strong>，动态二进制插桩技术，在程序运行时区插入自定义代码获取 I/O 的耗时和处理数据大小等数据。<br/>
+​    2、WWDC。</p>
+
+<h4>延后任务管理</h4>
+
+<p>对于分析后，没必要在启动阶段执行的方法，可以延后执行。一般创建四个队列：<br/>
+• 异步串行队列：执行有依赖关系的任务。<br/>
+• 异步并行队列：分组执行独立任务，限制任务数量，避免CPU和内存瞬时激增影响主线程用户操作。<br/>
+• 闲时主线程串行队列：监听主线程 runloop 状态，在 <strong>kCFRunLoopBeforeWaiting</strong> 时开始执行闲时队列里的任务，在 <strong>kCFRunLoopAfterWaiting</strong> 是停止。<br/>
+• 闲时异步串行队列：同上。</p>
+
+<h4>优化后如何保持</h4>
+
+<p>监控启动阶段方法耗时，出现异常快速定位。<br/>
+通过 <strong>JSON</strong> 表示监控数据，自动化分析和定位。</p>
+
+<h2>2019.12.10</h2>
+
+<p>CLLocationManager 请求权限需要被强引用。</p>
+
+<h2>2019.12.19</h2>
+
+<h3>iOS 项目架构</h3>
+
+<h4>小团队</h4>
+
+<p>MVC<br/>
+MVP<br/>
+MVVM<br/>
+MVCS</p>
+
+<h3>大团队</h3>
+
+<p>需要考虑如何划分模块粒度、如何分层、如何团队协作。</p>
+
+<h4>划分模块粒度</h4>
+
+<p>首先，模块划分需要遵循规范、清晰的原则。<br/>
+其次，SOLID 原则。</p>
 
 <ol>
-<li><code>brew cask install android-platform-tools</code>；</li>
-<li><code>adb bugreport</code>；</li>
+<li>单一功能原则：对象功能要单一，不要在一个对象里添加很多功能。</li>
+<li>开闭原则：扩展是开放的，修改是封闭的。</li>
+<li>里氏替换原则：子类对象是可以替代基类对象的。</li>
+<li>接口隔离原则：接口的用途要单一，不要在一个接口上根据不同的参数实现多个功能。</li>
+<li>依赖反转原则：方法应该依赖抽象，不要依赖实例。iOS 开发就是高层业务方法依赖于协议。
+最后，选择合适的粒度。iOS 组件，应该是包含 UI 控件，相关多个小功能的合集，是一种粒度适中的模块。</li>
 </ol>
 
 
-<h3>字节跳动组织核心</h3>
+<p>先按物理划分为不同的pod库，然后梳理组件之间的逻辑关系，进行改造。</p>
 
-<p>技术、用户增长、商业化。<br/>
-留存、拉新、变现。</p>
+<p>组件分层：<br/>
+1. 底层是与业务无关的基础组件，比如网络和存储等；
+2. 中间层是通用的业务组件，比如账号、埋点、支付、购物车等；
+3. 最上层是迭代业务组件，更新频率最高。</p>
 
-<h2>2019.01.03</h2>
+<p>被多个业务或团队使用的功能模块才需要做成组件。</p>
 
-<h3>Swift 进阶</h3>
+<h4>多团队分工</h4>
 
-<p>使用函数将行为参数化，复用模板代码，调用者提供变换函数。<br/>
-将重复的代码抽象为函数，将函数行为抽象为模板，作为扩展重复使用。<br/>
-<T>表示声明 T 为某种类型的占位符。</p>
+<p>首先，基建团队，负责业务无关的基础功能组件和业务相关的通用业务组件。<br/>
+然后，业务团队，耦合度高的业务可以划分成单独的业务团队。<br/>
+最后，人员相互流动，相互了解。</p>
 
-<p>内建集合类型<br/>
-- 标准库中的集合类型都具有值语义，且都是用了“写时复制”技术；</p>
+<h4>理想的架构</h4>
 
-<p>数组变形<br/>
-- 尽量避免直接使用索引值访问数组元素；<br/>
-- sort：<br/>
-- map：对数组中每个元素进行变换，返回新数组；</p>
+<p>协议式架构：采用协议式编程思路，在编译层使用协议定义规范，实现可在不同地方，从而达到分布管理和维护组件的目的。<br/>
+缺点：缺少统一调度层，导致难于集中管理；协议过于规范，不够灵活。</p>
 
-<pre><code class="swift">extension Array {
-  func map&lt;T&gt;(_ transform: (Element) -&gt; T) -&gt; [T] {
-    var result: [T] = []
-    result.reserveCapacity(count)
-    for x in self {
-      result.append(transform(x))
-    }
-    return result
-  }
-}
+<p>中间者架构：采用中间者统一管理的方式，来控制APP的整个生命周期中组件的调用关系。组件接口设计要保持一致。<br/>
+CTMediator，运行时解耦。</p>
 
-[1, 2, 3].map{ x in
-  return x + 1
-}
+<h2>2019.12.31</h2>
 
-[1, 2, 3].map{$0 + 1}
-</code></pre>
-
-<ul>
-<li>filter：筛选出符合条件的元素，返回新数组；</li>
-</ul>
-
-
-<pre><code class="swift">extension Array {
-  func filter(_ predicate:(Element) -&gt; Bool) -&gt; [Element] {
-    var result: [Element] = []
-    for x in self where predicate(x) {
-      result.append(x)
-    }
-    return result
-  }
-}
-
-[1, 2, 3].filter{ x in
-  return x &gt; 0
-}
-
-[1, 2, 3].filter{$0 &gt; 1}
-</code></pre>
-
-<ul>
-<li>reduce：合并数组元素，返回合并值；</li>
-</ul>
-
-
-<pre><code class="swift">extension Array {
-  func reduce&lt;T&gt;(_ initialValue: T, _ transform: (T, Element)-&gt; T) - &gt; T {
-    var value = initialValue
-    for x in Self {
-      value = transform(value, x)
-    }
-    return value
-  }
-}
-
-[1, 2, 3].reduce(0){value, x in value + x}
-[1, 2, 3].reduce(0, +)
-</code></pre>
-
-<ul>
-<li>acummulate：迭代操作元素，返回新数组；</li>
-</ul>
-
-
-<pre><code class="swift">extension Array {
-  func accumulate&lt;Result&gt;(_ initialResult: Result, _ nextParitialResult:(Result, Element) -&gt; Result) -&gt; [Result]{
-    var running = initialResult
-    return map{ next in
-      running = nextParitialResult(running, next)
-      return running
-    }
-  }
-}
-
-[1, 2, 3].accumulate(0, +)
-</code></pre>
-
-<ul>
-<li>all：判断是否所有元素都符合条件；</li>
-</ul>
-
-
-<pre><code class="swift">extension Array {
-  func all(_ predicate: (Element) -&gt; Bool) -&gt; Bool {
-    return !contains{!predicate($0)}
-  }
-}
-
-[1, 2, 3].all{$0 &gt; 0}
-</code></pre>
-
-<ul>
-<li>map2：用reduce实现map；</li>
-</ul>
-
-
-<pre><code class="swift">extension Array {
-  func map2&lt;T&gt;(_ transform:(Element) -&gt; T) -&gt; [T] {
-    return reduce([]){
-      $0 + [transform($1)]
-    }
-  }
-}
-</code></pre>
-
-<ul>
-<li>flatMap：先map再joined，当变换函数返回值为数组，且需要合并时使用；</li>
-</ul>
-
-
-<pre><code class="swift">extension Array {
-  func flatMap&lt;T&gt;(_ transform:(Element) -&gt; [T]) -&gt; [T] {
-    var result: [T] = []
-    for x in self {
-      result.append(contentsOf: transform(x))
-    }
-    return result
-  }
-}
-</code></pre>
-
-<ul>
-<li>forEach：无返回值迭代数组元素；</li>
-</ul>
-
-
-<h2>2019.01.03</h2>
-
-<h3>Swift 进阶</h3>
-
-<p>数组类型<br/>
-- 切片：切片只是数组的另一种表示方法，使用ptr、startIndex、endIndex表示，并不会创建新数组；
-（如果改变切片中元素，原数组中元素会改变吗？）<br/>
-- 桥接：Swift数组可以桥接到OC中，编译器会自动把不兼容的值用一个不透明的box包起来；</p>
-
-<h3>Swfit 基础</h3>
-
-<ul>
-<li>Type Parameters</li>
-<li>Type Parameters Constraints</li>
-<li>Generic Type</li>
-<li>Generic Founction</li>
-<li>Associated Type</li>
-<li>Associated Type Constraints</li>
-<li>Generic where Clause</li>
-</ul>
-
-
-<h2>2019.01.07</h2>
-
-<h3>Swift 进阶</h3>
-
-<p>字典
-- removeValue(forKey:)<br/>
-- updateValue(_:forKey:)<br/>
-- mapValue<br/>
-- frequency<br/>
-- merge(_:uniqueKeysWith:)</p>
-
-<p>集合
-- IndexSet：整数集合，支持范围操作；<br/>
-- CharacterSet：Unicode字符集合；</p>
-
-<h2>2019.01.08</h2>
-
-<h3>Swift 进阶</h3>
-
-<p>范围
-- Range<br/>
-- CloseRange<br/>
-- Comparable 协议；<br/>
-- Strideable 协议；</p>
-
-<h2>2019.01.09</h2>
-
-<h3>Swift 进阶</h3>
-
-<ul>
-<li><strong>Sequence</strong> 协议是集合类型结构的基础，一个序列代表一系列具有相同类型的值，你可以对这些值进行迭代；</li>
-</ul>
-
-
-<pre><code class="swift">protocol Sequence {
-  associated Iterator : IteratorProtocol
-  func makeIterator() -&gt; Iterator
-}
-</code></pre>
-
-<ul>
-<li><strong>IteratorProtocol</strong> 协议是对迭代器的描述，通过<code>next()</code>方法返回序列中下一个值；</li>
-</ul>
-
-
-<pre><code class="swift">protocol InteratorProtocol {
-  associated Element
-  mutating func next() -&gt; Element?
-}
-</code></pre>
-
-<h2>2019.01.10</h2>
-
-<h3>APP发布</h3>
-
-<ul>
-<li>封板之后不要再往发版分支合代码；</li>
-<li>修改一定要验证，尤其是跨分支 <strong>cherry-pick</strong> 代码；</li>
-<li>APP发布之前一定要看一下 <strong>TestFlight</strong> 版本是否正常；</li>
-</ul>
-
-
-<h3>Principles</h3>
-
-<ul>
-<li>What do you want ？</li>
-<li>What is true?</li>
-<li>What are you going to do about it ?</li>
-</ul>
-
-
-<h3>微信公开课</h3>
-
-<ul>
-<li>我们更多倡导的是利用微信做出好产品分享用户。</li>
-<li>因为遵循原则，很多东西我们又必须坚持去改变。</li>
-<li>第一我们没有批量导入某一批好友，而是通过用户手动一个一个挑选。第二，在一个产品还没有被验证只能够产生自然增长的时候，我们没有去推广它。</li>
-<li>因为好的产品需要一定的独裁，否则它将包含很多不同意见以至于产品性格走向四分五裂。</li>
-<li>第一，坚持做一个好的，与时俱进的工具。</li>
-<li>微信是一个生活方式。</li>
-<li>第二个原动力是，“让创造者体现价值”。</li>
-<li>一个好的产品是有自己的使命的。</li>
-<li>最主要的是，技术的使命应该是帮助人类提高效率。</li>
-<li>一切盈利都是做好产品做好服务后的自然而来的副产品。</li>
-<li>小游戏的原动力是，它应该是一个关于创意的平台。并且让产生创意的人体现价值。</li>
-</ul>
-
-
-<h3>Swift 开发</h3>
-
-<ul>
-<li>使用 <strong>Kingfiser</strong> 异步加载网络图片 <code>imageView.kf.setImage(with:URL(string:"http://xxx.png"))</code>；</li>
-<li>使用 <strong>Material</strong> 自动布局 <code>view.layout().top().left().width().height()</code>；</li>
-<li>使用 <strong>SnapKit</strong> 自动布局 <code>view.snp.makeConstrains{(make) in // layout}</code>；</li>
-<li>使用 <strong>Extension</strong> 按功能模块分隔代码，相对清晰；</li>
-<li>使用 <strong>Moya</strong> 封装网络模块请求；</li>
-<li>使用 <strong>IGListKit</strong> 实现CollectionView，TableView；</li>
-<li>使用 <strong>SwiftyUserDefaults</strong> 实现 UserDefault 存取；</li>
-<li>使用 <strong>Realm</strong> 实现 数据库 存取；</li>
-<li>使用 <strong>Codable</strong> 实现 JSON 解析；</li>
-</ul>
-
-
-<h2>2019.01.11</h2>
-
-<h3>RxSwift</h3>
-
-<ul>
-<li>Every <strong>Observable</strong> sequence is just a sequence. The key advantage for an Observable vs Swift&rsquo;s Sequence is that it can also receive elements asynchronously.</li>
-<li><strong>Observable</strong>(<strong>ObservableType</strong>) is equivalent to <strong>Sequence</strong>.</li>
-<li><strong>ObservableType.subscribe</strong> method is equivalent to <strong>Sequence.makeIterator</strong> method.</li>
-<li>Observer (callback) needs to be passed to <strong>ObservableType.subscribe</strong> method to receive sequence elements instead of calling <strong>next()</strong> on the returned iterator.</li>
-<li>When an observable is created, it doesn&rsquo;t perform any work simply because it has been created.</li>
-<li>However, if you just call a method that returns an <strong>Observable</strong>, no sequence generation is performed and there are no side effects. <strong>Observable</strong> just defines how the sequence is generated and what parameters are used for element generation. <strong>Sequence</strong> generation starts when <strong>subscribe</strong> method is called.</li>
-</ul>
-
-
-<h2>2019.01.16</h2>
-
-<h3>RxSwift 使用场景</h3>
-
-<ul>
-<li>使用 <strong>RxSwift</strong> 实现 <strong>Target Action</strong>；</li>
-<li>使用 <strong>RxSwift</strong> 实现 <strong>Delegate</strong>；</li>
-<li>使用 <strong>RxSwift</strong> 实现 <strong>闭包回调</strong>；</li>
-<li>使用 <strong>RxSwift</strong> 实现 <strong>Notification</strong>；</li>
-<li>使用 <strong>RxSwift</strong> 实现 <strong>KVO</strong>；</li>
-<li>使用 <strong>RxSwift</strong> 实现 <strong>依赖任务</strong>；</li>
-<li>使用 <strong>RxSwift</strong> 实现 <strong>多异步任务同步</strong>；</li>
-</ul>
-
-
-<h3>RxSwift 核心概念</h3>
-
-<ul>
-<li><strong>Obervable</strong>：Single，Completable，Maybe，Driver，ControlEvent</li>
-<li><strong>Observer</strong>：AnyObserver，Binder</li>
-<li><strong>Obervable &amp; Observer</strong>：AsyncSubject、PublishSubject、ReplaySubject、BehaviorSubject、Variable、ControlProperty</li>
-<li><strong>Operator</strong>：创建新序列 或 变换、组合原有序列</li>
-<li><strong>Disposable</strong>：DisposeBag、takeUntil</li>
-<li><strong>Schedulers</strong>：subscribeOn、observeOn、MainScheduler、SerialDispatchQueueScheduler、ConcurrentDispatchQueueScheduler、OperationQueueScheduler</li>
-<li><strong>Error Handling</strong>：retry、retryWhen、catchError</li>
-</ul>
-
-
-<h2>2019.01.17</h2>
-
-<h3>RxSwift 常用操作符</h3>
-
-<p>Observable：描述可观察序列值是如何产生的，或者说观察者是如何接收该序列的，当subscribe时，真正触发序列产生。</p>
-
-<p>创建 Observable<br/>
-- <strong>create</strong>：通过构建函数，完整创建一个自定义的 Observable。各种操作符都是通过create实现的。<br/>
-- <strong>just</strong>：创建只发出一个元素的 Observable。当只产生一个元素时，可以使用just快速创建，比如网络请求结果？<br/>
-- <strong>timer</strong>：创建一定延时后，只发出一个元素的 Observable。类似于 dispatch_after ？<br/>
-- <strong>from</strong>：将其他类型转换为 Observable。比如数组、可选值等。不必自己实现这个转化过程了。<br/>
-- <strong>repeatElement</strong>：创建重复发出某个元素的 Observable。<br/>
-- <strong>deferred</strong>：直到订阅发生，才创建 Observable，并且为每位订阅者创建全新的 Observable。订阅者获取独立序列。<br/>
-- <strong>interval</strong>：创建每隔一段时间就发出一个索引数的 Observable。相当于一个repeated timer。<br/>
-- <strong>empty</strong>：创建只发出一个完成事件的 Observable。什么时候使用呢？<br/>
-- <strong>never</strong>：创建一个不会发出任何元素的 Observable。什么时候使用呢？<br/>
-- <strong>startWith</strong>：创建一个在头部插入一些元素的 Observable。<br/>
-- <strong>error</strong>：创建一个只有 error 的 Observable。</p>
-
-<p>创建 可组合的Observable<br/>
-- <strong>merger</strong>：创建一个合并多个 Observable 的 Observable，当某个 Observable 发出元素时，他就发出元素。类似多条生产线合并到一个出口。可交替发出元素。<br/>
-- <strong>concat</strong>：创建一个合并多个 Observable 的 Observable，当前一个 Observable 发出完毕时，下一个 Observable 才开始发出元素。按顺序发出元素。<br/>
-- <strong>zip</strong>：通过组合函数，创建一个将多个 Observable 的元素组合之后发出的 Observable。严格按照索引数组合发出。<br/>
-- <strong>combineLatest</strong>：通过组合函数，创建一个将多个 Observable 的最新元素组合之后发出的 Observable。用最新值替换对应值后组合发出。</p>
-
-<p>转换 Observable 元素<br/>
-- <strong>map</strong>：通过转换函数，将 Observable 的每个元素转换后发出。<br/>
-- <strong>scan/accumulator</strong>：通过转换函数，将 Observable 的每个元素累积之前的结果转换后发出。<br/>
-- <strong>reduce</strong>：通过转换函数，将 Observable 的所有元素累积的结果发出。</p>
-
-<p>转换 Observable 元素 为 Observable<br/>
-- <strong>flatMap</strong>：通过转换函数，将 Observable 的每个元素转换成其他的 Observable ，然后将这些 Observables 合并发出；<br/>
-- <strong>flatMapLatest</strong>：通过转换函数，将 Observable 的每个元素转换成其他的 Observable，然后取最新的发出；<br/>
-- <strong>concatMap</strong>：通过转换函数，将 Observable 的每个元素转换成其他的 Observable 后，按顺序发出；<br/>
-- <strong>publish</strong>：将 Observable 转换为可被连接的 Observable。直到 connect 才开始发出元素。<br/>
-- <strong>replay</strong>：将 Observable 转换为可被连接的 Observable。直到 connect 时开始发出缓存的最新n个元素。<br/>
-- <strong>refCount</strong>：将 Observable 转换为可自动连接和断开的的 Observable。<br/>
-- <strong>connect</strong>：通知 ConnectableObservable 可以开始发出元素了。</p>
-
-<p>如何发送 Observable 元素<br/>
-- <strong>delay</strong>：将 Observable 的所有元素延迟一段设定好的时间发出；<br/>
-- <strong>materialize</strong>：将 Observable 产生的时间全部转换成元素发出；<br/>
-- <strong>dematerialize</strong>：将 materialize 转换后的元素还原；<br/>
-- <strong>ignoreElements</strong>：将 Observable 产生的 next 事件忽略，只发出 completed 和 error 事件；只关心终止时使用<br/>
-- <strong>buffer</strong>：将 Observable 元素周期性的以 元素集合 发出来。<br/>
-- <strong>window</strong>：将 元素集合 周期性的以 Observable 形态发出来。<br/>
-- <strong>groupBy</strong>：将 Observable 以键值分组为 子Observable 发出来。<br/>
-- <strong>single</strong>：将 Observable 限制为只发出一个元素。</p>
-
-<ul>
-<li><strong>filter</strong>：只发出通过判定的元素。</li>
-<li><strong>take</strong>：只发出头 n 个元素。</li>
-<li><strong>takeWhile</strong>：从头发出通过判定的元素。</li>
-<li><strong>takeUntil</strong>：从头发出直到另一个 Observable 发出元素。</li>
-<li><strong>takeLast</strong>：只发出尾 n 个元素。</li>
-<li><strong>elementAt</strong>：只发出第 n 个元素。</li>
-<li><strong>skip</strong>：跳过头 n 个元素。</li>
-<li><strong>skipWhile</strong>：从头跳过通过判定的元素。</li>
-<li><strong>skipUntil</strong>：从头跳过直到另一个 Observable 发出元素。</li>
-<li><strong>sample</strong>：按第二个 Observable 对 第一个 Observable 采样发出元素。</li>
-<li><strong>debounce</strong>：过滤掉高频产生的元素。</li>
-<li><strong>distinctUntilChanged</strong>：只发出与上个元素不同的元素。</li>
-<li><p><strong>delaySubscription</strong>：将延迟一段时间后才订阅 Observable。</p></li>
-<li><p><strong>amb</strong>：在多个源 Observable 中，取第一个发出元素的 Observable 只发出其元素。</p></li>
-</ul>
-
-
-<p>在哪个线程发出和接收元素<br/>
-- <strong>subscribeOn</strong>：指定 Observable 在哪个 Scheduler 执行。<br/>
-- <strong>observeOn</strong>：指定 Observable 在哪个 Scheduler 发出通知。</p>
-
-<p>当发生某些事件时如何操作<br/>
-- <strong>do</strong>：当 Observable 产生某些事件时，执行某个操作。可以来注册一些回调操作，单独回调。<br/>
-- <strong>timeout</strong>：如果 Observable 在规定时间内么有产生任何元素，产生一个超时的 error 事件。</p>
-
-<p>如何处理 Observable error 事件<br/>
-- <strong>catchError</strong>：拦截一个 error 事件，将它替换成其他 Observable。<br/>
-- <strong>catchErrorJustReturn</strong>：拦截一个 error 事件，将它替换成其他元素并结束。<br/>
-- <strong>retry</strong>：拦截一个 error 事件，并重新订阅该 Observable。</p>
-
-<ul>
-<li><strong>using</strong>：创建一个可被清除的资源，它和 Observable 具有相同的生命周期。</li>
-</ul>
-
-
-<h3>RxSwift 常用架构</h3>
-
-<ul>
-<li><strong>MVVM</strong>：View &ndash;> Observable &ndash;> ViewModel &ndash;> Observable &ndash;> Controller</li>
-<li><strong>RxFeedback</strong>：State &ndash;> Event &ndash;> StateChanged &ndash;> Event &ndash;> State</li>
-<li><strong>ReactorKit</strong>：View &ndash;> Action &ndash;> Reactor &ndash;> State</li>
-</ul>
-
-
-<h2>2019.01.18</h2>
-
-<h3>IGListKit</h3>
-
-<ul>
-<li>[ListDiffable] &ndash;> ListAdapter &ndash;> ListSectionController &ndash;> Cell</li>
-<li>Data： needs conform ListDiffable</li>
-<li>ListAdapter：init with UICollectionView and ListAdapterUpdater，set datasource delegate，use <code>performUpdates(animated:)</code> to tell data has changed</li>
-<li>UIViewController：needs conform ListAdapterDataSource，implement <code>objects(for:)</code>，<code>listAdapter(_:sectionControllerFor:)</code>，<code>emptyView(for:)</code></li>
-<li>ListSectionController：needs save data, state, and override <code>numberOfItems</code>，<code>cellForItem(at:)</code>，<code>sizeForItem(at:)</code>，<code>didUpdate(to:)</code>，<code>didSelectItem(at:)</code></li>
-<li>UICollectionViewCell：needs implement <code>cellSize(for:)</code></li>
-<li>布局的关键在于如何划分Cell，采用分层组合的方式，类似于 ComponentKit ，提高复用性</li>
-<li><code>UUID().uuidString</code> 来生成 唯一标识</li>
-<li>一种 model 类型 对应一种 sectionController，sectionController 负责如何展示 model，可以用一个cell展示，也可以分多个cell展示</li>
-<li>避免数据与UI不一致导致的crash</li>
-<li>分离dataSource；</li>
-</ul>
-
-
-<h2>2019.01.24</h2>
-
-<h3>SwiftyUserDefaults</h3>
-
-<ul>
-<li>add keys</li>
-</ul>
-
-
-<pre><code>extension DefaultsKeys {
-  static let firstInFlag = DefaultsKey&lt;Bool&gt;("firstInFlag")
-  static let username = DefaultsKey&lt;String?&gt;("username")
-  static let password = DefaultsKey&lt;String?&gt;("password")
-}
-</code></pre>
-
-<ul>
-<li>use keys</li>
-</ul>
-
-
-<pre><code>func storeDataWithUserDefault (){
-    if !Defaults[.firstInFlag] {
-      print("Is first in")
-      Defaults[.firstInFlag] = true
-      Defaults[.username] = "Light"
-      Defaults[.password] = "123456"
-    } else {
-      print("Not first in")
-      print("username \(Defaults[.username] ?? "not set")")
-      print("password \(Defaults[.password] ?? "not set")")
-    }
-  }
-</code></pre>
-
-<h3>RealmSwift</h3>
-
-<ul>
-<li>Declare Model</li>
-</ul>
-
-
-<pre><code>class Person: Object {
-  @objc dynamic var name = ""
-  @objc dynamic var age = 0
-}
-</code></pre>
-
-<ul>
-<li>Get Realm <code>let realm = try! Realm()</code></li>
-<li>Query <code>let studentOver20 = realm.objects(Person.self).filter("age &gt; 20").first</code></li>
-<li>Update <code>try! realm.write { realm.add(mySelf) realm.add(other) }</code></li>
-</ul>
-
-
-<h2>2019.01.25</h2>
-
-<h3>Swift 5.0 新特性</h3>
-
-<ul>
-<li>应用瘦身：Swfit 应用不再包含标准库的动态链接库；</li>
-<li>Swift 语言
-
-<ul>
-<li><code>@dynamicCallable</code> 简化方法调用，增强与动态语言的协作性；</li>
-<li>Key paths 现在支持指向自身的 key path <code>\.self</code>；</li>
-<li>enum case 不定参数 需转换为 数组传入；</li>
-<li><code>try?</code> 表达式不再返回嵌套的optional；</li>
-<li>字面量初始化</li>
-<li>String 插值更高效，<code>_ExpressibleByStringInterpolation</code>方法需要替换；</li>
-</ul>
-</li>
-<li>Swfit 标准库
-
-<ul>
-<li><code>DictionaryLiteral</code> 重命名为 <code>KeyValuePairs</code>；</li>
-<li><code>Sequence</code> 不再有关联类型 <code>SubSequence</code>；</li>
-</ul>
-</li>
-<li>Swift Package Manager</li>
-<li>Swift Compiler</li>
-</ul>
-
-
-<h2>2019.01.28</h2>
-
-<h3>RxSwift 原理解析</h3>
-
-<h2>2019.01.30</h2>
-
-<h3>RTCRoom</h3>
-
-<ul>
-<li>Login
-
-<ul>
-<li>初始化 <code>RTCRoom</code>；</li>
-<li>获取 <code>LoginInfo</code>；</li>
-<li>登录 <code>-login:loginInfo:withCompletion:</code>；</li>
-</ul>
-</li>
-<li>Get Room List
-
-<ul>
-<li>获取聊天室列表 <code>-getRoomList:cnt:withCompletion:</code>；</li>
-</ul>
-</li>
-<li>Create Room
-
-<ul>
-<li>创建聊天室 <code>-creatRoom:roomInfo:withCompletion:</code>；</li>
-</ul>
-</li>
-<li>Enter Room
-
-<ul>
-<li>进入聊天室 <code>-enterRoom:withCompletion:</code>；</li>
-</ul>
-</li>
-<li>Show Local Video
-
-<ul>
-<li>展示本地视频 <code>-startLocalPreview:</code>；</li>
-<li>停止本地视频 <code>-stopLocalPreview</code>；</li>
-<li>设置音频清晰度 <code>-setHDAudio:</code>；</li>
-<li>设置视频码率 <code>-setBitrateRange:max:</code>；</li>
-<li>切换前后摄像头 <code>-switchCamera</code>；</li>
-<li>静音推流 <code>-setMute:</code>；</li>
-<li>设置美颜效果 <code>-setBeautyStyle:beaultyLevel:whitenessLevel:ruddinessLevel:</code>；</li>
-<li>进入前台 <code>-switchToForeground</code>；</li>
-<li>进入后台 <code>-switchToBackground:</code>；</li>
-</ul>
-</li>
-<li>Show Remote Video
-
-<ul>
-<li>展示远程视频 <code>-addRemoteView:withUserID:playBegin:playError:</code>；</li>
-</ul>
-</li>
-<li>On Get Pusher List
-
-<ul>
-<li>记录 <code>PusherInfo</code>；</li>
-<li>记录 <code>playerView</code>；</li>
-<li>展示远程视频，出错时 <code>-onPusherQuit:</code>；</li>
-<li>重新布局；</li>
-</ul>
-</li>
-<li>On Pusher Join
-
-<ul>
-<li>记录 <code>playerView</code>；</li>
-<li>记录 <code>PusherInfo</code>；</li>
-<li>展示远程视频，出错时 <code>-onPusherQuit:</code>；</li>
-<li>重新布局；</li>
-</ul>
-</li>
-<li>On Pusher Quit
-
-<ul>
-<li>删除 <code>playerView</code>；</li>
-<li>删除 <code>PusherInfo</code>；</li>
-<li>重新布局；</li>
-</ul>
-</li>
-<li>On Room Close
-
-<ul>
-<li>提示聊天室关闭；</li>
-</ul>
-</li>
-</ul>
-
+<p>使用 <code>lame</code> 库，实现 pcm 流 转 mp3 流。</p>
 ]]></content>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[iOS知识小集-180924]]></title>
-    <link href="http://sxgfxm.github.io/blog/2018/10/10/ioszhi-shi-xiao-ji-180924/"/>
-    <updated>2018-10-10T21:44:06+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2018/10/10/ioszhi-shi-xiao-ji-180924</id>
-    <content type="html"><![CDATA[<h2>修改UISearchBar取消按钮颜色</h2>
+    <title type="html"><![CDATA[iOS知识小集-201911]]></title>
+    <link href="http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201911/"/>
+    <updated>2020-01-17T12:03:37+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201911</id>
+    <content type="html"><![CDATA[<h2>2019.11.10</h2>
 
-<pre><code class="objective-c">- (void)willPresentSearchController:(UISearchController *)searchController{
-  [[UIBarButtonItem appearanceWhenContainedInInstancesOfClasses:@[[UISearchBar class]]] setTitleTextAttributes:@{NSForegroundColorAttributeName:UIColorFromRGBA(0xff4a4a4a)} forState:UIControlStateNormal];
+<p>xcode 11.2 无法上传APP至商店，需要使用 xcode 11.2.1 GM 版本上传。</p>
+
+<h2>2019.11.11</h2>
+
+<p>使用<code>GCDAsyncSocket</code>实现APP间通信，需要server端先开启，然后client端去连接。<br/>
+可以在后台接收socket消息，但是如果被挂起后，将无法接收。<br/>
+可以通过静默推送唤醒后台挂起应用，然后处理socket消息。</p>
+
+<p>GATT 协议栈。</p>
+
+<h2>2019.11.12</h2>
+
+<p>iOS 可以实现多个APP作为中心设备与同一个周边设备建立BLE连接。<br/>
+APP 可以获取当前正在连接的设备（retrieve），然后直接与之建立BLE连接。</p>
+
+<h2>2019.11.13</h2>
+
+<p><a href="https://apps.apple.com/cn/app/transporter/id1450874784?l=en&amp;mt=12">Transporter</a> 通过非命令行上传APP。</p>
+
+<p><code>Google/SignIn</code>：3.0版本<br/>
+<code>GoogleSignIn</code>：4.0版本</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-201910]]></title>
+    <link href="http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201910/"/>
+    <updated>2020-01-17T12:02:44+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201910</id>
+    <content type="html"><![CDATA[<h2>2019.10.09</h2>
+
+<p>同一个ViewController不能连续present两个ViewController。<br/>
+苹果的思维非同凡响，其实你只需要解散一个Modal View Controller就可以了。即处于最底层的View Controller，这样处于这个层之上的ModalView Controller统统会被解散。</p>
+
+<h2>2019.10.21</h2>
+
+<p><code>MPRemoteCommandCenter</code> 与 <code>AVAudioSession</code> 有关系。<br/>
+如果增加<code>AVAudioSessionCategoryOptionMixWithOthers</code>，远程控制会消失。<br/>
+I faced the same related issue. AVAudioSessionCategory should be mixwithothers, and you will no longer can update Lock Screen Control Center with info.</p>
+
+<h2>2019.10.23</h2>
+
+<p>以16进制查看文件<br/>
+1、<code>vim</code>，<code>:%!xxd</code>转换为十六进制查看，<code>:%!xxd -r</code>转换为文本查看。<br/>
+2、<code>hexdump -C file | more</code>。</p>
+
+<h2>2019.10.31</h2>
+
+<p>制定协议需要添加版本号。</p>
+
+<p>当找不出问题时，考虑是否会受上下文影响。</p>
+
+<p>BLE通知消息有Notify和Indicate两种。</p>
+
+<p>iPhone 7及以下机型蓝牙版本为4.2，iPhone 8及以上机型蓝牙版本为5.0。</p>
+
+<p>iPhone 6 BLE 发送数据发送间隔有最小限制30ms。</p>
+
+<h2>2019.10.31</h2>
+
+<p><strong>Symbolic Breakpoint</strong> 查找参数为nil的情况。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-201909]]></title>
+    <link href="http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201909/"/>
+    <updated>2020-01-17T11:49:59+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201909</id>
+    <content type="html"><![CDATA[<h2>2019.09.03</h2>
+
+<h3>适配 iOS 13</h3>
+
+<p>1、需要适配 dark mode。现强制设为非 dark mode；</p>
+
+<pre><code>if (@available(iOS 13.0, *)) {
+    self.window.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
 }
 </code></pre>
 
-<h2>解决XCode10 引入非同一目录下头文件没有自动提示的问题</h2>
+<p>2、present 默认状态变为 卡片弹出，可下滑退出，可设置 <code>self.modalPresentationStyle = UIModalPresentationFullScreen;</code> <br/>
+3、device token 解析方法改变：</p>
 
-<p>Xcode &ndash;> File &ndash;> Workspace Settings &ndash;> Build System &ndash;> Legacy Build System。<br/>
-需重新编译后生效。</p>
-
-<h2>非 Retina 显示器，升级到 Mojave 之后发现文字不清晰问题</h2>
-
-<p>如果你在用 “非 Retina” 的显示器，升级到 Mojave 之后发现文字不清晰了，是因为 Mojave 默认关闭了文字的次像素渲染，如果需要可以通过终端里输入这个命令重新打开：<br/>
-<code>sudo defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO</code>。<br/>
-重新打开对应软件后生效。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-180917]]></title>
-    <link href="http://sxgfxm.github.io/blog/2018/09/25/ioszhi-shi-xiao-ji-180917/"/>
-    <updated>2018-09-25T13:05:35+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2018/09/25/ioszhi-shi-xiao-ji-180917</id>
-    <content type="html"><![CDATA[<h2>相机拍摄图片方向调整</h2>
-
-<pre><code class="objective-c">  if (image.imageOrientation != UIImageOrientationUp) {
-      UIGraphicsBeginImageContext(image.size);
-      [image drawInRect:CGRectMake(0, 0, image.size.width, image.size.height)];
-      image = UIGraphicsGetImageFromCurrentImageContext();
-      UIGraphicsEndImageContext();
-  }
-</code></pre>
-
-<h2>Playground running 卡死</h2>
-
-<p>1、修改platform为Mac OS；<br/>
-2、修改为手动执行；<br/>
-3、为手动执行增加快捷键；</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-180910]]></title>
-    <link href="http://sxgfxm.github.io/blog/2018/09/17/ioszhi-shi-xiao-ji-180910/"/>
-    <updated>2018-09-17T20:42:43+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2018/09/17/ioszhi-shi-xiao-ji-180910</id>
-    <content type="html"><![CDATA[<h2>Siri Kit</h2>
-
-<h3>Siri Kit作用</h3>
-
-<p>通过语音完成第三方应用功能，偏向于工具型操作。</p>
-
-<h3>实现机制</h3>
-
-<p><strong>Domain</strong>：业务领域；<br/>
-<strong>Intent</strong>：领域中的任务或指令；<br/>
-语音识别 &ndash;> Domain / Intent &ndash;> 下发到已注册的Extension进行处理。<br/>
-接近固定形式的表述更容易被识别。</p>
-
-<h3>集成</h3>
-
-<p>需要注意develop target系统版本问题。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-180903]]></title>
-    <link href="http://sxgfxm.github.io/blog/2018/09/10/ioszhi-shi-xiao-ji-180903/"/>
-    <updated>2018-09-10T14:34:51+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2018/09/10/ioszhi-shi-xiao-ji-180903</id>
-    <content type="html"><![CDATA[<h2>集成Apple Pay</h2>
-
-<h3>权限配置</h3>
-
-<p>按官方指导配置权限。</p>
-
-<h3>调用过程</h3>
-
-<p>引入<code>&lt;PassKit/PassKit.h&gt;</code>，权限判断，支付卡判断，设置商品参数，创建支付请求，显示支付界面，代理接收结果。</p>
-
-<!-- more -->
-
-
-<pre><code class="objective-c">- (void)useApplePay{
-  //  权限判断
-  if ([PKPaymentAuthorizationViewController canMakePayments]){
-    //  支付卡判断
-    if ([PKPaymentAuthorizationViewController canMakePaymentsUsingNetworks:@[PKPaymentNetworkVisa, PKPaymentNetworkChinaUnionPay, PKPaymentNetworkDiscover]]){
-      //  设置商品参数
-      NSDecimalNumber *amount = [NSDecimalNumber decimalNumberWithString:@"2.33"]
-      PKPaymentSummaryItem *item = [PKPaymentSummaryItem summaryItemWithLabel:@"PJChao" amount:amount];
-      //  支付请求
-      PKPaymentRequest *request = [[PKPaymentRequest alloc] init];
-      // 设置商户ID（merchant IDs）
-      request.merchantIdentifier = @"com.mobvoi.ApplePayTest";
-      // 设置国家代码(中国大陆)
-      request.countryCode = @"CN";
-      // 设置支付货币(人民币)
-      request.currencyCode = @"CNY";
-      // 设置商户的支付标准(3DS支付方式必须支持，其他方式可选)
-      request.merchantCapabilities = PKMerchantCapability3DS;
-      request.paymentSummaryItems = @[item];
-      /**
-       *  以上参数都是必须的
-       *  以下参数不是必须的
-       */
-      // 设置收据内容
-      request.requiredBillingAddressFields = PKAddressFieldAll;
-      // 设置送货内容
-      request.requiredShippingAddressFields = PKAddressFieldAll;
-      // 设置送货方式
-      PKShippingMethod *method = [PKShippingMethod summaryItemWithLabel:@"顺丰" amount:[NSDecimalNumber decimalNumberWithString:@"10.00"]];
-      method.identifier = @"顺丰物流";
-      method.detail = @"12小时到达";
-      request.shippingMethods = @[method];
-      //  显示支付页面
-      PKPaymentAuthorizationViewController *paymentVC = [[PKPaymentAuthorizationViewController alloc] initWithPaymentRequest:request];
-      paymentVC.delegate = self;
-      if (paymentVC == nil) return;
-      [self presentViewController:paymentVC animated:YES completion:nil];
-    } else {
-      //  跳转至银行卡设置界面
-      [[[PKPassLibrary alloc] init] openPaymentSetup];
-    }
-  }
-}
-
-//  代理方法
-#pragma mark - PKPaymentAuthorizationViewControllerDelegate
-- (void)paymentAuthorizationViewController:(PKPaymentAuthorizationViewController *)controller
-                       didAuthorizePayment:(PKPayment *)payment
-                                completion:(void (^)(PKPaymentAuthorizationStatus status))completion
+<pre><code>#include &lt;arpa/inet.h&gt;
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-    /**
-     *  在这里支付信息应发送给服务器/第三方的SDK（银联SDK/易宝支付SDK/易智付SDK等）
-     *  再根据服务器返回的支付成功与否进行不同处理
-     *  这里直接返回支付成功
-     */
-    completion(PKPaymentAuthorizationStatusSuccess);
-}
-
-- (void)paymentAuthorizationViewControllerDidFinish:(PKPaymentAuthorizationViewController *)controller
-{
-    // 点击支付/取消按钮隐藏界面
-    [controller dismissViewControllerAnimated:YES completion:nil];
+    if (![deviceToken isKindOfClass:[NSData class]]) return;
+    const unsigned *tokenBytes = [deviceToken bytes];
+    NSString *hexToken = [NSString stringWithFormat:@"%08x%08x%08x%08x%08x%08x%08x%08x",
+                          ntohl(tokenBytes[0]), ntohl(tokenBytes[1]), ntohl(tokenBytes[2]),
+                          ntohl(tokenBytes[3]), ntohl(tokenBytes[4]), ntohl(tokenBytes[5]),
+                          ntohl(tokenBytes[6]), ntohl(tokenBytes[7])];
+    NSLog(@"deviceToken:%@",hexToken);
 }
 </code></pre>
 
-<h2>集成Touch ID</h2>
+<p>4、导航栏 label 需要设置frame，否则颜色会异常；<br/>
+5、label add layer 会遮盖文字；<br/>
+6、获取 keyWindow；<br/>
+7、<code>Privacy - Bluetooth Always Usage Description</code>：增加该权限配置；<br/>
+8、UITextfield placeholder 颜色；<br/>
+9、NSData to HexString</p>
 
-<pre><code class="objective-c">- (void)startLocalAuthentication{
-  if (NSFoundationVersionNumber &lt; NSFoundationVersionNumber_iOS_8_0) {
-    NSLog(@"系统版本不支持TouchID");
-  } else {
-    LAContext *context = [[LAContext alloc] init];
-    context.localizedFallbackTitle = @"请输入密码";
-    NSError *error = nil;
-    if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&amp;error]) {
-      [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:@"通过指纹登录" reply:^(BOOL success, NSError * _Nullable error) {
-        if (success) {
-          dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"验证成功");
-          });
-        } else {
-          NSLog(@"验证失败");
-        }
-      }];
-    } else {
-      NSLog(@"当前设备不支持TouchID");
+<pre><code>@implementation NSData (HexRepresentation)
+
+- (NSString *)hexString {
+    const unsigned char *bytes = (const unsigned char *)self.bytes;
+    NSMutableString *hex = [NSMutableString new];
+    for (NSInteger i = 0; i &lt; self.length; i++) {
+        [hex appendFormat:@"%02x", bytes[i]];
     }
+    return [hex copy];
+}
+
+@end
+</code></pre>
+
+<h2>2019.09.04</h2>
+
+<p>Wireless debug</p>
+
+<pre><code>@startuml
+WWLoginController -&gt; WWThirdPartyLoginManager : press apple sign in button
+WWThirdPartyLoginManager --&gt; WWLoginController : apple sigin and send (userId, accessToken) back
+WWLoginController -&gt; WWThirdPartyAccountManager : send (loginType, userId, accessToken) to third party account manager
+WWThirdPartyAccountManager --&gt; WWLoginController : send (loginType, userId, accessToken) to server and send login status back
+WWLoginController -&gt; WWAccountRelatedManager : login succeeded, save (loginType, userId, responseObject)
+WWLoginController -&gt; WWRegisterInputNumberController : login failed, register phone number
+@enduml
+</code></pre>
+
+<h2>2019.09.05</h2>
+
+<h3>Apple Sign In</h3>
+
+<p><strong>操作未完成</strong>：需要删除APP重新安装才生效；</p>
+
+<h2>2019.09.06</h2>
+
+<h3>Unit Test</h3>
+
+<p>添加 Unit Test：创建工程时添加；添加新的 Target，选择 Test；<br/>
+添加 测试文件：新建文件时选择测试文件；<br/>
+can&rsquo;t find import files：运行一次就好了；</p>
+
+<p><strong>如何测试代理</strong><br/>
+<strong>如何测试block</strong></p>
+
+<h2>2019.09.09</h2>
+
+<p><strong>Failed to connect to github.com port 443: Operation timed out</strong>：<code>https://www.githubstatus.com/</code></p>
+
+<h2>2019.09.11</h2>
+
+<p><strong>生产者 - 消费者问题</strong>：cache 缓存数据，queue 读取数据，当cache为空时，queue应该等待，不能结束。
+mark down mathjax：写数学公式。<br/>
+<a href="https://stackoverflow.com/questions/30794479/the-sound-muted-after-playing-audio-with-audio-queue-on-ios-for-a-while?rq=1">音频流播放</a></p>
+
+<h2>2019.09.16</h2>
+
+<p><strong>TTS中断问题</strong>：先缓存0.5秒数据再开始播放。<br/>
+<strong>AVAudioSessionErrorCodeCannotStartRecording（561145187）</strong>：无法后台语音识别。<br/>
+<strong>AVAudioSessionErrorCodeCannotStartPlaying（561015905）</strong>：无法后台语音识别。</p>
+
+<h2>2019.09.17</h2>
+
+<p><strong>Error: Multiple commands produce</strong>：切换为 legacy build system。<br/>
+<strong>(Enterprise) Sign In with Apple</strong>：去掉企业版capability中 sign in with apple 选项。</p>
+
+<pre><code>@startwbs
+* OTA
+** BLE Connection
+*** CSRConnectionManager \n -connectPeripheral
+*** CSRConnectionManager \n -addDelegate:
+*** CSRConnectionManager \n -stopScan
+** Gaia Connection(-discoveredPripheralDetails)
+*** CSRGaia \n -connectPeripheral:
+*** CSRGaiaManager \n -setDataEndPointMode:
+** BLE Disconnection
+*** CSRConnectionManager \n -removeDelegate: \n disconnectPeripheral
+@end
+</code></pre>
+
+<p><strong>Error Domain=NSOSStatusErrorDomain Code=1954115647 &ldquo;(null)&rdquo;</strong>：音频数据不完整导致初始化音频播放器出错。</p>
+
+<h2>2019.09.18</h2>
+
+<p>Gaia VA</p>
+
+<h3>封装、解析 Gaia 数据包  Done</h3>
+
+<p><code>CSRGaiaGattCommand</code><br/>
+  <code>- initWithLength:</code><br/>
+  <code>- initWithNSData:</code></p>
+
+<p>封装 command + vendor_id + data：</p>
+
+<pre><code>- (NSData *)gaiaPacketWithCommand:(GaiaCommandType)command
+                           vendor:(uint16_t)vendor_id
+                             data:(NSData *)params{
+  CSRGaiaGattCommand *cmd = [[CSRGaiaGattCommand alloc] initWithLength:GAIA_GATT_HEADER_SIZE];        
+  if (cmd) {
+    [cmd setCommandId:command];
+    [cmd setVendorId:vendor_id];
+
+    if (params) {
+      [cmd addPayload:params];
+    }
+
+    NSData *packet = [cmd getPacket];
+
+    DLog(@"Outgoing packet: %@", packet);
+    return packet;
   }
+  return nil;
 }
 </code></pre>
+
+<p>解析</p>
+
+<pre><code>- (CSRGaiaGattCommand *)gaiaGattCommandWithGaiaPacket:(NSData *)packet{
+  return [[CSRGaiaGattCommand alloc] initWithNSData: packet];
+}
+
+- (NSData *)payloadWithGaiaGattCommand:(CSRGaiaGattCommand *)command{
+  //  command type
+  GaiaCommandType cmdType = [command getCommandId];
+  //  payload
+  NSData *payload = [command getPayload];
+  return payload;
+}
+</code></pre>
+
+<h3>接收 Gaia 数据包  Done</h3>
+
+<p><code>CSRGaiaManager</code>
+  <code>CSRUpdateManagerDelegate</code>
+    <code>- didReceiveGaiaGattResponse:</code><br/>
+目前在<code>WWTicPodBTManager</code>中有监听。</p>
+
+<h3>发送 Gaia 数据包  Todo</h3>
+
+<p><code>CSRGaiaManager</code>
+  <code>- getBattery</code>
+    <code>CSRGaia</code>
+      <code>- getBattery</code>
+        <code>- sendCommand:vendor:data:</code></p>
+
+<pre><code>- (void)getBattery {    
+    [self sendCommand:GaiaCommand_GetCurrentBatteryLevel
+               vendor:CSR_GAIA_VENDOR_ID
+                 data:nil];
+}
+
+- (void)setVolume:(NSInteger)value {
+    NSMutableData *payload = [[NSMutableData alloc] init];
+    uint8_t payload_event = (uint8_t)value;
+
+    [payload appendBytes:&amp;payload_event length:1];
+    [self sendCommand:GaiaCommand_Volume
+               vendor:CSR_GAIA_VENDOR_ID
+                 data:payload];
+}
+</code></pre>
+
+<p>Todo：<br/>
+1、在 <code>CSRGaiaManager</code> 中添加 VA 相关命令；<br/>
+2、在 <code>CSRGaia</code> 中添加 VA 相关命令；</p>
+
+<h3>VA 状态管理  Todo</h3>
+
+<p>消息确认，发送、接收、解析等。</p>
+
+<h2>2019.09.19</h2>
+
+<p>测定 BLE 传输 速率；</p>
+
+<h2>2019.09.23</h2>
+
+<p>运行时间</p>
+
+<pre><code>CFAbsoluteTime startTime =CFAbsoluteTimeGetCurrent();
+
+//在这写入要计算时间的代码
+
+CFAbsoluteTime linkTime = (CFAbsoluteTimeGetCurrent() - startTime);
+
+NSLog(@"Linked in %f ms", linkTime *1000.0);
+</code></pre>
+
+<p>音频解码是连续的，解码过程中初始化条件不能被重置。</p>
+
+<h2>2019.09.24</h2>
+
+<p>Voice Assistant State</p>
+
+<pre><code>@startuml
+[*] --&gt; VA.CheckVersion
+
+VA.CheckVersion --&gt; VA.Idle : GaiaCheckVersion
+
+VA.Idle --&gt; VA.VoiceRequesting : GaiaStart
+VA.Idle -left-&gt; VA.MobvoiPaused : GaiaMobvoiPaused
+VA.Idle -right-&gt; VA.Idle : GaiaMobvoiFeatureEvent
+
+VA.MobvoiPaused --&gt; VA.Idle : GaiaMobvoiResumed
+
+state VA.Idle {
+  [*] --&gt; VA.Session.Normal
+  [*] --&gt; VA.Session.PushToTalk
+  [*] --&gt; VA.Session.Secretary
+  [*] --&gt; VA.Session.Joke
+
+  VA.Session.Normal : normal voice query, auto finish
+  VA.Session.PushToTalk : longpress voice query, ticpods finish
+  VA.Session.Secretary : voice query with special params
+  VA.Session.Joke : text query joke
+}
+
+VA.VoiceRequesting --&gt; VA.VoiceRequested : GaiaVoiceData
+
+VA.VoiceRequested --&gt; VA.VoiceRequested : GaiaVoiceDataRequest ack
+VA.VoiceRequested --&gt; VA.VoiceRequested : GaiaVoiceData
+VA.VoiceRequested --&gt; VA.Idle : GaiaVoiceEnd
+VA.VoiceRequested --&gt; VA.Idle : GaiaCancel
+VA.VoiceRequested --&gt; VA.HostCancelOrEnd : GaiaMobvoiHostVoiceEnd
+VA.VoiceRequested --&gt; VA.HostCancelOrEnd : GaiaMobvoiHostCancel
+
+VA.HostCancelOrEnd --&gt; VA.Idle : GaiaVoiceEnd ack
+VA.HostCancelOrEnd --&gt; VA.Idle : GaiaCancel ack
+VA.HostCancelOrEnd --&gt; VA.Idle : GaiaStart
+
+VA.CheckVersion : GaiaCheckVersion:
+VA.CheckVersion : 1. ack GaiaCheckVersion
+VA.CheckVersion : 2. check protocol version
+VA.CheckVersion : 3. get G722 decoder parameters
+VA.CheckVersion : 4. initialize G722 decoder with parameters
+
+VA.Idle : GaiaStart:
+VA.Idle : 1. ack GaiaStart
+VA.Idle : 2. get session type\n
+
+VA.Idle : GaiaMobvoiPaused:
+VA.Idle : 1. no GaiaMobvoiPaused ack
+VA.Idle : 2. no GaiaMobvoiFeatureEvent ack\n
+
+VA.Idle : GaiaMobvoiFeatureEvent:
+VA.Idle : 1. no GaiaMobvoiFeatureEvent ack
+VA.Idle : 2. do special action
+
+VA.MobvoiPaused : GaiaMobvoiResumed:
+VA.MobvoiPaused : 1. no GaiaMobvoiResumed ack
+VA.MobvoiPaused : 2. ignore voice assistant command
+
+VA.VoiceRequesting : GaiaVoiceData:
+VA.VoiceRequesting : 1. no GaiaVoiceData ack
+VA.VoiceRequesting : 2. send GaiaVoiceDataRequest
+
+VA.VoiceRequested : GaiaVoiceDataRequest ack:
+VA.VoiceRequested : 1. do nothing\n
+
+VA.VoiceRequested : GaiaData:
+VA.VoiceRequested : 1. no GaiaData ack
+VA.VoiceRequested : 2. decode G722 packet
+VA.VoiceRequested : 3. send decoded voice data to speech sdk\n
+
+VA.VoiceRequested : GaiaVoiceEnd:
+VA.VoiceRequested : 1. ack GaiaVoiceEnd
+VA.VoiceRequested : 2. finish recognition\n
+
+VA.VoiceRequested : GaiaCancel:
+VA.VoiceRequested : 1. ack GaiaCancel
+VA.VoiceRequested : 2. cancel recognition\n
+
+VA.VoiceRequested : GaiaMobvoiHostVoiceEnd:
+VA.VoiceRequested : 1. send GaiaVoiceEnd
+VA.VoiceRequested : 2. finish recognition\n
+
+VA.VoiceRequested : GaiaMobvoiHostCancel:
+VA.VoiceRequested : 1. send GaiaCancel
+VA.VoiceRequested : 2. cancel recognition
+
+VA.HostCancelOrEnd : GaiaVoiceEnd ack:
+VA.HostCancelOrEnd : 1. do nothing\n
+
+VA.HostCancelOrEnd : GaiaCancel ack:
+VA.HostCancelOrEnd : 1. do nothing\n
+
+VA.HostCancelOrEnd : GaiaStart:
+VA.HostCancelOrEnd : 1. VA.Idle -&gt; VA.VoiceRequesting
+@enduml
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[知识小集-201908]]></title>
+    <link href="http://sxgfxm.github.io/blog/2020/01/17/zhi-shi-xiao-ji-201908/"/>
+    <updated>2020-01-17T11:47:39+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2020/01/17/zhi-shi-xiao-ji-201908</id>
+    <content type="html"><![CDATA[<h2>2019.08.06</h2>
+
+<p><code>RPC failed; curl 56 LibreSSL SSL_read: SSL_ERROR_SYSCALL, errno 60</code>：拉取大文件时换成不够出错。<br/>
+增大缓存空间：<code>git config https.postBuffer 524288000</code>，<code>git config http.postBuffer 524288000</code>。</p>
+
+<h2>2019.08.07</h2>
+
+<h3>SpeechSDK</h3>
+
+<pre><code>@startwbs
+* SpeechSDK
+** Buf
+*** set address
+*** get address
+*** set size
+*** get size
+** CallBackBase
+*** call back with parameter
+** Value
+** SpeechSDS
+*** make instance
+*** set parameter
+*** get parameter
+*** get service
+*** release service
+*** clear up
+*** destroy instance
+** Service
+*** invoke parameter
+** Parameter
+*** set parameter
+*** get parameter
+*** has parameter
+*** drop parameter
+*** clear parameter
+@endwbs
+</code></pre>
+
+<h3>Speech Development Service</h3>
+
+<pre><code>@startwbs
+* Speech Development Service
+** Hotword Service
+*** SDS get Hotword service
+*** invoke Hotword parameter
+*** invoke start parameter
+*** start recorder
+*** invoke audio buf parameter
+*** process Hotword call back
+*** stop audio recorder
+*** invoke stop parameter
+*** SDS release Hotword service
+*** SDS destroy SDS
+** ASR Service
+*** sds get ASR service
+*** invoke ASR parameter
+*** invoke start parameter
+*** start recorder
+*** invoke audio buf parameter
+*** process ASR call back
+*** stop audio recorder
+*** invoke stop parameter
+*** SDS release ASR service
+*** SDS destroy SDS
+** TTS Service
+*** sds get TTS service
+*** invoke TTS parameter
+*** invoke start parameter
+*** invoke text parameter
+*** invok read parameter
+*** append audio data and play
+*** stop audio player
+*** invoke stop parameter
+*** SDS release TTS service
+*** SDS destroy SDS
+@endwbs
+</code></pre>
+
+<h3>AssistantEngin</h3>
+
+<pre><code>@startwbs
+* AssitantEngine
+** Hotword
+*** load Hotword model
+*** start Hotword
+*** stop Hotword
+** ASR
+*** start ASR
+**** manual
+**** auto
+*** cancel ASR
+*** stop ASR
+** Text Query
+** TTS
+*** start TTS
+**** text
+**** type
+**** url
+*** stop TTS
+@endwbs
+</code></pre>
+
+<h2>2019.08.15</h2>
+
+<p><a href="http://www.mengyueping.com/2018/08/16/iOS_CocoaPods_03/">pod 私有库问题</a><br/>
+<a href="http://adolsai.com/index.php/archives/cocoapods-private-error-list.html">pod 私有库问题</a><br/>
+通过 <code>subspec</code> 实现目录结构分级；</p>
+
+<p><strong>无法找到引用的第三方库</strong>：framework search path 有问题，设置<code>pod_target_xcconfig</code>时导致的。</p>
+
+<p><strong>Undefined symbols for architecture arm64</strong>：在配置中增加 other linker flags。</p>
+
+<p><strong>dyld: Library not loaded: @rpath</strong>：pod文件名与依赖库的名字相同，导致异常，更换pod名称。</p>
+
+<p><strong>dynamic: Dynamic frameworks and libraries are only supported on iOS 8.0 and onwards</strong>：platform = :ios, &lsquo;9.0&rsquo;</p>
+
+<p><strong>vendored framework not found</strong>：<a href="https://github.com/CocoaPods/CocoaPods/issues/1824">https://github.com/CocoaPods/CocoaPods/issues/1824</a> 改用'POD/file.h'</p>
+
+<p><strong>Cocoapods wrapping around a static library without i386 architecture</strong>：s.pod_target_xcconfig = { &lsquo;VALID_ARCHS[sdk=iphonesimulator*]&rsquo; => &lsquo;&rsquo; }</p>
+
+<p>source 中不要添加tag</p>
+
+<h2>2019.08.20</h2>
+
+<p>注意线程问题。</p>
+
+<p><strong>HFP 状态下 AudioQueueNewOutput 无法正常播放音频</strong> 改为 A2DP 播放音频；</p>
 ]]></content>
   </entry>
   

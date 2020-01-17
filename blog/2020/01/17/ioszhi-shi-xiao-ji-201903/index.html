@@ -1,0 +1,726 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS知识小集-201903 - Light's Blog</title>
+  <meta name="author" content="Light">
+
+  
+  <meta name="description" content="Dart, Flutter">
+  <meta name="keywords" content="sxgfxm, Dart, Flutter">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201903/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Light's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+
+function addBlankTargetForLinks () {
+
+  $('a[href^="http"]').each(function(){
+
+      $(this).attr('target', '_blank');
+
+  });
+
+}
+
+$(document).bind('DOMNodeInserted', function(event) {
+
+  addBlankTargetForLinks();
+
+});
+
+</script>
+
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-86198628-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  
+  <meta name="baidu-site-verification" content="vgau9BNOtE" />
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Light's Blog</a></h1>
+  
+    <h2>The best or nothing.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <!-- <input type="hidden" name="sitesearch" value="sxgfxm.github.io"> -->
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS知识小集-201903</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2020-01-17T11:18:45+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2020</span></span> <span class='time'>11:18 am</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>2019.03.08</h2>
+
+<h3>Flutter开发流程搭建</h3>
+
+<p>目标：<br/>
+    实现Flutter对原来Native工程的非侵入式集成 —— 通过pod集成；<br/>
+    保证Flutter编译环境的唯一性 —— 通过服务器编译产生构建产物；<br/>
+    实现了Flutter的持续集成 —— 自动编译flutter代码并同步flutter构建产物；</p>
+
+<ol>
+<li>在打包机器安装 flutter 开发环境；√</li>
+</ol>
+
+
+<p>下载 <a href="https://flutter.dev/docs/development/tools/sdk/archive?tab=macos#macos">Flutter SDK</a>；</p>
+
+<p>配置环境变量：<code>export PATH=[FLUTTER_INSTALL_PATH]/flutter/bin:$PATH</code>；</p>
+
+<p>安装Xcode、Android Studio；</p>
+
+<p><code>flutter doctor</code><br/>
+  iOS：<br/>
+    brew update<br/>
+    brew install &ndash;HEAD usbmuxd<br/>
+    brew link usbmuxd<br/>
+    brew install &ndash;HEAD libimobiledevice<br/>
+    brew install ideviceinstaller<br/>
+    brew install ios-deploy<br/>
+  Android：<br/>
+    update Android SDK 28<br/>
+  Plugins：<br/>
+    Flutter<br/>
+    Dart</p>
+
+<ol>
+<li><p>新建 gerrit 测试项目 flutter_test、flutter_sdk_test、flutter_pod_test；√</p></li>
+<li><p>新建 jenkins 打包项目 flutter_test；√</p></li>
+<li><p>添加 Flutter 自动编译脚本；√</p>
+
+<p> <strong>jenkins源码配置：Refspec：refs/changes/<em>:refs/changes/</em></strong><br/>
+ <strong>添加环境变量：export PATH=/Users/Mobvoi/Library/flutter/bin:$PATH</strong><br/>
+ <strong>自动使用company签名：修改源工程配置</strong><br/>
+ 修改项目 Bundle ID，使用公司证书签名，需要区分证书；<br/>
+ <code>flutter build ios</code> 编译 release 版本；<br/>
+ <code>flutter build ios --debug</code> 编译 debug 版本；<br/>
+ 编译产物在 <code>project_dir/ios/Flutter</code> 目录下；<br/>
+ 将编译产物导出至 <code>project_dir/FlutterSDK</code> 目录下；<br/>
+ build.sh</p></li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c">#!/bin/sh</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># keychain 访问权限</span>
+</span><span class='line'>security unlock-keychain -p mobvoi login.keychain
+</span><span class='line'>
+</span><span class='line'><span class="c"># 添加环境变量</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span>/Users/Mobvoi/Library/flutter/bin:<span class="nv">$PATH</span>
+</span><span class='line'>
+</span><span class='line'>//  获取当前目录
+</span><span class='line'><span class="nv">project_dir</span><span class="o">=</span><span class="k">$(</span><span class="nb">cd</span> <span class="s2">&quot;$(dirname &quot;</span><span class="nv">$0</span><span class="s2">&quot;)&quot;</span><span class="p">;</span><span class="nb">pwd</span><span class="k">)</span>
+</span><span class='line'><span class="nb">echo</span> <span class="k">${</span><span class="nv">project_dir</span><span class="k">}</span>
+</span><span class='line'>//  release产物路径
+</span><span class='line'><span class="nv">release_sdk_dir</span><span class="o">=</span><span class="k">${</span><span class="nv">project_dir</span><span class="k">}</span>/FlutterSDK/Release
+</span><span class='line'><span class="nb">echo</span> <span class="k">${</span><span class="nv">release_sdk_dir</span><span class="k">}</span>
+</span><span class='line'>//  debug产物路径
+</span><span class='line'><span class="nv">debug_sdk_dir</span><span class="o">=</span><span class="k">${</span><span class="nv">project_dir</span><span class="k">}</span>/FlutterSDK/Debug
+</span><span class='line'><span class="nb">echo</span> <span class="k">${</span><span class="nv">debug_sdk_dir</span><span class="k">}</span>
+</span><span class='line'>
+</span><span class='line'>//  清空上次编译产物
+</span><span class='line'>rm -rf <span class="k">${</span><span class="nv">release_sdk_dir</span><span class="k">}</span>
+</span><span class='line'>rm -rf <span class="k">${</span><span class="nv">debug_sdk_dir</span><span class="k">}</span>
+</span><span class='line'>
+</span><span class='line'>//  创建产物目录
+</span><span class='line'>mkdir -p <span class="k">${</span><span class="nv">release_sdk_dir</span><span class="k">}</span>
+</span><span class='line'>mkdir -p <span class="k">${</span><span class="nv">debug_sdk_dir</span><span class="k">}</span>
+</span><span class='line'>
+</span><span class='line'>//  使用release证书编译
+</span><span class='line'><span class="c">#flutter build ios</span>
+</span><span class='line'>
+</span><span class='line'>//  导出release编译产物
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Start exporting flutter release sdk done!&quot;</span>
+</span><span class='line'>cp -rf <span class="k">${</span><span class="nv">project_dir</span><span class="k">}</span>/ios/Flutter/*.framework <span class="k">${</span><span class="nv">release_sdk_dir</span><span class="k">}</span>
+</span><span class='line'>cp -rf <span class="k">${</span><span class="nv">project_dir</span><span class="k">}</span>/ios/Flutter/flutter_assets <span class="k">${</span><span class="nv">release_sdk_dir</span><span class="k">}</span>
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Export flutter release sdk done!&quot;</span>
+</span><span class='line'>
+</span><span class='line'>//  使用debug证书编译
+</span><span class='line'><span class="c">#flutter build ios --debug</span>
+</span><span class='line'>
+</span><span class='line'>//  导出debug编译产物
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Start exporting flutter release sdk done!&quot;</span>
+</span><span class='line'>cp -rf <span class="k">${</span><span class="nv">project_dir</span><span class="k">}</span>/ios/Flutter/*.framework <span class="k">${</span><span class="nv">debug_sdk_dir</span><span class="k">}</span>
+</span><span class='line'>cp -rf <span class="k">${</span><span class="nv">project_dir</span><span class="k">}</span>/ios/Flutter/flutter_assets <span class="k">${</span><span class="nv">debug_sdk_dir</span><span class="k">}</span>
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Export flutter debug sdk done!&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>创建 pod 包含 flutter 工程 √<br/>
+创建pod：<code>pod spec create flutter_sdk</code><br/>
+修改配置文件：</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>s.prepare_command <span class="o">=</span> <span class="s2">&quot;build.sh&quot;</span>
+</span><span class='line'>s.vendored_frameworks <span class="o">=</span> <span class="s1">&#39;Framework/Debug/*.framework&#39;</span>
+</span><span class='line'>s.resources <span class="o">=</span> <span class="s1">&#39;Framework/Debug/flutter_assets&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>server 编译生成产物<br/>
+pod 下载产物</p>
+
+<p>检查依赖 <code>pod lib lint --verbose --no-clean --allow-warnings --sources=MobvoiPods,master</code>
+推送到仓库 <code>pod repo push MobvoiPods flutter_test.podspec --allow-warnings --sources=MobvoiPods,master</code></p>
+
+<ol>
+<li><p>flutter_test 编译成功后将编译产物上传至 flutter_sdk_test，区分 iOS 和 Android；
+ export.sh</p></li>
+<li><p>构建 flutter_pod_test 自动从 flutter_sdk_test 下载iOS编译产物，区分 release 和 debug；
+ download.sh</p></li>
+<li><p>one 工程依赖 flutter_pod_test，打包时区分 release 和 debug；</p></li>
+<li><p>时序图：</p></li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>@startuml
+</span><span class='line'>actor Light
+</span><span class='line'>participant local_FlutterSDK
+</span><span class='line'>participant gerrit_FlutterSDK <span class="c">#99FF99</span>
+</span><span class='line'>participant jenkins_FlutterSDK <span class="c">#FF9999</span>
+</span><span class='line'>participant <span class="nv">local_One</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">==</span> <span class="nv">Flutter</span> <span class="o">==</span>
+</span><span class='line'>
+</span><span class='line'>Light -&gt; local_FlutterSDK : Develop
+</span><span class='line'>local_FlutterSDK -&gt; gerrit_FlutterSDK : Push to gerrit
+</span><span class='line'>gerrit_FlutterSDK -&gt; jenkins_FlutterSDK : Trigger compiling
+</span><span class='line'>note right <span class="c">#99FF99</span>
+</span><span class='line'>  build_debug.sh
+</span><span class='line'>  build flutter debug SDK
+</span><span class='line'>end note
+</span><span class='line'>jenkins_FlutterSDK --&gt; gerrit_FlutterSDK : Success
+</span><span class='line'>gerrit_FlutterSDK --&gt; Light : Success
+</span><span class='line'>Light -&gt; gerrit_FlutterSDK : Merge code
+</span><span class='line'>gerrit_FlutterSDK -&gt; jenkins_FlutterSDK : Trigger compiling
+</span><span class='line'>note right <span class="c">#99FF99</span>
+</span><span class='line'>  export_debug.sh
+</span><span class='line'>  build flutter debug SDK
+</span><span class='line'>  <span class="nb">export </span>flutter debug SDK
+</span><span class='line'>  update pod version
+</span><span class='line'>end note
+</span><span class='line'>jenkins_FlutterSDK --&gt; gerrit_FlutterSDK : Success
+</span><span class='line'>gerrit_FlutterSDK --&gt; Light : <span class="nv">Success</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">==</span> <span class="nv">iOS</span> <span class="o">==</span>
+</span><span class='line'>
+</span><span class='line'>Light -&gt; local_One : Pod update
+</span><span class='line'>local_One -&gt; jenkins_FlutterSDK : Fetch flutter SDK
+</span><span class='line'>note right <span class="c">#99FF99</span>
+</span><span class='line'>  FlutterSDK.podspec
+</span><span class='line'>  s.vendored_frameworks <span class="o">=</span> <span class="s1">&#39;Framework/*.framework&#39;</span>
+</span><span class='line'>  s.resources <span class="o">=</span> <span class="s1">&#39;Framework/flutter_assets&#39;</span>
+</span><span class='line'>end note
+</span><span class='line'>jenkins_FlutterSDK --&gt; local_One : Success
+</span><span class='line'>@enduml
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>学习资料：<a href="https://github.com/alibaba/flutter-go">https://github.com/alibaba/flutter-go</a></p>
+
+<h2>2019.03.22</h2>
+
+<ol>
+<li>运行flutter release 版本；</li>
+<li>从网上下载的flutter工程需要配置dart 和 flutter SDK路径；</li>
+<li>podspec需要指定系统版本；</li>
+<li>pod lib lint 和 pod spec lint；</li>
+<li>flutter 版本需保持一致；</li>
+<li>flutter upgrade 升级；</li>
+<li>将 App.framework 和 Flutter.framework 上传；</li>
+<li>添加flutter编译时脚本；</li>
+<li>framework 和 static library 有什么区别；</li>
+</ol>
+
+
+<h3>PodFile</h3>
+
+<h4>Root Options</h4>
+
+<p><code>install!</code>：指定<code>pod install</code>时执行的方法和选项。</p>
+
+<h4>Dependencies</h4>
+
+<p><code>pod</code>：指定工程的依赖。</p>
+
+<ul>
+<li><code>:configurations =&gt; ['Debug','Release']</code>：根据编译配置选择性安装依赖。</li>
+<li><code>:source =&gt; 'https://github.com/CocoaPods/Specs.git'</code>：指定pod库的来源。</li>
+<li><code>:subspecs =&gt; ['Subspec1', 'Subspec2']</code>：指定需要安装的Subspec。</li>
+<li><code>:path =&gt; '~/Documents/LocalPod'</code>：指定安装本地Pod。</li>
+<li><code>:git =&gt; 'https://github.com/gowalla/AFNetworking.git', :branch =&gt; 'dev', :tag =&gt; '0.1.0'</code>：指定安装的库地址及分支或标签。</li>
+<li><code>:podspec =&gt; https://example.com/JSONKit.podspec</code>：指定podspec的来源。</li>
+<li><code>:inhibit_warnings =&gt; true</code>：屏蔽Pod中语法警告。</li>
+</ul>
+
+
+<p><code>podspec</code>：指定podspec文件的来源。</p>
+
+<p><code>target 'ProjectTargetName' do ... end</code>：指定Target的依赖。</p>
+
+<p><code>script_phase :name =&gt; 'HelloWorldScript', :script =&gt; 'echo "Hello World"', :shell_path =&gt; '/usr/bin/ruby'</code>：指定运行脚本。</p>
+
+<p><code>abstract_target 'AbstractTargetName' do ... end</code>：指定抽象Target的依赖，方便多个Target继承。</p>
+
+<p><code>inherit!</code>：指定依赖继承。</p>
+
+<ul>
+<li><code>:complete</code>：完全继承父亲行为。</li>
+<li><code>:none</code>：不继承父亲行为。</li>
+<li><code>:search_paths</code>：只继承父亲库的搜索路径。</li>
+</ul>
+
+
+<h4>Target Configuration</h4>
+
+<p><code>platform :ios, '9.0'</code>：设置系统版本。</p>
+
+<p><code>project 'TestProject', 'App Store' =&gt; :release, 'Test' =&gt; :debug</code>：根据工程build configuration选择debug或release版本。</p>
+
+<p><code>inhibit_all_warnings!</code>：屏蔽所有Pod中语法警告。</p>
+
+<p><code>use_modular_headers!</code>：指定静态库使用modular headers。</p>
+
+<p><code>use_frameworks!</code>：指定使用frameworks而不是静态库。</p>
+
+<h4>Workspace</h4>
+
+<p><code>workspace 'MyWorkspace'</code>：指定workspace。</p>
+
+<p><code>generate_bridge_support!</code>：指定生成BridgeSupport文件。</p>
+
+<p><code>set_arc_compatibility_flag!</code>：指定需要添加<code>-fobjc-arc</code>flag。</p>
+
+<h4>Source</h4>
+
+<p><code>source 'https://github.com/CocoaPods/Specs.git'</code>：指定全局仓库地址。</p>
+
+<h4>Hooks</h4>
+
+<p><code>plugin 'cocoapods-keys', :keyring =&gt; 'Eidolon'</code>：指定安装时需要的插件。</p>
+
+<p><code>pre_install do |installer| ... end</code>：Pod下载好，安装前，执行。</p>
+
+<p><code>post_install od |installer| ... end</code>：Pod安装好，生成Xcode project时执行。</p>
+
+<p><code>supports_swift_versions</code>：指定所需要的Swift版本支持。</p>
+
+<h3>Podspec</h3>
+
+<h4>Root specification</h4>
+
+<p><code>spec.source</code>：指定Pod库的源地址。</p>
+
+<ul>
+<li><code>:git =&gt; :tag, :branch, :commit, :submodules</code></li>
+<li><code>:svn =&gt; :folder, :tag, :revision</code></li>
+<li><code>:hg =&gt; :revision</code></li>
+<li><code>:http =&gt; :flatten, :type, :sha256, :sha1</code></li>
+</ul>
+
+
+<p><code>spec.prepare_command</code>：当Pod下载好之后执行的脚本，可以用来创建、删除、修改下载好的文件。脚本会在Pod清除前和Pod工程创建前执行，目录是Pod的根目录。</p>
+
+<h4>Platform</h4>
+
+<p><code>spec.platform = :ios, '9.0'</code>：指定Pod支持的系统平台和版本。<br/>
+<code>spec.ios.deployment_target = '9.0'</code>：指定支持的系统平台的最低版本。</p>
+
+<h4>Build Settings</h4>
+
+<p><code>spec.dependency 'AFNetworking', '~&gt; 1.0'</code>：指定依赖的第三方库。<br/>
+<code>spec.requires_arc = true</code>：指定需要支持ARC。<br/>
+<code>spec.framework = 'QuartzCore'</code>：指定Target需要链接的系统库。 <br/>
+<code>spec.library = 'xml2'</code>：指定Target需要链接的系统库。<br/>
+<code>spec.weak_framework = 'Twitter'</code>：指定Target需要weak链接的库。<br/>
+<code>spec.compiler_flags = '-DOS_OBJECT_USE_OBJC=0'</code>：传递给编译器的标识列表。<br/>
+<code>spec.prefix_header_file = false</code>：指定是否引入公共头文件。<br/>
+<code>spec.script_phase = {}</code>：当Pod编译时执行的脚本。</p>
+
+<h4>File patterns</h4>
+
+<p><code>*</code>：匹配任何文件。<br/>
+<code>**</code>：递归的匹配目录。<br/>
+<code>?</code>：匹配任何一个字符。<br/>
+<code>[set]</code>：匹配set中的任何一个字符。<br/>
+<code>{p,q}</code>：匹配字符p或者字符q。</p>
+
+<p><code>spec.source_files = 'Classes/**/*.{h,m}'</code>：指定Pod的源文件。<br/>
+<code>spec.public_header_files = 'Headers/Public/*.h'</code>：指定公共头文件。<br/>
+<code>spec.private_header_files = 'Headers/Private/*.h'</code>：指定私有头文件。<br/>
+<code>spec.vendored_frameworks = 'Frameworks/MyFramework.framework'</code>：与Pod一起绑定的framework。<br/>
+<code>spec.vendored_libraries = 'libProj4.a'</code>：与Pod一起绑定的静态库。<br/>
+<code>spec.resources = '[Images/*.png]'</code>：需要拷贝到Target中的资源文件。<br/>
+<code>spec.exclude_files = 'Classes/osx'</code>：需要忽略的文件。<br/>
+<code>spec.preserve_paths = 'Important.text'</code>：下载后不应该被删除的文件。  <p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201903/'><a href="http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201903/">http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201903/</a></a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
+  </p></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Light</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2020-01-17T11:18:45+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2020</span></span> <span class='time'>11:18 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2020/01/17/ioszhi-shi-xiao-ji-201902/" title="Previous Post: iOS知识小集-201902">&laquo; iOS知识小集-201902</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2020/01/17/ioszhi-shi-xiao-ji-201904/" title="Next Post: iOS知识小集-201904">iOS知识小集-201904 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+ <h1>Introduction</h1>
+
+<li>
+	<span style="color:#222222;font-family:inherit;font-size:18px;font-style:inherit;font-weight:inherit;line-height:1.5;">Light</br></span>
+	<span style="font-family:inherit;font-style:inherit;font-weight:inherit;color:#222222;font-size:18px;line-height:1.5;">iOS研发工程师</br></span>
+	<span style="font-family:inherit;font-style:inherit;font-weight:inherit;color:#222222;font-size:18px;line-height:1.5;">现就职于 出门问问</br></span>
+  <span style="font-family:inherit;font-style:inherit;font-weight:inherit;color:#222222;font-size:18px;line-height:1.5;">E-mail: sxgfxm@gmail.com</br></span>
+</li>
+
+</section>
+<section>
+ <h1>Categories</h1>
+ <ul id="categories">
+   <li class='category'><a href='/blog/categories/componentkit/'>componentkit (1)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (84)</a></li>
+<li class='category'><a href='/blog/categories/leetcode/'>leetcode (9)</a></li>
+<li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
+<li class='category'><a href='/blog/categories/reactiveobjc/'>reactiveobjc (2)</a></li>
+
+ </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2020/01/17/ioszhi-shi-xiao-ji-201912/">iOS知识小集-201912</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2020/01/17/ioszhi-shi-xiao-ji-201911/">iOS知识小集-201911</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2020/01/17/ioszhi-shi-xiao-ji-201910/">iOS知识小集-201910</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2020/01/17/ioszhi-shi-xiao-ji-201909/">iOS知识小集-201909</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2020/01/17/zhi-shi-xiao-ji-201908/">知识小集-201908</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+ <h1>他山之石</h1>
+	<li>
+		<a href="http://southpeak.github.io/">南峰子的技术博客</a></br>
+	</li>
+	<li>
+		<a href="http://www.tutorialspoint.com/index.htm">TutorailSpoint</a></br>
+	</li>
+	<li>
+		<a href="http://stackoverflow.com/">StackOverflow</a></br>
+	</li>
+</section>
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/sxgfxm">@sxgfxm</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'sxgfxm',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+<section>
+ <h1>Visitors</h1>
+	<a href="http://info.flagcounter.com/CVgH"><img src="http://s09.flagcounter.com/count2/CVgH/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_10/viewers_0/labels_0/pageviews_0/flags_0/percent_0/" alt="Flag Counter" border="0"></a>
+</section>
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2020 - Light -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-86198628-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'lights-blog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201903/';
+        var disqus_url = 'http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201903/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

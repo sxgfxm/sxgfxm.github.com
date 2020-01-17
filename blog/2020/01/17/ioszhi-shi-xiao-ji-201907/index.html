@@ -1,0 +1,953 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS知识小集-201907 - Light's Blog</title>
+  <meta name="author" content="Light">
+
+  
+  <meta name="description" content="Core Bluetooth">
+  <meta name="keywords" content="sxgfxm, Core Bluetooth">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201907/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Light's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+
+function addBlankTargetForLinks () {
+
+  $('a[href^="http"]').each(function(){
+
+      $(this).attr('target', '_blank');
+
+  });
+
+}
+
+$(document).bind('DOMNodeInserted', function(event) {
+
+  addBlankTargetForLinks();
+
+});
+
+</script>
+
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-86198628-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+  
+  <meta name="baidu-site-verification" content="vgau9BNOtE" />
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Light's Blog</a></h1>
+  
+    <h2>The best or nothing.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <!-- <input type="hidden" name="sitesearch" value="sxgfxm.github.io"> -->
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS知识小集-201907</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2020-01-17T11:41:32+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2020</span></span> <span class='time'>11:41 am</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>2019.07.01</h2>
+
+<p>一般情况下，APP退到后台 30秒 后会被挂起。<br/>
+申请后台任务，可以有至多 3分钟 时间处理任务，之后会被挂起。<br/>
+由APP 触发timer 改为 蓝牙设备定期触发 timer，唤醒APP，执行操作。</p>
+
+<h2>2019.07.02</h2>
+
+<p>颈部操后台操作采用同样的逻辑。</p>
+
+<h2>2019.07.05</h2>
+
+<p>颈部操音乐处理，改为耳机状态下mix &amp; duck。<br/>
+结束后需要setActive = NO。恢复其他音乐正常播放。</p>
+
+<h2>2019.07.10</h2>
+
+<p>监听<code>AVAudioSessionInterruptionNotification</code>获取打断开始和结束的通知，做相应的处理。</p>
+
+<p>pod update <code>error: RPC failed; curl 56 LibreSSL SSL_read: SSL_ERROR_SYSCALL, errno 60</code>，
+增加buffer大小，<code>git config --global http.postBuffer 114288000</code></p>
+
+<h2>2019.07.11</h2>
+
+<p><code>#import 'file'</code>，预处理后会递归复制头文件至当前文件；<br/>
+<code>@import Module</code>，优化文件体积和编译速度；<br/>
+<code>[[UIApplication sharedApplication] setIdleTimerDisabled:YES];</code>，防止灭屏；<br/>
+<code>gem sources -l</code>，查看ruby gem镜像地址；<br/>
+<code>gem source -r url</code>，删除ruby镜像地址；<br/>
+<code>gem source -a url</code>，添加ruby镜像地址；</p>
+
+<h2>2019.07.12</h2>
+
+<p>检索特定字符串<br/>
+1. 在工程目录下，<code>grep -r string .</code>；<br/>
+2. 在ipa包内，<code>strings - -a -arch armv7 "AppName" | grep string</code>，<code>strings - -a -arch armv7 "AppName" &gt; AppName.txt</code>；</p>
+
+<p>企业版打包，普通Team member只能安装developer版本，需要由管理员导出企业证书并安装，才可以导出distribution版本。</p>
+
+<h2>2019.07.23</h2>
+
+<p>无耳机条件下，A2DP不能少。<br/>
+setActive:NO 可以恢复其他APP音乐。<br/>
+开启 background task 来执行后台操作。</p>
+
+<h2>2019.07.24</h2>
+
+<p>Invalid virtual filesystem overlay file，clean，删除diriveddata，重启xcode。</p>
+
+<p>制作git patch：<code>git format-patch commitID</code><br/>
+应用git patch：<code>git am patchName</code><br/>
+查看修改：<code>git apply patchName --reject</code><br/>
+对照修改解决问题删除rej文件之后：<code>git add .</code> <code>git am --continue</code></p>
+
+<h2>2019.07.29</h2>
+
+<h3>Core Bluetooth</h3>
+
+<p>Devices that implement the central role in Bluetooth low energy communication perform a number of common tasks—for example,<br/>
+<strong>discovering and connecting to available peripherals, and exploring and interacting with the data that peripherals have to offer. </strong>
+Devices that implement the peripheral role also perform a number of common, but different, tasks—for example,<br/>
+<strong>publishing and advertising services, and responding to read, write, and subscription requests from connected centrals.</strong></p>
+
+<p>A peripheral typically has data that is needed by other devices.<br/>
+A central typically uses the information served up by a peripheral to accomplish some task.</p>
+
+<p>Peripherals make their presence known by advertising the data(services、characteristics) they have over the air.<br/>
+Centrals scan for nearby peripherals that might have data they’re interested in, or interact with a peripheral’s service by reading or writing the value of that service’s characteristic.</p>
+
+<p>When a central discovers such a peripheral,
+the central requests to connect to the peripheral and begins exploring and interacting with the peripheral’s data.<br/>
+The peripheral is responsible for responding to the central in appropriate ways.<br/>
+You can retrieve the value of a characteristic by reading it directly or by subscribing to it.</p>
+
+<h4>As Centrals</h4>
+
+<p><code>CBCentralManager</code></p>
+
+<p><code>CBPeripheral</code><br/>
+    <code>CBService</code><br/>
+        <code>CBCharacteristic</code>
+        <code>CBCharacteristic</code>
+    <code>CBService</code><br/>
+        <code>CBCharacteristic</code>
+        <code>CBCharacteristic</code></p>
+
+<h4>As Peripherals</h4>
+
+<p><code>CBPeripheralManager</code></p>
+
+<p><code>CBMutableService</code>
+    <code>CBMutableCharacteristic</code>
+    <code>CBMutableCharacteristic </code></p>
+
+<p><code>CBCentral</code></p>
+
+<h4>Centrals</h4>
+
+<p>Start up a central manager object</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">myCentralManager</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">CBCentralManager</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithDelegate</span><span class="p">:</span><span class="nb">self</span> <span class="nl">queue</span><span class="p">:</span><span class="nb">nil</span> <span class="nl">options</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Discover and connect to peripheral devices that are advertising</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">//  specify services CBUUID to discover peripherials you are interested in</span>
+</span><span class='line'><span class="p">[</span><span class="n">myCentralManager</span> <span class="nl">scanForPeripheralsWithServices</span><span class="p">:</span><span class="nb">nil</span> <span class="nl">options</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">centralManager:</span><span class="p">(</span><span class="bp">CBCentralManager</span> <span class="o">*</span><span class="p">)</span><span class="nv">central</span>
+</span><span class='line'> <span class="nf">didDiscoverPeripheral:</span><span class="p">(</span><span class="bp">CBPeripheral</span> <span class="o">*</span><span class="p">)</span><span class="nv">peripheral</span>
+</span><span class='line'>     <span class="nf">advertisementData:</span><span class="p">(</span><span class="bp">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">advertisementData</span>
+</span><span class='line'>                  <span class="nf">RSSI:</span><span class="p">(</span><span class="bp">NSNumber</span> <span class="o">*</span><span class="p">)</span><span class="nv">RSSI</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">//  If you plan to connect to the discovered peripheral, keep a strong reference to it so the system does not deallocate it.</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Discovered %@&quot;</span><span class="p">,</span> <span class="n">peripheral</span><span class="p">.</span><span class="n">name</span><span class="p">);</span>
+</span><span class='line'>    <span class="nb">self</span><span class="p">.</span><span class="n">discoveredPeripheral</span> <span class="o">=</span> <span class="n">peripheral</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">...</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//  save power</span>
+</span><span class='line'><span class="p">[</span><span class="n">myCentralManager</span> <span class="n">stopScan</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Connecting to a Peripheral Device After You’ve Discovered It</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">myCentralManager</span> <span class="nl">connectPeripheral</span><span class="p">:</span><span class="n">peripheral</span> <span class="nl">options</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">centralManager:</span><span class="p">(</span><span class="bp">CBCentralManager</span> <span class="o">*</span><span class="p">)</span><span class="nv">central</span>
+</span><span class='line'>  <span class="nf">didConnectPeripheral:</span><span class="p">(</span><span class="bp">CBPeripheral</span> <span class="o">*</span><span class="p">)</span><span class="nv">peripheral</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Peripheral connected&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">//  set peripheral delegate</span>
+</span><span class='line'>    <span class="n">peripheral</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">//  specify services CBUUID to discover services you are interested in</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">peripheral</span> <span class="nl">discoverServices</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">...</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Discovering the Services of a Peripheral That You’re Connected To</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">peripheral:</span><span class="p">(</span><span class="bp">CBPeripheral</span> <span class="o">*</span><span class="p">)</span><span class="nv">peripheral</span>
+</span><span class='line'><span class="nf">didDiscoverServices:</span><span class="p">(</span><span class="bp">NSError</span> <span class="o">*</span><span class="p">)</span><span class="nv">error</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">for</span> <span class="p">(</span><span class="bp">CBService</span> <span class="o">*</span><span class="n">service</span> <span class="k">in</span> <span class="n">peripheral</span><span class="p">.</span><span class="n">services</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Discovered service %@&quot;</span><span class="p">,</span> <span class="n">service</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Discovering characteristics for service %@&quot;</span><span class="p">,</span> <span class="n">service</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">peripheral</span> <span class="nl">discoverCharacteristics</span><span class="p">:</span><span class="nb">nil</span> <span class="nl">forService</span><span class="p">:</span><span class="n">service</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">...</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="p">...</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Discovering the Characteristics of a Service</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">peripheral:</span><span class="p">(</span><span class="bp">CBPeripheral</span> <span class="o">*</span><span class="p">)</span><span class="nv">peripheral</span>
+</span><span class='line'><span class="nf">didDiscoverCharacteristicsForService:</span><span class="p">(</span><span class="bp">CBService</span> <span class="o">*</span><span class="p">)</span><span class="nv">service</span>
+</span><span class='line'>             <span class="nf">error:</span><span class="p">(</span><span class="bp">NSError</span> <span class="o">*</span><span class="p">)</span><span class="nv">error</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">for</span> <span class="p">(</span><span class="bp">CBCharacteristic</span> <span class="o">*</span><span class="n">characteristic</span> <span class="k">in</span> <span class="n">service</span><span class="p">.</span><span class="n">characteristics</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Discovered characteristic %@&quot;</span><span class="p">,</span> <span class="n">characteristic</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">//  read characteristic</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">peripheral</span> <span class="nl">readValueForCharacteristic</span><span class="p">:</span><span class="n">characteristic</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">//  subscribe characteristic</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">peripheral</span> <span class="nl">setNotifyValue</span><span class="p">:</span><span class="nb">YES</span> <span class="nl">forCharacteristic</span><span class="p">:</span><span class="n">interestingCharacteristic</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">...</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="p">...</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Retrieving the Value of a Characteristic</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">peripheral:</span><span class="p">(</span><span class="bp">CBPeripheral</span> <span class="o">*</span><span class="p">)</span><span class="nv">peripheral</span>
+</span><span class='line'><span class="nf">didUpdateValueForCharacteristic:</span><span class="p">(</span><span class="bp">CBCharacteristic</span> <span class="o">*</span><span class="p">)</span><span class="nv">characteristic</span>
+</span><span class='line'>             <span class="nf">error:</span><span class="p">(</span><span class="bp">NSError</span> <span class="o">*</span><span class="p">)</span><span class="nv">error</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="bp">NSData</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="n">characteristic</span><span class="p">.</span><span class="n">value</span><span class="p">;</span>
+</span><span class='line'>    <span class="c1">// parse the data as needed</span>
+</span><span class='line'>    <span class="p">...</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">peripheral:</span><span class="p">(</span><span class="bp">CBPeripheral</span> <span class="o">*</span><span class="p">)</span><span class="nv">peripheral</span>
+</span><span class='line'><span class="nf">didUpdateNotificationStateForCharacteristic:</span><span class="p">(</span><span class="bp">CBCharacteristic</span> <span class="o">*</span><span class="p">)</span><span class="nv">characteristic</span>
+</span><span class='line'>             <span class="nf">error:</span><span class="p">(</span><span class="bp">NSError</span> <span class="o">*</span><span class="p">)</span><span class="nv">error</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Error changing notification state: %@&quot;</span><span class="p">,</span>
+</span><span class='line'>           <span class="p">[</span><span class="n">error</span> <span class="n">localizedDescription</span><span class="p">]);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="p">...</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Writing the Value of a Characteristic</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Writing value for characteristic %@&quot;</span><span class="p">,</span> <span class="n">interestingCharacteristic</span><span class="p">);</span>
+</span><span class='line'><span class="p">[</span><span class="n">peripheral</span> <span class="nl">writeValue</span><span class="p">:</span><span class="n">dataToWrite</span> <span class="nl">forCharacteristic</span><span class="p">:</span><span class="n">interestingCharacteristic</span> <span class="nl">type</span><span class="p">:</span><span class="n">CBCharacteristicWriteWithResponse</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">peripheral:</span><span class="p">(</span><span class="bp">CBPeripheral</span> <span class="o">*</span><span class="p">)</span><span class="nv">peripheral</span>
+</span><span class='line'><span class="nf">didWriteValueForCharacteristic:</span><span class="p">(</span><span class="bp">CBCharacteristic</span> <span class="o">*</span><span class="p">)</span><span class="nv">characteristic</span>
+</span><span class='line'>             <span class="nf">error:</span><span class="p">(</span><span class="bp">NSError</span> <span class="o">*</span><span class="p">)</span><span class="nv">error</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Error writing characteristic value: %@&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="p">[</span><span class="n">error</span> <span class="n">localizedDescription</span><span class="p">]);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="p">...</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Peripherals</h4>
+
+<p>Starting Up a Peripheral Manager</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">myPeripheralManager</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">CBPeripheralManager</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithDelegate</span><span class="p">:</span><span class="nb">self</span> <span class="nl">queue</span><span class="p">:</span><span class="nb">nil</span> <span class="nl">options</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Setting Up Your Services and Characteristics</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">//  value != nil 只可读，value == nil 可写</span>
+</span><span class='line'><span class="n">myCharacteristic</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">CBMutableCharacteristic</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithType</span><span class="p">:</span><span class="n">myCharacteristicUUID</span>
+</span><span class='line'>                                                      <span class="nl">properties</span><span class="p">:</span><span class="n">CBCharacteristicPropertyRead</span>
+</span><span class='line'>                                                           <span class="nl">value</span><span class="p">:</span><span class="n">myValue</span>
+</span><span class='line'>                                                     <span class="nl">permissions</span><span class="p">:</span><span class="n">CBAttributePermissionsReadable</span><span class="p">];</span>
+</span><span class='line'><span class="c1">//  primary service &amp;&amp; secondary service</span>
+</span><span class='line'><span class="n">myService</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">CBMutableService</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithType</span><span class="p">:</span><span class="n">myServiceUUID</span> <span class="nl">primary</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//  add characteristics</span>
+</span><span class='line'><span class="n">myService</span><span class="p">.</span><span class="n">characteristics</span> <span class="o">=</span> <span class="l">@[</span><span class="n">myCharacteristic</span><span class="l">]</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Publishing Your Services and Characteristics</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="c1">//  add service</span>
+</span><span class='line'><span class="p">[</span><span class="n">myPeripheralManager</span> <span class="nl">addService</span><span class="p">:</span><span class="n">myService</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">peripheralManager:</span><span class="p">(</span><span class="bp">CBPeripheralManager</span> <span class="o">*</span><span class="p">)</span><span class="nv">peripheral</span>
+</span><span class='line'>            <span class="nf">didAddService:</span><span class="p">(</span><span class="bp">CBService</span> <span class="o">*</span><span class="p">)</span><span class="nv">service</span>
+</span><span class='line'>                    <span class="nf">error:</span><span class="p">(</span><span class="bp">NSError</span> <span class="o">*</span><span class="p">)</span><span class="nv">error</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Error publishing service: %@&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">error</span> <span class="n">localizedDescription</span><span class="p">]);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="p">...</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Advertising Your Services</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">[</span><span class="n">myPeripheralManager</span> <span class="nl">startAdvertising</span><span class="p">:</span><span class="l">@{</span> <span class="nl">CBAdvertisementDataServiceUUIDsKey</span> <span class="p">:</span> <span class="l">@[</span><span class="n">myFirstService</span><span class="p">.</span><span class="n">UUID</span><span class="p">,</span> <span class="n">mySecondService</span><span class="p">.</span><span class="n">UUID</span><span class="l">]</span> <span class="l">}</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">peripheralManagerDidStartAdvertising:</span><span class="p">(</span><span class="bp">CBPeripheralManager</span> <span class="o">*</span><span class="p">)</span><span class="nv">peripheral</span>
+</span><span class='line'>                                       <span class="nf">error:</span><span class="p">(</span><span class="bp">NSError</span> <span class="o">*</span><span class="p">)</span><span class="nv">error</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Error advertising: %@&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">error</span> <span class="n">localizedDescription</span><span class="p">]);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="p">...</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Responding to Read and Write Requests from a Central</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">peripheralManager:</span><span class="p">(</span><span class="bp">CBPeripheralManager</span> <span class="o">*</span><span class="p">)</span><span class="nv">peripheral</span> <span class="nf">didReceiveReadRequest:</span><span class="p">(</span><span class="bp">CBATTRequest</span> <span class="o">*</span><span class="p">)</span><span class="nv">request</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">([</span><span class="n">request</span><span class="p">.</span><span class="n">characteristic</span><span class="p">.</span><span class="n">UUID</span> <span class="nl">isEqual</span><span class="p">:</span><span class="n">myCharacteristic</span><span class="p">.</span><span class="n">UUID</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="n">offset</span> <span class="o">&gt;</span> <span class="n">myCharacteristic</span><span class="p">.</span><span class="n">value</span><span class="p">.</span><span class="n">length</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="p">[</span><span class="n">myPeripheralManager</span> <span class="nl">respondToRequest</span><span class="p">:</span><span class="n">request</span>
+</span><span class='line'>                <span class="nl">withResult</span><span class="p">:</span><span class="n">CBATTErrorInvalidOffset</span><span class="p">];</span>
+</span><span class='line'>            <span class="k">return</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">request</span><span class="p">.</span><span class="n">value</span> <span class="o">=</span> <span class="p">[</span><span class="n">myCharacteristic</span><span class="p">.</span><span class="n">value</span> <span class="nl">subdataWithRange</span><span class="p">:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="n">offset</span><span class="p">,</span> <span class="n">myCharacteristic</span><span class="p">.</span><span class="n">value</span><span class="p">.</span><span class="n">length</span> <span class="o">-</span> <span class="n">request</span><span class="p">.</span><span class="n">offset</span><span class="p">)];</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">[</span><span class="n">myPeripheralManager</span> <span class="nl">respondToRequest</span><span class="p">:</span><span class="n">request</span> <span class="nl">withResult</span><span class="p">:</span><span class="n">CBATTErrorSuccess</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">peripheralManager:</span><span class="p">(</span><span class="bp">CBPeripheralManager</span> <span class="o">*</span><span class="p">)</span><span class="nv">peripheral</span> <span class="nf">didReceiveWriteRequests:</span><span class="p">(</span><span class="bp">NSArray</span><span class="o">&lt;</span><span class="bp">CBATTRequest</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">requests</span><span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">([</span><span class="n">request</span><span class="p">.</span><span class="n">characteristic</span><span class="p">.</span><span class="n">UUID</span> <span class="nl">isEqual</span><span class="p">:</span><span class="n">myCharacteristic</span><span class="p">.</span><span class="n">UUID</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">myCharacteristic</span><span class="p">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">value</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">[</span><span class="n">myPeripheralManager</span> <span class="nl">respondToRequest</span><span class="p">:[</span><span class="n">requests</span> <span class="nl">objectAtIndex</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span> <span class="nl">withResult</span><span class="p">:</span><span class="n">CBATTErrorSuccess</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Sending Updated Characteristic Values to Subscribed Centrals</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">peripheralManager:</span><span class="p">(</span><span class="bp">CBPeripheralManager</span> <span class="o">*</span><span class="p">)</span><span class="nv">peripheral</span> <span class="nf">central:</span><span class="p">(</span><span class="bp">CBCentral</span> <span class="o">*</span><span class="p">)</span><span class="nv">central</span> <span class="nf">didSubscribeToCharacteristic:</span><span class="p">(</span><span class="bp">CBCharacteristic</span> <span class="o">*</span><span class="p">)</span><span class="nv">characteristic</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Central subscribed to characteristic %@&quot;</span><span class="p">,</span> <span class="n">characteristic</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="bp">NSData</span> <span class="o">*</span><span class="n">updatedValue</span> <span class="o">=</span> <span class="c1">// fetch the characteristic&#39;s new value</span>
+</span><span class='line'>    <span class="kt">BOOL</span> <span class="n">didSendValue</span> <span class="o">=</span> <span class="p">[</span><span class="n">myPeripheralManager</span> <span class="nl">updateValue</span><span class="p">:</span><span class="n">updatedValue</span> <span class="nl">forCharacteristic</span><span class="p">:</span><span class="n">characteristic</span> <span class="nl">onSubscribedCentrals</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">peripherialManagerIsReadyToUpdateSubscribers:</span><span class="p">(</span><span class="bp">CBPeripheralManager</span> <span class="o">*</span><span class="p">)</span><span class="nv">peripheral</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Background Processing</h4>
+
+<p>That said, you can declare your app to support the Core Bluetooth background execution modes to allow your app to be woken up from a suspended state to process certain Bluetooth-related events. Even if your app doesn’t need the full range of background processing support, it can still ask to be alerted by the system when important events occur.</p>
+
+<p>All Bluetooth-related events that occur while a foreground-only app is in the suspended state are queued by the system and delivered to the app only when it resumes to the foreground. That said, Core Bluetooth provides a way to alert the user when certain central role events occur. The user can then use these alerts to decide whether a particular event warrants bringing the app back to the foreground.</p>
+
+<p><code>CBConnectPeripheralOptionNotifyOnConnectionKey</code><br/>
+<code>CBConnectPeripheralOptionNotifyOnDisconnectionKey</code>
+<code>CBConnectPeripheralOptionNotifyOnNotificationKey </code></p>
+
+<p><code>bluetooth-central</code><br/>
+<code>bluetooth-peripheral</code> <br/>
+While your app is in the background you can still discover and connect to peripherals, and explore and interact with peripheral data. In addition, the system wakes up your app when any of the CBCentralManagerDelegate or CBPeripheralDelegate delegate methods are invoked, allowing your app to handle important central role events, such as when a connection is established or torn down, when a peripheral sends updated characteristic values, and when a central manager’s state changes.</p>
+
+<p>Upon being woken up, an app has around <strong>10 seconds</strong> to complete a task. Ideally, it should complete the task as fast as possible and allow itself to be suspended again. Apps that spend too much time executing in the background can be throttled back by the system or killed.</p>
+
+<p>Adding Support for State Preservation and Restoration</p>
+
+<p>Opt In to State Preservation and Restoration</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">myCentralManager</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">CBCentralManager</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithDelegate</span><span class="p">:</span><span class="nb">self</span>
+</span><span class='line'>                                                        <span class="nl">queue</span><span class="p">:</span><span class="nb">nil</span>
+</span><span class='line'>                                                      <span class="nl">options</span><span class="p">:</span><span class="l">@{</span> <span class="nl">CBCentralManagerOptionRestoreIdentifierKey</span><span class="p">:</span> <span class="s">@&quot;myCentralManagerIdentifier&quot;</span> <span class="l">}</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reinstantiate Your Central and Peripheral Managers</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">application:</span><span class="p">(</span><span class="bp">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="nv">application</span> <span class="nf">didFinishLaunchingWithOptions:</span><span class="p">(</span><span class="bp">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">launchOptions</span> <span class="p">{</span>
+</span><span class='line'>    <span class="bp">NSArray</span> <span class="o">*</span><span class="n">centralManagerIdentifiers</span> <span class="o">=</span>
+</span><span class='line'>        <span class="n">launchOptions</span><span class="p">[</span><span class="n">UIApplicationLaunchOptionsBluetoothCentralsKey</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">...</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Implement the Appropriate Restoration Delegate Method<br/>
+Update Your Initialization Process</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">centralManager:</span><span class="p">(</span><span class="bp">CBCentralManager</span> <span class="o">*</span><span class="p">)</span><span class="nv">central</span>
+</span><span class='line'>      <span class="nf">willRestoreState:</span><span class="p">(</span><span class="bp">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">state</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="bp">NSArray</span> <span class="o">*</span><span class="n">peripherals</span> <span class="o">=</span>
+</span><span class='line'>        <span class="n">state</span><span class="p">[</span><span class="n">CBCentralManagerRestoredStatePeripheralsKey</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">...</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="bp">NSUInteger</span> <span class="n">serviceUUIDIndex</span> <span class="o">=</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">peripheral</span><span class="p">.</span><span class="n">services</span> <span class="nl">indexOfObjectPassingTest</span><span class="p">:</span><span class="o">^</span><span class="kt">BOOL</span><span class="p">(</span><span class="bp">CBService</span> <span class="o">*</span><span class="n">obj</span><span class="p">,</span>
+</span><span class='line'>        <span class="bp">NSUInteger</span> <span class="n">index</span><span class="p">,</span> <span class="kt">BOOL</span> <span class="o">*</span><span class="n">stop</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="p">[</span><span class="n">obj</span><span class="p">.</span><span class="n">UUID</span> <span class="nl">isEqual</span><span class="p">:</span><span class="n">myServiceUUIDString</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">}];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">serviceUUIDIndex</span> <span class="o">==</span> <span class="n">NSNotFound</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">peripheral</span> <span class="nl">discoverServices</span><span class="p">:</span><span class="l">@[</span><span class="n">myServiceUUIDString</span><span class="l">]</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">...</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Best Practices as Central</h4>
+
+<p>Scan for Devices Only When You Need To
+Unless you need to discover more devices, stop scanning for other devices after you have found one you want to connect to.</p>
+
+<p>Explore a Peripheral’s Data Wisely
+Therefore, you should look for and discover only the services and associated characteristics your app needs.</p>
+
+<p>Subscribe to Characteristic Values That Change Often
+It is best practice to subscribe to a characteristic’s value when possible, especially for characteristic values that change often.</p>
+
+<p>Disconnect from a Device When You Have All the Data You Need</p>
+
+<p>Reconnecting to Peripherals<br/>
+Retrieving a List of Known Peripherals</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">knownPeripherals</span> <span class="o">=</span> <span class="p">[</span><span class="n">myCentralManager</span> <span class="nl">retrievePeripheralsWithIdentifiers</span><span class="p">:</span><span class="n">savedIdentifiers</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Retrieving a List of Connected Peripherals</p>
+
+<h4>Best Practices as Peripheral</h4>
+
+<p>Respect the Limits of Advertising Data
+When your app is in the foreground, it can use up to <strong>28 bytes</strong> of space in the initial advertisement data for any combination of the two supported advertising data keys.</p>
+
+<p>Configure Your Characteristics to Support Notifications</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">myCharacteristic</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">CBMutableCharacteristic</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithType</span><span class="p">:</span><span class="n">myCharacteristicUUID</span>
+</span><span class='line'>                                                      <span class="nl">properties</span><span class="p">:</span><span class="n">CBCharacteristicPropertyRead</span> <span class="o">|</span> <span class="n">CBCharacteristicPropertyNotify</span>
+</span><span class='line'>                                                           <span class="nl">value</span><span class="p">:</span><span class="nb">nil</span>
+</span><span class='line'>                                                     <span class="nl">permissions</span><span class="p">:</span><span class="n">CBAttributePermissionsReadable</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Require a Paired Connection to Access Sensitive Data</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">emailCharacteristic</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">CBMutableCharacteristic</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithType</span><span class="p">:</span><span class="n">emailCharacteristicUUID</span>
+</span><span class='line'>                                                         <span class="nl">properties</span><span class="p">:</span><span class="n">CBCharacteristicPropertyRead</span> <span class="o">|</span> <span class="n">CBCharacteristicPropertyNotifyEncryptionRequired</span>
+</span><span class='line'>                                                              <span class="nl">value</span><span class="p">:</span><span class="nb">nil</span>
+</span><span class='line'>                                                        <span class="nl">permissions</span><span class="p">:</span><span class="n">CBAttributePermissionsReadEncryptionRequired</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p class='post-footer'>
+  原始地址：
+  <a href='http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201907/'>http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201907/</a><br/>
+  written by <a href='http://sxgfxm.github.io'>Light</a>
+  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
+  </p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Light</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2020-01-17T11:41:32+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2020</span></span> <span class='time'>11:41 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2020/01/17/ioszhi-shi-xiao-ji-201906/" title="Previous Post: iOS知识小集-201906">&laquo; iOS知识小集-201906</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2020/01/17/zhi-shi-xiao-ji-201908/" title="Next Post: 知识小集-201908">知识小集-201908 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+ <h1>Introduction</h1>
+
+<li>
+	<span style="color:#222222;font-family:inherit;font-size:18px;font-style:inherit;font-weight:inherit;line-height:1.5;">Light</br></span>
+	<span style="font-family:inherit;font-style:inherit;font-weight:inherit;color:#222222;font-size:18px;line-height:1.5;">iOS研发工程师</br></span>
+	<span style="font-family:inherit;font-style:inherit;font-weight:inherit;color:#222222;font-size:18px;line-height:1.5;">现就职于 出门问问</br></span>
+  <span style="font-family:inherit;font-style:inherit;font-weight:inherit;color:#222222;font-size:18px;line-height:1.5;">E-mail: sxgfxm@gmail.com</br></span>
+</li>
+
+</section>
+<section>
+ <h1>Categories</h1>
+ <ul id="categories">
+   <li class='category'><a href='/blog/categories/componentkit/'>componentkit (1)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (84)</a></li>
+<li class='category'><a href='/blog/categories/leetcode/'>leetcode (9)</a></li>
+<li class='category'><a href='/blog/categories/markdown/'>markdown (1)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (3)</a></li>
+<li class='category'><a href='/blog/categories/reactiveobjc/'>reactiveobjc (2)</a></li>
+
+ </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2020/01/17/ioszhi-shi-xiao-ji-201912/">iOS知识小集-201912</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2020/01/17/ioszhi-shi-xiao-ji-201911/">iOS知识小集-201911</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2020/01/17/ioszhi-shi-xiao-ji-201910/">iOS知识小集-201910</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2020/01/17/ioszhi-shi-xiao-ji-201909/">iOS知识小集-201909</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2020/01/17/zhi-shi-xiao-ji-201908/">知识小集-201908</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+ <h1>他山之石</h1>
+	<li>
+		<a href="http://southpeak.github.io/">南峰子的技术博客</a></br>
+	</li>
+	<li>
+		<a href="http://www.tutorialspoint.com/index.htm">TutorailSpoint</a></br>
+	</li>
+	<li>
+		<a href="http://stackoverflow.com/">StackOverflow</a></br>
+	</li>
+</section>
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/sxgfxm">@sxgfxm</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'sxgfxm',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+<section>
+ <h1>Visitors</h1>
+	<a href="http://info.flagcounter.com/CVgH"><img src="http://s09.flagcounter.com/count2/CVgH/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_10/viewers_0/labels_0/pageviews_0/flags_0/percent_0/" alt="Flag Counter" border="0"></a>
+</section>
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2020 - Light -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-86198628-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'lights-blog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201907/';
+        var disqus_url = 'http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201907/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
