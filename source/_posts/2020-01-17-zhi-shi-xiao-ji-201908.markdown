@@ -1,0 +1,134 @@
+---
+layout: post
+title: "知识小集-201908"
+date: 2020-01-17 11:47:39 +0800
+comments: true
+categories: iOS
+keywords: sxgfxm
+description: Pod
+---
+
+## 2019.08.06
+`RPC failed; curl 56 LibreSSL SSL_read: SSL_ERROR_SYSCALL, errno 60`：拉取大文件时换成不够出错。  
+增大缓存空间：`git config https.postBuffer 524288000`，`git config http.postBuffer 524288000`。
+
+## 2019.08.07
+
+### SpeechSDK
+```
+@startwbs
+* SpeechSDK
+** Buf
+*** set address
+*** get address
+*** set size
+*** get size
+** CallBackBase
+*** call back with parameter
+** Value
+** SpeechSDS
+*** make instance
+*** set parameter
+*** get parameter
+*** get service
+*** release service
+*** clear up
+*** destroy instance
+** Service
+*** invoke parameter
+** Parameter
+*** set parameter
+*** get parameter
+*** has parameter
+*** drop parameter
+*** clear parameter
+@endwbs
+```
+
+### Speech Development Service
+```
+@startwbs
+* Speech Development Service
+** Hotword Service
+*** SDS get Hotword service
+*** invoke Hotword parameter
+*** invoke start parameter
+*** start recorder
+*** invoke audio buf parameter
+*** process Hotword call back
+*** stop audio recorder
+*** invoke stop parameter
+*** SDS release Hotword service
+*** SDS destroy SDS
+** ASR Service
+*** sds get ASR service
+*** invoke ASR parameter
+*** invoke start parameter
+*** start recorder
+*** invoke audio buf parameter
+*** process ASR call back
+*** stop audio recorder
+*** invoke stop parameter
+*** SDS release ASR service
+*** SDS destroy SDS
+** TTS Service
+*** sds get TTS service
+*** invoke TTS parameter
+*** invoke start parameter
+*** invoke text parameter
+*** invok read parameter
+*** append audio data and play
+*** stop audio player
+*** invoke stop parameter
+*** SDS release TTS service
+*** SDS destroy SDS
+@endwbs
+```
+
+### AssistantEngin
+```
+@startwbs
+* AssitantEngine
+** Hotword
+*** load Hotword model
+*** start Hotword
+*** stop Hotword
+** ASR
+*** start ASR
+**** manual
+**** auto
+*** cancel ASR
+*** stop ASR
+** Text Query
+** TTS
+*** start TTS
+**** text
+**** type
+**** url
+*** stop TTS
+@endwbs
+```
+
+## 2019.08.15
+[pod 私有库问题](http://www.mengyueping.com/2018/08/16/iOS_CocoaPods_03/)  
+[pod 私有库问题](http://adolsai.com/index.php/archives/cocoapods-private-error-list.html)  
+通过 `subspec` 实现目录结构分级；    
+
+**无法找到引用的第三方库**：framework search path 有问题，设置`pod_target_xcconfig`时导致的。  
+
+**Undefined symbols for architecture arm64**：在配置中增加 other linker flags。  
+
+**dyld: Library not loaded: @rpath**：pod文件名与依赖库的名字相同，导致异常，更换pod名称。  
+
+**dynamic: Dynamic frameworks and libraries are only supported on iOS 8.0 and onwards**：platform = :ios, '9.0'  
+
+**vendored framework not found**：https://github.com/CocoaPods/CocoaPods/issues/1824 改用'POD/file.h'  
+
+**Cocoapods wrapping around a static library without i386 architecture**：s.pod_target_xcconfig = { 'VALID_ARCHS[sdk=iphonesimulator*]' => '' }  
+
+source 中不要添加tag  
+
+## 2019.08.20
+注意线程问题。  
+
+**HFP 状态下 AudioQueueNewOutput 无法正常播放音频** 改为 A2DP 播放音频；  
