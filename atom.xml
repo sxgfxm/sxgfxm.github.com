@@ -4,7 +4,7 @@
   <title><![CDATA[Light's Blog]]></title>
   <link href="http://sxgfxm.github.io/atom.xml" rel="self"/>
   <link href="http://sxgfxm.github.io/"/>
-  <updated>2018-10-10T21:47:19+08:00</updated>
+  <updated>2020-01-17T10:57:20+08:00</updated>
   <id>http://sxgfxm.github.io/</id>
   <author>
     <name><![CDATA[Light]]></name>
@@ -12,6 +12,773 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS知识小集-201901]]></title>
+    <link href="http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201901/"/>
+    <updated>2020-01-17T10:44:28+08:00</updated>
+    <id>http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201901</id>
+    <content type="html"><![CDATA[<h2>2019.01.02</h2>
+
+<h3>Swift 进阶</h3>
+
+<p>Swift 语言特性<br/>
+- Swift 既是高级语言，又是低级语言。既可以使用 <strong>map</strong> 、 <strong>reduce</strong> 这样的方法，编写 <strong>高阶函数</strong>，又可以直接编译出原生的二进制可执行文件，具有和 C语言 媲美的性能。  （如何理解第二点？）<br/>
+- Swift 是多范式语言。既可以 <strong>面向对象编程</strong> ，又可以 <strong>函数式编程</strong> 。<br/>
+- Swift 鼓励自下而上编程。可以自己构建组件。<br/>
+- Swift 代码紧凑、精确，同时保持清晰。<br/>
+- Swift 在实践中是相对安全的。（如何检查变量在被使用前是赋值的？）<br/>
+- Swift 在不断的发展中。</p>
+
+<p>专业术语<br/>
+- 值语义：<br/>
+- 值类型：具有值语义的类型为值类型，<strong>struct</strong>、 <strong>enum</strong> 都是值类型。<br/>
+- 引用类型：<br/>
+- 浅拷贝：<br/>
+- 深拷贝：<br/>
+- 闭包：持有外部变量的函数成为 <strong>闭包（closure）</strong> 。<br/>
+- 高阶函数：<br/>
+- 静态派发：<br/>
+- 动态派发：</p>
+
+<h3>Atom 快捷键</h3>
+
+<p>打开快捷键列表：cmd + shift + P；<br/>
+模糊搜索标题：cmd + P；</p>
+
+<h3>adb 取 Android 系统日志</h3>
+
+<ol>
+<li><code>brew cask install android-platform-tools</code>；</li>
+<li><code>adb bugreport</code>；</li>
+</ol>
+
+
+<h3>字节跳动组织核心</h3>
+
+<p>技术、用户增长、商业化。<br/>
+留存、拉新、变现。</p>
+
+<h2>2019.01.03</h2>
+
+<h3>Swift 进阶</h3>
+
+<p>使用函数将行为参数化，复用模板代码，调用者提供变换函数。<br/>
+将重复的代码抽象为函数，将函数行为抽象为模板，作为扩展重复使用。<br/>
+<T>表示声明 T 为某种类型的占位符。</p>
+
+<p>内建集合类型<br/>
+- 标准库中的集合类型都具有值语义，且都是用了“写时复制”技术；</p>
+
+<p>数组变形<br/>
+- 尽量避免直接使用索引值访问数组元素；<br/>
+- sort：<br/>
+- map：对数组中每个元素进行变换，返回新数组；</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">extension</span> <span class="n">Array</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">func</span> <span class="n">map</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nl">transform</span><span class="p">:</span> <span class="p">(</span><span class="n">Element</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">var</span> <span class="nl">result</span><span class="p">:</span> <span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'>    <span class="n">result</span><span class="p">.</span><span class="n">reserveCapacity</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">x</span> <span class="k">in</span> <span class="nb">self</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">result</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">transform</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">result</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">].</span><span class="n">map</span><span class="p">{</span> <span class="n">x</span> <span class="k">in</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">].</span><span class="n">map</span><span class="p">{</span><span class="err">$</span><span class="mi">0</span> <span class="o">+</span> <span class="mi">1</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>filter：筛选出符合条件的元素，返回新数组；</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">extension</span> <span class="n">Array</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">func</span> <span class="n">filter</span><span class="p">(</span><span class="n">_</span> <span class="nl">predicate</span><span class="p">:(</span><span class="n">Element</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">Element</span><span class="p">]</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">var</span> <span class="nl">result</span><span class="p">:</span> <span class="p">[</span><span class="n">Element</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">x</span> <span class="k">in</span> <span class="nb">self</span> <span class="k">where</span> <span class="n">predicate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">result</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">result</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">].</span><span class="n">filter</span><span class="p">{</span> <span class="n">x</span> <span class="k">in</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">].</span><span class="n">filter</span><span class="p">{</span><span class="err">$</span><span class="mi">0</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>reduce：合并数组元素，返回合并值；</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">extension</span> <span class="n">Array</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">func</span> <span class="n">reduce</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nl">initialValue</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="n">_</span> <span class="nl">transform</span><span class="p">:</span> <span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">Element</span><span class="p">)</span><span class="o">-&gt;</span> <span class="n">T</span><span class="p">)</span> <span class="o">-</span> <span class="o">&gt;</span> <span class="n">T</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">var</span> <span class="n">value</span> <span class="o">=</span> <span class="n">initialValue</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">x</span> <span class="k">in</span> <span class="kt">Self</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">value</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">value</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">].</span><span class="n">reduce</span><span class="p">(</span><span class="mi">0</span><span class="p">){</span><span class="n">value</span><span class="p">,</span> <span class="n">x</span> <span class="k">in</span> <span class="n">value</span> <span class="o">+</span> <span class="n">x</span><span class="p">}</span>
+</span><span class='line'><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">].</span><span class="n">reduce</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">+</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>acummulate：迭代操作元素，返回新数组；</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">extension</span> <span class="n">Array</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">func</span> <span class="n">accumulate</span><span class="o">&lt;</span><span class="n">Result</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nl">initialResult</span><span class="p">:</span> <span class="n">Result</span><span class="p">,</span> <span class="n">_</span> <span class="nl">nextParitialResult</span><span class="p">:(</span><span class="n">Result</span><span class="p">,</span> <span class="n">Element</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">Result</span><span class="p">]{</span>
+</span><span class='line'>    <span class="k">var</span> <span class="n">running</span> <span class="o">=</span> <span class="n">initialResult</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">map</span><span class="p">{</span> <span class="n">next</span> <span class="k">in</span>
+</span><span class='line'>      <span class="n">running</span> <span class="o">=</span> <span class="n">nextParitialResult</span><span class="p">(</span><span class="n">running</span><span class="p">,</span> <span class="n">next</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">running</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">].</span><span class="n">accumulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">+</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>all：判断是否所有元素都符合条件；</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">extension</span> <span class="n">Array</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">func</span> <span class="n">all</span><span class="p">(</span><span class="n">_</span> <span class="nl">predicate</span><span class="p">:</span> <span class="p">(</span><span class="n">Element</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="o">!</span><span class="n">contains</span><span class="p">{</span><span class="o">!</span><span class="n">predicate</span><span class="p">(</span><span class="err">$</span><span class="mi">0</span><span class="p">)}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">].</span><span class="n">all</span><span class="p">{</span><span class="err">$</span><span class="mi">0</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>map2：用reduce实现map；</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">extension</span> <span class="n">Array</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">func</span> <span class="n">map2</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nl">transform</span><span class="p">:(</span><span class="n">Element</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">reduce</span><span class="p">([]){</span>
+</span><span class='line'>      <span class="err">$</span><span class="mi">0</span> <span class="o">+</span> <span class="p">[</span><span class="n">transform</span><span class="p">(</span><span class="err">$</span><span class="mi">1</span><span class="p">)]</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>flatMap：先map再joined，当变换函数返回值为数组，且需要合并时使用；</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">extension</span> <span class="n">Array</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">func</span> <span class="n">flatMap</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nl">transform</span><span class="p">:(</span><span class="n">Element</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">var</span> <span class="nl">result</span><span class="p">:</span> <span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">x</span> <span class="k">in</span> <span class="nb">self</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">result</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="nl">contentsOf</span><span class="p">:</span> <span class="n">transform</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">result</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>forEach：无返回值迭代数组元素；</li>
+</ul>
+
+
+<h2>2019.01.03</h2>
+
+<h3>Swift 进阶</h3>
+
+<p>数组类型<br/>
+- 切片：切片只是数组的另一种表示方法，使用ptr、startIndex、endIndex表示，并不会创建新数组；
+（如果改变切片中元素，原数组中元素会改变吗？）<br/>
+- 桥接：Swift数组可以桥接到OC中，编译器会自动把不兼容的值用一个不透明的box包起来；</p>
+
+<h3>Swfit 基础</h3>
+
+<ul>
+<li>Type Parameters</li>
+<li>Type Parameters Constraints</li>
+<li>Generic Type</li>
+<li>Generic Founction</li>
+<li>Associated Type</li>
+<li>Associated Type Constraints</li>
+<li>Generic where Clause</li>
+</ul>
+
+
+<h2>2019.01.07</h2>
+
+<h3>Swift 进阶</h3>
+
+<p>字典
+- removeValue(forKey:)<br/>
+- updateValue(_:forKey:)<br/>
+- mapValue<br/>
+- frequency<br/>
+- merge(_:uniqueKeysWith:)</p>
+
+<p>集合
+- IndexSet：整数集合，支持范围操作；<br/>
+- CharacterSet：Unicode字符集合；</p>
+
+<h2>2019.01.08</h2>
+
+<h3>Swift 进阶</h3>
+
+<p>范围
+- Range<br/>
+- CloseRange<br/>
+- Comparable 协议；<br/>
+- Strideable 协议；</p>
+
+<h2>2019.01.09</h2>
+
+<h3>Swift 进阶</h3>
+
+<ul>
+<li><strong>Sequence</strong> 协议是集合类型结构的基础，一个序列代表一系列具有相同类型的值，你可以对这些值进行迭代；</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">protocol</span> <span class="n">Sequence</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">associated</span> <span class="nl">Iterator</span> <span class="p">:</span> <span class="n">IteratorProtocol</span>
+</span><span class='line'>  <span class="k">func</span> <span class="n">makeIterator</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Iterator</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><strong>IteratorProtocol</strong> 协议是对迭代器的描述，通过<code>next()</code>方法返回序列中下一个值；</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">protocol</span> <span class="n">InteratorProtocol</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">associated</span> <span class="n">Element</span>
+</span><span class='line'>  <span class="kr">mutating</span> <span class="k">func</span> <span class="n">next</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Element</span><span class="o">?</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>2019.01.10</h2>
+
+<h3>APP发布</h3>
+
+<ul>
+<li>封板之后不要再往发版分支合代码；</li>
+<li>修改一定要验证，尤其是跨分支 <strong>cherry-pick</strong> 代码；</li>
+<li>APP发布之前一定要看一下 <strong>TestFlight</strong> 版本是否正常；</li>
+</ul>
+
+
+<h3>Principles</h3>
+
+<ul>
+<li>What do you want ？</li>
+<li>What is true?</li>
+<li>What are you going to do about it ?</li>
+</ul>
+
+
+<h3>微信公开课</h3>
+
+<ul>
+<li>我们更多倡导的是利用微信做出好产品分享用户。</li>
+<li>因为遵循原则，很多东西我们又必须坚持去改变。</li>
+<li>第一我们没有批量导入某一批好友，而是通过用户手动一个一个挑选。第二，在一个产品还没有被验证只能够产生自然增长的时候，我们没有去推广它。</li>
+<li>因为好的产品需要一定的独裁，否则它将包含很多不同意见以至于产品性格走向四分五裂。</li>
+<li>第一，坚持做一个好的，与时俱进的工具。</li>
+<li>微信是一个生活方式。</li>
+<li>第二个原动力是，“让创造者体现价值”。</li>
+<li>一个好的产品是有自己的使命的。</li>
+<li>最主要的是，技术的使命应该是帮助人类提高效率。</li>
+<li>一切盈利都是做好产品做好服务后的自然而来的副产品。</li>
+<li>小游戏的原动力是，它应该是一个关于创意的平台。并且让产生创意的人体现价值。</li>
+</ul>
+
+
+<h3>Swift 开发</h3>
+
+<ul>
+<li>使用 <strong>Kingfiser</strong> 异步加载网络图片 <code>imageView.kf.setImage(with:URL(string:"http://xxx.png"))</code>；</li>
+<li>使用 <strong>Material</strong> 自动布局 <code>view.layout().top().left().width().height()</code>；</li>
+<li>使用 <strong>SnapKit</strong> 自动布局 <code>view.snp.makeConstrains{(make) in // layout}</code>；</li>
+<li>使用 <strong>Extension</strong> 按功能模块分隔代码，相对清晰；</li>
+<li>使用 <strong>Moya</strong> 封装网络模块请求；</li>
+<li>使用 <strong>IGListKit</strong> 实现CollectionView，TableView；</li>
+<li>使用 <strong>SwiftyUserDefaults</strong> 实现 UserDefault 存取；</li>
+<li>使用 <strong>Realm</strong> 实现 数据库 存取；</li>
+<li>使用 <strong>Codable</strong> 实现 JSON 解析；</li>
+</ul>
+
+
+<h2>2019.01.11</h2>
+
+<h3>RxSwift</h3>
+
+<ul>
+<li>Every <strong>Observable</strong> sequence is just a sequence. The key advantage for an Observable vs Swift&rsquo;s Sequence is that it can also receive elements asynchronously.</li>
+<li><strong>Observable</strong>(<strong>ObservableType</strong>) is equivalent to <strong>Sequence</strong>.</li>
+<li><strong>ObservableType.subscribe</strong> method is equivalent to <strong>Sequence.makeIterator</strong> method.</li>
+<li>Observer (callback) needs to be passed to <strong>ObservableType.subscribe</strong> method to receive sequence elements instead of calling <strong>next()</strong> on the returned iterator.</li>
+<li>When an observable is created, it doesn&rsquo;t perform any work simply because it has been created.</li>
+<li>However, if you just call a method that returns an <strong>Observable</strong>, no sequence generation is performed and there are no side effects. <strong>Observable</strong> just defines how the sequence is generated and what parameters are used for element generation. <strong>Sequence</strong> generation starts when <strong>subscribe</strong> method is called.</li>
+</ul>
+
+
+<h2>2019.01.16</h2>
+
+<h3>RxSwift 使用场景</h3>
+
+<ul>
+<li>使用 <strong>RxSwift</strong> 实现 <strong>Target Action</strong>；</li>
+<li>使用 <strong>RxSwift</strong> 实现 <strong>Delegate</strong>；</li>
+<li>使用 <strong>RxSwift</strong> 实现 <strong>闭包回调</strong>；</li>
+<li>使用 <strong>RxSwift</strong> 实现 <strong>Notification</strong>；</li>
+<li>使用 <strong>RxSwift</strong> 实现 <strong>KVO</strong>；</li>
+<li>使用 <strong>RxSwift</strong> 实现 <strong>依赖任务</strong>；</li>
+<li>使用 <strong>RxSwift</strong> 实现 <strong>多异步任务同步</strong>；</li>
+</ul>
+
+
+<h3>RxSwift 核心概念</h3>
+
+<ul>
+<li><strong>Obervable</strong>：Single，Completable，Maybe，Driver，ControlEvent</li>
+<li><strong>Observer</strong>：AnyObserver，Binder</li>
+<li><strong>Obervable &amp; Observer</strong>：AsyncSubject、PublishSubject、ReplaySubject、BehaviorSubject、Variable、ControlProperty</li>
+<li><strong>Operator</strong>：创建新序列 或 变换、组合原有序列</li>
+<li><strong>Disposable</strong>：DisposeBag、takeUntil</li>
+<li><strong>Schedulers</strong>：subscribeOn、observeOn、MainScheduler、SerialDispatchQueueScheduler、ConcurrentDispatchQueueScheduler、OperationQueueScheduler</li>
+<li><strong>Error Handling</strong>：retry、retryWhen、catchError</li>
+</ul>
+
+
+<h2>2019.01.17</h2>
+
+<h3>RxSwift 常用操作符</h3>
+
+<p>Observable：描述可观察序列值是如何产生的，或者说观察者是如何接收该序列的，当subscribe时，真正触发序列产生。</p>
+
+<p>创建 Observable<br/>
+- <strong>create</strong>：通过构建函数，完整创建一个自定义的 Observable。各种操作符都是通过create实现的。<br/>
+- <strong>just</strong>：创建只发出一个元素的 Observable。当只产生一个元素时，可以使用just快速创建，比如网络请求结果？<br/>
+- <strong>timer</strong>：创建一定延时后，只发出一个元素的 Observable。类似于 dispatch_after ？<br/>
+- <strong>from</strong>：将其他类型转换为 Observable。比如数组、可选值等。不必自己实现这个转化过程了。<br/>
+- <strong>repeatElement</strong>：创建重复发出某个元素的 Observable。<br/>
+- <strong>deferred</strong>：直到订阅发生，才创建 Observable，并且为每位订阅者创建全新的 Observable。订阅者获取独立序列。<br/>
+- <strong>interval</strong>：创建每隔一段时间就发出一个索引数的 Observable。相当于一个repeated timer。<br/>
+- <strong>empty</strong>：创建只发出一个完成事件的 Observable。什么时候使用呢？<br/>
+- <strong>never</strong>：创建一个不会发出任何元素的 Observable。什么时候使用呢？<br/>
+- <strong>startWith</strong>：创建一个在头部插入一些元素的 Observable。<br/>
+- <strong>error</strong>：创建一个只有 error 的 Observable。</p>
+
+<p>创建 可组合的Observable<br/>
+- <strong>merger</strong>：创建一个合并多个 Observable 的 Observable，当某个 Observable 发出元素时，他就发出元素。类似多条生产线合并到一个出口。可交替发出元素。<br/>
+- <strong>concat</strong>：创建一个合并多个 Observable 的 Observable，当前一个 Observable 发出完毕时，下一个 Observable 才开始发出元素。按顺序发出元素。<br/>
+- <strong>zip</strong>：通过组合函数，创建一个将多个 Observable 的元素组合之后发出的 Observable。严格按照索引数组合发出。<br/>
+- <strong>combineLatest</strong>：通过组合函数，创建一个将多个 Observable 的最新元素组合之后发出的 Observable。用最新值替换对应值后组合发出。</p>
+
+<p>转换 Observable 元素<br/>
+- <strong>map</strong>：通过转换函数，将 Observable 的每个元素转换后发出。<br/>
+- <strong>scan/accumulator</strong>：通过转换函数，将 Observable 的每个元素累积之前的结果转换后发出。<br/>
+- <strong>reduce</strong>：通过转换函数，将 Observable 的所有元素累积的结果发出。</p>
+
+<p>转换 Observable 元素 为 Observable<br/>
+- <strong>flatMap</strong>：通过转换函数，将 Observable 的每个元素转换成其他的 Observable ，然后将这些 Observables 合并发出；<br/>
+- <strong>flatMapLatest</strong>：通过转换函数，将 Observable 的每个元素转换成其他的 Observable，然后取最新的发出；<br/>
+- <strong>concatMap</strong>：通过转换函数，将 Observable 的每个元素转换成其他的 Observable 后，按顺序发出；<br/>
+- <strong>publish</strong>：将 Observable 转换为可被连接的 Observable。直到 connect 才开始发出元素。<br/>
+- <strong>replay</strong>：将 Observable 转换为可被连接的 Observable。直到 connect 时开始发出缓存的最新n个元素。<br/>
+- <strong>refCount</strong>：将 Observable 转换为可自动连接和断开的的 Observable。<br/>
+- <strong>connect</strong>：通知 ConnectableObservable 可以开始发出元素了。</p>
+
+<p>如何发送 Observable 元素<br/>
+- <strong>delay</strong>：将 Observable 的所有元素延迟一段设定好的时间发出；<br/>
+- <strong>materialize</strong>：将 Observable 产生的时间全部转换成元素发出；<br/>
+- <strong>dematerialize</strong>：将 materialize 转换后的元素还原；<br/>
+- <strong>ignoreElements</strong>：将 Observable 产生的 next 事件忽略，只发出 completed 和 error 事件；只关心终止时使用<br/>
+- <strong>buffer</strong>：将 Observable 元素周期性的以 元素集合 发出来。<br/>
+- <strong>window</strong>：将 元素集合 周期性的以 Observable 形态发出来。<br/>
+- <strong>groupBy</strong>：将 Observable 以键值分组为 子Observable 发出来。<br/>
+- <strong>single</strong>：将 Observable 限制为只发出一个元素。</p>
+
+<ul>
+<li><strong>filter</strong>：只发出通过判定的元素。</li>
+<li><strong>take</strong>：只发出头 n 个元素。</li>
+<li><strong>takeWhile</strong>：从头发出通过判定的元素。</li>
+<li><strong>takeUntil</strong>：从头发出直到另一个 Observable 发出元素。</li>
+<li><strong>takeLast</strong>：只发出尾 n 个元素。</li>
+<li><strong>elementAt</strong>：只发出第 n 个元素。</li>
+<li><strong>skip</strong>：跳过头 n 个元素。</li>
+<li><strong>skipWhile</strong>：从头跳过通过判定的元素。</li>
+<li><strong>skipUntil</strong>：从头跳过直到另一个 Observable 发出元素。</li>
+<li><strong>sample</strong>：按第二个 Observable 对 第一个 Observable 采样发出元素。</li>
+<li><strong>debounce</strong>：过滤掉高频产生的元素。</li>
+<li><strong>distinctUntilChanged</strong>：只发出与上个元素不同的元素。</li>
+<li><p><strong>delaySubscription</strong>：将延迟一段时间后才订阅 Observable。</p></li>
+<li><p><strong>amb</strong>：在多个源 Observable 中，取第一个发出元素的 Observable 只发出其元素。</p></li>
+</ul>
+
+
+<p>在哪个线程发出和接收元素<br/>
+- <strong>subscribeOn</strong>：指定 Observable 在哪个 Scheduler 执行。<br/>
+- <strong>observeOn</strong>：指定 Observable 在哪个 Scheduler 发出通知。</p>
+
+<p>当发生某些事件时如何操作<br/>
+- <strong>do</strong>：当 Observable 产生某些事件时，执行某个操作。可以来注册一些回调操作，单独回调。<br/>
+- <strong>timeout</strong>：如果 Observable 在规定时间内么有产生任何元素，产生一个超时的 error 事件。</p>
+
+<p>如何处理 Observable error 事件<br/>
+- <strong>catchError</strong>：拦截一个 error 事件，将它替换成其他 Observable。<br/>
+- <strong>catchErrorJustReturn</strong>：拦截一个 error 事件，将它替换成其他元素并结束。<br/>
+- <strong>retry</strong>：拦截一个 error 事件，并重新订阅该 Observable。</p>
+
+<ul>
+<li><strong>using</strong>：创建一个可被清除的资源，它和 Observable 具有相同的生命周期。</li>
+</ul>
+
+
+<h3>RxSwift 常用架构</h3>
+
+<ul>
+<li><strong>MVVM</strong>：View &ndash;> Observable &ndash;> ViewModel &ndash;> Observable &ndash;> Controller</li>
+<li><strong>RxFeedback</strong>：State &ndash;> Event &ndash;> StateChanged &ndash;> Event &ndash;> State</li>
+<li><strong>ReactorKit</strong>：View &ndash;> Action &ndash;> Reactor &ndash;> State</li>
+</ul>
+
+
+<h2>2019.01.18</h2>
+
+<h3>IGListKit</h3>
+
+<ul>
+<li>[ListDiffable] &ndash;> ListAdapter &ndash;> ListSectionController &ndash;> Cell</li>
+<li>Data： needs conform ListDiffable</li>
+<li>ListAdapter：init with UICollectionView and ListAdapterUpdater，set datasource delegate，use <code>performUpdates(animated:)</code> to tell data has changed</li>
+<li>UIViewController：needs conform ListAdapterDataSource，implement <code>objects(for:)</code>，<code>listAdapter(_:sectionControllerFor:)</code>，<code>emptyView(for:)</code></li>
+<li>ListSectionController：needs save data, state, and override <code>numberOfItems</code>，<code>cellForItem(at:)</code>，<code>sizeForItem(at:)</code>，<code>didUpdate(to:)</code>，<code>didSelectItem(at:)</code></li>
+<li>UICollectionViewCell：needs implement <code>cellSize(for:)</code></li>
+<li>布局的关键在于如何划分Cell，采用分层组合的方式，类似于 ComponentKit ，提高复用性</li>
+<li><code>UUID().uuidString</code> 来生成 唯一标识</li>
+<li>一种 model 类型 对应一种 sectionController，sectionController 负责如何展示 model，可以用一个cell展示，也可以分多个cell展示</li>
+<li>避免数据与UI不一致导致的crash</li>
+<li>分离dataSource；</li>
+</ul>
+
+
+<h2>2019.01.24</h2>
+
+<h3>SwiftyUserDefaults</h3>
+
+<ul>
+<li>add keys</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">extension</span> <span class="n">DefaultsKeys</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">static</span> <span class="k">let</span> <span class="n">firstInFlag</span> <span class="o">=</span> <span class="n">DefaultsKey</span><span class="o">&lt;</span><span class="n">Bool</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;firstInFlag&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">static</span> <span class="k">let</span> <span class="n">username</span> <span class="o">=</span> <span class="n">DefaultsKey</span><span class="o">&lt;</span><span class="n">String</span><span class="o">?&gt;</span><span class="p">(</span><span class="s">&quot;username&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">static</span> <span class="k">let</span> <span class="n">password</span> <span class="o">=</span> <span class="n">DefaultsKey</span><span class="o">&lt;</span><span class="n">String</span><span class="o">?&gt;</span><span class="p">(</span><span class="s">&quot;password&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>use keys</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="nf">storeDataWithUserDefault</span> <span class="p">(){</span>
+</span><span class='line'>    <span class="k">if</span> <span class="o">!</span><span class="n">Defaults</span><span class="p">[.</span><span class="n">firstInFlag</span><span class="p">]</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">print</span><span class="p">(</span><span class="s">&quot;Is first in&quot;</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">Defaults</span><span class="p">[.</span><span class="n">firstInFlag</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span>
+</span><span class='line'>      <span class="n">Defaults</span><span class="p">[.</span><span class="n">username</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;Light&quot;</span>
+</span><span class='line'>      <span class="n">Defaults</span><span class="p">[.</span><span class="n">password</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;123456&quot;</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">print</span><span class="p">(</span><span class="s">&quot;Not first in&quot;</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">print</span><span class="p">(</span><span class="s">&quot;username \(Defaults[.username] ?? &quot;</span><span class="n">not</span> <span class="kr">set</span><span class="s">&quot;)&quot;</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">print</span><span class="p">(</span><span class="s">&quot;password \(Defaults[.password] ?? &quot;</span><span class="n">not</span> <span class="kr">set</span><span class="s">&quot;)&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>RealmSwift</h3>
+
+<ul>
+<li>Declare Model</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="nl">Person</span><span class="p">:</span> <span class="n">Object</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">@</span><span class="n">objc</span> <span class="n">dynamic</span> <span class="k">var</span> <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+</span><span class='line'>  <span class="p">@</span><span class="n">objc</span> <span class="n">dynamic</span> <span class="k">var</span> <span class="n">age</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Get Realm <code>let realm = try! Realm()</code></li>
+<li>Query <code>let studentOver20 = realm.objects(Person.self).filter("age &gt; 20").first</code></li>
+<li>Update <code>try! realm.write { realm.add(mySelf) realm.add(other) }</code></li>
+</ul>
+
+
+<h2>2019.01.25</h2>
+
+<h3>Swift 5.0 新特性</h3>
+
+<ul>
+<li>应用瘦身：Swfit 应用不再包含标准库的动态链接库；</li>
+<li>Swift 语言
+
+<ul>
+<li><code>@dynamicCallable</code> 简化方法调用，增强与动态语言的协作性；</li>
+<li>Key paths 现在支持指向自身的 key path <code>\.self</code>；</li>
+<li>enum case 不定参数 需转换为 数组传入；</li>
+<li><code>try?</code> 表达式不再返回嵌套的optional；</li>
+<li>字面量初始化</li>
+<li>String 插值更高效，<code>_ExpressibleByStringInterpolation</code>方法需要替换；</li>
+</ul>
+</li>
+<li>Swfit 标准库
+
+<ul>
+<li><code>DictionaryLiteral</code> 重命名为 <code>KeyValuePairs</code>；</li>
+<li><code>Sequence</code> 不再有关联类型 <code>SubSequence</code>；</li>
+</ul>
+</li>
+<li>Swift Package Manager</li>
+<li>Swift Compiler</li>
+</ul>
+
+
+<h2>2019.01.28</h2>
+
+<h3>RxSwift 原理解析</h3>
+
+<h2>2019.01.30</h2>
+
+<h3>RTCRoom</h3>
+
+<ul>
+<li>Login
+
+<ul>
+<li>初始化 <code>RTCRoom</code>；</li>
+<li>获取 <code>LoginInfo</code>；</li>
+<li>登录 <code>-login:loginInfo:withCompletion:</code>；</li>
+</ul>
+</li>
+<li>Get Room List
+
+<ul>
+<li>获取聊天室列表 <code>-getRoomList:cnt:withCompletion:</code>；</li>
+</ul>
+</li>
+<li>Create Room
+
+<ul>
+<li>创建聊天室 <code>-creatRoom:roomInfo:withCompletion:</code>；</li>
+</ul>
+</li>
+<li>Enter Room
+
+<ul>
+<li>进入聊天室 <code>-enterRoom:withCompletion:</code>；</li>
+</ul>
+</li>
+<li>Show Local Video
+
+<ul>
+<li>展示本地视频 <code>-startLocalPreview:</code>；</li>
+<li>停止本地视频 <code>-stopLocalPreview</code>；</li>
+<li>设置音频清晰度 <code>-setHDAudio:</code>；</li>
+<li>设置视频码率 <code>-setBitrateRange:max:</code>；</li>
+<li>切换前后摄像头 <code>-switchCamera</code>；</li>
+<li>静音推流 <code>-setMute:</code>；</li>
+<li>设置美颜效果 <code>-setBeautyStyle:beaultyLevel:whitenessLevel:ruddinessLevel:</code>；</li>
+<li>进入前台 <code>-switchToForeground</code>；</li>
+<li>进入后台 <code>-switchToBackground:</code>；</li>
+</ul>
+</li>
+<li>Show Remote Video
+
+<ul>
+<li>展示远程视频 <code>-addRemoteView:withUserID:playBegin:playError:</code>；</li>
+</ul>
+</li>
+<li>On Get Pusher List
+
+<ul>
+<li>记录 <code>PusherInfo</code>；</li>
+<li>记录 <code>playerView</code>；</li>
+<li>展示远程视频，出错时 <code>-onPusherQuit:</code>；</li>
+<li>重新布局；</li>
+</ul>
+</li>
+<li>On Pusher Join
+
+<ul>
+<li>记录 <code>playerView</code>；</li>
+<li>记录 <code>PusherInfo</code>；</li>
+<li>展示远程视频，出错时 <code>-onPusherQuit:</code>；</li>
+<li>重新布局；</li>
+</ul>
+</li>
+<li>On Pusher Quit
+
+<ul>
+<li>删除 <code>playerView</code>；</li>
+<li>删除 <code>PusherInfo</code>；</li>
+<li>重新布局；</li>
+</ul>
+</li>
+<li>On Room Close
+
+<ul>
+<li>提示聊天室关闭；<p class='post-footer'>
+原始地址：
+<a href='http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201901/'><a href="http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201901/">http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201901/</a></a><br/>
+written by <a href='http://sxgfxm.github.io'>Light</a>
+&nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
+</p></li>
+</ul>
+</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS知识小集-180924]]></title>
@@ -3017,67 +3784,6 @@ header高度固定，折叠高度固定，展开高度有最大值限制；</p>
 <p><code>viewDidLoad:</code>时不能present viewController，改写为<code>viewDidAppear:</code>时进行操作。<p class='post-footer'>
   原始地址：
   <a href='http://sxgfxm.github.io/blog/2018/07/30/ioszhi-shi-xiao-ji-180723/'><a href="http://sxgfxm.github.io/blog/2018/07/30/ioszhi-shi-xiao-ji-180723/">http://sxgfxm.github.io/blog/2018/07/30/ioszhi-shi-xiao-ji-180723/</a></a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
-  </p></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS知识小集-180716]]></title>
-    <link href="http://sxgfxm.github.io/blog/2018/07/23/ioszhi-shi-xiao-ji-180716/"/>
-    <updated>2018-07-23T10:17:06+08:00</updated>
-    <id>http://sxgfxm.github.io/blog/2018/07/23/ioszhi-shi-xiao-ji-180716</id>
-    <content type="html"><![CDATA[<h2>UIScrollView+EmptyDataSet</h2>
-
-<p>当状态变化时才会触发；<br/>
-当列表内无元素时才会显示。</p>
-
-<h2>Update CocoaPods</h2>
-
-<p><code>[sudo] gem install cocoapods</code></p>
-
-<h2>UITableViewCell左滑删除出现后，TableView编辑状态失效</h2>
-
-<p>UITableViewCell需要按规则初始化。</p>
-
-<h2>Masonry、Autolayout断点调试</h2>
-
-<p>1、添加symbolic break point<code>UIViewAlertForUnsatisfiableConstraints</code>；<br/>
-2、添加action<code>po [[UIWindow keyWindow] _autolayoutTrace]</code>；<br/>
-3、修改出错界面背景颜色<code>e id $myView = (id) 0x10a005a90</code>，<code>e (void)[$myView setBackgroundColor:[UIColor blueColor]]</code>。（0x10a005a90为问题界面地址）</p>
-
-<h2>添加pch文件</h2>
-
-<p>1、创建<code>.pch</code>文件，引入需要全局引入的头文件；<br/>
-2、在<code>Build Settings</code>中<code>Prefix Header</code>添加pch文件路径<code>$SRCROOT/工程名/pch文件名</code>，并设置<code>Precompile Prefix Header = YES</code>。<br/>
-3、优点：全局导入头文件，不必重复导入；预编译头文件被缓存，提高编译速度；<br/>
-4、缺点：非必要全局引入的头文件会带来麻烦；</p>
-
-<!-- more -->
-
-
-<h2>导航栏相关</h2>
-
-<h3>UIBarButtonItem</h3>
-
-<p>1、非custom view创建的UIBarButtonItem会被<code>UINavigationBar.tintColor</code>渲染，可以根据需求确定；<br/>
-2、用custom view创建的UIBarButtonItem更加灵活，表现方式更加多样，且可以添加多种手势控制；<br/>
-3、<code>UIBarButtonSystemItemFixedSpace</code>UIBarButtonItem可以用于调整items间距；<br/>
-4、使用自定义返回按钮会使左滑退出失效，可设置<code>self.navigationController.interactivePopGestureRecognizer.delegate = self;</code>恢复；</p>
-
-<h3>UINavigationBar</h3>
-
-<p>1、<code>translucent = YES</code>半透明，不自动下移；<code>translucent = NO</code>不透明，自动下移，bar会变为白色；<br/>
-2、<code>barTintColor = nil</code>是透明的，<code>barTintColor = [UIColor clearColor]</code>是黑色的；<br/>
-3、<code>setBackgroundImage</code>会移除<code>UIVisualEffectView</code>，并且<code>barTintColor</code>失效；<br/>
-4、<code>tintColor</code>会渲染非custom view的UIBarButtonItem；</p>
-
-<h3>UINavigationController</h3>
-
-<p>1、Push至一个透明UIViewController会卡顿，初始动画瞬间进行，透明的话会看到，感觉卡顿；  <p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2018/07/23/ioszhi-shi-xiao-ji-180716/'><a href="http://sxgfxm.github.io/blog/2018/07/23/ioszhi-shi-xiao-ji-180716/">http://sxgfxm.github.io/blog/2018/07/23/ioszhi-shi-xiao-ji-180716/</a></a><br/>
   written by <a href='http://sxgfxm.github.io'>Light</a>
   &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
   </p></p>

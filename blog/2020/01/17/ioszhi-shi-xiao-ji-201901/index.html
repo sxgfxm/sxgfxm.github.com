@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Light's Blog</title>
+  <title>iOS知识小集-201901 - Light's Blog</title>
   <meta name="author" content="Light">
 
   
-  <meta name="description" content="sxgfxm, Light's Blog">
-  <meta name="keywords" content="iOS, sxgfxm,Light's Blog, octopress, markdown, objectiveC">
+  <meta name="description" content="Swift, RxSwift, RTCRoom">
+  <meta name="keywords" content="sxgfxm, Swift, RxSwift, RTCRoom">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://sxgfxm.github.io/">
+  <link rel="canonical" href="http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201901/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Light's Blog" type="application/atom+xml">
@@ -97,15 +97,12 @@ $(document).bind('DOMNodeInserted', function(event) {
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2020/01/17/ioszhi-shi-xiao-ji-201901/">iOS知识小集-201901</a></h1>
+      <h1 class="entry-title">iOS知识小集-201901</h1>
     
     
       <p class="meta">
@@ -116,15 +113,15 @@ $(document).bind('DOMNodeInserted', function(event) {
 
 <time class='entry-date' datetime='2020-01-17T10:44:28+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2020</span></span> <span class='time'>10:44 am</span></time>
         
-           | <a href="/blog/2020/01/17/ioszhi-shi-xiao-ji-201901/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201901/">Comments</a>
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://sxgfxm.github.io">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h2>2019.01.02</h2>
+<div class="entry-content"><h2>2019.01.02</h2>
 
 <h3>Swift 进阶</h3>
 
@@ -884,424 +881,57 @@ written by <a href='http://sxgfxm.github.io'>Light</a>
 </ul>
 
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/10/10/ioszhi-shi-xiao-ji-180924/">iOS知识小集-180924</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2018-10-10T21:44:06+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>9:44 pm</span></time>
-        
-           | <a href="/blog/2018/10/10/ioszhi-shi-xiao-ji-180924/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2018/10/10/ioszhi-shi-xiao-ji-180924/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>修改UISearchBar取消按钮颜色</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">willPresentSearchController:</span><span class="p">(</span><span class="n">UISearchController</span> <span class="o">*</span><span class="p">)</span><span class="nv">searchController</span><span class="p">{</span>
-</span><span class='line'>  <span class="p">[[</span><span class="bp">UIBarButtonItem</span> <span class="nl">appearanceWhenContainedInInstancesOfClasses</span><span class="p">:</span><span class="l">@[</span><span class="p">[</span><span class="bp">UISearchBar</span> <span class="k">class</span><span class="p">]</span><span class="l">]</span><span class="p">]</span> <span class="nl">setTitleTextAttributes</span><span class="p">:</span><span class="l">@{</span><span class="nl">NSForegroundColorAttributeName</span><span class="p">:</span><span class="n">UIColorFromRGBA</span><span class="p">(</span><span class="mh">0xff4a4a4a</span><span class="p">)</span><span class="l">}</span> <span class="nl">forState</span><span class="p">:</span><span class="n">UIControlStateNormal</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>解决XCode10 引入非同一目录下头文件没有自动提示的问题</h2>
-
-<p>Xcode &ndash;> File &ndash;> Workspace Settings &ndash;> Build System &ndash;> Legacy Build System。<br/>
-需重新编译后生效。</p>
-
-<h2>非 Retina 显示器，升级到 Mojave 之后发现文字不清晰问题</h2>
-
-<p>如果你在用 “非 Retina” 的显示器，升级到 Mojave 之后发现文字不清晰了，是因为 Mojave 默认关闭了文字的次像素渲染，如果需要可以通过终端里输入这个命令重新打开：<br/>
-<code>sudo defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO</code>。<br/>
-重新打开对应软件后生效。</p>
-
-<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2018/10/10/ioszhi-shi-xiao-ji-180924/'>http://sxgfxm.github.io/blog/2018/10/10/ioszhi-shi-xiao-ji-180924/</a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'>http://sxgfxm.github.io</a>
-  </p>
-
-</div>
-  
   
 
+<span class="byline author vcard">Posted by <span class="fn">Light</span></span>
 
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/09/25/ioszhi-shi-xiao-ji-180917/">iOS知识小集-180917</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
 
-<time class='entry-date' datetime='2018-09-25T13:05:35+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>1:05 pm</span></time>
-        
-           | <a href="/blog/2018/09/25/ioszhi-shi-xiao-ji-180917/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2018/09/25/ioszhi-shi-xiao-ji-180917/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>相机拍摄图片方向调整</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='objective-c'><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">image</span><span class="p">.</span><span class="n">imageOrientation</span> <span class="o">!=</span> <span class="n">UIImageOrientationUp</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>      <span class="n">UIGraphicsBeginImageContext</span><span class="p">(</span><span class="n">image</span><span class="p">.</span><span class="n">size</span><span class="p">);</span>
-</span><span class='line'>      <span class="p">[</span><span class="n">image</span> <span class="nl">drawInRect</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">image</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">,</span> <span class="n">image</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">)];</span>
-</span><span class='line'>      <span class="n">image</span> <span class="o">=</span> <span class="n">UIGraphicsGetImageFromCurrentImageContext</span><span class="p">();</span>
-</span><span class='line'>      <span class="n">UIGraphicsEndImageContext</span><span class="p">();</span>
-</span><span class='line'>  <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Playground running 卡死</h2>
-
-<p>1、修改platform为Mac OS；<br/>
-2、修改为手动执行；<br/>
-3、为手动执行增加快捷键；<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2018/09/25/ioszhi-shi-xiao-ji-180917/'><a href="http://sxgfxm.github.io/blog/2018/09/25/ioszhi-shi-xiao-ji-180917/">http://sxgfxm.github.io/blog/2018/09/25/ioszhi-shi-xiao-ji-180917/</a></a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
-  </p></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
+<time class='entry-date' datetime='2020-01-17T10:44:28+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2020</span></span> <span class='time'>10:44 am</span></time>
       
-  <header>
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
     
-      <h1 class="entry-title"><a href="/blog/2018/09/20/leetcode-problems-zhi-dong-tai-gui-hua/">LeetCode Problems 之 动态规划</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2018-09-20T12:53:25+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>12:53 pm</span></time>
-        
-           | <a href="/blog/2018/09/20/leetcode-problems-zhi-dong-tai-gui-hua/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2018/09/20/leetcode-problems-zhi-dong-tai-gui-hua/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>动态规划</h2>
-
-<p>以下为 LeetCode 动态规划 相关问题解法记录。</p>
-
+      <div class="sharing">
+  
+  
+  
+  
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2018/09/20/leetcode-problems-zhi-dong-tai-gui-hua/">Read on &rarr;</a>
-    </footer>
-  
 
-
-    </article>
-  
-  
-    <article>
+    
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/09/18/leetcode-problemszhi-fen-zhi-fa/">LeetCode Problems 之 分治法</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2018-09-18T21:11:05+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>9:11 pm</span></time>
-        
-           | <a href="/blog/2018/09/18/leetcode-problemszhi-fen-zhi-fa/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2018/09/18/leetcode-problemszhi-fen-zhi-fa/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>分治法</h2>
-
-<p>以下为 LeetCode 分治法 相关问题解法记录。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2018/09/18/leetcode-problemszhi-fen-zhi-fa/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
+        <a class="basic-alignment left" href="/blog/2018/10/10/ioszhi-shi-xiao-ji-180924/" title="Previous Post: iOS知识小集-180924">&laquo; iOS知识小集-180924</a>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/09/17/leetcode-problems-lian-biao/">LeetCode Problems 链表</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2018-09-17T21:17:45+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>9:17 pm</span></time>
-        
-           | <a href="/blog/2018/09/17/leetcode-problems-lian-biao/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2018/09/17/leetcode-problems-lian-biao/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>链表</h2>
-
-<p>以下为 LeetCode 链表 相关问题解法记录。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2018/09/17/leetcode-problems-lian-biao/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/09/17/ioszhi-shi-xiao-ji-180910/">iOS知识小集-180910</a></h1>
-    
-    
-      <p class="meta">
-        
+    </p>
+  </footer>
+</article>
 
-
-
-
-<time class='entry-date' datetime='2018-09-17T20:42:43+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>8:42 pm</span></time>
-        
-           | <a href="/blog/2018/09/17/ioszhi-shi-xiao-ji-180910/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2018/09/17/ioszhi-shi-xiao-ji-180910/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Siri Kit</h2>
-
-<h3>Siri Kit作用</h3>
-
-<p>通过语音完成第三方应用功能，偏向于工具型操作。</p>
-
-<h3>实现机制</h3>
-
-<p><strong>Domain</strong>：业务领域；<br/>
-<strong>Intent</strong>：领域中的任务或指令；<br/>
-语音识别 &ndash;> Domain / Intent &ndash;> 下发到已注册的Extension进行处理。<br/>
-接近固定形式的表述更容易被识别。</p>
-
-<h3>集成</h3>
-
-<p>需要注意develop target系统版本问题。<p class='post-footer'>
-  原始地址：
-  <a href='http://sxgfxm.github.io/blog/2018/09/17/ioszhi-shi-xiao-ji-180910/'><a href="http://sxgfxm.github.io/blog/2018/09/17/ioszhi-shi-xiao-ji-180910/">http://sxgfxm.github.io/blog/2018/09/17/ioszhi-shi-xiao-ji-180910/</a></a><br/>
-  written by <a href='http://sxgfxm.github.io'>Light</a>
-  &nbsp;posted at <a href='http://sxgfxm.github.io'><a href="http://sxgfxm.github.io">http://sxgfxm.github.io</a></a>
-  </p></p>
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/09/10/leetcode-problems-zhi-shen-du-you-xian-sou-suo/">LeetCode Problems 之 深度优先搜索</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2018-09-10T21:55:31+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>9:55 pm</span></time>
-        
-           | <a href="/blog/2018/09/10/leetcode-problems-zhi-shen-du-you-xian-sou-suo/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-shen-du-you-xian-sou-suo/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>深度优先搜索</h2>
-
-<p>以下为 LeetCode 深度优先搜索 相关问题解法记录。</p>
+  </section>
 
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2018/09/10/leetcode-problems-zhi-shen-du-you-xian-sou-suo/">Read on &rarr;</a>
-    </footer>
-  
 
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/09/10/leetcode-problems-zhi-shu-xue/">LeetCode Problems 之 数学</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2018-09-10T21:54:51+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>9:54 pm</span></time>
-        
-           | <a href="/blog/2018/09/10/leetcode-problems-zhi-shu-xue/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-shu-xue/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>数学</h2>
-
-<p>以下为 LeetCode 数学 相关问题解法记录。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2018/09/10/leetcode-problems-zhi-shu-xue/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/09/10/leetcode-problems-zhi-wei-yun-suan/">LeetCode Problems 之 位运算</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2018-09-10T21:53:58+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>9:53 pm</span></time>
-        
-           | <a href="/blog/2018/09/10/leetcode-problems-zhi-wei-yun-suan/#disqus_thread"
-             data-disqus-identifier="http://sxgfxm.github.io/blog/2018/09/10/leetcode-problems-zhi-wei-yun-suan/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>位运算</h2>
-
-<p>以下为 LeetCode 位运算 相关问题解法记录。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2018/09/10/leetcode-problems-zhi-wei-yun-suan/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  <div class="pagination">
-    
-      <a class="prev" href="/posts/2">&larr; Older</a>
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
 <aside class="sidebar">
   
     <section>
@@ -1404,6 +1034,7 @@ written by <a href='http://sxgfxm.github.io'>Light</a>
   
 </aside>
 
+
     </div>
   </div>
   <footer role="contentinfo"><p>
@@ -1429,7 +1060,10 @@ written by <a href='http://sxgfxm.github.io'>Light</a>
       var disqus_shortname = 'lights-blog';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201901/';
+        var disqus_url = 'http://sxgfxm.github.io/blog/2020/01/17/ioszhi-shi-xiao-ji-201901/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
